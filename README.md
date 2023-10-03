@@ -1,33 +1,31 @@
-# PV168 Project: {{ PROJECT NAME }}
+# PV168 Project: Easy Food Recipe Book
 
-<!--- FIXME: fill in the PROJECT NAME above and include short description of what the project is about -->
-{{ PROJECT DESCRIPTION }}
+The desktop application will allow users to track their recipes. They will be able to browse through recipes, track ingredients and instructions and have information about their nutritional value.
 
 ## Team Information
 
 | Seminar Group | Team |
 |-------------- | ---- |
-| PV168/0X      | Y    | <!--- FIXME: fill in the seminar group and team identification -->
+| PV168/02      | Nestíháme    | 
 
 ### Members
 
 | Role           | Person               |
 |----------------|----------------------|
-|Team Lead       | [Name Surname](https://is.muni.cz/auth/osoba/UCO) | <!--- FIXME: fill in the name and UCO -->
-|Member          | [Name Surname](https://is.muni.cz/auth/osoba/UCO) | <!--- FIXME: fill in the name and UCO -->
-|Member          | [Name Surname](https://is.muni.cz/auth/osoba/UCO) | <!--- FIXME: fill in the name and UCO -->
-|Member          | [Name Surname](https://is.muni.cz/auth/osoba/UCO) | <!--- FIXME: fill in the name and UCO -->
+|Team Lead       | [Vojtěch Stárek](https://is.muni.cz/auth/osoba/536348) | 
+|Member          | [Marek Eibel](https://is.muni.cz/auth/osoba/536376) | 
+|Member          | [Martin Dražkovec](https://is.muni.cz/auth/osoba/536686) | 
+|Member          | [Ondřej Marek](https://is.muni.cz/auth/osoba/536415) | 
 
 ### Evaluators
 
 | Role           | Person               |
 |----------------|----------------------|
-|PM              | [Name Surname](https://is.muni.cz/auth/osoba/UCO) | <!--- FIXME: fill in the name and UCO -->
-|Technical Coach | [Name Surname](https://is.muni.cz/auth/osoba/UCO) | <!--- FIXME: fill in the name and UCO -->
+|PM              | [Vendula Teuchnerová](https://is.muni.cz/auth/osoba/445583) |
+|Technical Coach | [Jiří Weiser](https://is.muni.cz/auth/osoba/374154) |
 
 ## TODO
 
-- Update the [`README.md`](#) - fill in the project and team details (resolve all the `FIXME` comments and remove them).
 - Update the [`pom.xml`](pom.xml) - fill in the project and team details (resolve all the `FIXME` comments and remove them).
 - Start with [`Main.java`](src/main/java/cz/muni/fi/pv168/project/Main.java) as the _main class_ for your application.
 - Get rid of this TODO section. 😉
