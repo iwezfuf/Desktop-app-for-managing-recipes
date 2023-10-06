@@ -7,8 +7,10 @@ import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
+import cz.muni.fi.pv168.project.ui.model.CustomTable;
 import cz.muni.fi.pv168.project.ui.model.EmployeeTableModel;
 import cz.muni.fi.pv168.project.ui.model.DepartmentListModel;
+import cz.muni.fi.pv168.project.ui.model.RecipeTableComponent;
 import cz.muni.fi.pv168.project.ui.model.Tab;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
@@ -27,6 +29,7 @@ public class MainWindow {
     private final Action editAction;
 
     public MainWindow() {
+
         frame = createFrame();
 
         var testDataGenerator = new TestDataGenerator();
@@ -52,8 +55,13 @@ public class MainWindow {
 
     private List<Tab> createTabs() {
 
+        CustomTable table = new CustomTable();
+        table.addComponent(new RecipeTableComponent("Cereal Soup", "B"));
+        table.addComponent(new RecipeTableComponent("Sushi", "B"));
+
+
         return List.of(
-                new Tab(new JScrollPane(new JTable()), "Recipes", Icons.ADD_ICON, "Recipes"),
+                new Tab(new JScrollPane(table), "Recipes", Icons.ADD_ICON, "Recipes"),
                 new Tab(new JScrollPane(new JTable()), "Ingredients", "Ingredients"),
                 new Tab(new JScrollPane(new JTable()), "Units", Icons.EDIT_ICON, "Units")
         );
@@ -104,9 +112,6 @@ public class MainWindow {
     private JTabbedPane createTabbedPanes(List<Tab> tabbedPanesList) {
 
         JTabbedPane tabbedPane = new JTabbedPane();
-
-        System.out.println(tabbedPanesList.size());
-
         for (Tab tab : tabbedPanesList) {
             tabbedPane.addTab(tab.getName(), tab.getIcon(), tab.getComponent(), tab.getTooltip());
         }
