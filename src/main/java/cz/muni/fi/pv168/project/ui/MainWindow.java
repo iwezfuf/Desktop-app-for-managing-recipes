@@ -31,19 +31,16 @@ public class MainWindow {
 
         var testDataGenerator = new TestDataGenerator();
         var employeeTable = createEmployeeTable(testDataGenerator.createTestEmployees(10));
-
         var departmentListModel = new DepartmentListModel(testDataGenerator.getDepartments());
+
         addAction = new AddAction(employeeTable, testDataGenerator, departmentListModel);
         deleteAction = new DeleteAction(employeeTable);
         editAction = new EditAction(employeeTable, departmentListModel);
-        employeeTable.setComponentPopupMenu(createEmployeeTablePopupMenu());
-        //frame.add(new JScrollPane(employeeTable), BorderLayout.CENTER);
 
-        frame.add(createTabbedPanes(List.of(
-                new Tab(employeeTable, "Recipes", Icons.ADD_ICON, "Recipes"),
-                new Tab(employeeTable, "Ingredients", "Ingredients"),
-                new Tab(employeeTable, "Units", Icons.EDIT_ICON, "Units")
-        )), BorderLayout.CENTER);
+        employeeTable.setComponentPopupMenu(createEmployeeTablePopupMenu());
+
+        frame.add(createTabbedPanes(createTabs()), BorderLayout.CENTER);
+
         frame.add(createToolbar(), BorderLayout.BEFORE_FIRST_LINE);
         frame.setJMenuBar(createMenuBar());
         frame.pack();
@@ -51,6 +48,15 @@ public class MainWindow {
 
     public void show() {
         frame.setVisible(true);
+    }
+
+    private List<Tab> createTabs() {
+
+        return List.of(
+                new Tab(new JScrollPane(new JTable()), "Recipes", Icons.ADD_ICON, "Recipes"),
+                new Tab(new JScrollPane(new JTable()), "Ingredients", "Ingredients"),
+                new Tab(new JScrollPane(new JTable()), "Units", Icons.EDIT_ICON, "Units")
+        );
     }
 
     private JFrame createFrame() {
@@ -99,9 +105,10 @@ public class MainWindow {
 
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        for (Tab pane : tabbedPanesList) {
-            JScrollPane scrollPane = new JScrollPane(pane.getTable());
-            tabbedPane.addTab(pane.getName(), pane.getIcon(), scrollPane, pane.getTooltip());
+        System.out.println(tabbedPanesList.size());
+
+        for (Tab tab : tabbedPanesList) {
+            tabbedPane.addTab(tab.getName(), tab.getIcon(), tab.getComponent(), tab.getTooltip());
         }
 
         return tabbedPane;

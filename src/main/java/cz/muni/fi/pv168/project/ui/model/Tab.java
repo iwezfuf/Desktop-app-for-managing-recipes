@@ -9,7 +9,7 @@ import javax.swing.*;
  */
 public class Tab {
 
-    private JTable table;
+    private JComponent component;
     private String name;
     private Icon icon;
     private String tooltip;
@@ -17,13 +17,13 @@ public class Tab {
     /**
      * Creates new tab.
      *
-     * @param table table with data
+     * @param component component to display
      * @param name name for the tab
      * @param icon icon for the tab
      * @param tooltip tooltip for the tab
      */
-    public Tab(JTable table, String name, Icon icon, String tooltip) {
-        this.table = table;
+    public Tab(JComponent component, String name, Icon icon, String tooltip) {
+        this.component = component;
         this.name = name;
         this.icon = icon;
         this.tooltip = tooltip;
@@ -32,23 +32,15 @@ public class Tab {
     /**
      * Creates new tab.
      *
-     * @param table table with data
+     * @param component component to display
      * @param name name for the tab
      * @param tooltip tooltip for the tab
      */
-    public Tab(JTable table, String name, String tooltip) {
-        this.table = table;
+    public Tab(JComponent component, String name, String tooltip) {
+        this.component = component;
         this.name = name;
         this.icon = null;
         this.tooltip = tooltip;
-    }
-
-    public JTable getTable() {
-        return table;
-    }
-
-    public void setTable(JTable table) {
-        this.table = table;
     }
 
     public String getName() {
@@ -73,5 +65,13 @@ public class Tab {
 
     public void setTooltip(String tooltip) {
         this.tooltip = tooltip;
+    }
+
+    public JComponent getComponent() {
+        return component;
+    }
+
+    public void setComponent(JComponent component) {
+        this.component = component;
     }
 }
