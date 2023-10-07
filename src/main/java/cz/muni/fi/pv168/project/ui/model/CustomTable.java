@@ -25,21 +25,37 @@ public class CustomTable extends JTable {
 
         this.name = tableName;
         initModel();
+        designTable();
+    }
+
+    private void designTable() {
+
+        final int rowHeight = 80;
+        final int rowMargin = 20;
+
+        setRowHeight(rowHeight);
+        setRowMargin(rowMargin);
     }
 
     private void initModel() {
 
-        int COLUMNS_NUMBER = 1;
-        DefaultTableModel model = new DefaultTableModel(0, COLUMNS_NUMBER);
+        final int COLUMNS_NUMBER = 1;
+        final int ROWS_NUMBER = 0;
+
+        model = new DefaultTableModel(ROWS_NUMBER, COLUMNS_NUMBER);
         model.setColumnIdentifiers(new String[]{name});
         setModel(model);
         getColumnModel().getColumn(0).setCellRenderer(new CustomCellRenderer());
-        this.model = model;
     }
 
+    /**
+     * Adds component to the table.
+     *
+     * @param component component to add
+     */
     public void addComponent(AbstractTableComponent component) {
-        DefaultTableModel model = (DefaultTableModel) getModel();
-        model.addRow(new Object[]{component});
+
+        model.addRow(new AbstractTableComponent[]{component});
     }
 
     private static class CustomCellRenderer extends JPanel implements TableCellRenderer {
@@ -49,15 +65,28 @@ public class CustomTable extends JTable {
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
             if (value instanceof AbstractTableComponent customComponent) {
+
                 removeAll();
-                add(customComponent, BorderLayout.CENTER);
+                JPanel paddedComponent = new JPanel(new BorderLayout());
+                paddedComponent.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                paddedComponent.add(customComponent, BorderLayout.CENTER);
+
+                add(paddedComponent, BorderLayout.CENTER);
+
                 return this;
             }
+
             return null;
         }
     }
 
+    /**
+     * Gets name of the table.
+     *
+     * @return name of the table
+     */
     @Override
     public String getName() {
         return name;
