@@ -56,8 +56,18 @@ public class MainWindow {
     private List<Tab> createTabs() {
 
         CustomTable table = new CustomTable("My Recipes");
-        table.addComponent(new RecipeTableComponent("Cereal Soup", "B"));
-        table.addComponent(new RecipeTableComponent("Sushi", "B"));
+
+        table.addComponent(new RecipeTableComponent("Cereal Soup", "Main Dish"));
+        table.addComponent(new RecipeTableComponent("Donut", "Sweet Bakery"));
+        table.addComponent(new RecipeTableComponent("Scrabbled eggs", "Breakfast"));
+
+        table.addComponent(new RecipeTableComponent("Schnitzel", "Main Dish"));
+        table.addComponent(new RecipeTableComponent("Watermelon", "Fruit"));
+        table.addComponent(new RecipeTableComponent("Strawberry Milk Shake", "Breakfast"));
+
+        table.addComponent(new RecipeTableComponent("Vepro, knedlo, zelo", "Main Dish"));
+        table.addComponent(new RecipeTableComponent("Apple Pie", "Sweet Bakery"));
+        table.addComponent(new RecipeTableComponent("Coffee with chocolate ice cream", "Sweet"));
 
 
         return List.of(
