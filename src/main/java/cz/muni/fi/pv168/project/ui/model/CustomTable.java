@@ -6,14 +6,35 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
 /**
+ * Class representing custom table where individual rows are represented by
+ * own custom classes.
+ *
  * @author Marek Eibel
  */
 public class CustomTable extends JTable {
 
-    public CustomTable() {
-        DefaultTableModel model = new DefaultTableModel(0, 1); // 0 rows initially
+    private DefaultTableModel model;
+    private final String name;
+
+    /**
+     * Creates new CustomTable.
+     *
+     * @param tableName name of the table
+     */
+    public CustomTable(String tableName) {
+
+        this.name = tableName;
+        initModel();
+    }
+
+    private void initModel() {
+
+        int COLUMNS_NUMBER = 1;
+        DefaultTableModel model = new DefaultTableModel(0, COLUMNS_NUMBER);
+        model.setColumnIdentifiers(new String[]{name});
         setModel(model);
         getColumnModel().getColumn(0).setCellRenderer(new CustomCellRenderer());
+        this.model = model;
     }
 
     public void addComponent(AbstractTableComponent component) {
@@ -35,5 +56,10 @@ public class CustomTable extends JTable {
             }
             return null;
         }
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

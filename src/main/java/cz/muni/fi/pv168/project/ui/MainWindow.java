@@ -55,7 +55,7 @@ public class MainWindow {
 
     private List<Tab> createTabs() {
 
-        CustomTable table = new CustomTable();
+        CustomTable table = new CustomTable("My Recipes");
         table.addComponent(new RecipeTableComponent("Cereal Soup", "B"));
         table.addComponent(new RecipeTableComponent("Sushi", "B"));
 
