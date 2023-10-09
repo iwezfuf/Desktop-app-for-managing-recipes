@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.ui;
 import cz.muni.fi.pv168.project.data.TestDataGenerator;
 import cz.muni.fi.pv168.project.model.Employee;
 import cz.muni.fi.pv168.project.model.Gender;
+import cz.muni.fi.pv168.project.model.Recipe;
 import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
@@ -18,6 +19,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.util.List;
+import java.util.Set;
 
 public class MainWindow {
 
@@ -57,7 +59,10 @@ public class MainWindow {
 
         CustomTable table = new CustomTable("My Recipes");
 
-        table.addComponent(new RecipeTableComponent("Cereal Soup", "Main Dish"));
+        Recipe r = new Recipe(0, "xd", "xd", 20, 5, "xd", Set.of(1), Set.of(1));
+
+        table.addComponent(new RecipeTableComponent(r));
+        /*table.addComponent(new RecipeTableComponent("Cereal Soup", "Main Dish"));
         table.addComponent(new RecipeTableComponent("Donut", "Sweet Bakery"));
         table.addComponent(new RecipeTableComponent("Scrabbled eggs", "Breakfast"));
 
@@ -67,7 +72,7 @@ public class MainWindow {
 
         table.addComponent(new RecipeTableComponent("Vepro, knedlo, zelo", "Main Dish"));
         table.addComponent(new RecipeTableComponent("Apple Pie", "Sweet Bakery"));
-        table.addComponent(new RecipeTableComponent("Coffee with chocolate ice cream", "Sweet"));
+        table.addComponent(new RecipeTableComponent("Coffee with chocolate ice cream", "Sweet"));*/
 
 
         return List.of(

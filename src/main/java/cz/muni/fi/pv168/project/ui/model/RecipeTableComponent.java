@@ -1,4 +1,5 @@
 package cz.muni.fi.pv168.project.ui.model;
+import cz.muni.fi.pv168.project.model.Recipe;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
@@ -14,26 +15,60 @@ import java.awt.*;
  */
 public class RecipeTableComponent extends AbstractTableComponent {
 
-    public RecipeTableComponent(String title, String content) { // TODO: add Recipe recipe as an argument here
+    public RecipeTableComponent(Recipe recipe) {
+        setLayout(new GridBagLayout());
 
-        setLayout(new BorderLayout());
 
         JPanel textPanel = new JPanel();
         textPanel.setBackground(Color.orange);
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
-        textPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        //textPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        JLabel nameLabel = new JLabel(recipe.getName());
+        JLabel descriptionLabel = new JLabel("Portions: " + recipe.getNumOfServings());
+        textPanel.add(nameLabel);
+        textPanel.add(descriptionLabel);
+        GridBagConstraints textPanelConstraints = new GridBagConstraints();
+        textPanelConstraints.fill = GridBagConstraints.BOTH;
+        textPanelConstraints.gridy = 0;
+        textPanelConstraints.gridx = 0;
+        textPanelConstraints.weightx = 4;
 
-        JLabel titleLabel = new JLabel(title);
-        JLabel textLabel = new JLabel(content);
-        textPanel.add(titleLabel);
-        textPanel.add(textLabel);
+        JPanel ingredientsPanel = new JPanel();
+        ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
+        JLabel ingredientsLabel = new JLabel("Ingredients: " + recipe.getIngredientIds());
+        JLabel nutritionLabel = new JLabel("Nutritional value: " );
+        ingredientsPanel.add(ingredientsLabel);
+        ingredientsPanel.add(nutritionLabel);
+        GridBagConstraints ingredientsPanelConstraints = new GridBagConstraints();
+        ingredientsPanelConstraints.fill = GridBagConstraints.BOTH;
+        ingredientsPanelConstraints.gridy = 0;
+        ingredientsPanelConstraints.gridx = 1;
+        ingredientsPanelConstraints.weightx = 1;
 
-        JPanel iconPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JLabel iconLabel = new JLabel(Icons.ADD_ICON);
-
+        JPanel iconPanel = new JPanel();
+        iconPanel.setLayout(new BoxLayout(iconPanel, BoxLayout.Y_AXIS));
+        JLabel iconLabel = new JLabel(Icons.TIME_ICON);
+        JLabel preparationTimeLabel = new JLabel(String.valueOf(recipe.getPreparationTime()));
         iconPanel.add(iconLabel);
+        iconPanel.add(preparationTimeLabel);
+        GridBagConstraints iconPanelConstraints = new GridBagConstraints();
+        iconPanelConstraints.fill = GridBagConstraints.BOTH;
+        iconPanelConstraints.gridy = 0;
+        iconPanelConstraints.gridx = 2;
+        iconPanelConstraints.weightx = 1;
 
-        add(textPanel, BorderLayout.CENTER);
-        add(iconPanel, BorderLayout.EAST);
+        JPanel categoriesPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JLabel categoriesLabel = new JLabel("Categories: " + recipe.getCategoryIds());
+        categoriesPanel.add(categoriesLabel);
+        GridBagConstraints categoriesPanelConstraints = new GridBagConstraints();
+        categoriesPanelConstraints.fill = GridBagConstraints.BOTH;
+        categoriesPanelConstraints.gridy = 0;
+        categoriesPanelConstraints.gridx = 3;
+        categoriesPanelConstraints.weightx = 1;
+
+        add(textPanel, textPanelConstraints);
+        add(ingredientsPanel, ingredientsPanelConstraints);
+        add(iconPanel, iconPanelConstraints);
+        add(categoriesPanel, categoriesPanelConstraints);
     }
 }

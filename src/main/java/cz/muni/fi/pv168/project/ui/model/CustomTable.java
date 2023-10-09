@@ -1,9 +1,12 @@
 package cz.muni.fi.pv168.project.ui.model;
 
 import javax.swing.*;
+import javax.swing.event.CellEditorListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.util.EventObject;
 
 /**
  * Class representing custom table where individual rows are represented by
@@ -45,6 +48,47 @@ public class CustomTable extends JTable {
         model = new DefaultTableModel(ROWS_NUMBER, COLUMNS_NUMBER);
         model.setColumnIdentifiers(new String[]{name});
         setModel(model);
+        this.setCellEditor(new TableCellEditor() {
+            @Override
+            public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+                return null;
+            }
+
+            @Override
+            public Object getCellEditorValue() {
+                return null;
+            }
+
+            @Override
+            public boolean isCellEditable(EventObject anEvent) {
+                return false;
+            }
+
+            @Override
+            public boolean shouldSelectCell(EventObject anEvent) {
+                return false;
+            }
+
+            @Override
+            public boolean stopCellEditing() {
+                return false;
+            }
+
+            @Override
+            public void cancelCellEditing() {
+
+            }
+
+            @Override
+            public void addCellEditorListener(CellEditorListener l) {
+
+            }
+
+            @Override
+            public void removeCellEditorListener(CellEditorListener l) {
+
+            }
+        });
         getColumnModel().getColumn(0).setCellRenderer(new CustomCellRenderer());
     }
 
