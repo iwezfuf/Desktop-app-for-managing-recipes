@@ -1,12 +1,11 @@
 package cz.muni.fi.pv168.project.ui.model;
 
 import javax.swing.*;
-import javax.swing.event.CellEditorListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.util.EventObject;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Class representing custom table where individual rows are represented by
@@ -29,6 +28,26 @@ public class CustomTable extends JTable {
         this.name = tableName;
         initModel();
         designTable();
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Get the clicked point relative to the table
+                Point point = e.getPoint();
+
+                // Get the row and column indices
+                int clickedRow = rowAtPoint(point);
+                int clickedColumn = columnAtPoint(point);
+
+                // Do something with the clicked row and column
+                System.out.println("Clicked on Row: " + clickedRow + ", Column: " + clickedColumn);
+
+                // Example: If you want to get the value in the clicked cell
+                RecipeTableComponent value = (RecipeTableComponent) getValueAt(clickedRow, clickedColumn);
+                if (value != null) {
+                    System.out.println("Recipe name: " + value.getRecipe().getName());
+                }
+            }
+        });
     }
 
     private void designTable() {
@@ -73,6 +92,7 @@ public class CustomTable extends JTable {
             if (value instanceof AbstractTableComponent customComponent) {
 
                 removeAll();
+
                 JPanel paddedComponent = new JPanel(new BorderLayout());
                 paddedComponent.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
                 paddedComponent.add(customComponent, BorderLayout.CENTER);
