@@ -15,9 +15,13 @@ import java.awt.*;
  */
 public class RecipeTableComponent extends AbstractTableComponent {
 
-    public RecipeTableComponent(Recipe recipe) {
-        setLayout(new GridBagLayout());
+    private Recipe recipe;
 
+    public RecipeTableComponent(Recipe recipe) {
+
+        this.recipe = recipe;
+
+        setLayout(new GridBagLayout());
 
         JPanel textPanel = new JPanel();
         textPanel.setBackground(Color.orange);
@@ -70,5 +74,9 @@ public class RecipeTableComponent extends AbstractTableComponent {
         add(ingredientsPanel, ingredientsPanelConstraints);
         add(iconPanel, iconPanelConstraints);
         add(categoriesPanel, categoriesPanelConstraints);
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
     }
 }
