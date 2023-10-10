@@ -9,21 +9,25 @@ import java.util.EventObject;
 public class CustomCellEditor implements TableCellEditor {
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+        System.out.println("getTableCellEditorComponent");
         return null;
     }
 
     @Override
     public Object getCellEditorValue() {
+        System.out.println("getCellEditorValue");
         return null;
     }
 
     @Override
     public boolean isCellEditable(EventObject anEvent) {
+        System.out.println("isCellEditable");
         return false;
     }
 
     @Override
     public boolean shouldSelectCell(EventObject anEvent) {
+        System.out.println("shouldSelectCell");
         return false;
     }
 
@@ -39,11 +43,11 @@ public class CustomCellEditor implements TableCellEditor {
 
     @Override
     public void addCellEditorListener(CellEditorListener l) {
-
+        System.out.println("addCellEditorListener");
     }
 
     @Override
     public void removeCellEditorListener(CellEditorListener l) {
-
+        System.out.println("removeCellEditorListener");
     }
 }
