@@ -7,19 +7,18 @@ import java.util.Set;
  */
 public class Recipe {
 
-    private String name; // add ID
+    private String name;
     private String description;
     private int recipeId;
     private int preparationTime;
     private int numOfServings;
     private String instructions;
-    private Set<Integer> categoryIds;
+    private Set<RecipeCategory> categoryIds;
     private Set<Integer> ingredientIds;
 
-
-
     public Recipe(int recipeId, String name, String description, int preparationTime, int numOfServings,
-                  String instructions, Set<Integer> categoryIds, Set<Integer> ingredientIds) {
+                  String instructions, Set<RecipeCategory> categoryIds, Set<Integer> ingredientIds) {
+
         this.name = name;
         this.description = description;
         this.recipeId = recipeId;
@@ -50,7 +49,7 @@ public class Recipe {
         return name;
     }
 
-    public Set<Integer> getCategoryIds() {
+    public Set<RecipeCategory> getCategoryIds() {
         return categoryIds;
     }
 
@@ -68,5 +67,33 @@ public class Recipe {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    public void setPreparationTime(int preparationTime) {
+        this.preparationTime = preparationTime;
+    }
+
+    public void setNumOfServings(int numOfServings) {
+        this.numOfServings = numOfServings;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setCategoryIds(Set<RecipeCategory> categoryIds) {
+        this.categoryIds = categoryIds;
+    }
+
+    public void addRecipeCategory(RecipeCategory category) {
+        this.categoryIds.add(category);
+    }
+
+    public void setIngredientIds(Set<Integer> ingredientIds) {
+        this.ingredientIds = ingredientIds;
     }
 }
