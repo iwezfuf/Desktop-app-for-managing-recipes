@@ -38,13 +38,15 @@ public class MainWindow {
         var employeeTable = createEmployeeTable(testDataGenerator.createTestEmployees(10));
         var departmentListModel = new DepartmentListModel(testDataGenerator.getDepartments());
 
-        addAction = new AddAction(employeeTable, testDataGenerator, departmentListModel);
+        CustomTable recipesTable = new CustomTable("My Recipes");
+
+        addAction = new AddAction(recipesTable);
         deleteAction = new DeleteAction(employeeTable);
         editAction = new EditAction(employeeTable, departmentListModel);
 
         employeeTable.setComponentPopupMenu(createEmployeeTablePopupMenu());
 
-        frame.add(createTabbedPanes(createTabs()), BorderLayout.CENTER);
+        frame.add(createTabbedPanes(createTabs(recipesTable)), BorderLayout.CENTER);
 
         frame.add(createToolbar(), BorderLayout.BEFORE_FIRST_LINE);
         frame.setJMenuBar(createMenuBar());
@@ -55,13 +57,13 @@ public class MainWindow {
         frame.setVisible(true);
     }
 
-    private List<Tab> createTabs() {
+    private List<Tab> createTabs(CustomTable recipesTable) {
 
-        CustomTable table = new CustomTable("My Recipes");
+        Recipe r = new Recipe(0, "xd", "xd", 20, 5, "xd", null, Set.of(1));
+        Recipe q = new Recipe(0, "oves", "oves", 48, 1, "-", null, Set.of(1));
 
-        Recipe r = new Recipe(0, "xd", "xd", 20, 5, "xd", Set.of(1), Set.of(1));
-
-        table.addComponent(new RecipeTableComponent(r));
+        recipesTable.addComponent(new RecipeTableComponent(r));
+        recipesTable.addComponent(new RecipeTableComponent(q));
         /*table.addComponent(new RecipeTableComponent("Cereal Soup", "Main Dish"));
         table.addComponent(new RecipeTableComponent("Donut", "Sweet Bakery"));
         table.addComponent(new RecipeTableComponent("Scrabbled eggs", "Breakfast"));
@@ -76,7 +78,7 @@ public class MainWindow {
 
 
         return List.of(
-                new Tab(new JScrollPane(table), "Recipes", Icons.ADD_ICON, "Recipes"),
+                new Tab(new JScrollPane(recipesTable), "Recipes", Icons.ADD_ICON, "Recipes"),
                 new Tab(new JScrollPane(new JTable()), "Ingredients", "Ingredients"),
                 new Tab(new JScrollPane(new JTable()), "Units", Icons.EDIT_ICON, "Units")
         );
