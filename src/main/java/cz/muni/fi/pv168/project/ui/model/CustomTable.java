@@ -42,53 +42,13 @@ public class CustomTable extends JTable {
 
     private void initModel() {
 
-        final int COLUMNS_NUMBER = 1;
-        final int ROWS_NUMBER = 0;
+        final int INITIAL_COLUMNS_NUMBER = 1;
+        final int INITIAL_ROWS_NUMBER = 0;
 
-        model = new DefaultTableModel(ROWS_NUMBER, COLUMNS_NUMBER);
+        model = new DefaultTableModel(INITIAL_ROWS_NUMBER, INITIAL_COLUMNS_NUMBER);
         model.setColumnIdentifiers(new String[]{name});
         setModel(model);
-        this.setCellEditor(new TableCellEditor() {
-            @Override
-            public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-                return null;
-            }
-
-            @Override
-            public Object getCellEditorValue() {
-                return null;
-            }
-
-            @Override
-            public boolean isCellEditable(EventObject anEvent) {
-                return false;
-            }
-
-            @Override
-            public boolean shouldSelectCell(EventObject anEvent) {
-                return false;
-            }
-
-            @Override
-            public boolean stopCellEditing() {
-                return false;
-            }
-
-            @Override
-            public void cancelCellEditing() {
-
-            }
-
-            @Override
-            public void addCellEditorListener(CellEditorListener l) {
-
-            }
-
-            @Override
-            public void removeCellEditorListener(CellEditorListener l) {
-
-            }
-        });
+        this.setCellEditor(new CustomCellEditor());
         getColumnModel().getColumn(0).setCellRenderer(new CustomCellRenderer());
     }
 
