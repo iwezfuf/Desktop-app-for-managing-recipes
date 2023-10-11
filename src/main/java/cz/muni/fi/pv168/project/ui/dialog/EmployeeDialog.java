@@ -26,6 +26,7 @@ public final class EmployeeDialog extends EntityDialog<Employee> {
     private final Employee employee;
 
     public EmployeeDialog(Employee employee, ListModel<Department> departmentModel) {
+        super(null);
         this.employee = employee;
         this.departmentModel = new ComboBoxModelAdapter<>(departmentModel);
         setValues();
