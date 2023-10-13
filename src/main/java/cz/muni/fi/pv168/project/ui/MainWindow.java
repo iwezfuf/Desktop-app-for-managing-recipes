@@ -1,9 +1,7 @@
 package cz.muni.fi.pv168.project.ui;
 
 import cz.muni.fi.pv168.project.data.TestDataGenerator;
-import cz.muni.fi.pv168.project.model.Employee;
-import cz.muni.fi.pv168.project.model.Gender;
-import cz.muni.fi.pv168.project.model.Recipe;
+import cz.muni.fi.pv168.project.model.*;
 import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
@@ -14,7 +12,9 @@ import cz.muni.fi.pv168.project.ui.resources.Icons;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class MainWindow {
@@ -55,8 +55,10 @@ public class MainWindow {
 
     private List<Tab> createRecipeTabs(CustomTable<Recipe> recipesTable) {
 
-        Recipe r = new Recipe(0, "xd", "xd", 20, 5, "xd", null, Set.of(1));
-        Recipe q = new Recipe(0, "oves", "oves", 48, 1, "-", null, Set.of(1));
+        Map<Ingredient, Integer> ingredients = new HashMap<>();
+        ingredients.put(new Ingredient(0, "vejce", 80, new Unit("gram", 0)), 20);
+        Recipe r = new Recipe(0, "xd", "xd", 20, 5, "xd", null, ingredients);
+        Recipe q = new Recipe(0, "oves", "oves", 48, 1, "-", null, ingredients);
 
         recipesTable.addData(r);
         recipesTable.addData(q);
