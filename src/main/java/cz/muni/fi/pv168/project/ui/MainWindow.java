@@ -49,7 +49,7 @@ public class MainWindow {
 
         frame.add(createToolbar(), BorderLayout.BEFORE_FIRST_LINE);
         frame.setJMenuBar(createMenuBar());
-        frame.pack();
+        frame.setMinimumSize(new Dimension(800, 600));
     }
 
     public void show() {
@@ -87,7 +87,8 @@ public class MainWindow {
 
     private JFrame createFrame() {
         var frame = new JFrame("Easy Food Recipe Book");
-        frame.setSize(new Dimension(1920, 1080));
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         return frame;
     }
