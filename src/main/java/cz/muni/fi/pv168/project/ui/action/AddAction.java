@@ -17,6 +17,7 @@ import javax.swing.ListModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,7 +42,7 @@ public final class AddAction extends AbstractAction {
         Set<Integer> ingredientsSet = new HashSet<>();
         ingredientsSet.add(74);
 
-        RecipeDialog dialog = new RecipeDialog(new Recipe(0, "Omacka", "...", 8, 4, "", categorySet, ingredientsSet));
+        RecipeDialog dialog = new RecipeDialog(new Recipe(0, "Omacka", "...", 8, 4, "", new RecipeCategory("", Color.BLACK), new HashMap<>()));
         dialog.show(table, "Add Recipe");
     }
 }
