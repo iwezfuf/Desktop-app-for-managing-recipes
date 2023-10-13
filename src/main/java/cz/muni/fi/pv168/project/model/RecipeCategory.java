@@ -13,17 +13,14 @@ public class RecipeCategory { // TODO probably must be reimplement it
 
     private String categoryName;
     private Color categoryColor;
-    public static final List<RecipeCategory> listOfCategories = new ArrayList<>();
-
-    private void fillCategories() {
-        listOfCategories.add(new RecipeCategory("Meat", Color.RED));
-        listOfCategories.add(new RecipeCategory("Vegetables", Color.GREEN));
-    }
+    public static final List<RecipeCategory> listOfCategories = new ArrayList<>(
+            List.of(new RecipeCategory("Meat", Color.RED),
+                    new RecipeCategory("Vegetables", Color.GREEN)
+            ));
 
     public RecipeCategory(String categoryName, Color categoryColor) {
         this.categoryName = categoryName;
         this.categoryColor = categoryColor;
-        fillCategories();
     }
 
     public static List<RecipeCategory> getListOfCategories() {
