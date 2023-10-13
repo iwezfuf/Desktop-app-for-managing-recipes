@@ -6,6 +6,8 @@ import cz.muni.fi.pv168.project.ui.action.AddIngredientAction;
 import cz.muni.fi.pv168.project.ui.action.AddRecipeAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
+import cz.muni.fi.pv168.project.ui.action.ExportAction;
+import cz.muni.fi.pv168.project.ui.action.ImportAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.model.*;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
@@ -23,6 +25,8 @@ public class MainWindow {
     private final JFrame frame;
 
     private final Action quitAction = new QuitAction();
+    private final Action importAction = new ImportAction();
+    private final Action exportAction = new ExportAction();
     private final Action addRecipeAction;
     private final Action addIngredientAction;
     private final Action deleteAction;
@@ -127,6 +131,9 @@ public class MainWindow {
         var toolbar = new JToolBar();
         toolbar.add(quitAction);
         toolbar.addSeparator();
+        toolbar.add(importAction);
+        toolbar.addSeparator();
+        toolbar.add(exportAction);
         return toolbar;
     }
 
