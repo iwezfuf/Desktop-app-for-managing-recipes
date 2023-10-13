@@ -13,7 +13,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
 
     private final JTextField recipeNameTextField = new JTextField();
     private final JTextArea briefDescriptionTextArea = new JTextArea();
-    private final JSpinner numberOfServingsSpinner = new JSpinner();
+    SpinnerModel model = new SpinnerNumberModel(2, 0, 20, 1);
+    JSpinner numberOfServingsSpinner = new JSpinner(model);
     private final JComboBox<RecipeCategory> recipeCategoryComboBox = new JComboBox<>();
 
     private final JSlider preparationTimeSlider = new JSlider(JSlider.HORIZONTAL, 0, 120, 60);
@@ -22,6 +23,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
 
     public RecipeDialog(Recipe recipe) {
         super(new Dimension(600, 300));
+
+        numberOfServingsSpinner.setEditor(new JSpinner.DefaultEditor(numberOfServingsSpinner));
 
         this.recipe = recipe;
         recipeNameTextField.setColumns(600); // Set the number of visible columns (width).
