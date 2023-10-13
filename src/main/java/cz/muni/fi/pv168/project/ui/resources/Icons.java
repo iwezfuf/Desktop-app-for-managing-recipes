@@ -11,6 +11,8 @@ public final class Icons {
     public static final Icon ADD_ICON = createIcon("Crystal_Clear_action_edit_add.png");
     public static final Icon QUIT_ICON = createIcon("Crystal_Clear_action_exit.png");
 
+    public static final Icon TIME_ICON = createIcon("Clock.png");
+
     private Icons() {
         throw new AssertionError("This class is not instantiable");
     }
