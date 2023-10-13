@@ -8,11 +8,7 @@ import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
-import cz.muni.fi.pv168.project.ui.model.CustomTable;
-import cz.muni.fi.pv168.project.ui.model.EmployeeTableModel;
-import cz.muni.fi.pv168.project.ui.model.DepartmentListModel;
-import cz.muni.fi.pv168.project.ui.model.RecipeTableComponent;
-import cz.muni.fi.pv168.project.ui.model.Tab;
+import cz.muni.fi.pv168.project.ui.model.*;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
@@ -38,7 +34,7 @@ public class MainWindow {
         var employeeTable = createEmployeeTable(testDataGenerator.createTestEmployees(10));
         var departmentListModel = new DepartmentListModel(testDataGenerator.getDepartments());
 
-        CustomTable recipesTable = new CustomTable("My Recipes");
+        CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new RecipeCellEditor(), new RecipeCellRenderer());
 
         addAction = new AddAction(recipesTable);
         deleteAction = new DeleteAction(employeeTable);
@@ -46,7 +42,7 @@ public class MainWindow {
 
         employeeTable.setComponentPopupMenu(createEmployeeTablePopupMenu());
 
-        frame.add(createTabbedPanes(createTabs(recipesTable)), BorderLayout.CENTER);
+        frame.add(createTabbedPanes(createRecipeTabs(recipesTable)), BorderLayout.CENTER);
 
         frame.add(createToolbar(), BorderLayout.BEFORE_FIRST_LINE);
         frame.setJMenuBar(createMenuBar());
@@ -57,13 +53,13 @@ public class MainWindow {
         frame.setVisible(true);
     }
 
-    private List<Tab> createTabs(CustomTable recipesTable) {
+    private List<Tab> createRecipeTabs(CustomTable<Recipe> recipesTable) {
 
         Recipe r = new Recipe(0, "xd", "xd", 20, 5, "xd", null, Set.of(1));
         Recipe q = new Recipe(0, "oves", "oves", 48, 1, "-", null, Set.of(1));
 
-        recipesTable.addComponent(new RecipeTableComponent(r));
-        recipesTable.addComponent(new RecipeTableComponent(q));
+        recipesTable.addData(r);
+        recipesTable.addData(q);
         /*table.addComponent(new RecipeTableComponent("Cereal Soup", "Main Dish"));
         table.addComponent(new RecipeTableComponent("Donut", "Sweet Bakery"));
         table.addComponent(new RecipeTableComponent("Scrabbled eggs", "Breakfast"));
