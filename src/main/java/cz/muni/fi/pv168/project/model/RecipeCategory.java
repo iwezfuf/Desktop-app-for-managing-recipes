@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.project.model;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,12 +13,17 @@ public class RecipeCategory { // TODO probably must be reimplement it
 
     private String categoryName;
     private Color categoryColor;
-    private static final List<RecipeCategory> listOfCategories = new ArrayList<>();
+    public static final List<RecipeCategory> listOfCategories = new ArrayList<>();
+
+    private void fillCategories() {
+        listOfCategories.add(new RecipeCategory("Meat", Color.RED));
+        listOfCategories.add(new RecipeCategory("Vegetables", Color.GREEN));
+    }
 
     public RecipeCategory(String categoryName, Color categoryColor) {
         this.categoryName = categoryName;
         this.categoryColor = categoryColor;
-        RecipeCategory.listOfCategories.add(this);
+        fillCategories();
     }
 
     public static List<RecipeCategory> getListOfCategories() {

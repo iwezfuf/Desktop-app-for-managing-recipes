@@ -22,6 +22,7 @@ public class RecipeTableComponent extends AbstractTableComponent {
         this.recipe = recipe;
 
         setLayout(new GridBagLayout());
+        setBackground(Color.orange);
 
         JPanel textPanel = new JPanel();
         textPanel.setBackground(Color.orange);
@@ -69,6 +70,11 @@ public class RecipeTableComponent extends AbstractTableComponent {
         categoriesPanelConstraints.gridy = 0;
         categoriesPanelConstraints.gridx = 3;
         categoriesPanelConstraints.weightx = 1;
+
+        textPanel.setOpaque(false);
+        ingredientsPanel.setOpaque(false);
+        iconPanel.setOpaque(false);
+        categoriesPanel.setOpaque(false);
 
         add(textPanel, textPanelConstraints);
         add(ingredientsPanel, ingredientsPanelConstraints);

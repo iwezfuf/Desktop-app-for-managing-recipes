@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
 import cz.muni.fi.pv168.project.model.Recipe;
+import cz.muni.fi.pv168.project.model.RecipeCategory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,13 +14,15 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     private final JTextField recipeNameTextField = new JTextField();
     private final JTextArea briefDescriptionTextArea = new JTextArea();
     private final JSpinner numberOfServingsSpinner = new JSpinner();
-    //private final ComboBoxModel<RecipeCategory> recipeCategoryCompoBox;
+    private final JComboBox<RecipeCategory> recipeCategoryComboBox = new JComboBox<>();
+
     private final JSlider preparationTimeSlider = new JSlider(JSlider.HORIZONTAL, 0, 120, 60);
 
     private final Recipe recipe;
 
     public RecipeDialog(Recipe recipe) {
         super(new Dimension(600, 300));
+
         this.recipe = recipe;
         recipeNameTextField.setColumns(600); // Set the number of visible columns (width).
         limitComponentToOneRow(recipeNameTextField);
@@ -38,7 +41,14 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         briefDescriptionTextArea.setText(recipe.getDescription());
         numberOfServingsSpinner.setValue(recipe.getNumOfServings());
         preparationTimeSlider.setValue(recipe.getPreparationTime());
-        //recipeCategoryCompoBox.setSelectedItem(recipe.getCategoryIds());
+
+        for (RecipeCategory category : RecipeCategory.listOfCategories) {
+            recipeCategoryComboBox.addItem(category);
+        }
+
+        if (recipe.getCategory() != null) {
+            recipeCategoryComboBox.setSelectedItem(recipe.getCategory());
+        }
     }
 
     private void addFields() {
@@ -46,7 +56,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         addAsScrollable("Brief description:", briefDescriptionTextArea);
         add("Number of servings:", numberOfServingsSpinner);
         add("Preparation time [min.]:", preparationTimeSlider);
-        //add("Recipe category:", new JComboBox<>(recipeCategoryCompoBox));
+        add("Recipe category:", recipeCategoryComboBox);
     }
 
     @Override

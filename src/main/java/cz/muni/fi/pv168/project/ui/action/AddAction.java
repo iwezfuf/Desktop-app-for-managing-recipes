@@ -14,6 +14,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -43,6 +44,6 @@ public final class AddAction extends AbstractAction {
         ingredientsSet.add(74);
 
         RecipeDialog dialog = new RecipeDialog(new Recipe(0, "Omacka", "...", 8, 4, "", new RecipeCategory("", Color.BLACK), new HashMap<>()));
-        dialog.show(table, "Add Recipe");
+        dialog.show(table, "Add Recipe").ifPresent(table::addData);
     }
 }
