@@ -42,4 +42,9 @@ public class RecipeCategory { // TODO probably must be reimplement it
     public void setCategoryColor(Color categoryColor) {
         this.categoryColor = categoryColor;
     }
+
+    @Override
+    public String toString() {
+        return getCategoryName();
+    }
 }
