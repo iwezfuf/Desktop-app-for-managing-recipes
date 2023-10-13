@@ -96,4 +96,18 @@ public class Recipe {
     public void setIngredientIds(Set<Integer> ingredientIds) {
         this.ingredientIds = ingredientIds;
     }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", recipeId=" + recipeId +
+                ", preparationTime=" + preparationTime +
+                ", numOfServings=" + numOfServings +
+                ", instructions='" + instructions + '\'' +
+                ", categoryIds=" + categoryIds +
+                ", ingredientIds=" + ingredientIds +
+                '}';
+    }
 }
