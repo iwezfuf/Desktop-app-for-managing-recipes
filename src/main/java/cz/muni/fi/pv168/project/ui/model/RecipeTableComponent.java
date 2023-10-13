@@ -39,8 +39,8 @@ public class RecipeTableComponent extends AbstractTableComponent {
 
         JPanel ingredientsPanel = new JPanel();
         ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
-        JLabel ingredientsLabel = new JLabel("Ingredients: " + recipe.getIngredientIds());
-        JLabel nutritionLabel = new JLabel("Nutritional value: " );
+        JLabel ingredientsLabel = new JLabel("Ingredients:\n" + recipe.getIngredients());
+        JLabel nutritionLabel = new JLabel("Nutritional value: " + recipe.getNutritionalValue());
         ingredientsPanel.add(ingredientsLabel);
         ingredientsPanel.add(nutritionLabel);
         GridBagConstraints ingredientsPanelConstraints = new GridBagConstraints();
@@ -62,7 +62,7 @@ public class RecipeTableComponent extends AbstractTableComponent {
         iconPanelConstraints.weightx = 1;
 
         JPanel categoriesPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JLabel categoriesLabel = new JLabel("Categories: " + recipe.getCategoryIds());
+        JLabel categoriesLabel = new JLabel("Categories: " + recipe.getCategory());
         categoriesPanel.add(categoriesLabel);
         GridBagConstraints categoriesPanelConstraints = new GridBagConstraints();
         categoriesPanelConstraints.fill = GridBagConstraints.BOTH;
