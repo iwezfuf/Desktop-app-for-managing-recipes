@@ -2,7 +2,8 @@ package cz.muni.fi.pv168.project.ui;
 
 import cz.muni.fi.pv168.project.data.TestDataGenerator;
 import cz.muni.fi.pv168.project.model.*;
-import cz.muni.fi.pv168.project.ui.action.AddAction;
+import cz.muni.fi.pv168.project.ui.action.AddIngredientAction;
+import cz.muni.fi.pv168.project.ui.action.AddRecipeAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
@@ -12,17 +13,18 @@ import cz.muni.fi.pv168.project.ui.resources.Icons;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class MainWindow {
 
     private final JFrame frame;
 
     private final Action quitAction = new QuitAction();
-    private final Action addAction;
+    private final Action addRecipeAction;
+    private final Action addIngredientAction;
     private final Action deleteAction;
     private final Action editAction;
 
@@ -36,7 +38,8 @@ public class MainWindow {
 
         CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new RecipeCellEditor(), new RecipeCellRenderer());
 
-        addAction = new AddAction(recipesTable);
+        addRecipeAction = new AddRecipeAction(recipesTable);
+        addIngredientAction = new AddIngredientAction(null);
         deleteAction = new DeleteAction(employeeTable);
         editAction = new EditAction(employeeTable, departmentListModel);
 
@@ -56,9 +59,9 @@ public class MainWindow {
     private List<Tab> createRecipeTabs(CustomTable<Recipe> recipesTable) {
 
         Map<Ingredient, Integer> ingredients = new HashMap<>();
-        ingredients.put(new Ingredient(0, "vejce", 80, new Unit("gram", 0)), 20);
-        Recipe r = new Recipe(0, "xd", "xd", 20, 5, "xd", null, ingredients);
-        Recipe q = new Recipe(0, "oves", "oves", 48, 1, "-", null, ingredients);
+        ingredients.put(new Ingredient("vejce", 80, new Unit("gram")), 20);
+        Recipe r = new Recipe("xd", "xd", 20, 5, "xd", null, ingredients);
+        Recipe q = new Recipe("oves", "oves", 48, 1, "-", null, ingredients);
 
         recipesTable.addData(r);
         recipesTable.addData(q);
@@ -110,7 +113,9 @@ public class MainWindow {
         var menuBar = new JMenuBar();
         var editMenu = new JMenu("Edit");
         editMenu.setMnemonic('e');
-        editMenu.add(addAction);
+        editMenu.add(addRecipeAction);
+        editMenu.addSeparator();
+        editMenu.add(addIngredientAction);
         editMenu.addSeparator();
         editMenu.add(quitAction);
         menuBar.add(editMenu);

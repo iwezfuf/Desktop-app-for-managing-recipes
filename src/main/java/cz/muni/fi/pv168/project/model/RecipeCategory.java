@@ -21,6 +21,7 @@ public class RecipeCategory { // TODO probably must be reimplement it
     public RecipeCategory(String categoryName, Color categoryColor) {
         this.categoryName = categoryName;
         this.categoryColor = categoryColor;
+//        listOfCategories.add(this);
     }
 
     public static List<RecipeCategory> getListOfCategories() {

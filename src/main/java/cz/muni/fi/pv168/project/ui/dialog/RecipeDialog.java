@@ -68,7 +68,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         recipe.setName(recipeNameTextField.getText());
         recipe.setDescription(briefDescriptionTextArea.getText());
         recipe.setNumOfServings((int)numberOfServingsSpinner.getValue());
-        recipe.setPreparationTime((int)preparationTimeSlider.getValue());
+        recipe.setPreparationTime(preparationTimeSlider.getValue());
         //recipe.addRecipeCategory((RecipeCategory)recipeCategoryCompoBox.getSelectedItem());
 
         return recipe;

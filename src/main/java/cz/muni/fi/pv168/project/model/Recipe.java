@@ -11,22 +11,23 @@ public class Recipe {
 
     private String name;
     private String description;
-    private int recipeId;
+    private final int id;
     private int preparationTime;
     private int numOfServings;
     private String instructions;
     private RecipeCategory category;
+    private static int idCounter = 0;
     /**
      * Represents pairs ingredientId : ingredient amount
      */
     private Map<Ingredient, Integer> ingredients;
 
-    public Recipe(int recipeId, String name, String description, int preparationTime, int numOfServings,
+    public Recipe(String name, String description, int preparationTime, int numOfServings,
                   String instructions, RecipeCategory category, Map<Ingredient, Integer> ingredients) {
 
         this.name = name;
         this.description = description;
-        this.recipeId = recipeId;
+        this.id = Recipe.idCounter++;
         this.preparationTime = preparationTime;
         this.numOfServings = numOfServings;
         this.instructions = instructions;
@@ -35,7 +36,7 @@ public class Recipe {
     }
 
     public int getRecipeId() {
-        return recipeId;
+        return id;
     }
 
     public int getPreparationTime() {
@@ -88,10 +89,6 @@ public class Recipe {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setRecipeId(int recipeId) {
-        this.recipeId = recipeId;
     }
 
     public void setPreparationTime(int preparationTime) {

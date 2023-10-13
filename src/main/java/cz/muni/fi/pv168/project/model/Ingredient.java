@@ -3,14 +3,15 @@ package cz.muni.fi.pv168.project.model;
 import java.util.Set;
 
 public class Ingredient {
-    private int ingredientId;
+    private final int ingredientId;
     private String name;
 
     private int nutritionalValue;
     private Unit unit;
+    private static int idCounter = 0;
 
-    public Ingredient(int ingredientId, String name, int nutritionalValue, Unit unit) {
-        this.ingredientId = ingredientId;
+    public Ingredient(String name, int nutritionalValue, Unit unit) {
+        this.ingredientId = idCounter++;
         this.name = name;
         this.nutritionalValue = nutritionalValue;
         this.unit = unit;
@@ -30,5 +31,17 @@ public class Ingredient {
 
     public Unit getUnit() {
         return unit;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNutritionalValue(int nutritionalValue) {
+        this.nutritionalValue = nutritionalValue;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 }
