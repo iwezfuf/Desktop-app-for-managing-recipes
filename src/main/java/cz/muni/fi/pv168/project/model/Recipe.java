@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.project.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -13,11 +15,14 @@ public class Recipe {
     private int preparationTime;
     private int numOfServings;
     private String instructions;
-    private Set<RecipeCategory> categoryIds;
-    private Set<Integer> ingredientIds;
+    private RecipeCategory category;
+    /**
+     * Represents pairs ingredientId : ingredient amount
+     */
+    private Map<Ingredient, Integer> ingredients;
 
     public Recipe(int recipeId, String name, String description, int preparationTime, int numOfServings,
-                  String instructions, Set<RecipeCategory> categoryIds, Set<Integer> ingredientIds) {
+                  String instructions, RecipeCategory category, Map<Ingredient, Integer> ingredients) {
 
         this.name = name;
         this.description = description;
@@ -25,8 +30,8 @@ public class Recipe {
         this.preparationTime = preparationTime;
         this.numOfServings = numOfServings;
         this.instructions = instructions;
-        this.categoryIds = categoryIds;
-        this.ingredientIds = ingredientIds;
+        this.category = category;
+        this.ingredients = ingredients;
     }
 
     public int getRecipeId() {
@@ -49,12 +54,28 @@ public class Recipe {
         return name;
     }
 
-    public Set<RecipeCategory> getCategoryIds() {
-        return categoryIds;
+    public RecipeCategory getCategory() {
+        return category;
     }
 
-    public Set<Integer> getIngredientIds() {
-        return ingredientIds;
+    public String getIngredients() {
+        StringBuilder result = new StringBuilder();
+        for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
+            Ingredient ingredient = entry.getKey();
+            int amount = entry.getValue();
+            result.append(ingredient.getName() + ": " + amount + "\n");
+        }
+        return result.toString();
+    }
+
+    public int getNutritionalValue() {
+        int result = 0;
+        for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
+            Ingredient ingredient = entry.getKey();
+            int amount = entry.getValue();
+            result += amount * ingredient.getNutritionalValue();
+        }
+        return result;
     }
 
     public void setName(String name) {
@@ -85,29 +106,4 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    public void setCategoryIds(Set<RecipeCategory> categoryIds) {
-        this.categoryIds = categoryIds;
-    }
-
-    public void addRecipeCategory(RecipeCategory category) {
-        this.categoryIds.add(category);
-    }
-
-    public void setIngredientIds(Set<Integer> ingredientIds) {
-        this.ingredientIds = ingredientIds;
-    }
-
-    @Override
-    public String toString() {
-        return "Recipe{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", recipeId=" + recipeId +
-                ", preparationTime=" + preparationTime +
-                ", numOfServings=" + numOfServings +
-                ", instructions='" + instructions + '\'' +
-                ", categoryIds=" + categoryIds +
-                ", ingredientIds=" + ingredientIds +
-                '}';
-    }
 }
