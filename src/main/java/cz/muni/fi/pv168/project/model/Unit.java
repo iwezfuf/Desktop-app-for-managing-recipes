@@ -26,8 +26,6 @@ public class Unit extends AbstractUserItemData {
         this.name = name;
         this.id = Unit.idCounter++;
 //        listOfUnits.add(this);
-        this.tableComponentClass = UnitTableComponent.class;
-        this.dialogClass = UnitDialog.class;
     }
 
     public String getName() {

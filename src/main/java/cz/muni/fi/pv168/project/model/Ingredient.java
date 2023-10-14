@@ -26,8 +26,6 @@ public class Ingredient extends AbstractUserItemData {
         this.name = name;
         this.nutritionalValue = nutritionalValue;
         this.unit = unit;
-        this.tableComponentClass = IngredientTableComponent.class;
-        this.dialogClass = IngredientDialog.class;
     }
 
     public int getIngredientId() {

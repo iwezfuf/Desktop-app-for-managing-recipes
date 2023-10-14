@@ -25,8 +25,6 @@ public class RecipeCategory extends AbstractUserItemData { // TODO probably must
         this.categoryName = categoryName;
         this.categoryColor = categoryColor;
 //        listOfCategories.add(this);
-        this.tableComponentClass = RecipeCategoryTableComponent.class;
-        this.dialogClass = RecipeCategoryDialog.class;
     }
 
     public static List<RecipeCategory> getListOfCategories() {

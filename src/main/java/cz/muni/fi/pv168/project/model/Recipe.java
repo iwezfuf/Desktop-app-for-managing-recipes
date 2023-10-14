@@ -36,8 +36,6 @@ public class Recipe extends AbstractUserItemData {
         this.instructions = instructions;
         this.category = category;
         this.ingredients = ingredients;
-        this.tableComponentClass = RecipeTableComponent.class;
-        this.dialogClass = RecipeDialog.class;
     }
 
     public int getRecipeId() {

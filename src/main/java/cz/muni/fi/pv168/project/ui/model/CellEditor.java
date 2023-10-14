@@ -21,38 +21,23 @@ public class CellEditor extends AbstractCellEditor implements TableCellEditor {
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
         EntityDialog dialog;
-        if (value == null) {
-            throw new IllegalArgumentException("Value cannot be null");
+
+        currentValue = (AbstractUserItemData) value;
+        Class<?> valueClass = value.getClass();
+        Class<? extends EntityDialog> dialogClass = UserItemClasses.dialogMap.get(valueClass);
+        try {
+            dialog = dialogClass.getConstructor(valueClass).newInstance(value);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create dialog.", e);
         }
-        if (value.getClass().equals(Recipe.class)) {
-            currentValue = (Recipe) value;
-            dialog = new RecipeDialog((Recipe) currentValue);
-        } else if (value.getClass().equals(Ingredient.class)) {
-            currentValue = (Ingredient) value;
-            dialog = new IngredientDialog((Ingredient) currentValue);
-        } else if (value.getClass().equals(Unit.class)) {
-            currentValue = (Unit) value;
-            dialog = new UnitDialog((Unit) currentValue);
-        } else if (value.getClass().equals(RecipeCategory.class)) {
-            currentValue = (RecipeCategory) value;
-            dialog = new RecipeCategoryDialog((RecipeCategory) currentValue);
-        }
-        else {
-            throw new IllegalArgumentException("Unknown class of value: " + value.getClass());
-        }
+
         dialog.show(null, "Edit").ifPresentOrElse(r -> fireEditingStopped(), this::fireEditingStopped);
 
-        if (value.getClass().equals(Recipe.class)) {
-            return new RecipeTableComponent((Recipe) currentValue);
-        } else if (value.getClass().equals(Ingredient.class)) {
-            return new IngredientTableComponent((Ingredient) currentValue);
-        } else if (value.getClass().equals(Unit.class)) {
-            return new UnitTableComponent((Unit) currentValue);
-        } else if (value.getClass().equals(RecipeCategory.class)) {
-            return new RecipeCategoryTableComponent((RecipeCategory) currentValue);
-        }
-        else {
-            throw new IllegalArgumentException("Unknown class of value: " + value.getClass());
+        Class<? extends Component> componentClass = UserItemClasses.componentMap.get(valueClass);
+        try {
+            return componentClass.getConstructor(valueClass).newInstance(value);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create component.", e);
         }
     }
 
