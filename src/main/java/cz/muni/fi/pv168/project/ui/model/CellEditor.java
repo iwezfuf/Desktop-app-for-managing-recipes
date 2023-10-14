@@ -16,12 +16,14 @@ import javax.swing.table.TableCellEditor;
 import java.awt.*;
 
 public class CellEditor extends AbstractCellEditor implements TableCellEditor {
-    private Recipe currentValue;
+    private AbstractUserItemData currentValue;
 
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        AbstractUserItemData currentValue;
         EntityDialog dialog;
+        if (value == null) {
+            throw new IllegalArgumentException("Value cannot be null");
+        }
         if (value.getClass().equals(Recipe.class)) {
             currentValue = (Recipe) value;
             dialog = new RecipeDialog((Recipe) currentValue);
