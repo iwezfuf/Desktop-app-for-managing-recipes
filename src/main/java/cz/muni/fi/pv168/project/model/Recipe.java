@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.project.model;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,6 +58,10 @@ public class Recipe {
         return category;
     }
 
+    public void setCategory(RecipeCategory category) {
+        this.category = category;
+    }
+
     public String getIngredients() {
         StringBuilder result = new StringBuilder();
         for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
@@ -67,6 +70,26 @@ public class Recipe {
             result.append(ingredient.getName() + ": " + amount + "\n");
         }
         return result.toString();
+    }
+
+    public void addIngredient(Ingredient ingredient, int amount) {
+        if (ingredients.containsKey(ingredient)) {
+            ingredients.put(ingredient, ingredients.get(ingredient) + amount);
+        } else {
+            ingredients.put(ingredient, amount);
+        }
+    }
+
+    public boolean containsIngredient(Ingredient ingredient) {
+        return ingredients.containsKey(ingredient);
+    }
+
+    public void removeIngredient(Ingredient ingredient) {
+        ingredients.remove(ingredient);
+    }
+
+    public Set<Map.Entry<Ingredient, Integer>> getIngredientAmountPairs() {
+        return ingredients.entrySet();
     }
 
     public int getNutritionalValue() {
