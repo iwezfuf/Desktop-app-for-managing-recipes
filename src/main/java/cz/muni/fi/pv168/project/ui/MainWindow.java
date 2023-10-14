@@ -88,8 +88,8 @@ public class MainWindow {
         unitsTable.addData(new Unit("kilogram"));
         unitsTable.addData(new Unit("liter"));
 
-        categoriesTable.addData(new RecipeCategory("snidane", null));
-        categoriesTable.addData(new RecipeCategory("obed", null));
+        categoriesTable.addData(new RecipeCategory("snidane", Color.orange));
+        categoriesTable.addData(new RecipeCategory("obed", Color.pink));
     }
 
     private JFrame createFrame() {
