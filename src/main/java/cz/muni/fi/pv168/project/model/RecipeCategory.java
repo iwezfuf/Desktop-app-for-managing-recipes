@@ -1,11 +1,7 @@
 package cz.muni.fi.pv168.project.model;
 
-import cz.muni.fi.pv168.project.ui.dialog.RecipeCategoryDialog;
-import cz.muni.fi.pv168.project.ui.model.RecipeCategoryTableComponent;
-
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,17 +9,16 @@ import java.util.List;
  * @author Marek Eibel
  */
 public class RecipeCategory extends AbstractUserItemData { // TODO probably must be reimplement it
-
-    private String categoryName;
-    private Color categoryColor;
+    private String name;
+    private Color color;
     public static final List<RecipeCategory> listOfCategories = new ArrayList<>(
             List.of(new RecipeCategory("Meat", Color.RED),
                     new RecipeCategory("Vegetables", Color.GREEN)
             ));
 
     public RecipeCategory(String categoryName, Color categoryColor) {
-        this.categoryName = categoryName;
-        this.categoryColor = categoryColor;
+        this.name = categoryName;
+        this.color = categoryColor;
 //        listOfCategories.add(this);
     }
 
@@ -31,24 +26,24 @@ public class RecipeCategory extends AbstractUserItemData { // TODO probably must
         return Collections.unmodifiableList(listOfCategories);
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String categoryName) {
+        this.name = categoryName;
     }
 
-    public Color getCategoryColor() {
-        return categoryColor;
+    public Color getColor() {
+        return color;
     }
 
-    public void setCategoryColor(Color categoryColor) {
-        this.categoryColor = categoryColor;
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     @Override
     public String toString() {
-        return getCategoryName();
+        return getName();
     }
 }

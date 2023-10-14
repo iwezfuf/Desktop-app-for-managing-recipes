@@ -1,21 +1,35 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
-import cz.muni.fi.pv168.project.model.Ingredient;
 import cz.muni.fi.pv168.project.model.RecipeCategory;
-import cz.muni.fi.pv168.project.model.Unit;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class RecipeCategoryDialog extends EntityDialog<Unit> {
+public class RecipeCategoryDialog extends EntityDialog<RecipeCategory> {
+    private final JTextField nameTextField = new JTextField();
+    private final JColorChooser colorChooser = new JColorChooser();
+
     private final RecipeCategory recipeCategory;
 
     public RecipeCategoryDialog(RecipeCategory recipeCategory) {
-        super(new Dimension(600, 150));
+        super(new Dimension(650, 400));
         this.recipeCategory = recipeCategory;
+
+        nameTextField.setColumns(600); // Set the number of visible columns (width).
+        limitComponentToOneRow(nameTextField);
+        addFields();
+    }
+
+    private void addFields() {
+        add("Category name:", nameTextField);
+        addAsScrollable("Category color:", colorChooser);
     }
 
     @Override
-    Unit getEntity() {
-        return null;
+    RecipeCategory getEntity() {
+
+        recipeCategory.setName(nameTextField.getText());
+        recipeCategory.setColor(colorChooser.getColor());
+        return recipeCategory;
     }
 }
