@@ -43,6 +43,8 @@ public class MainWindow {
 
         CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new CellEditor(), new CellRenderer());
         CustomTable<Ingredient> ingredientsTable = new CustomTable<>("My Ingredients", new CellEditor(), new CellRenderer());
+        CustomTable<Unit> unitsTable = new CustomTable<>("My Units", new CellEditor(), new CellRenderer());
+        CustomTable<RecipeCategory> categoriesTable = new CustomTable<>("My Categories", new CellEditor(), new CellRenderer());
 
         addRecipeAction = new AddRecipeAction(recipesTable);
         addIngredientAction = new AddIngredientAction(ingredientsTable);
@@ -51,13 +53,13 @@ public class MainWindow {
 
         employeeTable.setComponentPopupMenu(createEmployeeTablePopupMenu());
 
-        fillRecipesTable(recipesTable, ingredientsTable); // Only for debugging purposes
+        fillTables(recipesTable, ingredientsTable, unitsTable, categoriesTable); // Only for debugging purposes
 
         List<Tab> tabs = List.of(
                 new Tab(new JScrollPane(recipesTable), "Recipes", Icons.ADD_ICON, "Recipes"),
                 new Tab(new JScrollPane(ingredientsTable), "Ingredients", "Ingredients"),
-                new Tab(new JScrollPane(new JTable()), "Units", Icons.EDIT_ICON, "Units"),
-                new Tab(new JScrollPane(new JTable()), "Categories", Icons.EDIT_ICON, "Categories")
+                new Tab(new JScrollPane(unitsTable), "Units", Icons.EDIT_ICON, "Units"),
+                new Tab(new JScrollPane(categoriesTable), "Categories", Icons.EDIT_ICON, "Categories")
         );
 
         frame.add(createTabbedPanes(tabs), BorderLayout.CENTER);
@@ -70,13 +72,24 @@ public class MainWindow {
         frame.setVisible(true);
     }
 
-    private void fillRecipesTable(CustomTable<Recipe> recipesTable, CustomTable<Ingredient> ingredientsTable) {
+    private void fillTables(CustomTable<Recipe> recipesTable, CustomTable<Ingredient> ingredientsTable, CustomTable<Unit> unitsTable, CustomTable<RecipeCategory> categoriesTable) {
         Map<Ingredient, Integer> ingredients = new HashMap<>();
         ingredients.put(new Ingredient("vejce", 80, new Unit("gram")), 20);
         Recipe r = new Recipe("xd", "xd", 20, 5, "xd", null, ingredients);
         Recipe q = new Recipe("oves", "oves", 48, 1, "-", null, ingredients);
         recipesTable.addData(r);
         recipesTable.addData(q);
+
+        ingredientsTable.addData(new Ingredient("vejce", 80, new Unit("gram")));
+        ingredientsTable.addData(new Ingredient("muka", 48, new Unit("gram")));
+        ingredientsTable.addData(new Ingredient("potato", 48, new Unit("gram")));
+
+        unitsTable.addData(new Unit("gram"));
+        unitsTable.addData(new Unit("kilogram"));
+        unitsTable.addData(new Unit("liter"));
+
+        categoriesTable.addData(new RecipeCategory("snidane", null));
+        categoriesTable.addData(new RecipeCategory("obed", null));
     }
 
     private JFrame createFrame() {
