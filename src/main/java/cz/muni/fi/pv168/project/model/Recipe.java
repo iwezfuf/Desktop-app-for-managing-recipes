@@ -1,12 +1,15 @@
 package cz.muni.fi.pv168.project.model;
 
+import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
+import cz.muni.fi.pv168.project.ui.model.RecipeTableComponent;
+
 import java.util.Map;
 import java.util.Set;
 
 /**
  * @author Marek Eibel
  */
-public class Recipe {
+public class Recipe extends AbstractUserItemData {
 
     private String name;
     private String description;
@@ -16,6 +19,7 @@ public class Recipe {
     private String instructions;
     private RecipeCategory category;
     private static int idCounter = 0;
+
     /**
      * Represents pairs ingredientId : ingredient amount
      */
@@ -32,6 +36,8 @@ public class Recipe {
         this.instructions = instructions;
         this.category = category;
         this.ingredients = ingredients;
+        this.tableComponentClass = RecipeTableComponent.class;
+        this.dialogClass = RecipeDialog.class;
     }
 
     public int getRecipeId() {

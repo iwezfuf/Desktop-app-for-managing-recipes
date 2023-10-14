@@ -1,5 +1,8 @@
 package cz.muni.fi.pv168.project.model;
 
+import cz.muni.fi.pv168.project.ui.dialog.RecipeCategoryDialog;
+import cz.muni.fi.pv168.project.ui.model.RecipeCategoryTableComponent;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +12,7 @@ import java.util.List;
 /**
  * @author Marek Eibel
  */
-public class RecipeCategory { // TODO probably must be reimplement it
+public class RecipeCategory extends AbstractUserItemData { // TODO probably must be reimplement it
 
     private String categoryName;
     private Color categoryColor;
@@ -22,6 +25,8 @@ public class RecipeCategory { // TODO probably must be reimplement it
         this.categoryName = categoryName;
         this.categoryColor = categoryColor;
 //        listOfCategories.add(this);
+        this.tableComponentClass = RecipeCategoryTableComponent.class;
+        this.dialogClass = RecipeCategoryDialog.class;
     }
 
     public static List<RecipeCategory> getListOfCategories() {

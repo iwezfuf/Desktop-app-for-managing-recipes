@@ -8,7 +8,7 @@ import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 import static javax.swing.JOptionPane.OK_OPTION;
 import static javax.swing.JOptionPane.PLAIN_MESSAGE;
 
-abstract class EntityDialog<E> extends JPanel{
+public abstract class EntityDialog<E> extends JPanel{
 
     //private final JPanel panel = new JPanel();
 
