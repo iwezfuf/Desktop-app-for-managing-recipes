@@ -14,7 +14,7 @@ public class RecipeCategoryTableComponent extends AbstractTableComponent {
 //        Border border = BorderFactory.createLineBorder(recipeCategory.getColor(), 1);
 //        setBorder(border);
         setBackground(recipeCategory.getColor());
-        
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel nameLabel = new JLabel(recipeCategory.getName());
         add(nameLabel);

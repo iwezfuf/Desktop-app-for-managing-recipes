@@ -17,7 +17,13 @@ public class RecipeCategoryDialog extends EntityDialog<RecipeCategory> {
 
         nameTextField.setColumns(600); // Set the number of visible columns (width).
         limitComponentToOneRow(nameTextField);
+        setValues();
         addFields();
+    }
+
+    private void setValues() {
+        nameTextField.setText(recipeCategory.getName());
+        colorChooser.setColor(recipeCategory.getColor());
     }
 
     private void addFields() {
