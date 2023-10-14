@@ -1,11 +1,14 @@
 package cz.muni.fi.pv168.project.model;
 
+import cz.muni.fi.pv168.project.ui.dialog.UnitDialog;
+import cz.muni.fi.pv168.project.ui.model.UnitTableComponent;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 // TODO conversion inbetween standardized units and our custom units
-public class Unit {
+public class Unit extends AbstractUserItemData {
     private String name;
     private final int id;
     private static int idCounter = 0;

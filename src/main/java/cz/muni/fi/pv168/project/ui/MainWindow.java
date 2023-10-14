@@ -10,12 +10,12 @@ import cz.muni.fi.pv168.project.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.ui.action.ImportAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.model.*;
+import cz.muni.fi.pv168.project.ui.model.CellEditor;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,17 +40,29 @@ public class MainWindow {
         var employeeTable = createEmployeeTable(testDataGenerator.createTestEmployees(10));
         var departmentListModel = new DepartmentListModel(testDataGenerator.getDepartments());
 
-        CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new RecipeCellEditor(), new RecipeCellRenderer());
+
+        CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new CellEditor(), new CellRenderer());
+        CustomTable<Ingredient> ingredientsTable = new CustomTable<>("My Ingredients", new CellEditor(), new CellRenderer());
+        CustomTable<Unit> unitsTable = new CustomTable<>("My Units", new CellEditor(), new CellRenderer());
+        CustomTable<RecipeCategory> categoriesTable = new CustomTable<>("My Categories", new CellEditor(), new CellRenderer());
 
         addRecipeAction = new AddRecipeAction(recipesTable);
-        addIngredientAction = new AddIngredientAction(null);
+        addIngredientAction = new AddIngredientAction(ingredientsTable);
         deleteAction = new DeleteAction(employeeTable);
         editAction = new EditAction(employeeTable, departmentListModel);
 
         employeeTable.setComponentPopupMenu(createEmployeeTablePopupMenu());
 
-        frame.add(createTabbedPanes(createRecipeTabs(recipesTable)), BorderLayout.CENTER);
+        fillTables(recipesTable, ingredientsTable, unitsTable, categoriesTable); // Only for debugging purposes
 
+        List<Tab> tabs = List.of(
+                new Tab(new JScrollPane(recipesTable), "Recipes", Icons.ADD_ICON, "Recipes"),
+                new Tab(new JScrollPane(ingredientsTable), "Ingredients", "Ingredients"),
+                new Tab(new JScrollPane(unitsTable), "Units", Icons.EDIT_ICON, "Units"),
+                new Tab(new JScrollPane(categoriesTable), "Categories", Icons.EDIT_ICON, "Categories")
+        );
+
+        frame.add(createTabbedPanes(tabs), BorderLayout.CENTER);
         frame.add(createToolbar(), BorderLayout.BEFORE_FIRST_LINE);
         frame.setJMenuBar(createMenuBar());
         frame.setMinimumSize(new Dimension(800, 600));
@@ -60,33 +72,24 @@ public class MainWindow {
         frame.setVisible(true);
     }
 
-    private List<Tab> createRecipeTabs(CustomTable<Recipe> recipesTable) {
-
+    private void fillTables(CustomTable<Recipe> recipesTable, CustomTable<Ingredient> ingredientsTable, CustomTable<Unit> unitsTable, CustomTable<RecipeCategory> categoriesTable) {
         Map<Ingredient, Integer> ingredients = new HashMap<>();
         ingredients.put(new Ingredient("vejce", 80, new Unit("gram")), 20);
         Recipe r = new Recipe("xd", "xd", 20, 5, "xd", null, ingredients);
         Recipe q = new Recipe("oves", "oves", 48, 1, "-", null, ingredients);
-
         recipesTable.addData(r);
         recipesTable.addData(q);
-        /*table.addComponent(new RecipeTableComponent("Cereal Soup", "Main Dish"));
-        table.addComponent(new RecipeTableComponent("Donut", "Sweet Bakery"));
-        table.addComponent(new RecipeTableComponent("Scrabbled eggs", "Breakfast"));
 
-        table.addComponent(new RecipeTableComponent("Schnitzel", "Main Dish"));
-        table.addComponent(new RecipeTableComponent("Watermelon", "Fruit"));
-        table.addComponent(new RecipeTableComponent("Strawberry Milk Shake", "Breakfast"));
+        ingredientsTable.addData(new Ingredient("vejce", 80, new Unit("gram")));
+        ingredientsTable.addData(new Ingredient("muka", 48, new Unit("gram")));
+        ingredientsTable.addData(new Ingredient("potato", 48, new Unit("gram")));
 
-        table.addComponent(new RecipeTableComponent("Vepro, knedlo, zelo", "Main Dish"));
-        table.addComponent(new RecipeTableComponent("Apple Pie", "Sweet Bakery"));
-        table.addComponent(new RecipeTableComponent("Coffee with chocolate ice cream", "Sweet"));*/
+        unitsTable.addData(new Unit("gram"));
+        unitsTable.addData(new Unit("kilogram"));
+        unitsTable.addData(new Unit("liter"));
 
-
-        return List.of(
-                new Tab(new JScrollPane(recipesTable), "Recipes", Icons.ADD_ICON, "Recipes"),
-                new Tab(new JScrollPane(new JTable()), "Ingredients", "Ingredients"),
-                new Tab(new JScrollPane(new JTable()), "Units", Icons.EDIT_ICON, "Units")
-        );
+        categoriesTable.addData(new RecipeCategory("snidane", null));
+        categoriesTable.addData(new RecipeCategory("obed", null));
     }
 
     private JFrame createFrame() {

@@ -1,11 +1,14 @@
 package cz.muni.fi.pv168.project.model;
 
+import cz.muni.fi.pv168.project.ui.dialog.IngredientDialog;
+import cz.muni.fi.pv168.project.ui.model.IngredientTableComponent;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class Ingredient {
+public class Ingredient extends AbstractUserItemData {
     private final int ingredientId;
     private String name;
 
