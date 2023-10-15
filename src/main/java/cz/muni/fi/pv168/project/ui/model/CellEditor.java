@@ -20,7 +20,7 @@ public class CellEditor extends AbstractCellEditor implements TableCellEditor {
 
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        EntityDialog dialog;
+        EntityDialog<AbstractUserItemData> dialog;
 
         currentValue = (AbstractUserItemData) value;
         Class<?> valueClass = value.getClass();
