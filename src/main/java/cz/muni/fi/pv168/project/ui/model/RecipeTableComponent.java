@@ -73,7 +73,7 @@ public class RecipeTableComponent extends AbstractTableComponent {
         JPanel nutritionPanel = new JPanel();
         portionsPanel.setLayout(new BoxLayout(portionsPanel, BoxLayout.Y_AXIS));
 
-        JLabel nutritionIconLabel = new JLabel(Icons.PORTION_ICON);
+        JLabel nutritionIconLabel = new JLabel(Icons.NUTRTIONS_ICON);
         CustomLabel nutritionLabel = new CustomLabel("Nutrition value: " + recipe.getNutritionalValue() + " Kcal");
         nutritionPanel.add(nutritionIconLabel);
         nutritionPanel.add(nutritionLabel);
