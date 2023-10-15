@@ -72,8 +72,14 @@ public class CustomTable<T> extends JTable {
         model = new DefaultTableModel(INITIAL_ROWS_NUMBER, INITIAL_COLUMNS_NUMBER);
         model.setColumnIdentifiers(new String[]{name});
         setModel(model);
-        getColumnModel().getColumn(0).setCellEditor(editor);
+
+        // Set your custom cell renderer
         getColumnModel().getColumn(0).setCellRenderer(renderer);
+
+        // Use the new cell renderer to highlight selected cells
+        getColumnModel().getColumn(0).setCellRenderer(new CellRendererExtension(renderer));
+
+        getColumnModel().getColumn(0).setCellEditor(editor);
     }
 
     /**
@@ -144,7 +150,6 @@ public class CustomTable<T> extends JTable {
         // Clear the selection
         clearSelection();
     }
-
 
     private class DeleteKeyListener extends KeyAdapter {
         @Override
