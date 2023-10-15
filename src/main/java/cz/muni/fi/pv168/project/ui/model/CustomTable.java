@@ -33,16 +33,33 @@ public class CustomTable<T> extends JTable {
 
     private ListSelectionModel selectionModel;
 
+    private int rowHeight;
+
     /**
      * Creates a new CustomTable.
      *
      * @param tableName name of the table
+     * @param editor editor for editing table cells (called components)
+     * @param renderer renderer to render table cells
      */
     public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer) {
+        this(tableName, editor, renderer, 80);
+    }
 
+    /**
+     * Creates a new CustomTable.
+     *
+     * @param tableName name of the table
+     * @param editor editor for editing table cells (called components)
+     * @param renderer renderer to render table cells
+     * @param rowHeight height of one row (component)
+     */
+    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, int rowHeight) {
         this.name = tableName;
         this.editor = editor;
         this.renderer = renderer;
+        this.rowHeight = rowHeight;
+
         initModel();
         designTable();
         addMouseListener(new DoubleClickListener());
@@ -57,9 +74,10 @@ public class CustomTable<T> extends JTable {
 
     private void designTable() {
 
-        final int rowHeight = 80;
         final int rowMargin = 20;
+        final int columnMargin = 32;
 
+        getColumnModel().setColumnMargin(columnMargin);
         setRowHeight(rowHeight);
         setRowMargin(rowMargin);
     }
@@ -158,5 +176,15 @@ public class CustomTable<T> extends JTable {
                 deleteSelectedCells();
             }
         }
+    }
+
+    @Override
+    public int getRowHeight() {
+        return rowHeight;
+    }
+
+    @Override
+    public void setRowHeight(int rowHeight) {
+        this.rowHeight = rowHeight;
     }
 }

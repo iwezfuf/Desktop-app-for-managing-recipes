@@ -41,7 +41,7 @@ public class MainWindow {
         var departmentListModel = new DepartmentListModel(testDataGenerator.getDepartments());
 
 
-        CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new CellEditor(), new CellRenderer());
+        CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new CellEditor(), new CellRenderer(), 130);
         CustomTable<Ingredient> ingredientsTable = new CustomTable<>("My Ingredients", new CellEditor(), new CellRenderer());
         CustomTable<Unit> unitsTable = new CustomTable<>("My Units", new CellEditor(), new CellRenderer());
         CustomTable<RecipeCategory> categoriesTable = new CustomTable<>("My Categories", new CellEditor(), new CellRenderer());
