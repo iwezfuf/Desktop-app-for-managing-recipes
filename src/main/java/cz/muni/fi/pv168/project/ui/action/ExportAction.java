@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 public final class ExportAction extends AbstractAction {
 
     public ExportAction() {
-        super("Export", Icons.DELETE_ICON);
+        super("Export", Icons.EXPORT_ICON);
         putValue(SHORT_DESCRIPTION, "Exports data from file");
 //        putValue(MNEMONIC_KEY, KeyEvent.VK_Q);
     }

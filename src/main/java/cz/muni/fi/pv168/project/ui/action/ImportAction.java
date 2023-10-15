@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 public final class ImportAction extends AbstractAction {
 
     public ImportAction() {
-        super("Import", Icons.ADD_ICON);
+        super("Import", Icons.IMPORT_ICON);
         putValue(SHORT_DESCRIPTION, "Imports data from file");
 //        putValue(MNEMONIC_KEY, KeyEvent.VK_Q);
     }

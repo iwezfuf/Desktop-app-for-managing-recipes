@@ -2,13 +2,7 @@ package cz.muni.fi.pv168.project.ui;
 
 import cz.muni.fi.pv168.project.data.TestDataGenerator;
 import cz.muni.fi.pv168.project.model.*;
-import cz.muni.fi.pv168.project.ui.action.AddIngredientAction;
-import cz.muni.fi.pv168.project.ui.action.AddRecipeAction;
-import cz.muni.fi.pv168.project.ui.action.DeleteAction;
-import cz.muni.fi.pv168.project.ui.action.EditAction;
-import cz.muni.fi.pv168.project.ui.action.ExportAction;
-import cz.muni.fi.pv168.project.ui.action.ImportAction;
-import cz.muni.fi.pv168.project.ui.action.QuitAction;
+import cz.muni.fi.pv168.project.ui.action.*;
 import cz.muni.fi.pv168.project.ui.model.*;
 import cz.muni.fi.pv168.project.ui.model.CellEditor;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
@@ -29,6 +23,8 @@ public class MainWindow {
     private final Action exportAction = new ExportAction();
     private final Action addRecipeAction;
     private final Action addIngredientAction;
+    private final Action addCategoryAction;
+    private final Action addUnitAction;
     private final Action deleteAction;
     private final Action editAction;
 
@@ -48,6 +44,8 @@ public class MainWindow {
 
         addRecipeAction = new AddRecipeAction(recipesTable);
         addIngredientAction = new AddIngredientAction(ingredientsTable);
+        addCategoryAction = new AddCategoryAction(categoriesTable);
+        addUnitAction = new AddUnitAction(unitsTable);
         deleteAction = new DeleteAction(employeeTable);
         editAction = new EditAction(employeeTable, departmentListModel);
 
@@ -56,10 +54,10 @@ public class MainWindow {
         fillTables(recipesTable, ingredientsTable, unitsTable, categoriesTable); // Only for debugging purposes
 
         List<Tab> tabs = List.of(
-                new Tab(new JScrollPane(recipesTable), "Recipes", Icons.ADD_ICON, "Recipes"),
-                new Tab(new JScrollPane(ingredientsTable), "Ingredients", "Ingredients"),
-                new Tab(new JScrollPane(unitsTable), "Units", Icons.EDIT_ICON, "Units"),
-                new Tab(new JScrollPane(categoriesTable), "Categories", Icons.EDIT_ICON, "Categories")
+                new Tab(new JScrollPane(recipesTable), "Recipes", Icons.BOOK_ICON, "Recipes"),
+                new Tab(new JScrollPane(ingredientsTable), "Ingredients", Icons.FRIDGE_ICON, "Ingredients"),
+                new Tab(new JScrollPane(unitsTable), "Units", Icons.WEIGHTS_ICON, "Units"),
+                new Tab(new JScrollPane(categoriesTable), "Categories", Icons.CATEGORY_ICON, "Categories")
         );
 
         frame.add(createTabbedPanes(tabs), BorderLayout.CENTER);
@@ -125,6 +123,10 @@ public class MainWindow {
         editMenu.add(addRecipeAction);
         editMenu.addSeparator();
         editMenu.add(addIngredientAction);
+        editMenu.addSeparator();
+        editMenu.add(addCategoryAction);
+        editMenu.addSeparator();
+        editMenu.add(addUnitAction);
         editMenu.addSeparator();
         editMenu.add(quitAction);
         menuBar.add(editMenu);
