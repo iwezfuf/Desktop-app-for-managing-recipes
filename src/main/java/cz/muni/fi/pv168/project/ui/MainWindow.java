@@ -72,14 +72,25 @@ public class MainWindow {
         frame.setVisible(true);
     }
 
-    private void fillTables(CustomTable<Recipe> recipesTable, CustomTable<Ingredient> ingredientsTable, CustomTable<Unit> unitsTable, CustomTable<RecipeCategory> categoriesTable) {
+    private void fillTables(CustomTable<Recipe> recipesTable,
+                            CustomTable<Ingredient> ingredientsTable,
+                            CustomTable<Unit> unitsTable,
+                            CustomTable<RecipeCategory> categoriesTable) {
+
         Map<Ingredient, Integer> ingredients = new HashMap<>();
-        ingredients.put(new Ingredient("vejce", 80, new Unit("gram")), 20);
-        Recipe r = new Recipe("xd", "xd", 20, 5, "xd", null, ingredients);
-        Recipe q = new Recipe("oves", "oves", 48, 1, "-", null, ingredients);
+
+        RecipeCategory breakfast = new RecipeCategory("snidane", Color.orange);
+        RecipeCategory lunch = new RecipeCategory("obed", Color.pink);
+
+        categoriesTable.addData(breakfast);
+        categoriesTable.addData(lunch);
+
+        Recipe r = new Recipe("Ovesna kase", "Great breakfast.", 5, 2, "1. make it", breakfast, ingredients);
+        Recipe q = new Recipe("Rizek", "Traditional healthy dish.", 90, 5, "1. kill pig", lunch, ingredients);
         recipesTable.addData(r);
         recipesTable.addData(q);
 
+        ingredients.put(new Ingredient("vejce", 80, new Unit("gram")), 20);
         ingredientsTable.addData(new Ingredient("vejce", 80, new Unit("gram")));
         ingredientsTable.addData(new Ingredient("muka", 48, new Unit("gram")));
         ingredientsTable.addData(new Ingredient("potato", 48, new Unit("gram")));
@@ -87,9 +98,6 @@ public class MainWindow {
         unitsTable.addData(new Unit("gram"));
         unitsTable.addData(new Unit("kilogram"));
         unitsTable.addData(new Unit("liter"));
-
-        categoriesTable.addData(new RecipeCategory("snidane", Color.orange));
-        categoriesTable.addData(new RecipeCategory("obed", Color.pink));
     }
 
     private JFrame createFrame() {
