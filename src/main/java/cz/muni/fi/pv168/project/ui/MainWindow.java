@@ -85,7 +85,13 @@ public class MainWindow {
         categoriesTable.addData(breakfast);
         categoriesTable.addData(lunch);
 
-        Recipe r = new Recipe("Ovesna kase", "Great breakfast.", 5, 2, "1. make it", breakfast, ingredients);
+        Recipe r = new Recipe("Ovesna kase",
+                "Ovesná kaše, or Czech oatmeal porridge, is a beloved breakfast dish in Czech cuisine.",
+                5,
+                2,
+                "1. make it",
+                breakfast,
+                ingredients);
         Recipe q = new Recipe("Rizek", "Traditional healthy dish.", 90, 5, "1. kill pig", lunch, ingredients);
         recipesTable.addData(r);
         recipesTable.addData(q);
