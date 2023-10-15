@@ -65,7 +65,7 @@ public class MainWindow {
         frame.add(createTabbedPanes(tabs), BorderLayout.CENTER);
         frame.add(createToolbar(), BorderLayout.BEFORE_FIRST_LINE);
         frame.setJMenuBar(createMenuBar());
-        frame.setMinimumSize(new Dimension(800, 600));
+        frame.setMinimumSize(new Dimension(1200, 600));
     }
 
     public void show() {
