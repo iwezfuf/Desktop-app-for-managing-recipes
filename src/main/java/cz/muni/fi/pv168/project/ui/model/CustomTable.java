@@ -9,7 +9,10 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,6 +31,8 @@ public class CustomTable<T> extends JTable {
     private int editingRow = -1;
     private int editingColumn = -1;
 
+    private ListSelectionModel selectionModel;
+
     /**
      * Creates a new CustomTable.
      *
@@ -41,6 +46,13 @@ public class CustomTable<T> extends JTable {
         initModel();
         designTable();
         addMouseListener(new DoubleClickListener());
+
+        // Initialize the selection model for the table
+        selectionModel = getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+        // Add a key listener for the "Delete" key
+        addKeyListener(new DeleteKeyListener());
     }
 
     private void designTable() {
@@ -108,6 +120,37 @@ public class CustomTable<T> extends JTable {
             } else {
                 editingRow = -1;
                 editingColumn = -1;
+            }
+        }
+    }
+
+    /**
+     * Deletes the selected cells from the table.
+     */
+    public void deleteSelectedCells() {
+        int[] selectedRows = getSelectedRows();
+        Arrays.sort(selectedRows);
+
+        // int[] selectedColumns = getSelectedColumns(); // not used
+
+        int rowsDeleted = 0;
+        for (int row : selectedRows) {
+            if (row >= 0) {
+                model.removeRow(row - rowsDeleted);
+                rowsDeleted++;
+            }
+        }
+
+        // Clear the selection
+        clearSelection();
+    }
+
+
+    private class DeleteKeyListener extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                deleteSelectedCells();
             }
         }
     }
