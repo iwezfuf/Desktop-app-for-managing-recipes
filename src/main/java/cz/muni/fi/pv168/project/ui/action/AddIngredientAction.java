@@ -20,9 +20,9 @@ import java.util.Set;
 
 public final class AddIngredientAction extends AbstractAction {
 
-    private final CustomTable table;
+    private final CustomTable<Ingredient> table;
 
-    public AddIngredientAction(CustomTable table) {
+    public AddIngredientAction(CustomTable<Ingredient> table) {
         super("Add ingredient", Icons.ADD_ICON);
         this.table = table;
         putValue(SHORT_DESCRIPTION, "Adds new ingredient");
@@ -32,7 +32,7 @@ public final class AddIngredientAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        IngredientDialog dialog = new IngredientDialog(new Ingredient("Potatoes", 100, new Unit("kg")));
+        IngredientDialog dialog = new IngredientDialog(new Ingredient("...", 0, null));
         dialog.show(table, "Add Ingredient").ifPresent(table::addData); // throws errors until table for ingredients is created
     }
 }
