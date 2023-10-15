@@ -13,7 +13,9 @@ public class RecipeCategory extends AbstractUserItemData { // TODO probably must
     private Color color;
     public static final List<RecipeCategory> listOfCategories = new ArrayList<>(
             List.of(new RecipeCategory("Meat", Color.RED),
-                    new RecipeCategory("Vegetables", Color.GREEN)
+                    new RecipeCategory("Vegetables", Color.GREEN),
+                    new RecipeCategory("snidane", Color.orange),
+                    new RecipeCategory("obed", Color.pink)
             ));
 
     public RecipeCategory(String categoryName, Color categoryColor) {

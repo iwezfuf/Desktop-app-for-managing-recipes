@@ -18,8 +18,11 @@ public class Ingredient extends AbstractUserItemData {
 
     public static final List<Ingredient> listOfIngredients = new ArrayList<>(
             List.of(new Ingredient("Eggplant", 5, Unit.listOfUnits.get(0)),
-                    new Ingredient("Egg", 5, Unit.listOfUnits.get(1)
-            )));
+                    new Ingredient("Egg", 5, Unit.listOfUnits.get(1)),
+                    new Ingredient("vejce", 80, Unit.listOfUnits.get(0)),
+                    new Ingredient("muka", 48, Unit.listOfUnits.get(0)),
+                    new Ingredient("potato", 48, Unit.listOfUnits.get(0))
+            ));
 
     public Ingredient(String name, int nutritionalValue, Unit unit) {
         this.ingredientId = idCounter++;

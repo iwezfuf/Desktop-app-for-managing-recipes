@@ -74,22 +74,23 @@ public class MainWindow {
 
     private void fillTables(CustomTable<Recipe> recipesTable, CustomTable<Ingredient> ingredientsTable, CustomTable<Unit> unitsTable, CustomTable<RecipeCategory> categoriesTable) {
         Map<Ingredient, Integer> ingredients = new HashMap<>();
-        ingredients.put(new Ingredient("vejce", 80, new Unit("gram")), 20);
+        ingredients.put(Ingredient.listOfIngredients.get(2), 20);
         Recipe r = new Recipe("xd", "xd", 20, 5, "xd", null, ingredients);
         Recipe q = new Recipe("oves", "oves", 48, 1, "-", null, ingredients);
         recipesTable.addData(r);
         recipesTable.addData(q);
 
-        ingredientsTable.addData(new Ingredient("vejce", 80, new Unit("gram")));
-        ingredientsTable.addData(new Ingredient("muka", 48, new Unit("gram")));
-        ingredientsTable.addData(new Ingredient("potato", 48, new Unit("gram")));
+        for (Ingredient ingredient : Ingredient.listOfIngredients) {
+            ingredientsTable.addData(ingredient);
+        }
 
-        unitsTable.addData(new Unit("gram"));
-        unitsTable.addData(new Unit("kilogram"));
-        unitsTable.addData(new Unit("liter"));
+        for (Unit unit : Unit.listOfUnits) {
+            unitsTable.addData(unit);
+        }
 
-        categoriesTable.addData(new RecipeCategory("snidane", Color.orange));
-        categoriesTable.addData(new RecipeCategory("obed", Color.pink));
+        for (RecipeCategory category : RecipeCategory.listOfCategories) {
+            categoriesTable.addData(category);
+        }
     }
 
     private JFrame createFrame() {
