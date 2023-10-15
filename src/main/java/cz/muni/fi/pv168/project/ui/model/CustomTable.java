@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class representing custom table where individual rows are represented by
+ * Class representing a custom table where individual rows are represented by
  * own custom classes.
  *
  * @author Marek Eibel
@@ -25,9 +25,11 @@ public class CustomTable<T> extends JTable {
 
     private TableCellEditor editor;
     private TableCellRenderer renderer;
+    private int editingRow = -1;
+    private int editingColumn = -1;
 
     /**
-     * Creates new CustomTable.
+     * Creates a new CustomTable.
      *
      * @param tableName name of the table
      */
@@ -38,6 +40,7 @@ public class CustomTable<T> extends JTable {
         this.renderer = renderer;
         initModel();
         designTable();
+        addMouseListener(new DoubleClickListener());
     }
 
     private void designTable() {
@@ -73,12 +76,39 @@ public class CustomTable<T> extends JTable {
     }
 
     /**
-     * Gets name of the table.
+     * Gets the name of the table.
      *
      * @return name of the table
      */
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return row == editingRow && column == editingColumn;
+    }
+
+    private class DoubleClickListener extends MouseAdapter {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            int row = rowAtPoint(e.getPoint());
+            int column = columnAtPoint(e.getPoint());
+            if (e.getClickCount() == 2) {
+                editingRow = row;
+                editingColumn = column;
+                if (row >= 0 && column >= 0) {
+                    editCellAt(row, column);
+                    Component editorComponent = getEditorComponent();
+                    if (editorComponent != null) {
+                        editorComponent.requestFocusInWindow();
+                    }
+                }
+            } else {
+                editingRow = -1;
+                editingColumn = -1;
+            }
+        }
     }
 }
