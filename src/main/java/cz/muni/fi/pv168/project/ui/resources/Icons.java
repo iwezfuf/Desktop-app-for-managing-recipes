@@ -4,13 +4,17 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.net.URL;
 
+/**
+ * Groups all icons used in th application.
+ */
 public final class Icons {
 
     public static final Icon DELETE_ICON = createIcon("Crystal_Clear_action_button_cancel.png");
     public static final Icon EDIT_ICON = createIcon("Crystal_Clear_action_edit.png");
     public static final Icon ADD_ICON = createIcon("Crystal_Clear_action_edit_add.png");
     public static final Icon QUIT_ICON = createIcon("Crystal_Clear_action_exit.png");
-
+    public static final Icon PORTION_ICON = createIcon("Portion.png");
+    public static  final Icon NUTRTIONS_ICON = createIcon("Nutrition.png");
     public static final Icon TIME_ICON = createIcon("Clock.png");
 
     private Icons() {
