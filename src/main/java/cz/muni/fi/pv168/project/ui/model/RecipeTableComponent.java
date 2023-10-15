@@ -58,7 +58,8 @@ public class RecipeTableComponent extends AbstractTableComponent {
         portionsPanel.setLayout(new BoxLayout(portionsPanel, BoxLayout.Y_AXIS));
 
         JLabel portionsIconLabel = new JLabel(Icons.PORTION_ICON);
-        CustomLabel portionsLabel = new CustomLabel("Portions: " + recipe.getNumOfServings());
+        String portions = recipe.getNumOfServings() == 1 ? "portion" : "portions";
+        CustomLabel portionsLabel = new CustomLabel(recipe.getNumOfServings() + " " + portions);
         portionsPanel.add(portionsIconLabel);
         portionsPanel.add(portionsLabel);
 
@@ -74,7 +75,7 @@ public class RecipeTableComponent extends AbstractTableComponent {
         portionsPanel.setLayout(new BoxLayout(portionsPanel, BoxLayout.Y_AXIS));
 
         JLabel nutritionIconLabel = new JLabel(Icons.NUTRTIONS_ICON);
-        CustomLabel nutritionLabel = new CustomLabel("Nutrition value: " + recipe.getNutritionalValue() + " Kcal");
+        CustomLabel nutritionLabel = new CustomLabel(recipe.getNutritionalValue() + " Kcal");
         nutritionPanel.add(nutritionIconLabel);
         nutritionPanel.add(nutritionLabel);
 
@@ -90,7 +91,7 @@ public class RecipeTableComponent extends AbstractTableComponent {
         portionsPanel.setLayout(new BoxLayout(portionsPanel, BoxLayout.Y_AXIS));
 
         JLabel preparationIconLabel = new JLabel(Icons.TIME_ICON);
-        CustomLabel preparationLabel = new CustomLabel("Preparation time: " + recipe.getPreparationTime() + " minutes");
+        CustomLabel preparationLabel = new CustomLabel(recipe.getPreparationTime() + " minutes");
         preparationPanel.add(preparationIconLabel);
         preparationPanel.add(preparationLabel);
 
