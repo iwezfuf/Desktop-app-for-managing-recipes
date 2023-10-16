@@ -16,13 +16,23 @@ public class IngredientTableComponent extends AbstractTableComponent {
         this.ingredient = ingredient;
 
         setLayout(new GridBagLayout());
+        setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 15));
         setBackground(Color.orange);
 
         JPanel textPanel = new JPanel();
         textPanel.setBackground(Color.orange);
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
-        JLabel nameLabel = new JLabel(ingredient.getName());
+        CustomLabel nameLabel = new CustomLabel(ingredient.getName());
+        nameLabel.makeBold();
+        nameLabel.setFontSize(28);
+
+        CustomLabel descriptionLabel = new CustomLabel(ingredient.getNutritionalValue() + " kcal");
+        descriptionLabel.makeItalic();
+        descriptionLabel.setFontSize(14);
+
         textPanel.add(nameLabel);
+        textPanel.add(descriptionLabel);
+
         GridBagConstraints textPanelConstraints = new GridBagConstraints();
         textPanelConstraints.fill = GridBagConstraints.BOTH;
         textPanelConstraints.gridy = 0;

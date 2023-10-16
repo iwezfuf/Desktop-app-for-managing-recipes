@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.project.model.RecipeCategory;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import java.awt.*;
 
 public class RecipeCategoryTableComponent extends AbstractTableComponent {
     private RecipeCategory recipeCategory;
@@ -11,12 +12,22 @@ public class RecipeCategoryTableComponent extends AbstractTableComponent {
     public RecipeCategoryTableComponent(RecipeCategory recipeCategory) {
         this.recipeCategory = recipeCategory;
 
+        setLayout(new GridBagLayout());
+        setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 15));
+        setBackground(Color.getHSBColor(0.2f, 0.4f, 0.9f));
+
 //        Border border = BorderFactory.createLineBorder(recipeCategory.getColor(), 1);
 //        setBorder(border);
         setBackground(recipeCategory.getColor());
 
+        JPanel textPanel = new JPanel();
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        JLabel nameLabel = new JLabel(recipeCategory.getName());
+        CustomLabel nameLabel = new CustomLabel(recipeCategory.getName());
+        nameLabel.makeBold();
+        nameLabel.setFontSize(28);
+
         add(nameLabel);
     }
 }
