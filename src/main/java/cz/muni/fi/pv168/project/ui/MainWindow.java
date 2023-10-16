@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.project.ui;
 
-import cz.muni.fi.pv168.project.data.TestDataGenerator;
 import cz.muni.fi.pv168.project.model.*;
 import cz.muni.fi.pv168.project.ui.action.*;
 import cz.muni.fi.pv168.project.ui.model.*;
@@ -25,16 +24,10 @@ public class MainWindow {
     private final Action addIngredientAction;
     private final Action addCategoryAction;
     private final Action addUnitAction;
-    private final Action deleteAction;
-    private final Action editAction;
 
     public MainWindow() {
 
         frame = createFrame();
-
-        var testDataGenerator = new TestDataGenerator();
-        var employeeTable = createEmployeeTable(testDataGenerator.createTestEmployees(10));
-        var departmentListModel = new DepartmentListModel(testDataGenerator.getDepartments());
 
 
         CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new CellEditor(), new CellRenderer(), 130);
@@ -46,10 +39,6 @@ public class MainWindow {
         addIngredientAction = new AddIngredientAction(ingredientsTable);
         addCategoryAction = new AddCategoryAction(categoriesTable);
         addUnitAction = new AddUnitAction(unitsTable);
-        deleteAction = new DeleteAction(employeeTable);
-        editAction = new EditAction(employeeTable, departmentListModel);
-
-        employeeTable.setComponentPopupMenu(createEmployeeTablePopupMenu());
 
         fillTables(recipesTable, ingredientsTable, unitsTable, categoriesTable); // Only for debugging purposes
 
@@ -111,23 +100,6 @@ public class MainWindow {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         return frame;
-    }
-
-    private JTable createEmployeeTable(List<Employee> employees) {
-        var model = new EmployeeTableModel(employees);
-        var table = new JTable(model);
-        table.setAutoCreateRowSorter(true);
-        table.getSelectionModel().addListSelectionListener(this::rowSelectionChanged);
-        var genderComboBox = new JComboBox<>(Gender.values());
-        table.setDefaultEditor(Gender.class, new DefaultCellEditor(genderComboBox));
-        return table;
-    }
-
-    private JPopupMenu createEmployeeTablePopupMenu() {
-        var menu = new JPopupMenu();
-        menu.add(deleteAction);
-        menu.add(editAction);
-        return menu;
     }
 
     private JMenuBar createMenuBar() {
