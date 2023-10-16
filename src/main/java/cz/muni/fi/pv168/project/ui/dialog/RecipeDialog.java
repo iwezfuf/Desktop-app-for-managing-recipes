@@ -72,7 +72,6 @@ public class RecipeDialog extends EntityDialog<Recipe> {
 
                 recipe.addIngredient(selectedIngredient, amount);
                 addToIngredientsPanel(selectedIngredient, amount);
-                System.out.println(recipe.getIngredients());
             }
         });
     }
@@ -134,7 +133,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
             for (Component panel : ingredientsPanel.getComponents()) {
                 if (panel instanceof JPanel) {
                     var ingredientLabel = ((JLabel)((JPanel) panel).getComponents()[0]);
-                    if (ingredientLabel.getText().equals(ingredient.getName())) {
+                    if (ingredientLabel.getText().equals(ingredient.toString())) {
                         var amountLabel = ((JLabel)((JPanel) panel).getComponents()[1]);
                         amountLabel.setText(String.valueOf(Integer.parseInt(amountLabel.getText()) + amount));
                         ingredientsPanel.revalidate();
@@ -162,7 +161,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.weightx = 2;
-        panel.add(new JLabel(ingredient.getName()), gbc);
+        panel.add(new JLabel(ingredient.toString()), gbc);
 
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;

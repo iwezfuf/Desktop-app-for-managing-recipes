@@ -61,6 +61,6 @@ public class Ingredient extends AbstractUserItemData {
 
     @Override
     public String toString() {
-        return this.name;
+        return this.name + " [" + this.unit + "]";
     }
 }
