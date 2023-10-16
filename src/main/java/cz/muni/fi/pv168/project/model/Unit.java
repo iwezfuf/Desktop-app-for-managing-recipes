@@ -1,9 +1,5 @@
 package cz.muni.fi.pv168.project.model;
 
-import cz.muni.fi.pv168.project.ui.dialog.UnitDialog;
-import cz.muni.fi.pv168.project.ui.model.UnitTableComponent;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +9,7 @@ public class Unit extends AbstractUserItemData {
     private final int id;
     private static int idCounter = 0;
     private Unit conversionUnit;
-    private int ratio;
+    private int conversionRatio;
 
     public static List<Unit> listOfUnits;
 
@@ -30,7 +26,7 @@ public class Unit extends AbstractUserItemData {
         this.name = name;
         this.id = Unit.idCounter++;
         this.conversionUnit = conversionUnit;
-        this.ratio = ratio;
+        this.conversionRatio = ratio;
 //        listOfUnits.add(this);
     }
 
@@ -50,12 +46,12 @@ public class Unit extends AbstractUserItemData {
         this.conversionUnit = conversionUnit;
     }
 
-    public void setRatio(int ratio) {
-        this.ratio = ratio;
+    public void setConversionRatio(int conversionRatio) {
+        this.conversionRatio = conversionRatio;
     }
 
-    public int getRatio() {
-        return ratio;
+    public int getConversionRatio() {
+        return conversionRatio;
     }
 
     public int getUnitId() {

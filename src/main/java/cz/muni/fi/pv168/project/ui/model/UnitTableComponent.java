@@ -1,28 +1,46 @@
 package cz.muni.fi.pv168.project.ui.model;
 
 import cz.muni.fi.pv168.project.model.Unit;
+import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
 import java.awt.*;
 
-// TODO better design
 public class UnitTableComponent extends AbstractTableComponent {
-    private Unit unit;
+
+    private final Unit unit;
 
     public UnitTableComponent(Unit unit) {
         this.unit = unit;
 
-        setBackground(Color.orange);
-        //var bl = new BoxLayout(this, BoxLayout.X_AXIS);
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        JLabel nameLabel = new JLabel(unit.getName());
-        add(nameLabel);
-        JLabel conversionUnitLabel = new JLabel(unit.getConversionUnit() != null ? unit.getConversionUnit().getName() : "Base unit");
-        add(conversionUnitLabel);
+        setLayout(new GridBagLayout());
+        setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 15));
+        setBackground(Color.getHSBColor(0.2f, 0.4f, 0.9f));
 
-        if (unit.getConversionUnit() != null) {
-            JLabel ratioLabel = new JLabel("1 " + unit.getName() + " = " + unit.getConversionUnit().getRatio());
-            add(ratioLabel);
-        }
+        JPanel textPanel = new JPanel();
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+
+        CustomLabel nameLabel = new CustomLabel(unit.getName());
+        nameLabel.makeBold();
+        nameLabel.setFontSize(28);
+
+        CustomLabel descriptionLabel = new CustomLabel(" ≈ " + unit.getConversionRatio() + " " + unit.getConversionUnit());
+        descriptionLabel.makeItalic();
+        descriptionLabel.setFontSize(14);
+
+        textPanel.add(nameLabel);
+        textPanel.add(descriptionLabel);
+
+        GridBagConstraints textPanelConstraints = new GridBagConstraints();
+        textPanelConstraints.fill = GridBagConstraints.BOTH;
+        textPanelConstraints.gridy = 0;
+        textPanelConstraints.gridx = 0;
+        textPanelConstraints.weightx = 50;
+        textPanel.setOpaque(false);
+        add(textPanel, textPanelConstraints);
+    }
+
+    public Unit getUnit() {
+        return unit;
     }
 }

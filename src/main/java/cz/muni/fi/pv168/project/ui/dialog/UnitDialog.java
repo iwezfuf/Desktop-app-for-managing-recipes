@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
-import cz.muni.fi.pv168.project.model.Ingredient;
 import cz.muni.fi.pv168.project.model.Unit;
 
 import javax.swing.*;
@@ -50,7 +49,7 @@ public class UnitDialog extends EntityDialog<Unit> {
         unit.setName(nameTextField.getText());
 
         unit.setConversionUnit(convUnit);
-        unit.setRatio((int) ratioSpinner.getValue());
+        unit.setConversionRatio((int) ratioSpinner.getValue());
 
         return unit;
     }
