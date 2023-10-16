@@ -10,7 +10,6 @@ import java.net.URL;
 public final class Icons {
 
     public static final Icon DELETE_ICON = createIcon("xmark-solid.png");
-    public static final Icon EDIT_ICON = createIcon("Crystal_Clear_action_edit.png");
     public static final Icon ADD_ICON = createIcon("plus-solid.png");
     public static final Icon QUIT_ICON = createIcon("power-off-solid.png");
     public static final Icon IMPORT_ICON = createIcon("file-import-solid.png");
