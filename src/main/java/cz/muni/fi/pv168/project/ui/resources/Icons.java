@@ -22,6 +22,7 @@ public final class Icons {
     public static final Icon PORTION_ICON = createIcon("Portion.png");
     public static  final Icon NUTRTIONS_ICON = createIcon("Nutrition.png");
     public static final Icon TIME_ICON = createIcon("Clock.png");
+    public static final Icon APP_ICON = createIcon("recipe.png");
 
     private Icons() {
         throw new AssertionError("This class is not instantiable");

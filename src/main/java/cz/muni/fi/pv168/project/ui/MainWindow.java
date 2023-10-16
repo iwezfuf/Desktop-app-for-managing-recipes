@@ -107,6 +107,7 @@ public class MainWindow {
 
     private JFrame createFrame() {
         var frame = new JFrame("Easy Food Recipe Book");
+        frame.setIconImage(((ImageIcon) Icons.APP_ICON).getImage());
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
