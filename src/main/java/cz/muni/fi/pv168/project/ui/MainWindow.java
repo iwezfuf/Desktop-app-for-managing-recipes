@@ -37,7 +37,7 @@ public class MainWindow {
         var departmentListModel = new DepartmentListModel(testDataGenerator.getDepartments());
 
 
-        CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new CellEditor(), new CellRenderer());
+        CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new CellEditor(), new CellRenderer(), 130);
         CustomTable<Ingredient> ingredientsTable = new CustomTable<>("My Ingredients", new CellEditor(), new CellRenderer());
         CustomTable<Unit> unitsTable = new CustomTable<>("My Units", new CellEditor(), new CellRenderer());
         CustomTable<RecipeCategory> categoriesTable = new CustomTable<>("My Categories", new CellEditor(), new CellRenderer());
@@ -63,18 +63,32 @@ public class MainWindow {
         frame.add(createTabbedPanes(tabs), BorderLayout.CENTER);
         frame.add(createToolbar(), BorderLayout.BEFORE_FIRST_LINE);
         frame.setJMenuBar(createMenuBar());
-        frame.setMinimumSize(new Dimension(800, 600));
+        frame.setMinimumSize(new Dimension(1200, 600));
     }
 
     public void show() {
         frame.setVisible(true);
     }
 
-    private void fillTables(CustomTable<Recipe> recipesTable, CustomTable<Ingredient> ingredientsTable, CustomTable<Unit> unitsTable, CustomTable<RecipeCategory> categoriesTable) {
+    private void fillTables(CustomTable<Recipe> recipesTable,
+                            CustomTable<Ingredient> ingredientsTable,
+                            CustomTable<Unit> unitsTable,
+                            CustomTable<RecipeCategory> categoriesTable) {
+
         Map<Ingredient, Integer> ingredients = new HashMap<>();
+
         ingredients.put(Ingredient.listOfIngredients.get(2), 20);
-        Recipe r = new Recipe("xd", "xd", 20, 5, "xd", null, ingredients);
-        Recipe q = new Recipe("oves", "oves", 48, 1, "-", null, ingredients);
+        RecipeCategory breakfast = new RecipeCategory("snidane", Color.orange);
+        RecipeCategory lunch = new RecipeCategory("obed", Color.pink);
+
+        Recipe r = new Recipe("Ovesna kase",
+                "Ovesná kaše, or Czech oatmeal porridge, is a beloved breakfast dish in Czech cuisine.",
+                5,
+                2,
+                "1. make it",
+                breakfast,
+                ingredients);
+        Recipe q = new Recipe("Rizek", "Traditional healthy dish.", 90, 5, "1. kill pig", lunch, ingredients);
         recipesTable.addData(r);
         recipesTable.addData(q);
 

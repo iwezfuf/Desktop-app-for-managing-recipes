@@ -4,6 +4,9 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.net.URL;
 
+/**
+ * Groups all icons used in th application.
+ */
 public final class Icons {
 
     public static final Icon DELETE_ICON = createIcon("xmark-solid.png");
@@ -16,6 +19,8 @@ public final class Icons {
     public static final Icon CATEGORY_ICON = createIcon("category.png");
     public static final Icon BOOK_ICON = createIcon("book-solid.png");
     public static final Icon WEIGHTS_ICON = createIcon("scale-unbalanced-flip-solid.png");
+    public static final Icon PORTION_ICON = createIcon("Portion.png");
+    public static  final Icon NUTRTIONS_ICON = createIcon("Nutrition.png");
     public static final Icon TIME_ICON = createIcon("Clock.png");
 
     private Icons() {
