@@ -113,6 +113,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         labelConstraints.gridx = 0;
         labelConstraints.weightx = 1;
         labelConstraints.weighty = weighty;
+        Insets spacing = new Insets(5, 5, 5, 5);
+        labelConstraints.insets = spacing; // Set the insets for the label
         centerPanel.add(label, labelConstraints);
 
         GridBagConstraints componentConstraints = new GridBagConstraints();
@@ -121,8 +123,10 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         componentConstraints.gridx = 1;
         componentConstraints.weightx = 3;
         componentConstraints.weighty = weighty;
+        componentConstraints.insets = spacing; // Set the insets for the component
         centerPanel.add(component, componentConstraints);
     }
+
 
     private void addToIngredientsPanel(Ingredient ingredient, int amount) {
         // update only the amount
