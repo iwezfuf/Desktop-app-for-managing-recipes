@@ -47,7 +47,7 @@ public class UnitDialog extends EntityDialog<Unit> {
     @Override
     Unit getEntity() {
         Unit convUnit = (Unit) unitComboBox.getSelectedItem();
-        unit.setName(nameTextField.getName());
+        unit.setName(nameTextField.getText());
 
         unit.setConversionUnit(convUnit);
         unit.setRatio((int) ratioSpinner.getValue());
