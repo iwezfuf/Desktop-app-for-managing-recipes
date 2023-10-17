@@ -65,4 +65,18 @@ public class Ingredient extends AbstractUserItemData {
     public String toString() {
         return this.name + " [" + this.unit.getAbbreviation() + "]";
     }
+
+    public int getRecipeCount(List<Recipe> recipes) {
+        int count = 0;
+        for (Recipe recipe : recipes) {
+            if (recipe.containsIngredient(this)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int getRecipeCountPercentage(List<Recipe> recipes) {
+        return (int) Math.round((double) getRecipeCount(recipes) / recipes.size() * 100);
+    }
 }

@@ -3,6 +3,8 @@ package cz.muni.fi.pv168.project.model;
 import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
 import cz.muni.fi.pv168.project.ui.model.RecipeTableComponent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,6 +26,11 @@ public class Recipe extends AbstractUserItemData {
      * Represents pairs ingredientId : ingredient amount
      */
     private Map<Ingredient, Integer> ingredients;
+    private static List<Recipe> listOfRecipes = new ArrayList<>();
+
+    public static List<Recipe> getListOfRecipes() {
+        return listOfRecipes;
+    }
 
     public Recipe(String name, String description, int preparationTime, int numOfServings,
                   String instructions, RecipeCategory category, Map<Ingredient, Integer> ingredients) {
@@ -36,6 +43,10 @@ public class Recipe extends AbstractUserItemData {
         this.instructions = instructions;
         this.category = category;
         this.ingredients = ingredients;
+        if (listOfRecipes == null) {
+            listOfRecipes = new ArrayList<>();
+        }
+        listOfRecipes.add(this);
     }
 
     public int getRecipeId() {
@@ -128,6 +139,10 @@ public class Recipe extends AbstractUserItemData {
 
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+
+    public static int getNumOfRecipes() {
+        return listOfRecipes.size();
     }
 
 }
