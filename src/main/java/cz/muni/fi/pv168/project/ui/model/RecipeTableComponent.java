@@ -38,7 +38,7 @@ public class RecipeTableComponent extends AbstractTableComponent {
         nameLabel.makeBold();
         nameLabel.setFontSize(32);
 
-        CustomLabel descriptionLabel = new CustomLabel(" ~ " + recipe.getDescription());
+        CustomLabel descriptionLabel = new CustomLabel((recipe.getDescription().isEmpty()) ? "" : " ~ " + recipe.getDescription());
         descriptionLabel.makeItalic();
         descriptionLabel.setFontSize(14);
 
