@@ -17,7 +17,9 @@ import java.util.Map;
 
 public class UserItemClasses {
     static final Map<Class<? extends AbstractUserItemData>, Class<? extends Component>> componentMap = new HashMap<>();
-    static final Map<Class<? extends  AbstractUserItemData>, Class<? extends EntityDialog>> dialogMap = new HashMap<>();
+    public static final Map<Class<? extends  AbstractUserItemData>, Class<? extends EntityDialog>> dialogMap = new HashMap<>();
+
+    public static final Map<Class<? extends  AbstractUserItemData>, AbstractUserItemData> defaultValuesMap = new HashMap<>();
 
 static {
     componentMap.put(Recipe.class, RecipeTableComponent.class);
@@ -29,5 +31,11 @@ static {
     dialogMap.put(Ingredient.class, IngredientDialog.class);
     dialogMap.put(Unit.class, UnitDialog.class);
     dialogMap.put(RecipeCategory.class, RecipeCategoryDialog.class);
+
+    defaultValuesMap.put(Recipe.class, new Recipe("", "", 0, 0,
+            "", new RecipeCategory("", Color.BLACK), new HashMap<Ingredient, Integer>()));
+    defaultValuesMap.put(RecipeCategory.class, new RecipeCategory("", Color.BLACK));
+    defaultValuesMap.put(Ingredient.class, new Ingredient("", 0, new Unit("Base unit", null, -1)));
+    defaultValuesMap.put(Unit.class, new Unit("Base unit", null, -1));
     }
 }
