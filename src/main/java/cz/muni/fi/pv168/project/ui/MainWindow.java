@@ -7,6 +7,8 @@ import cz.muni.fi.pv168.project.ui.model.CellEditor;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.util.HashMap;
@@ -20,25 +22,21 @@ public class MainWindow {
     private final Action quitAction = new QuitAction();
     private final Action importAction = new ImportAction();
     private final Action exportAction = new ExportAction();
-    private final Action addRecipeAction;
-    private final Action addIngredientAction;
-    private final Action addCategoryAction;
-    private final Action addUnitAction;
+
+    private final AddAction addAction;
+
+    private final DeleteAction deleteAction;
 
     public MainWindow() {
-
         frame = createFrame();
 
+        CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new CellEditor(), new CellRenderer(), Recipe.class, 130);
+        CustomTable<Ingredient> ingredientsTable = new CustomTable<>("My Ingredients", new CellEditor(), new CellRenderer(), Ingredient.class);
+        CustomTable<Unit> unitsTable = new CustomTable<>("My Units", new CellEditor(), new CellRenderer(), Unit.class);
+        CustomTable<RecipeCategory> categoriesTable = new CustomTable<>("My Categories", new CellEditor(), new CellRenderer(), RecipeCategory.class);
 
-        CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new CellEditor(), new CellRenderer(), 130);
-        CustomTable<Ingredient> ingredientsTable = new CustomTable<>("My Ingredients", new CellEditor(), new CellRenderer());
-        CustomTable<Unit> unitsTable = new CustomTable<>("My Units", new CellEditor(), new CellRenderer());
-        CustomTable<RecipeCategory> categoriesTable = new CustomTable<>("My Categories", new CellEditor(), new CellRenderer());
-
-        addRecipeAction = new AddRecipeAction(recipesTable);
-        addIngredientAction = new AddIngredientAction(ingredientsTable);
-        addCategoryAction = new AddCategoryAction(categoriesTable);
-        addUnitAction = new AddUnitAction(unitsTable);
+        addAction = new AddAction(recipesTable);
+        deleteAction = new DeleteAction(recipesTable);
 
         fillTables(recipesTable, ingredientsTable, unitsTable, categoriesTable); // Only for debugging purposes
 
@@ -107,13 +105,10 @@ public class MainWindow {
         var menuBar = new JMenuBar();
         var editMenu = new JMenu("Edit");
         editMenu.setMnemonic('e');
-        editMenu.add(addRecipeAction);
+
+        editMenu.add(addAction);
         editMenu.addSeparator();
-        editMenu.add(addIngredientAction);
-        editMenu.addSeparator();
-        editMenu.add(addCategoryAction);
-        editMenu.addSeparator();
-        editMenu.add(addUnitAction);
+        editMenu.add(deleteAction);
         editMenu.addSeparator();
         editMenu.add(quitAction);
         menuBar.add(editMenu);
@@ -123,6 +118,9 @@ public class MainWindow {
     private JToolBar createToolbar() {
         var toolbar = new JToolBar();
         toolbar.add(quitAction);
+        toolbar.addSeparator();
+        toolbar.add(addAction);
+        toolbar.add(deleteAction);
         toolbar.addSeparator();
         toolbar.add(importAction);
         toolbar.addSeparator();
@@ -136,6 +134,13 @@ public class MainWindow {
         for (Tab tab : tabbedPanesList) {
             tabbedPane.addTab(tab.getName(), tab.getIcon(), tab.getComponent(), tab.getTooltip());
         }
+
+        tabbedPane.addChangeListener(e -> {
+            JScrollPane selectedComponent = (JScrollPane) tabbedPane.getSelectedComponent();
+            CustomTable<? extends AbstractUserItemData> currentTable = (CustomTable<? extends AbstractUserItemData>) (((JViewport) selectedComponent.getComponent(0)).getComponent(0));
+            addAction.setCurrentTable(currentTable);
+            deleteAction.setCurrentTable(currentTable);
+        });
 
         return tabbedPane;
     }
