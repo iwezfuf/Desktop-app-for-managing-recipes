@@ -175,7 +175,7 @@ public class CustomTable<T> extends JTable {
 
     public void editSelectedCell() {
         if (selectionModel.getSelectedItemsCount() != 1) {
-            System.out.println("Select one cell to edit.");
+            new JOptionPane().showMessageDialog(null, "Please select exactly one item to edit.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         int selectedRow = getSelectedRow();
