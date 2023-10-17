@@ -26,7 +26,7 @@ public class IngredientTableComponent extends AbstractTableComponent {
         nameLabel.makeBold();
         nameLabel.setFontSize(28);
 
-        CustomLabel descriptionLabel = new CustomLabel(ingredient.getNutritionalValue() + " kcal");
+        CustomLabel descriptionLabel = new CustomLabel(ingredient.getNutritionalValue() + " kcal / " + ingredient.getUnit().getName());
         descriptionLabel.makeItalic();
         descriptionLabel.setFontSize(14);
 
