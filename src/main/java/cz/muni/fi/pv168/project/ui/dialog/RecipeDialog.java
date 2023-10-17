@@ -21,7 +21,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     private final SpinnerModel portionsModel = new SpinnerNumberModel(2, 0, 100, 1);
     private final JSpinner numberOfServingsSpinner = new JSpinner(portionsModel);
 
-    private final JSlider preparationTimeSlider = new JSlider(JSlider.HORIZONTAL, 0, 120, 60);
+    private final JTextField preparationTimeTextField = new JTextField();
     private final JComboBox<RecipeCategory> recipeCategoryComboBox = new JComboBox<>();
     private final JComboBox<Ingredient> ingredientComboBox = new JComboBox<>();
     private final SpinnerModel ingredientsModel = new SpinnerNumberModel(1, 1, 1000, 1);
@@ -53,10 +53,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         this.briefDescriptionTextArea.setRows(5);
         briefDescriptionTextArea.setLineWrap(true);
         briefDescriptionTextArea.setWrapStyleWord(true);
-        this.preparationTimeSlider.setMajorTickSpacing(10);
-        this.preparationTimeSlider.setMinorTickSpacing(1);
-        this.preparationTimeSlider.setPaintTicks(true);
-        this.preparationTimeSlider.setPaintLabels(true);
+        this.preparationTimeTextField.setColumns(600);
+        limitComponentToOneRow(preparationTimeTextField);
         this.instructionsTextArea.setRows(10);
         instructionsTextArea.setLineWrap(true);
         instructionsTextArea.setWrapStyleWord(true);
@@ -90,7 +88,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         recipeNameTextField.setText(recipe.getName());
         briefDescriptionTextArea.setText(recipe.getDescription());
         numberOfServingsSpinner.setValue(recipe.getNumOfServings());
-        preparationTimeSlider.setValue(recipe.getPreparationTime());
+        preparationTimeTextField.setText(recipe.getPreparationTime() + "");
 
         if (recipe.getCategory() != null) {
             recipeCategoryComboBox.setSelectedItem(recipe.getCategory());
@@ -192,7 +190,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         addToCenterPanel("Recipe name:", recipeNameTextField, 1);
         addToCenterPanel("Brief description:", briefDescriptionTextArea, 1);
         addToCenterPanel("Number of servings:", numberOfServingsSpinner, 1);
-        addToCenterPanel("Preparation time [min.]:", preparationTimeSlider, 1);
+        addToCenterPanel("Preparation time [min.]:", preparationTimeTextField, 1);
         addToCenterPanel("Recipe category:", recipeCategoryComboBox, 1);
 
         var panel = new JPanel();
@@ -215,7 +213,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         recipe.setName(recipeNameTextField.getText());
         recipe.setDescription(briefDescriptionTextArea.getText());
         recipe.setNumOfServings((int)numberOfServingsSpinner.getValue());
-        recipe.setPreparationTime(preparationTimeSlider.getValue());
+        recipe.setPreparationTime(Integer.parseInt(preparationTimeTextField.getText()));
         recipe.setCategory((RecipeCategory)recipeCategoryComboBox.getSelectedItem());
         // ingredients are added/removed on button click
         recipe.setInstructions(instructionsTextArea.getText());
