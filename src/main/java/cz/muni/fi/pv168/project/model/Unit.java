@@ -11,23 +11,21 @@ public class Unit extends AbstractUserItemData {
     private Unit conversionUnit;
     private int conversionRatio;
 
-    public static List<Unit> listOfUnits;
-
-    static {
-        listOfUnits = new ArrayList<>(
-                List.of(new Unit("gram", null, -1),
-                        new Unit("millilitre", null, -1)
-                ));
-        listOfUnits.add(new Unit("kilogram", listOfUnits.get(0), 1000));
-        listOfUnits.add(new Unit("litre", listOfUnits.get(1), 1000));
+    public static List<Unit> getListOfUnits() {
+        return listOfUnits;
     }
+
+    private static List<Unit> listOfUnits = new ArrayList<>();
 
     public Unit(String name, Unit conversionUnit, int ratio) {
         this.name = name;
         this.id = Unit.idCounter++;
         this.conversionUnit = conversionUnit;
         this.conversionRatio = ratio;
-//        listOfUnits.add(this);
+        if (listOfUnits == null) {
+            listOfUnits = new ArrayList<>();
+        }
+        listOfUnits.add(this);
     }
 
     public String getName() {

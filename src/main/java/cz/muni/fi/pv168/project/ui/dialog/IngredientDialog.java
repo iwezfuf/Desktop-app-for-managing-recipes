@@ -33,7 +33,7 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
         nameTextField.setText(ingredient.getName());
         nutritionalValueSlider.setValue(ingredient.getNutritionalValue());
 
-        for (Unit unit : Unit.listOfUnits) {
+        for (Unit unit : Unit.getListOfUnits()) {
             unitComboBox.addItem(unit);
         }
 

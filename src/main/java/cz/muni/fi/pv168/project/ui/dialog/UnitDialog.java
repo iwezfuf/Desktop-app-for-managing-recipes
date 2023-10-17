@@ -23,7 +23,7 @@ public class UnitDialog extends EntityDialog<Unit> {
     }
 
     private void setValues() {
-        for (Unit unit : Unit.listOfUnits) {
+        for (Unit unit : Unit.getListOfUnits()) {
             unitComboBox.addItem(unit);
         }
         Unit baseUnit = new Unit("Base", null, -1);

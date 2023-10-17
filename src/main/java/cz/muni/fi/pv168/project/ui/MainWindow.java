@@ -62,11 +62,23 @@ public class MainWindow {
                             CustomTable<Unit> unitsTable,
                             CustomTable<RecipeCategory> categoriesTable) {
 
-        Map<Ingredient, Integer> ingredients = new HashMap<>();
-
-        ingredients.put(Ingredient.listOfIngredients.get(2), 20);
         RecipeCategory breakfast = new RecipeCategory("snidane", Color.orange);
         RecipeCategory lunch = new RecipeCategory("obed", Color.pink);
+
+        Unit gram = new Unit("gram", null, 1);
+        Unit kilogram = new Unit("kilogram", gram, 1000);
+
+        Ingredient oatmeal = new Ingredient("oatmeal", 100, gram);
+        Ingredient milk = new Ingredient("milk", 100, gram);
+        Ingredient breadCrumbs = new Ingredient("bread crumbs", 100, gram);
+
+        Map<Ingredient, Integer> ingredientsOatMeal = new HashMap<>();
+        ingredientsOatMeal.put(oatmeal, 100);
+        ingredientsOatMeal.put(milk, 100);
+
+        Map<Ingredient, Integer> ingredientsRizek = new HashMap<>();
+        ingredientsRizek.put(breadCrumbs, 100);
+
 
         Recipe r = new Recipe("Ovesna kase",
                 "Ovesná kaše, or Czech oatmeal porridge, is a beloved breakfast dish in Czech cuisine.",
@@ -74,20 +86,20 @@ public class MainWindow {
                 2,
                 "1. make it",
                 breakfast,
-                ingredients);
-        Recipe q = new Recipe("Rizek", "Traditional healthy dish.", 90, 5, "1. kill pig", lunch, ingredients);
+                ingredientsOatMeal);
+        Recipe q = new Recipe("Rizek", "Traditional healthy dish.", 90, 5, "1. kill pig", lunch, ingredientsRizek);
         recipesTable.addData(r);
         recipesTable.addData(q);
 
-        for (Ingredient ingredient : Ingredient.listOfIngredients) {
+        for (Ingredient ingredient : Ingredient.getListOfIngredients()) {
             ingredientsTable.addData(ingredient);
         }
 
-        for (Unit unit : Unit.listOfUnits) {
+        for (Unit unit : Unit.getListOfUnits()) {
             unitsTable.addData(unit);
         }
 
-        for (RecipeCategory category : RecipeCategory.listOfCategories) {
+        for (RecipeCategory category : RecipeCategory.getListOfCategories()) {
             categoriesTable.addData(category);
         }
     }

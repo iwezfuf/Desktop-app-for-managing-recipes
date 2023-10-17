@@ -11,17 +11,15 @@ import java.util.List;
 public class RecipeCategory extends AbstractUserItemData { // TODO probably must be reimplement it
     private String name;
     private Color color;
-    public static final List<RecipeCategory> listOfCategories = new ArrayList<>(
-            List.of(new RecipeCategory("Meat", Color.RED),
-                    new RecipeCategory("Vegetables", Color.GREEN),
-                    new RecipeCategory("snidane", Color.orange),
-                    new RecipeCategory("obed", Color.pink)
-            ));
+    private static List<RecipeCategory> listOfCategories = new ArrayList<>();
 
     public RecipeCategory(String categoryName, Color categoryColor) {
         this.name = categoryName;
         this.color = categoryColor;
-//        listOfCategories.add(this);
+        if (listOfCategories == null) {
+            listOfCategories = new ArrayList<>();
+        }
+        listOfCategories.add(this);
     }
 
     public static List<RecipeCategory> getListOfCategories() {

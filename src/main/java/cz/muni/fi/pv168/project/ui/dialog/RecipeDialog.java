@@ -77,11 +77,11 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     }
 
     private void fillComboBoxes() {
-        for (RecipeCategory category : RecipeCategory.listOfCategories) {
+        for (RecipeCategory category : RecipeCategory.getListOfCategories()) {
             recipeCategoryComboBox.addItem(category);
         }
 
-        for (Ingredient ingredient : Ingredient.listOfIngredients) {
+        for (Ingredient ingredient : Ingredient.getListOfIngredients()) {
             ingredientComboBox.addItem(ingredient);
         }
     }
@@ -93,6 +93,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         preparationTimeSlider.setValue(recipe.getPreparationTime());
 
         if (recipe.getCategory() != null) {
+            System.out.println(recipe.getCategory());
             recipeCategoryComboBox.setSelectedItem(recipe.getCategory());
         }
 
