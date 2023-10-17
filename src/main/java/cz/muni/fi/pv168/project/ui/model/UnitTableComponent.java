@@ -24,7 +24,12 @@ public class UnitTableComponent extends AbstractTableComponent {
         nameLabel.makeBold();
         nameLabel.setFontSize(28);
 
-        CustomLabel descriptionLabel = new CustomLabel(" ≈ " + unit.getConversionRatio() + " " + unit.getConversionUnit());
+        CustomLabel descriptionLabel;
+        if (!unit.isBaseUnit()) {
+            descriptionLabel = new CustomLabel(" ≈ " + unit.getConversionRatio() + " " + unit.getConversionUnit().getName());
+        } else {
+            descriptionLabel = new CustomLabel("Base unit");
+        }
         descriptionLabel.makeItalic();
         descriptionLabel.setFontSize(14);
 

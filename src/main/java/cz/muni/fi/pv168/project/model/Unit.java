@@ -61,4 +61,8 @@ public class Unit extends AbstractUserItemData {
         return getName();
     }
 
+    public boolean isBaseUnit() {
+        return conversionUnit == null;
+    }
+
 }

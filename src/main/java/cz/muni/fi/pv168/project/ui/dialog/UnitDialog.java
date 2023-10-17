@@ -39,7 +39,7 @@ public class UnitDialog extends EntityDialog<Unit> {
         unitComboBox.addItem(baseUnit);
 
         nameTextField.setText(unit.getName());
-        if (unit.getConversionUnit() != null) {
+        if (!unit.isBaseUnit()) {
             unitComboBox.setSelectedItem(unit.getConversionUnit());
         } else {
             unitComboBox.setSelectedItem(baseUnit);
