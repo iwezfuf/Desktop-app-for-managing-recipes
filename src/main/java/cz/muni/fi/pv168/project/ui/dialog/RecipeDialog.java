@@ -93,7 +93,6 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         preparationTimeSlider.setValue(recipe.getPreparationTime());
 
         if (recipe.getCategory() != null) {
-            System.out.println(recipe.getCategory());
             recipeCategoryComboBox.setSelectedItem(recipe.getCategory());
         }
 
