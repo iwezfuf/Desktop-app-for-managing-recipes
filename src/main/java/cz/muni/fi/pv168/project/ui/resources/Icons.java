@@ -14,7 +14,7 @@ public final class Icons {
     public static final Icon QUIT_ICON = createIcon("power-off-solid.png");
     public static final Icon IMPORT_ICON = createIcon("file-import-solid.png");
     public static final Icon EXPORT_ICON = createIcon("file-export-solid.png");
-    public static final Icon FRIDGE_ICON = createIcon("fridge.png");
+    public static final Icon INGREDIENTS_ICON = createIcon("ingredients_small.png");
     public static final Icon CATEGORY_ICON = createIcon("category.png");
     public static final Icon BOOK_ICON = createIcon("book-solid.png");
     public static final Icon WEIGHTS_ICON = createIcon("scale-unbalanced-flip-solid.png");
@@ -22,6 +22,8 @@ public final class Icons {
     public static  final Icon NUTRTIONS_ICON = createIcon("Nutrition.png");
     public static final Icon TIME_ICON = createIcon("Clock.png");
     public static final Icon APP_ICON = createIcon("recipe.png");
+    public static final Icon FILTER_ICON = createIcon("filter.png");
+    public static final Icon CANCEL_FILTER_ICON = createIcon("filter-delete.png");
 
     private Icons() {
         throw new AssertionError("This class is not instantiable");

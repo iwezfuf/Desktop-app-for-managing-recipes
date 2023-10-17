@@ -7,8 +7,6 @@ import cz.muni.fi.pv168.project.ui.model.CellEditor;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.util.HashMap;
@@ -22,6 +20,8 @@ public class MainWindow {
     private final Action quitAction = new QuitAction();
     private final Action importAction = new ImportAction();
     private final Action exportAction = new ExportAction();
+    private final Action filterAction = new FilterAction();
+    private final Action cancelFilterAction = new CancelFilterAction();
 
     private final AddAction addAction;
 
@@ -42,7 +42,7 @@ public class MainWindow {
 
         List<Tab> tabs = List.of(
                 new Tab(new JScrollPane(recipesTable), "Recipes", Icons.BOOK_ICON, "Recipes"),
-                new Tab(new JScrollPane(ingredientsTable), "Ingredients", Icons.FRIDGE_ICON, "Ingredients"),
+                new Tab(new JScrollPane(ingredientsTable), "Ingredients", Icons.INGREDIENTS_ICON, "Ingredients"),
                 new Tab(new JScrollPane(unitsTable), "Units", Icons.WEIGHTS_ICON, "Units"),
                 new Tab(new JScrollPane(categoriesTable), "Categories", Icons.CATEGORY_ICON, "Categories")
         );
@@ -133,6 +133,10 @@ public class MainWindow {
         toolbar.addSeparator();
         toolbar.add(addAction);
         toolbar.add(deleteAction);
+        toolbar.addSeparator();
+        toolbar.add(filterAction);
+        toolbar.addSeparator();
+        toolbar.add(cancelFilterAction);
         toolbar.addSeparator();
         toolbar.add(importAction);
         toolbar.addSeparator();
