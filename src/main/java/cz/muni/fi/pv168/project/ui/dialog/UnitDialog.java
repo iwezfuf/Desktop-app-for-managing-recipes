@@ -4,6 +4,9 @@ import cz.muni.fi.pv168.project.model.Unit;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class UnitDialog extends EntityDialog<Unit> {
     private final JTextField nameTextField = new JTextField();
@@ -13,11 +16,15 @@ public class UnitDialog extends EntityDialog<Unit> {
     private final Unit unit;
 
     public UnitDialog(Unit unit) {
-        super(new Dimension(600, 400));
+        super(new Dimension(600, 200));
         this.unit = unit;
 
         nameTextField.setColumns(600); // Set the number of visible columns (width).
         limitComponentToOneRow(nameTextField);
+
+        unitComboBox.addActionListener(e ->
+                ratioSpinner.setEnabled(!Objects.equals(((Unit) unitComboBox.getSelectedItem()).getName(), "Base unit")));
+
         setValues();
         addFields();
     }
@@ -26,7 +33,9 @@ public class UnitDialog extends EntityDialog<Unit> {
         for (Unit unit : Unit.getListOfUnits()) {
             unitComboBox.addItem(unit);
         }
-        Unit baseUnit = new Unit("Base", null, -1);
+
+        Unit baseUnit = new Unit("Base unit", null, -1);
+        Unit.getListOfUnits().remove(baseUnit);
         unitComboBox.addItem(baseUnit);
 
         nameTextField.setText(unit.getName());
@@ -48,7 +57,7 @@ public class UnitDialog extends EntityDialog<Unit> {
         Unit convUnit = (Unit) unitComboBox.getSelectedItem();
         unit.setName(nameTextField.getText());
 
-        unit.setConversionUnit(convUnit);
+        unit.setConversionUnit(!convUnit.getName().equals("Base unit") ? convUnit : null);
         unit.setConversionRatio((int) ratioSpinner.getValue());
 
         return unit;

@@ -23,7 +23,7 @@ public class RecipeCategory extends AbstractUserItemData { // TODO probably must
     }
 
     public static List<RecipeCategory> getListOfCategories() {
-        return Collections.unmodifiableList(listOfCategories);
+        return listOfCategories;
     }
 
     public String getName() {
