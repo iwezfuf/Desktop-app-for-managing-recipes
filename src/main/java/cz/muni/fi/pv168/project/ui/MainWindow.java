@@ -210,6 +210,10 @@ public class MainWindow {
         editMenu.addSeparator();
         editMenu.add(deleteAction);
         editMenu.addSeparator();
+        editMenu.add(importAction);
+        editMenu.addSeparator();
+        editMenu.add(exportAction);
+        editMenu.addSeparator();
         editMenu.add(quitAction);
         menuBar.add(editMenu);
         return menuBar;
