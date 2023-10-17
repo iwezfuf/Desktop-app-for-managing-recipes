@@ -20,7 +20,7 @@ public class UnitTableComponent extends AbstractTableComponent {
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
 
-        CustomLabel nameLabel = new CustomLabel(unit.getName());
+        CustomLabel nameLabel = new CustomLabel(unit.getFullName());
         nameLabel.makeBold();
         nameLabel.setFontSize(28);
 

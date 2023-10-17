@@ -33,7 +33,7 @@ static {
     dialogMap.put(RecipeCategory.class, RecipeCategoryDialog.class);
 
     var blankCategory = new RecipeCategory("", Color.BLACK);
-    var blankUnit = new Unit("", null, -1);
+    var blankUnit = new Unit("", null, -1, "");
     var blankIngredient = new Ingredient("", 0, blankUnit);
     var blankRecipe = new Recipe("", "", 0, 0,
             "", blankCategory, new HashMap<Ingredient, Integer>());

@@ -23,7 +23,7 @@ public class AddUnitAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        UnitDialog dialog = new UnitDialog(new Unit("Name", null, -1));
+        UnitDialog dialog = new UnitDialog(new Unit("Name", null, -1, ""));
         dialog.show(table, "Add Unity").ifPresent(table::addData); // throws errors until table for ingredients is created
     }
 }

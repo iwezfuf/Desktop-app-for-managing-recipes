@@ -69,16 +69,16 @@ public class MainWindow {
         RecipeCategory snack = new RecipeCategory("snack", Color.yellow);
         RecipeCategory drink = new RecipeCategory("drink", Color.blue);
 
-        Unit gram = new Unit("gram", null, 1);
-        Unit kilogram = new Unit("kilogram", gram, 1000);
-        Unit milliliter = new Unit("milliliter", null, 1);
-        Unit liter = new Unit("liter", milliliter, 1000);
-        Unit deciliter = new Unit("deciliter", milliliter, 100);
-        Unit piece = new Unit("piece", null, 1);
-        Unit dozen = new Unit("dozen", piece, 12);
-        Unit teaspoon = new Unit("teaspoon", milliliter, 5);
-        Unit tablespoon = new Unit("tablespoon", milliliter, 15);
-        Unit cup = new Unit("cup", milliliter, 250);
+        Unit gram = new Unit("gram", null, 1, "g");
+        Unit kilogram = new Unit("kilogram", gram, 1000, "kg");
+        Unit milliliter = new Unit("milliliter", null, 1, "ml");
+        Unit liter = new Unit("liter", milliliter, 1000, "l");
+        Unit deciliter = new Unit("deciliter", milliliter, 100, "dl");
+        Unit piece = new Unit("piece", null, 1, "pcs");
+        Unit dozen = new Unit("dozen", piece, 12, "pcs");
+        Unit teaspoon = new Unit("teaspoon", milliliter, 5, "tsp");
+        Unit tablespoon = new Unit("tablespoon", milliliter, 15, "tbsp");
+        Unit cup = new Unit("cup", milliliter, 250, "cup");
 
         Ingredient oatmeal = new Ingredient("oatmeal", 4, gram);
         Ingredient milk = new Ingredient("milk", 65, liter);

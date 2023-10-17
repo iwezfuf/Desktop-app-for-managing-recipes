@@ -10,6 +10,11 @@ public class Unit extends AbstractUserItemData {
     private static int idCounter = 0;
     private Unit conversionUnit;
     private int conversionRatio;
+    private String abbreviation;
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
 
     public static List<Unit> getListOfUnits() {
         return listOfUnits;
@@ -17,11 +22,12 @@ public class Unit extends AbstractUserItemData {
 
     private static List<Unit> listOfUnits = new ArrayList<>();
 
-    public Unit(String name, Unit conversionUnit, int ratio) {
+    public Unit(String name, Unit conversionUnit, int ratio, String abbreviation) {
         this.name = name;
         this.id = Unit.idCounter++;
         this.conversionUnit = conversionUnit;
         this.conversionRatio = ratio;
+        this.abbreviation = abbreviation;
         if (listOfUnits == null) {
             listOfUnits = new ArrayList<>();
         }
@@ -59,6 +65,10 @@ public class Unit extends AbstractUserItemData {
     @Override
     public String toString() {
         return getName();
+    }
+
+    public String getFullName() {
+        return getName() + " (" + getAbbreviation() + ")";
     }
 
     public boolean isBaseUnit() {

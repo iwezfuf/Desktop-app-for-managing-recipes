@@ -34,7 +34,7 @@ public class UnitDialog extends EntityDialog<Unit> {
             unitComboBox.addItem(unit);
         }
 
-        Unit baseUnit = new Unit("Base unit", null, -1);
+        Unit baseUnit = new Unit("Base unit", null, -1, "");
         Unit.getListOfUnits().remove(baseUnit);
         unitComboBox.addItem(baseUnit);
 
