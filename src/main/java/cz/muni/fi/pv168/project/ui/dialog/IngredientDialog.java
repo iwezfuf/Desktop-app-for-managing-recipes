@@ -11,7 +11,7 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
     private final JTextField nameTextField = new JTextField();
     private final JComboBox<Unit> unitComboBox = new JComboBox<>();
 
-    private final JSlider nutritionalValueSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 100);
+    private final JTextField nutritionalValueTextField = new JTextField();
 
     private final Ingredient ingredient;
 
@@ -21,17 +21,15 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
 
         nameTextField.setColumns(600); // Set the number of visible columns (width).
         limitComponentToOneRow(nameTextField);
-        this.nutritionalValueSlider.setMajorTickSpacing(50);
-        this.nutritionalValueSlider.setMinorTickSpacing(10);
-        this.nutritionalValueSlider.setPaintTicks(true);
-        this.nutritionalValueSlider.setPaintLabels(true);
+        nutritionalValueTextField.setColumns(600);
+        limitComponentToOneRow(nutritionalValueTextField);
         setValues();
         addFields();
     }
 
     private void setValues() {
         nameTextField.setText(ingredient.getName());
-        nutritionalValueSlider.setValue(ingredient.getNutritionalValue());
+        nutritionalValueTextField.setText(ingredient.getNutritionalValue() + "");
 
         for (Unit unit : Unit.getListOfUnits()) {
             unitComboBox.addItem(unit);
@@ -44,7 +42,7 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
 
     private void addFields() {
         add("Ingredient name:", nameTextField);
-        addAsScrollable("Nutritional value: [kcal]", nutritionalValueSlider);
+        add("Nutritional value: [kcal]", nutritionalValueTextField);
         add("Unit:", unitComboBox);
     }
 
@@ -52,7 +50,7 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
     Ingredient getEntity() {
 
         ingredient.setName(nameTextField.getText());
-        ingredient.setNutritionalValue(nutritionalValueSlider.getValue());
+        ingredient.setNutritionalValue(Integer.parseInt(nutritionalValueTextField.getText()));
         ingredient.setUnit((Unit) unitComboBox.getSelectedItem());
 
         return ingredient;
