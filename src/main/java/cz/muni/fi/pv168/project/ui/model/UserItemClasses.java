@@ -32,10 +32,17 @@ static {
     dialogMap.put(Unit.class, UnitDialog.class);
     dialogMap.put(RecipeCategory.class, RecipeCategoryDialog.class);
 
-    defaultValuesMap.put(Recipe.class, new Recipe("", "", 0, 0,
-            "", new RecipeCategory("", Color.BLACK), new HashMap<Ingredient, Integer>()));
-    defaultValuesMap.put(RecipeCategory.class, new RecipeCategory("", Color.BLACK));
-    defaultValuesMap.put(Ingredient.class, new Ingredient("", 0, new Unit("Base unit", null, -1)));
-    defaultValuesMap.put(Unit.class, new Unit("Base unit", null, -1));
+    var blankCategory = new RecipeCategory("", Color.BLACK);
+    var blankUnit = new Unit("", null, -1);
+    var blankIngredient = new Ingredient("", 0, blankUnit);
+    var blankRecipe = new Recipe("", "", 0, 0,
+            "", blankCategory, new HashMap<Ingredient, Integer>());
+    defaultValuesMap.put(Recipe.class, blankRecipe);
+    defaultValuesMap.put(RecipeCategory.class, blankCategory);
+    defaultValuesMap.put(Ingredient.class, blankIngredient);
+    defaultValuesMap.put(Unit.class, blankUnit);
+    Ingredient.getListOfIngredients().remove(blankIngredient);
+    Unit.getListOfUnits().remove(blankUnit);
+    RecipeCategory.getListOfCategories().remove(blankCategory);
     }
 }
