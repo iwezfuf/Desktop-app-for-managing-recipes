@@ -24,8 +24,8 @@ public class MainWindow {
     private final Action cancelFilterAction = new CancelFilterAction();
 
     private final AddAction addAction;
-
     private final DeleteAction deleteAction;
+    private final EditAction editAction;
 
     public MainWindow() {
         frame = createFrame();
@@ -37,6 +37,7 @@ public class MainWindow {
 
         addAction = new AddAction(recipesTable);
         deleteAction = new DeleteAction(recipesTable);
+        editAction = new EditAction(recipesTable);
 
         fillTables(recipesTable, ingredientsTable, unitsTable, categoriesTable); // Only for debugging purposes
 
@@ -208,6 +209,8 @@ public class MainWindow {
 
         editMenu.add(addAction);
         editMenu.addSeparator();
+        editMenu.add(editAction);
+        editMenu.addSeparator();
         editMenu.add(deleteAction);
         editMenu.addSeparator();
         editMenu.add(importAction);
@@ -224,6 +227,9 @@ public class MainWindow {
         toolbar.add(quitAction);
         toolbar.addSeparator();
         toolbar.add(addAction);
+        toolbar.addSeparator();
+        toolbar.add(editAction);
+        toolbar.addSeparator();
         toolbar.add(deleteAction);
         toolbar.addSeparator();
         toolbar.add(filterAction);

@@ -173,6 +173,24 @@ public class CustomTable<T> extends JTable {
         clearSelection();
     }
 
+    public void editSelectedCell() {
+        if (selectionModel.getSelectedItemsCount() != 1) {
+            System.out.println("Select one cell to edit.");
+            return;
+        }
+        int selectedRow = getSelectedRow();
+        int selectedCol = getSelectedColumn();
+        editingRow = selectedRow;
+        editingColumn = selectedCol;
+        editCellAt(selectedRow, selectedCol);
+        Component editorComponent = getEditorComponent();
+        if (editorComponent != null) {
+            editorComponent.requestFocusInWindow();
+        }
+        editingRow = -1;
+        editingColumn = -1;
+    }
+
     private class DeleteKeyListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
