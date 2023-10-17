@@ -33,16 +33,7 @@ public class CustomTable<T> extends JTable {
 
     private int rowHeight;
 
-    /**
-     * Creates a new CustomTable.
-     *
-     * @param tableName name of the table
-     * @param editor editor for editing table cells (called components)
-     * @param renderer renderer to render table cells
-     */
-    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer) {
-        this(tableName, editor, renderer, 80);
-    }
+    private Class<T> typeParameterClass;
 
     /**
      * Creates a new CustomTable.
@@ -50,13 +41,12 @@ public class CustomTable<T> extends JTable {
      * @param tableName name of the table
      * @param editor editor for editing table cells (called components)
      * @param renderer renderer to render table cells
-     * @param rowHeight height of one row (component)
      */
-    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, int rowHeight) {
+    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, Class<T> typeParameterClass) {
         this.name = tableName;
         this.editor = editor;
         this.renderer = renderer;
-        this.rowHeight = rowHeight;
+        this.rowHeight = 80;
 
         initModel();
         designTable();
@@ -68,6 +58,22 @@ public class CustomTable<T> extends JTable {
 
         // Add a key listener for the "Delete" key
         addKeyListener(new DeleteKeyListener());
+
+
+        this.typeParameterClass = typeParameterClass;
+    }
+
+    /**
+     * Creates a new CustomTable.
+     *
+     * @param tableName name of the table
+     * @param editor editor for editing table cells (called components)
+     * @param renderer renderer to render table cells
+     * @param rowHeight height of one row (component)
+     */
+    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, Class<T> typeParameterClass, int rowHeight) {
+        this(tableName, editor, renderer, typeParameterClass);
+        this.rowHeight = rowHeight;
     }
 
     private void designTable() {
@@ -184,5 +190,9 @@ public class CustomTable<T> extends JTable {
     @Override
     public void setRowHeight(int rowHeight) {
         this.rowHeight = rowHeight;
+    }
+
+    public Class<T> getTypeParameterClass() {
+        return typeParameterClass;
     }
 }

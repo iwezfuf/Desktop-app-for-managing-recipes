@@ -31,7 +31,7 @@ public class CellEditor extends AbstractCellEditor implements TableCellEditor {
             throw new RuntimeException("Failed to create dialog.", e);
         }
 
-        dialog.show(null, "Edit").ifPresentOrElse(r -> fireEditingStopped(), this::fireEditingStopped);
+        dialog.show(null, "").ifPresentOrElse(r -> fireEditingStopped(), this::fireEditingStopped);
 
         Class<? extends Component> componentClass = UserItemClasses.componentMap.get(valueClass);
         try {
