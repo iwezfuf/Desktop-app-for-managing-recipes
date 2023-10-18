@@ -141,6 +141,7 @@ public class CustomTable<T> extends JTable {
             int column = columnAtPoint(e.getPoint());
             if (e.getClickCount() == 2) {
                 editCell(row, column);
+                clearSelection();
             }
             if (SwingUtilities.isRightMouseButton(e)) {
                 JPopupMenu popupMenu = new JPopupMenu();
@@ -165,7 +166,10 @@ public class CustomTable<T> extends JTable {
         int[] selectedRows = getSelectedRows();
         Arrays.sort(selectedRows);
 
-        // int[] selectedColumns = getSelectedColumns(); // not used
+        if (selectedRows.length == 0) {
+            new JOptionPane().showMessageDialog(null, "Please select at least one item to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         int rowsDeleted = 0;
         for (int row : selectedRows) {
@@ -185,6 +189,7 @@ public class CustomTable<T> extends JTable {
             return;
         }
         editCell(getSelectedRow(), getSelectedColumn());
+        clearSelection();
     }
 
     public void editCell(int x, int y) {
