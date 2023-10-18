@@ -1,5 +1,9 @@
 package cz.muni.fi.pv168.project.ui.model;
 
+import cz.muni.fi.pv168.project.model.AbstractUserItemData;
+import cz.muni.fi.pv168.project.ui.action.DeleteAction;
+import cz.muni.fi.pv168.project.ui.action.EditAction;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
@@ -136,18 +140,21 @@ public class CustomTable<T> extends JTable {
             int row = rowAtPoint(e.getPoint());
             int column = columnAtPoint(e.getPoint());
             if (e.getClickCount() == 2) {
-                editingRow = row;
-                editingColumn = column;
-                if (row >= 0 && column >= 0) {
-                    editCellAt(row, column);
-                    Component editorComponent = getEditorComponent();
-                    if (editorComponent != null) {
-                        editorComponent.requestFocusInWindow();
-                    }
-                }
-            } else {
-                editingRow = -1;
-                editingColumn = -1;
+                editCell(row, column);
+                clearSelection();
+            }
+            if (SwingUtilities.isRightMouseButton(e)) {
+                JPopupMenu popupMenu = new JPopupMenu();
+                JMenuItem editItem = new JMenuItem("Edit");
+                JMenuItem deleteItem = new JMenuItem("Delete");
+
+                editItem.addActionListener(new EditAction((CustomTable<? extends AbstractUserItemData>) CustomTable.this));
+                deleteItem.addActionListener(new DeleteAction((CustomTable<? extends AbstractUserItemData>) CustomTable.this));
+
+                popupMenu.add(editItem);
+                popupMenu.add(deleteItem);
+
+                popupMenu.show(e.getComponent(), e.getX(), e.getY());
             }
         }
     }
@@ -159,7 +166,10 @@ public class CustomTable<T> extends JTable {
         int[] selectedRows = getSelectedRows();
         Arrays.sort(selectedRows);
 
-        // int[] selectedColumns = getSelectedColumns(); // not used
+        if (selectedRows.length == 0) {
+            new JOptionPane().showMessageDialog(null, "Please select at least one item to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         int rowsDeleted = 0;
         for (int row : selectedRows) {
@@ -178,11 +188,14 @@ public class CustomTable<T> extends JTable {
             new JOptionPane().showMessageDialog(null, "Please select exactly one item to edit.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        int selectedRow = getSelectedRow();
-        int selectedCol = getSelectedColumn();
-        editingRow = selectedRow;
-        editingColumn = selectedCol;
-        editCellAt(selectedRow, selectedCol);
+        editCell(getSelectedRow(), getSelectedColumn());
+        clearSelection();
+    }
+
+    public void editCell(int x, int y) {
+        editingRow = x;
+        editingColumn = y;
+        editCellAt(x, y);
         Component editorComponent = getEditorComponent();
         if (editorComponent != null) {
             editorComponent.requestFocusInWindow();
