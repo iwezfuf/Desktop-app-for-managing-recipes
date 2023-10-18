@@ -54,6 +54,10 @@ public class Unit extends AbstractUserItemData {
         this.conversionRatio = conversionRatio;
     }
 
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
+    }
+
     public int getConversionRatio() {
         return conversionRatio;
     }

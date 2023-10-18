@@ -10,6 +10,7 @@ import java.util.Objects;
 
 public class UnitDialog extends EntityDialog<Unit> {
     private final JTextField nameTextField = new JTextField();
+    private final JTextField abbreviationTextField = new JTextField();
     private final JComboBox<Unit> unitComboBox = new JComboBox<>();
     private final SpinnerModel ratioModel = new SpinnerNumberModel(1, 1, 100000000, 1);
     private final JSpinner ratioSpinner = new JSpinner(ratioModel);
@@ -21,6 +22,8 @@ public class UnitDialog extends EntityDialog<Unit> {
 
         nameTextField.setColumns(600); // Set the number of visible columns (width).
         limitComponentToOneRow(nameTextField);
+        abbreviationTextField.setColumns(600);
+        limitComponentToOneRow(abbreviationTextField);
 
         unitComboBox.addActionListener(e ->
                 ratioSpinner.setEnabled(!Objects.equals(((Unit) unitComboBox.getSelectedItem()).getName(), "Base unit")));
@@ -39,6 +42,7 @@ public class UnitDialog extends EntityDialog<Unit> {
         unitComboBox.addItem(baseUnit);
 
         nameTextField.setText(unit.getName());
+        abbreviationTextField.setText(unit.getAbbreviation());
         if (!unit.isBaseUnit()) {
             unitComboBox.setSelectedItem(unit.getConversionUnit());
         } else {
@@ -48,6 +52,7 @@ public class UnitDialog extends EntityDialog<Unit> {
 
     private void addFields() {
         add("Unit name:", nameTextField);
+        add("Abbreviation:", abbreviationTextField);
         add("Conversion unit: ", unitComboBox);
         add("Conversion ratio: ", ratioSpinner);
     }
@@ -56,6 +61,7 @@ public class UnitDialog extends EntityDialog<Unit> {
     Unit getEntity() {
         Unit convUnit = (Unit) unitComboBox.getSelectedItem();
         unit.setName(nameTextField.getText());
+        unit.setAbbreviation(abbreviationTextField.getText());
 
         unit.setConversionUnit(!convUnit.getName().equals("Base unit") ? convUnit : null);
         unit.setConversionRatio((int) ratioSpinner.getValue());
