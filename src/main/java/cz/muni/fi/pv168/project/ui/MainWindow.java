@@ -20,12 +20,12 @@ public class MainWindow {
     private final Action quitAction = new QuitAction();
     private final Action importAction = new ImportAction();
     private final Action exportAction = new ExportAction();
-    private final Action filterAction = new FilterAction();
-    private final Action cancelFilterAction = new CancelFilterAction();
 
     private final AddAction addAction;
     private final DeleteAction deleteAction;
     private final EditAction editAction;
+    private final FilterAction filterRecipeAction;
+    private final CancelFilterAction cancelFilterRecipeAction;
 
     public MainWindow() {
         frame = createFrame();
@@ -38,6 +38,8 @@ public class MainWindow {
         addAction = new AddAction(recipesTable);
         deleteAction = new DeleteAction(recipesTable);
         editAction = new EditAction(recipesTable);
+        filterRecipeAction = new FilterAction("Recipe", recipesTable);
+        cancelFilterRecipeAction = new CancelFilterAction("Recipe", recipesTable);
 
         fillTables(recipesTable, ingredientsTable, unitsTable, categoriesTable); // Only for debugging purposes
 
@@ -232,9 +234,9 @@ public class MainWindow {
         toolbar.addSeparator();
         toolbar.add(deleteAction);
         toolbar.addSeparator();
-        toolbar.add(filterAction);
+        toolbar.add(filterRecipeAction);
         toolbar.addSeparator();
-        toolbar.add(cancelFilterAction);
+        toolbar.add(cancelFilterRecipeAction);
         toolbar.addSeparator();
         toolbar.add(importAction);
         toolbar.addSeparator();
