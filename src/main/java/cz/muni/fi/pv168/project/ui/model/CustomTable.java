@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.ui.model;
 
 import cz.muni.fi.pv168.project.model.AbstractUserItemData;
+import cz.muni.fi.pv168.project.model.AbstractFilter;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
 
@@ -8,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -30,14 +32,15 @@ public class CustomTable<T> extends JTable {
 
     private TableCellEditor editor;
     private TableCellRenderer renderer;
+    private ListSelectionModel selectionModel;
+    private Class<T> typeParameterClass;
+    private TableRowSorter<DefaultTableModel> rowSorter;
+
     private int editingRow = -1;
     private int editingColumn = -1;
-
-    private ListSelectionModel selectionModel;
-
     private int rowHeight;
 
-    private Class<T> typeParameterClass;
+    // private AbstractFilter filter; // TODO save later on
 
     /**
      * Creates a new CustomTable.
@@ -63,6 +66,9 @@ public class CustomTable<T> extends JTable {
         // Add a key listener for the "Delete" key
         addKeyListener(new DeleteKeyListener());
 
+        // Filtering
+        this.rowSorter = new TableRowSorter<>(model);;
+        setRowSorter(rowSorter);
 
         this.typeParameterClass = typeParameterClass;
     }
@@ -78,6 +84,22 @@ public class CustomTable<T> extends JTable {
     public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, Class<T> typeParameterClass, int rowHeight) {
         this(tableName, editor, renderer, typeParameterClass);
         this.rowHeight = rowHeight;
+    }
+
+    /**
+     * Applies given filter to the table rows.
+     *
+     * @param filter filter to use
+     */
+    public void applyFilter(AbstractFilter filter) {
+        this.rowSorter.setRowFilter(filter.getRowFilter());
+    }
+
+    /**
+     * Cancels the current applied filter.
+     */
+    public void cancelFilter() {
+        this.rowSorter.setRowFilter(null);
     }
 
     private void designTable() {
