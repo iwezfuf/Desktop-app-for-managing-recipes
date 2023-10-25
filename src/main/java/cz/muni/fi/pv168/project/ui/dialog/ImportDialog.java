@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.project.model.ImportType;
 import cz.muni.fi.pv168.project.ui.action.ImportAction;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,7 +53,7 @@ public class ImportDialog extends JDialog {
                 ImportType importType = (ImportType) importTypeComboBox.getSelectedItem();
                 String selectedFile = selectedFileField.getText();
                 if (selectedFile == null || selectedFile.isEmpty()) {
-                    JOptionPane.showMessageDialog(ImportDialog.this, "Please select file to import from.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(ImportDialog.this, "Please select a file to import from.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -88,6 +89,9 @@ public class ImportDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON files", "json");
+                fileChooser.setFileFilter(filter);
+
                 int result = fileChooser.showOpenDialog(ImportDialog.this);
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
