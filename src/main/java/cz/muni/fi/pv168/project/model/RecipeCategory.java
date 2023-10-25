@@ -2,13 +2,15 @@ package cz.muni.fi.pv168.project.model;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
+ * Represents a recipe category.
+ *
  * @author Marek Eibel
  */
-public class RecipeCategory extends AbstractUserItemData { // TODO probably must be reimplement it
+public class RecipeCategory extends AbstractUserItemData { // TODO probably must be reimplemented it
+
     private String name;
     private Color color;
     private static List<RecipeCategory> listOfCategories = new ArrayList<>();
