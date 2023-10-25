@@ -1,26 +1,25 @@
 package cz.muni.fi.pv168.project.model;
 
 /**
+ * Represents data object to hold two integers values representing range.
+ *
  * @author Marek Eibel
  */
 public class Range {
 
     private int min;
     private int max;
-    private int value;
 
     /**
-     * Create Range object holding `value` in range [minimalValue, maximalValue].
+     * Creates Range object holding `value` in range [minimalValue, maximalValue].
      *
-     * @param minimalValue
-     * @param maximalValue
+     * @param minimalValue minimal value
+     * @param maximalValue maximal value
      */
-    Range(int minimalValue, int maximalValue, int value) {
+    public Range(int minimalValue, int maximalValue) {
+
         this.min = minimalValue;
         this.max = maximalValue;
-
-        // TODO make check here
-        this.value = value;
     }
 
     public int getMin() {
@@ -39,11 +38,7 @@ public class Range {
         this.max = max;
     }
 
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
+    public boolean isValueInRange(int value) {
+        return (value >= min && value <= max);
     }
 }
