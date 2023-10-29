@@ -19,7 +19,7 @@ public class EditAction extends AbstractAction {
     private CustomTable table;
 
     public EditAction(CustomTable<? extends AbstractUserItemData> table) {
-        super("Edit", Icons.DELETE_ICON);
+        super("Edit", Icons.EDIT_ICON);
         this.table = table;
         putValue(SHORT_DESCRIPTION, "Edits selected item");
         putValue(MNEMONIC_KEY, KeyEvent.VK_E);

@@ -1,4 +1,5 @@
 package cz.muni.fi.pv168.project.ui.model;
+
 import cz.muni.fi.pv168.project.model.Recipe;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
@@ -7,7 +8,7 @@ import java.awt.*;
 
 /**
  * Represents RecipeTableComponent.
- * This component servers as a structure to show basic information about the recipe
+ * This component serves as a structure to show basic information about the recipe
  * like a name, short description or recipe categories.
  *
  * @author Marek Eibel
@@ -22,113 +23,85 @@ public class RecipeTableComponent extends AbstractTableComponent {
      * @param recipe component displays data about the given recipe
      */
     public RecipeTableComponent(Recipe recipe) {
-
         this.recipe = recipe;
 
+        initComponents();
+        arrangeComponents();
+    }
+
+    private void initComponents() {
         setLayout(new GridBagLayout());
         setBackground(recipe.getCategory().getColor());
-        setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 15));
+    }
 
-        // ------------------------------- //
+    private void arrangeComponents() {
+        add(createTextPanel(), createConstraints(GridBagConstraints.BOTH));
+        add(createPanelWithIconAndLabel(Icons.PORTION_ICON, getPortionsText(), 13), createConstraints(GridBagConstraints.BOTH));
+        add(createPanelWithIconAndLabel(Icons.NUTRTIONS_ICON, recipe.getNutritionalValue() + " Kcal", 12), createConstraints(GridBagConstraints.BOTH));
+        add(createPanelWithIconAndLabel(Icons.TIME_ICON, recipe.getPreparationTime() + " minutes", 15), createConstraints(GridBagConstraints.BOTH));
+        add(createCategoriesPanel(), createCategoriesPanelConstraints());
+    }
 
-        JPanel textPanel = new JPanel();
-        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+    private JPanel createTextPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false);
 
-        CustomLabel nameLabel = new CustomLabel(recipe.getName());
+        CustomLabel nameLabel = new CustomLabel(recipe.getName(), 35);
         nameLabel.makeBold();
-        nameLabel.setFontSize(32);
+        nameLabel.setFontSize(24);
 
-        CustomLabel descriptionLabel = new CustomLabel((recipe.getDescription().isEmpty()) ? "" : " ~ " + recipe.getDescription());
+        CustomLabel descriptionLabel = new CustomLabel((recipe.getDescription().isEmpty()) ? "" : " ~ " + recipe.getDescription(), 58);
         descriptionLabel.makeItalic();
         descriptionLabel.setFontSize(14);
 
-        textPanel.add(nameLabel);
-        textPanel.add(descriptionLabel);
+        panel.add(nameLabel);
+        panel.add(descriptionLabel);
 
-        GridBagConstraints textPanelConstraints = new GridBagConstraints();
-        textPanelConstraints.fill = GridBagConstraints.BOTH;
-        textPanelConstraints.gridy = 0;
-        textPanelConstraints.gridx = 0;
-        // textPanelConstraints.weightx = 2; TODO what to use agree on later
-        textPanelConstraints.weightx = 15;
+        return panel;
+    }
 
-        // ------------------------------- //
+    private JPanel createPanelWithIconAndLabel(Icon icon, String text, int maxCharacters) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false);
 
-        JPanel portionsPanel = new JPanel();
-        portionsPanel.setLayout(new BoxLayout(portionsPanel, BoxLayout.Y_AXIS));
+        JLabel iconLabel = new JLabel(icon);
+        CustomLabel textLabel = new CustomLabel(text, maxCharacters);
 
-        JLabel portionsIconLabel = new JLabel(Icons.PORTION_ICON);
-        String portions = recipe.getNumOfServings() == 1 ? "portion" : "portions";
-        CustomLabel portionsLabel = new CustomLabel(recipe.getNumOfServings() + " " + portions);
-        portionsPanel.add(portionsIconLabel);
-        portionsPanel.add(portionsLabel);
+        panel.add(iconLabel);
+        panel.add(textLabel);
 
-        GridBagConstraints portionsPanelConstraints = new GridBagConstraints();
-        portionsPanelConstraints.fill = GridBagConstraints.BOTH;
-        portionsPanelConstraints.gridy = 0;
-        portionsPanelConstraints.gridx = 1;
-        portionsPanelConstraints.weightx = 1;
+        return panel;
+    }
 
-        // ------------------------------- //
+    private GridBagConstraints createConstraints(int fill) {
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = fill;
+        return constraints;
+    }
 
-        JPanel nutritionPanel = new JPanel();
-        portionsPanel.setLayout(new BoxLayout(portionsPanel, BoxLayout.Y_AXIS));
+    private JPanel createCategoriesPanel() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panel.setOpaque(false);
 
-        JLabel nutritionIconLabel = new JLabel(Icons.NUTRTIONS_ICON);
-        CustomLabel nutritionLabel = new CustomLabel(recipe.getNutritionalValue() + " Kcal");
-        nutritionPanel.add(nutritionIconLabel);
-        nutritionPanel.add(nutritionLabel);
-
-        GridBagConstraints nutritionPanelConstraints = new GridBagConstraints();
-        nutritionPanelConstraints.fill = GridBagConstraints.BOTH;
-        nutritionPanelConstraints.gridy = 0;
-        nutritionPanelConstraints.gridx = 2;
-        nutritionPanelConstraints.weightx = 1;
-
-        // ------------------------------- //
-
-        JPanel preparationPanel = new JPanel();
-        portionsPanel.setLayout(new BoxLayout(portionsPanel, BoxLayout.Y_AXIS));
-
-        JLabel preparationIconLabel = new JLabel(Icons.TIME_ICON);
-        CustomLabel preparationLabel = new CustomLabel(recipe.getPreparationTime() + " minutes");
-        preparationPanel.add(preparationIconLabel);
-        preparationPanel.add(preparationLabel);
-
-        GridBagConstraints preparationPanelConstrains = new GridBagConstraints();
-        preparationPanelConstrains.fill = GridBagConstraints.BOTH;
-        preparationPanelConstrains.gridy = 0;
-        preparationPanelConstrains.gridx = 3;
-        preparationPanelConstrains.weightx = 1;
-
-        // ------------------------------- //
-
-        JPanel categoriesPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        CustomLabel categoriesLabel = new CustomLabel(recipe.getCategory().toString());
+        CustomLabel categoriesLabel = new CustomLabel(recipe.getCategory().toString(), 15);
         categoriesLabel.makeBold();
-        categoriesLabel.makeTextLabelUpperCase();
 
-        categoriesPanel.add(categoriesLabel);
-        GridBagConstraints categoriesPanelConstraints = new GridBagConstraints();
-        categoriesPanelConstraints.fill = GridBagConstraints.BOTH;
-        categoriesPanelConstraints.anchor = GridBagConstraints.FIRST_LINE_END;
-        categoriesPanelConstraints.gridy = 0;
-        categoriesPanelConstraints.gridx = 4;
-        categoriesPanelConstraints.weightx = 1;
+        panel.add(categoriesLabel);
 
-        // ------------------------------- //
+        return panel;
+    }
 
-        textPanel.setOpaque(false);
-        portionsPanel.setOpaque(false);
-        nutritionPanel.setOpaque(false);
-        preparationPanel.setOpaque(false);
-        categoriesPanel.setOpaque(false);
+    private GridBagConstraints createCategoriesPanelConstraints() {
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.anchor = GridBagConstraints.FIRST_LINE_END;
+        return constraints;
+    }
 
-        add(textPanel, textPanelConstraints);
-        add(portionsPanel, portionsPanelConstraints);
-        add(nutritionPanel, nutritionPanelConstraints);
-        add(preparationPanel, preparationPanelConstrains);
-        add(categoriesPanel, categoriesPanelConstraints);
+    private String getPortionsText() {
+        return recipe.getNumOfServings() + " " + (recipe.getNumOfServings() == 1 ? "portion" : "portions");
     }
 
     public Recipe getRecipe() {

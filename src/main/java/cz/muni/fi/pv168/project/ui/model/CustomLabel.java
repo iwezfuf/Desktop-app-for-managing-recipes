@@ -8,10 +8,9 @@ import java.awt.*;
  */
 public class CustomLabel extends JLabel {
 
-    public int MAX_LABEL_TEXT_LENGTH = 67;
-
     public enum Fonts {
-        SEGOE_UI("Segoe UI");
+        SEGOE_UI("Segoe UI"),
+        CONSOLAS("Monospaced");
 
         private final String fontName;
 
@@ -28,14 +27,17 @@ public class CustomLabel extends JLabel {
     private int fontSize;
     private Fonts fontName;
     private int fontFlag;
+    private int maxLength;
     private Font font;
 
-    public CustomLabel(String labelText) {
+    public CustomLabel(String labelText, int maxLength) {
+
+        this.fontSize = 16;
+        this.fontName = Fonts.CONSOLAS;
+        this.fontFlag = Font.PLAIN;
+        this.maxLength = maxLength;
 
         setLabel(labelText);
-        this.fontSize = 18;
-        this.fontName = Fonts.SEGOE_UI;
-        this.fontFlag = Font.PLAIN;
 
         super.setText(this.labelText);
         this.font = new Font(fontName.getFontName(), fontFlag, fontSize);
@@ -67,10 +69,6 @@ public class CustomLabel extends JLabel {
         updateFont();
     }
 
-    public void changeMaxLabelTextLength(int maxLength) {
-        this.MAX_LABEL_TEXT_LENGTH = maxLength;
-    }
-
     public boolean isBold() {
         return this.fontFlag == Font.BOLD;
     }
@@ -84,17 +82,21 @@ public class CustomLabel extends JLabel {
     }
 
     public void setLabel(String labelText) {
-        this.labelText = labelText.substring(0, Math.min(MAX_LABEL_TEXT_LENGTH, labelText.length()));
-        if (this.labelText.length() == MAX_LABEL_TEXT_LENGTH) {
-            this.labelText = labelText.substring(0, MAX_LABEL_TEXT_LENGTH - 3) + "...";
+        if (labelText.length() >= getMaxLength()) {
+            this.labelText = labelText.substring(0, getMaxLength() - 3) + "...";
         }
+        else if (labelText.length() < getMaxLength()) {
+            int numberOfSpaces = getMaxLength() - labelText.length();
+            this.labelText = labelText + " ".repeat(numberOfSpaces);        }
     }
 
     private void updateFont() {
         this.font = new Font(fontName.getFontName(), fontFlag, fontSize);
         setFont(this.font);
         super.setText(this.labelText);
+        repaint();
     }
+
 
     public String getLabelText() {
         return labelText;
@@ -106,5 +108,13 @@ public class CustomLabel extends JLabel {
 
     public Fonts getFontName() {
         return fontName;
+    }
+
+    public int getMaxLength() {
+        return maxLength;
+    }
+
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
     }
 }

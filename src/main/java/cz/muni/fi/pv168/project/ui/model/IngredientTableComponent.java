@@ -22,18 +22,18 @@ public class IngredientTableComponent extends AbstractTableComponent {
         textPanel.setBackground(Color.orange);
         textPanel.setLayout(new GridBagLayout());
 
-        CustomLabel nameLabel = new CustomLabel(ingredient.getName());
+        CustomLabel nameLabel = new CustomLabel(ingredient.getName(), 37);
         nameLabel.makeBold();
-        nameLabel.setFontSize(28);
+        nameLabel.setFontSize(24);
 
-        CustomLabel descriptionLabel = new CustomLabel(ingredient.getNutritionalValue() + " kcal / " + ingredient.getUnit().getName());
+        CustomLabel descriptionLabel = new CustomLabel(ingredient.getNutritionalValue() + " kcal / " + ingredient.getUnit().getName(), 70);
         descriptionLabel.makeItalic();
         descriptionLabel.setFontSize(14);
 
         CustomLabel statisticsLabel = new CustomLabel("Used in " + ingredient.getRecipeCount(Recipe.getListOfRecipes()) +
-                " (" + ingredient.getRecipeCountPercentage(Recipe.getListOfRecipes()) + "%)" + " recipes");
+                " (" + ingredient.getRecipeCountPercentage(Recipe.getListOfRecipes()) + "%)" + " recipes", 40);
         statisticsLabel.makeItalic();
-        statisticsLabel.setFontSize(12);
+        statisticsLabel.setFontSize(16);
 
         GridBagConstraints nameLabelConstraints = new GridBagConstraints();
         nameLabelConstraints.gridx = 0;
