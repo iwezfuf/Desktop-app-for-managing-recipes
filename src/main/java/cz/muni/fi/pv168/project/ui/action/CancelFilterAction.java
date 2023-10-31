@@ -18,6 +18,10 @@ public class CancelFilterAction extends AbstractAction {
         this.table = table;
     }
 
+    public void setCurrentTable(CustomTable<? extends AbstractUserItemData> table) {
+        this.table = table;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         this.table.cancelFilter();
