@@ -24,8 +24,8 @@ public class MainWindow {
     private final AddAction addAction;
     private final DeleteAction deleteAction;
     private final EditAction editAction;
-    private final FilterAction filterRecipeAction;
-    private final CancelFilterAction cancelFilterRecipeAction;
+    private final FilterAction filterAction;
+    private final CancelFilterAction cancelFilterAction;
 
     public MainWindow() {
         frame = createFrame();
@@ -38,8 +38,8 @@ public class MainWindow {
         addAction = new AddAction(recipesTable);
         deleteAction = new DeleteAction(recipesTable);
         editAction = new EditAction(recipesTable);
-        filterRecipeAction = new FilterAction("Recipe", recipesTable);
-        cancelFilterRecipeAction = new CancelFilterAction("Recipe", recipesTable);
+        filterAction = new FilterAction("", recipesTable);
+        cancelFilterAction = new CancelFilterAction("", recipesTable);
 
         fillTables(recipesTable, ingredientsTable, unitsTable, categoriesTable); // Only for debugging purposes
 
@@ -234,9 +234,9 @@ public class MainWindow {
         toolbar.addSeparator();
         toolbar.add(deleteAction);
         toolbar.addSeparator();
-        toolbar.add(filterRecipeAction);
+        toolbar.add(filterAction);
         toolbar.addSeparator();
-        toolbar.add(cancelFilterRecipeAction);
+        toolbar.add(cancelFilterAction);
         toolbar.addSeparator();
         toolbar.add(importAction);
         toolbar.addSeparator();
@@ -256,6 +256,8 @@ public class MainWindow {
             CustomTable<? extends AbstractUserItemData> currentTable = (CustomTable<? extends AbstractUserItemData>) (((JViewport) selectedComponent.getComponent(0)).getComponent(0));
             addAction.setCurrentTable(currentTable);
             deleteAction.setCurrentTable(currentTable);
+            filterAction.setCurrentTable(currentTable);
+            cancelFilterAction.setCurrentTable(currentTable);
         });
 
         return tabbedPane;
