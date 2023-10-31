@@ -1,11 +1,17 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
-import cz.muni.fi.pv168.project.model.Ingredient;
-import cz.muni.fi.pv168.project.model.Range;
-import cz.muni.fi.pv168.project.model.RecipeCategory;
-import cz.muni.fi.pv168.project.model.RecipeFilter;
+import cz.muni.fi.pv168.project.model.*;
+import cz.muni.fi.pv168.project.ui.model.CustomTable;
+import cz.muni.fi.pv168.project.ui.model.Tab;
+import cz.muni.fi.pv168.project.ui.resources.Icons;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a dialog for configuring and applying filters to recipes.
@@ -17,11 +23,62 @@ import java.awt.*;
  */
 public class RecipeFilterDialog extends EntityDialog<RecipeFilter> {
 
+    private final JTabbedPane tabbedPane = new JTabbedPane();
+    private final Set<Ingredient> ingredientsSet = new HashSet<>();
+    private final FilterPanel<Ingredient> ingredientsTabPanel = new FilterPanel<>(ingredientsSet, Ingredient.getListOfIngredients(), "ingredient", "ingredients");
+    private final Set<RecipeCategory> recipeCategoriesSet = new HashSet<>();
+    private final FilterPanel<RecipeCategory> recipeCategoriesTabPanel = new FilterPanel<>(recipeCategoriesSet, RecipeCategory.getListOfCategories(), "recipe category", "recipe categories");
+    private final Range nutritionalRange = new Range(0, 1000000000);
+    private final RangePanel nutritionalValueTabPanel = new RangePanel(nutritionalRange, "Apply filtering by nutritional value", "kcal");
+    private final Range prepTimeRange = new Range(0, 1000000000);
+    private final RangePanel prepTimeTabPanel = new RangePanel(prepTimeRange, "Apply filtering by preparation time", "min.");
+
     /**
      * Creates new RecipeFilterDialog object.
      */
-    public RecipeFilterDialog() {
-        super(new Dimension(800, 600)); // TODO: create dialog
+    public RecipeFilterDialog(AbstractFilter filter) {
+        super(new Dimension(800, 600));
+        this.setLayout(new BorderLayout());
+
+        fillFilter(filter);
+        createTabbedPane(getTabs());
+    }
+
+    private void fillFilter(AbstractFilter filter) {
+        if (filter == null) {
+            return;
+        }
+        RecipeFilter rf = (RecipeFilter) filter;
+        System.out.println(rf.getIngredientsInFilter());
+        System.out.println(rf.getRecipeCategoriesInFilter());
+        ingredientsSet.addAll(rf.getIngredientsInFilter());
+        ingredientsTabPanel.fillFilterPanel(ingredientsSet);
+        recipeCategoriesSet.addAll(rf.getRecipeCategoriesInFilter());
+        recipeCategoriesTabPanel.fillFilterPanel(recipeCategoriesSet);
+        nutritionalRange.setMin(rf.getNutritionValueRange().getMin());
+        nutritionalRange.setMax(rf.getNutritionValueRange().getMax());
+        nutritionalValueTabPanel.fillRange(nutritionalRange);
+        prepTimeRange.setMin(rf.getNutritionValueRange().getMin());
+        prepTimeRange.setMax(rf.getNutritionValueRange().getMax());
+        prepTimeTabPanel.fillRange(prepTimeRange);
+    }
+
+    private List<Tab> getTabs() {
+        List<Tab> tabs = List.of(
+                new Tab(ingredientsTabPanel, "Ingredients", Icons.BOOK_ICON, "Ingredients filter"),
+                new Tab(recipeCategoriesTabPanel, "Recipe categories", Icons.INGREDIENTS_ICON, "Recipe categories filter"),
+                new Tab(nutritionalValueTabPanel, "Nutritional value", Icons.WEIGHTS_ICON, "Nutritional value filter"),
+                new Tab(prepTimeTabPanel, "Preparation time", Icons.CATEGORY_ICON, "Preparation time filter")
+        );
+
+        return tabs;
+    }
+
+    private void createTabbedPane(List<Tab> tabbedPanesList) {
+        this.add(tabbedPane, BorderLayout.CENTER);
+        for (Tab tab : tabbedPanesList) {
+            tabbedPane.addTab(tab.getName(), tab.getIcon(), tab.getComponent(), tab.getTooltip());
+        }
     }
 
     /**
@@ -31,6 +88,6 @@ public class RecipeFilterDialog extends EntityDialog<RecipeFilter> {
      */
     @Override
     RecipeFilter getEntity() {
-        return new RecipeFilter(Ingredient.getListOfIngredients(), RecipeCategory.getListOfCategories(), new Range(10, 300), new Range(0, 120)); // TODO: generate RecipeFilter according to the user input data
+        return new RecipeFilter(ingredientsSet, recipeCategoriesSet, nutritionalRange, prepTimeRange);
     }
 }
