@@ -41,6 +41,16 @@ public abstract class EntityDialog<E> extends JPanel{
         }
     }
 
+    public Optional<E> showWithCustomButtonText(JComponent parentComponent, String title, Object[] selectionValues, Object initialSelectionValue) {
+        int result = JOptionPane.showOptionDialog(parentComponent, this, title,
+                JOptionPane.DEFAULT_OPTION, PLAIN_MESSAGE, null, selectionValues, initialSelectionValue);
+        if (result == OK_OPTION) {
+            return Optional.of(getEntity());
+        } else {
+            return Optional.empty();
+        }
+    }
+
     static void limitComponentToOneRow(JComponent component) { // TODO maybe tmp
         // Limit the preferred and maximum height of the JTextField to one row.
         Dimension preferredSize = component.getPreferredSize();
