@@ -107,6 +107,10 @@ public class Recipe extends AbstractUserItemData {
         return ingredients.entrySet();
     }
 
+    public Set<Ingredient> getIngredientsSet() {
+        return ingredients.keySet();
+    }
+
     public int getNutritionalValue() {
         int result = 0;
         for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
