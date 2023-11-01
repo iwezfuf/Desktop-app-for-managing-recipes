@@ -1,8 +1,8 @@
-package cz.muni.fi.pv168.employees.ui.action;
+package cz.muni.fi.pv168.project.ui.action;
 
-import cz.muni.fi.pv168.project.business.model.Filter;
 import cz.muni.fi.pv168.project.business.service.export.ExportService;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
+import cz.muni.fi.pv168.project.util.FileFilter;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
@@ -40,15 +40,15 @@ public final class ExportAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         var fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-//        exportService.getFormats().forEach(f -> fileChooser.addChoosableFileFilter(new Filter(f)));
+        exportService.getFormats().forEach(f -> fileChooser.addChoosableFileFilter(new FileFilter(f)));
 
         int dialogResult = fileChooser.showSaveDialog(parent);
         if (dialogResult == JFileChooser.APPROVE_OPTION) {
             String exportFile = fileChooser.getSelectedFile().getAbsolutePath();
             var filter = fileChooser.getFileFilter();
-//            if (filter instanceof Filter) {
-//                exportFile = ((Filter) filter).decorate(exportFile);
-//            }
+            if (filter instanceof FileFilter) {
+                exportFile = ((FileFilter) filter).decorate(exportFile);
+            }
 
             exportService.exportData(exportFile);
 

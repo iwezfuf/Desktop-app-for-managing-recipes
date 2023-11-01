@@ -178,8 +178,8 @@ public class CustomTable<T extends Entity> extends JTable {
         int rowsDeleted = 0;
         for (int row : selectedRows) {
             if (row >= 0) {
-                model.removeRow(row - rowsDeleted);
                 crudService.deleteByGuid(((Entity) model.getValueAt(row - rowsDeleted, 0)).getGuid());
+                model.removeRow(row - rowsDeleted);
                 rowsDeleted++;
             }
         }

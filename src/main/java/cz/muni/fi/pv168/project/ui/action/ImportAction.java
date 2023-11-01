@@ -5,6 +5,7 @@ import cz.muni.fi.pv168.project.business.model.ImportType;
 import cz.muni.fi.pv168.project.business.service.export.ImportService;
 import cz.muni.fi.pv168.project.ui.dialog.ImportDialog;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
+import cz.muni.fi.pv168.project.util.FileFilter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +30,7 @@ public final class ImportAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         var fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-//        importService.getFormats().forEach(f -> fileChooser.addChoosableFileFilter(new Filter(f)));
+        importService.getFormats().forEach(f -> fileChooser.addChoosableFileFilter(new FileFilter(f)));
 
         int dialogResult = fileChooser.showOpenDialog(frame);
 

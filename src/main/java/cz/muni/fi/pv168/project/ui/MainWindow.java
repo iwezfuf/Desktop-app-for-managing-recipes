@@ -14,6 +14,8 @@ import cz.muni.fi.pv168.project.business.service.crud.UnitCrudService;
 import cz.muni.fi.pv168.project.business.service.export.CSVBatchExporter;
 import cz.muni.fi.pv168.project.business.service.export.GenericExportService;
 import cz.muni.fi.pv168.project.business.service.export.GenericImportService;
+import cz.muni.fi.pv168.project.business.service.export.JSONBatchExporter;
+import cz.muni.fi.pv168.project.business.service.export.JSONBatchImporter;
 import cz.muni.fi.pv168.project.business.service.validation.RecipeValidator;
 import cz.muni.fi.pv168.project.storage.InMemoryRepository;
 import cz.muni.fi.pv168.project.ui.action.*;
@@ -44,12 +46,12 @@ public class MainWindow {
     CrudService ingredientCrudService = new IngredientCrudService(ingredientRepository, guidProvider);
     CrudService unitCrudService = new UnitCrudService(unitRepository, guidProvider);
     CrudService categoryCrudService = new RecipeCategoryCrudService(categoryRepository, guidProvider);
-    GenericExportService exportService = new GenericExportService(ingredientCrudService, recipeCrudService, List.of(new CSVBatchExporter()));
-    GenericImportService importService = new GenericImportService(ingredientCrudService, recipeCrudService, List.of());
+    GenericExportService exportService = new GenericExportService(ingredientCrudService, recipeCrudService, List.of(new JSONBatchExporter(), new CSVBatchExporter()));
+    GenericImportService importService = new GenericImportService(ingredientCrudService, recipeCrudService, List.of(new JSONBatchImporter()));
 
     private final Action quitAction = new QuitAction();
     private final Action importAction = new ImportAction(importService, this::show, frame);
-    private final Action exportAction = new cz.muni.fi.pv168.employees.ui.action.ExportAction(frame, exportService);
+    private final Action exportAction = new ExportAction(frame, exportService);
     private final Action filterAction = new FilterAction();
     private final Action cancelFilterAction = new CancelFilterAction();
 
@@ -58,7 +60,7 @@ public class MainWindow {
     private final EditAction editAction;
 
     public MainWindow() {
-        CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new CellEditor(), new CellRenderer(), Recipe.class, recipeCrudService, 130);
+        CustomTable<Recipe> recipesTable = new CustomTable<Recipe>("My Recipes", new CellEditor(), new CellRenderer(), Recipe.class, recipeCrudService, 130);
         CustomTable<Ingredient> ingredientsTable = new CustomTable<Ingredient>("My Ingredients", new CellEditor(), new CellRenderer(), Ingredient.class, ingredientCrudService);
         CustomTable<Unit> unitsTable = new CustomTable<Unit>("My Units", new CellEditor(), new CellRenderer(), Unit.class, unitCrudService);
         CustomTable<RecipeCategory> categoriesTable = new CustomTable<RecipeCategory>("My Categories", new CellEditor(), new CellRenderer(), RecipeCategory.class, categoryCrudService);
