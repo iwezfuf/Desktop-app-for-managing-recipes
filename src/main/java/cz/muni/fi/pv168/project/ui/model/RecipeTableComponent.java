@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.ui.model;
 
-import cz.muni.fi.pv168.project.model.Recipe;
+import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;

@@ -1,7 +1,4 @@
-package cz.muni.fi.pv168.project.model;
-
-import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
-import cz.muni.fi.pv168.project.ui.model.RecipeTableComponent;
+package cz.muni.fi.pv168.project.business.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +8,7 @@ import java.util.Set;
 /**
  * @author Marek Eibel
  */
-public class Recipe extends AbstractUserItemData {
+public class Recipe extends Entity {
 
     private String name;
     private String description;
@@ -145,4 +142,8 @@ public class Recipe extends AbstractUserItemData {
         return listOfRecipes.size();
     }
 
+    @Override
+    public String getGuid() {
+        return "recipe-" + id;
+    }
 }

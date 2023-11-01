@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
-import cz.muni.fi.pv168.project.model.ImportType;
+import cz.muni.fi.pv168.project.business.model.ImportType;
 import cz.muni.fi.pv168.project.ui.action.ImportAction;
 
 import javax.swing.*;

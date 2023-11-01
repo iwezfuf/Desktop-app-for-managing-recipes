@@ -1,19 +1,21 @@
-package cz.muni.fi.pv168.project.model;
+package cz.muni.fi.pv168.project.business.model;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * @author Marek Eibel
  */
-public class RecipeCategory extends AbstractUserItemData { // TODO probably must be reimplement it
+public class RecipeCategory extends Entity { // TODO probably must be reimplement it
+    private final int id;
     private String name;
     private Color color;
     private static List<RecipeCategory> listOfCategories = new ArrayList<>();
+    private static int idCounter = 0;
 
     public RecipeCategory(String categoryName, Color categoryColor) {
+        this.id = idCounter++;
         this.name = categoryName;
         this.color = categoryColor;
         if (listOfCategories == null) {
@@ -45,5 +47,10 @@ public class RecipeCategory extends AbstractUserItemData { // TODO probably must
     @Override
     public String toString() {
         return getName();
+    }
+
+    @Override
+    public String getGuid() {
+        return "recipeCategory-" + id;
     }
 }

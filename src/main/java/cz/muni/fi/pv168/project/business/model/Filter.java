@@ -1,11 +1,11 @@
-package cz.muni.fi.pv168.project.model;
+package cz.muni.fi.pv168.project.business.model;
 
 import java.util.List;
 
 /**
  * @author Marek Eibel
  */
-public class Filter extends AbstractUserItemData {
+public class Filter {
 
     private List<Recipe> recipesInFilter;
     private List<RecipeCategory> recipeCategoriesInFilter;

@@ -1,11 +1,9 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
-import cz.muni.fi.pv168.project.model.Unit;
+import cz.muni.fi.pv168.project.business.model.Unit;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class UnitDialog extends EntityDialog<Unit> {

@@ -1,14 +1,9 @@
-package cz.muni.fi.pv168.project.model;
+package cz.muni.fi.pv168.project.business.model;
 
-import cz.muni.fi.pv168.project.ui.dialog.IngredientDialog;
-import cz.muni.fi.pv168.project.ui.model.IngredientTableComponent;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-public class Ingredient extends AbstractUserItemData {
+public class Ingredient extends Entity {
     private final int ingredientId;
     private String name;
 
@@ -78,5 +73,10 @@ public class Ingredient extends AbstractUserItemData {
 
     public int getRecipeCountPercentage(List<Recipe> recipes) {
         return (int) Math.round((double) getRecipeCount(recipes) / recipes.size() * 100);
+    }
+
+    @Override
+    public String getGuid() {
+        return "ingredient-" + ingredientId;
     }
 }

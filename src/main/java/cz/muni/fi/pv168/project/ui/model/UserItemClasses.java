@@ -1,10 +1,10 @@
 package cz.muni.fi.pv168.project.ui.model;
 
-import cz.muni.fi.pv168.project.model.AbstractUserItemData;
-import cz.muni.fi.pv168.project.model.Ingredient;
-import cz.muni.fi.pv168.project.model.Recipe;
-import cz.muni.fi.pv168.project.model.RecipeCategory;
-import cz.muni.fi.pv168.project.model.Unit;
+import cz.muni.fi.pv168.project.business.model.Entity;
+import cz.muni.fi.pv168.project.business.model.Ingredient;
+import cz.muni.fi.pv168.project.business.model.Recipe;
+import cz.muni.fi.pv168.project.business.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.dialog.IngredientDialog;
 import cz.muni.fi.pv168.project.ui.dialog.RecipeCategoryDialog;
@@ -16,10 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserItemClasses {
-    static final Map<Class<? extends AbstractUserItemData>, Class<? extends Component>> componentMap = new HashMap<>();
-    public static final Map<Class<? extends  AbstractUserItemData>, Class<? extends EntityDialog>> dialogMap = new HashMap<>();
+    static final Map<Class<? extends Entity>, Class<? extends Component>> componentMap = new HashMap<>();
+    public static final Map<Class<? extends Entity>, Class<? extends EntityDialog>> dialogMap = new HashMap<>();
 
-    public static final Map<Class<? extends  AbstractUserItemData>, AbstractUserItemData> defaultValuesMap = new HashMap<>();
+    public static final Map<Class<? extends Entity>, Entity> defaultValuesMap = new HashMap<>();
 
 static {
     componentMap.put(Recipe.class, RecipeTableComponent.class);

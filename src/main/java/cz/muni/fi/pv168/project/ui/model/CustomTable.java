@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.ui.model;
 
-import cz.muni.fi.pv168.project.model.AbstractUserItemData;
+import cz.muni.fi.pv168.project.business.model.Entity;
+import cz.muni.fi.pv168.project.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
 
@@ -23,7 +24,7 @@ import java.util.List;
  *
  * @author Marek Eibel
  */
-public class CustomTable<T> extends JTable {
+public class CustomTable<T extends Entity> extends JTable {
 
     private DefaultTableModel model;
     private final String name;
@@ -38,6 +39,7 @@ public class CustomTable<T> extends JTable {
     private int rowHeight;
 
     private Class<T> typeParameterClass;
+    private CrudService<T> crudService;
 
     /**
      * Creates a new CustomTable.
@@ -46,7 +48,7 @@ public class CustomTable<T> extends JTable {
      * @param editor editor for editing table cells (called components)
      * @param renderer renderer to render table cells
      */
-    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, Class<T> typeParameterClass) {
+    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, Class<T> typeParameterClass, CrudService<T> crudService) {
         this.name = tableName;
         this.editor = editor;
         this.renderer = renderer;
@@ -65,6 +67,7 @@ public class CustomTable<T> extends JTable {
 
 
         this.typeParameterClass = typeParameterClass;
+        this.crudService = crudService;
     }
 
     /**
@@ -75,8 +78,8 @@ public class CustomTable<T> extends JTable {
      * @param renderer renderer to render table cells
      * @param rowHeight height of one row (component)
      */
-    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, Class<T> typeParameterClass, int rowHeight) {
-        this(tableName, editor, renderer, typeParameterClass);
+    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, Class<T> typeParameterClass, CrudService<T> crudService , int rowHeight) {
+        this(tableName, editor, renderer, typeParameterClass, crudService);
         this.rowHeight = rowHeight;
     }
 
@@ -117,6 +120,7 @@ public class CustomTable<T> extends JTable {
         List<T> lst = new ArrayList<>();
         lst.add(data);
         model.addRow(lst.toArray());
+        crudService.create(data);
     }
 
     /**
@@ -148,8 +152,8 @@ public class CustomTable<T> extends JTable {
                 JMenuItem editItem = new JMenuItem("Edit");
                 JMenuItem deleteItem = new JMenuItem("Delete");
 
-                editItem.addActionListener(new EditAction((CustomTable<? extends AbstractUserItemData>) CustomTable.this));
-                deleteItem.addActionListener(new DeleteAction((CustomTable<? extends AbstractUserItemData>) CustomTable.this));
+                editItem.addActionListener(new EditAction((CustomTable<? extends Entity>) CustomTable.this));
+                deleteItem.addActionListener(new DeleteAction((CustomTable<? extends Entity>) CustomTable.this));
 
                 popupMenu.add(editItem);
                 popupMenu.add(deleteItem);
@@ -175,6 +179,7 @@ public class CustomTable<T> extends JTable {
         for (int row : selectedRows) {
             if (row >= 0) {
                 model.removeRow(row - rowsDeleted);
+                crudService.deleteByGuid(((Entity) model.getValueAt(row - rowsDeleted, 0)).getGuid());
                 rowsDeleted++;
             }
         }
@@ -189,6 +194,7 @@ public class CustomTable<T> extends JTable {
             return;
         }
         editCell(getSelectedRow(), getSelectedColumn());
+        crudService.update((T) model.getValueAt(getSelectedRow(), getSelectedColumn()));
         clearSelection();
     }
 
