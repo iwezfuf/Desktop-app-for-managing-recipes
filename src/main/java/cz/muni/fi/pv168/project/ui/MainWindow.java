@@ -242,6 +242,8 @@ public class MainWindow {
         toolbar.addSeparator();
         toolbar.add(exportAction);
         return toolbar;
+
+
     }
 
     private JTabbedPane createTabbedPanes(List<Tab> tabbedPanesList) {

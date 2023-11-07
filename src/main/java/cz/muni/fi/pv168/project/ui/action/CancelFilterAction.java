@@ -1,7 +1,10 @@
 package cz.muni.fi.pv168.project.ui.action;
 
+import cz.muni.fi.pv168.project.model.AbstractFilter;
 import cz.muni.fi.pv168.project.model.AbstractUserItemData;
+import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.model.CustomTable;
+import cz.muni.fi.pv168.project.ui.model.UserItemClasses;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
@@ -24,6 +27,11 @@ public class CancelFilterAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        EntityDialog<AbstractFilter> dialog;
+        Class<?> tableClass = table.getTypeParameterClass();
+        Class<? extends EntityDialog> dialogClass = UserItemClasses.filterDialogMap.get(tableClass);
+        FilterAction.filterMap.remove(dialogClass);
         this.table.cancelFilter();
     }
 }
