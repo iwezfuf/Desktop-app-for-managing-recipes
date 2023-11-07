@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.project.business.service.export;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.service.export.batch.Batch;
@@ -22,7 +21,7 @@ public class JSONBatchImporter implements BatchImporter {
 
     @Override
     public Batch importBatch(String filePath) {
-        Batch batch = new Batch(new ArrayList<>(), new ArrayList<>());
+        Batch batch = new Batch(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
         try {
             File file = new File(filePath);
@@ -39,6 +38,8 @@ public class JSONBatchImporter implements BatchImporter {
             for (var ingredient : ingredients) {
                 batch.ingredients().add(ingredient);
             }
+
+
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());
         } catch (IOException e) {

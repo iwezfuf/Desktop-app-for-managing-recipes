@@ -46,7 +46,7 @@ public class MainWindow {
     CrudService ingredientCrudService = new IngredientCrudService(ingredientRepository, guidProvider);
     CrudService unitCrudService = new UnitCrudService(unitRepository, guidProvider);
     CrudService categoryCrudService = new RecipeCategoryCrudService(categoryRepository, guidProvider);
-    GenericExportService exportService = new GenericExportService(ingredientCrudService, recipeCrudService, List.of(new JSONBatchExporter(), new CSVBatchExporter()));
+    GenericExportService exportService = new GenericExportService(ingredientCrudService, recipeCrudService, List.of(new JSONBatchExporter()), unitCrudService);
     GenericImportService importService = new GenericImportService(ingredientCrudService, recipeCrudService, List.of(new JSONBatchImporter()));
 
     private final Action quitAction = new QuitAction();

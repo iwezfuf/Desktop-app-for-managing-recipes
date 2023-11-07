@@ -13,7 +13,7 @@ public class RecipeValidator implements Validator<Recipe> {
     @Override
     public ValidationResult validate(Recipe model) {
         var validators = List.of(
-                Validator.extracting(Recipe::getName, new StringLengthValidator(2, 20, "Name")),
+                Validator.extracting(Recipe::getName, new StringLengthValidator(2, 20000, "Name")),
                 Validator.extracting(Recipe::getDescription, new StringLengthValidator(2, 300, "Description"))
         );
 

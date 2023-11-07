@@ -32,8 +32,10 @@ public class RecipeCrudService implements CrudService<Recipe> {
 
     @Override
     public ValidationResult create(Recipe newEntity) {
+
         var validationResult = recipeValidator.validate(newEntity);
         if (validationResult.isValid()) {
+            System.out.println("Adding recipe: " + newEntity.getName() + " into crud");
             recipeRepository.create(newEntity);
         }
 
