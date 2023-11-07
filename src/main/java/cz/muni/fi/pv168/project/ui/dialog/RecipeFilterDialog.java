@@ -49,8 +49,6 @@ public class RecipeFilterDialog extends EntityDialog<RecipeFilter> {
             return;
         }
         RecipeFilter rf = (RecipeFilter) filter;
-        System.out.println(rf.getIngredientsInFilter());
-        System.out.println(rf.getRecipeCategoriesInFilter());
         ingredientsSet.addAll(rf.getIngredientsInFilter());
         ingredientsTabPanel.fillFilterPanel(ingredientsSet);
         recipeCategoriesSet.addAll(rf.getRecipeCategoriesInFilter());
@@ -58,8 +56,8 @@ public class RecipeFilterDialog extends EntityDialog<RecipeFilter> {
         nutritionalRange.setMin(rf.getNutritionValueRange().getMin());
         nutritionalRange.setMax(rf.getNutritionValueRange().getMax());
         nutritionalValueTabPanel.fillRange(nutritionalRange);
-        prepTimeRange.setMin(rf.getNutritionValueRange().getMin());
-        prepTimeRange.setMax(rf.getNutritionValueRange().getMax());
+        prepTimeRange.setMin(rf.getPreperationTimeRange().getMin());
+        prepTimeRange.setMax(rf.getPreperationTimeRange().getMax());
         prepTimeTabPanel.fillRange(prepTimeRange);
     }
 
@@ -88,6 +86,7 @@ public class RecipeFilterDialog extends EntityDialog<RecipeFilter> {
      */
     @Override
     RecipeFilter getEntity() {
+        System.out.println("Ingredients: " + ingredientsSet + ", categories: " + recipeCategoriesSet + ", nutrirtion: " + nutritionalRange + ", prep time: " + prepTimeRange);
         return new RecipeFilter(ingredientsSet, recipeCategoriesSet, nutritionalRange, prepTimeRange);
     }
 }
