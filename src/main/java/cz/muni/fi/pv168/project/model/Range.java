@@ -41,4 +41,9 @@ public class Range {
     public boolean isValueInRange(int value) {
         return (value >= min && value <= max);
     }
+
+    @Override
+    public String toString() {
+        return "<" + min + "," + max + ">";
+    }
 }
