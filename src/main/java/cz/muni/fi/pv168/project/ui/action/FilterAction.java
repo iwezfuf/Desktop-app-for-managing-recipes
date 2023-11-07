@@ -18,7 +18,7 @@ public class FilterAction extends AbstractAction {
 
     private CustomTable table;
     private String name;
-    private HashMap<Class<? extends EntityDialog>, AbstractFilter> filterMap;
+    public static HashMap<Class<? extends EntityDialog>, AbstractFilter> filterMap;
 
     public FilterAction(String name, CustomTable<? extends AbstractUserItemData> table) {
         super(name, Icons.FILTER_ICON);
@@ -38,6 +38,7 @@ public class FilterAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         EntityDialog<AbstractFilter> dialog;
         Class<?> tableClass = table.getTypeParameterClass();
         Class<? extends EntityDialog> dialogClass = UserItemClasses.filterDialogMap.get(tableClass);
@@ -51,7 +52,7 @@ public class FilterAction extends AbstractAction {
         dialog.showWithCustomButtonText(null, "Filter",
                 new Object[]{ "Apply filters", "Discard changes in the tab"}, "Apply filters")
                 .ifPresent(a -> {
-                    System.out.println(dialogClass);
+
                     filterMap.put(dialogClass, a);
                     table.applyFilter(a);
                 });
