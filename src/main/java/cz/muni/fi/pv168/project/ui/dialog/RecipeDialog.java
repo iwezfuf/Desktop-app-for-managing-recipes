@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.ui.dialog;
 import cz.muni.fi.pv168.project.model.Ingredient;
 import cz.muni.fi.pv168.project.model.Recipe;
 import cz.muni.fi.pv168.project.model.RecipeCategory;
+import cz.muni.fi.pv168.project.ui.UserInputFields.FormattedInput;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
@@ -21,10 +22,11 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     private final SpinnerModel portionsModel = new SpinnerNumberModel(2, 0, 100, 1);
     private final JSpinner numberOfServingsSpinner = new JSpinner(portionsModel);
 
-    private final JTextField preparationTimeTextField = new JTextField();
+    private final JTextField preparationTimeTextField = FormattedInput.createIntTextField(1, 999);
+
     private final JComboBox<RecipeCategory> recipeCategoryComboBox = new JComboBox<>();
     private final JComboBox<Ingredient> ingredientComboBox = new JComboBox<>();
-    private final SpinnerModel ingredientsModel = new SpinnerNumberModel(1, 1, 1000, 1);
+    private final SpinnerModel ingredientsModel = new SpinnerNumberModel(1, 0, 999, 1);
     private final JSpinner ingredientsSpinner = new JSpinner(ingredientsModel);
     private final JButton addIngredientButton = new JButton(Icons.ADD_ICON);
     private final JTextArea instructionsTextArea = new JTextArea();

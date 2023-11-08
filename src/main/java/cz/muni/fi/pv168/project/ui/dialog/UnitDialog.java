@@ -1,19 +1,17 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
 import cz.muni.fi.pv168.project.model.Unit;
+import cz.muni.fi.pv168.project.ui.UserInputFields.FloatTextField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class UnitDialog extends EntityDialog<Unit> {
     private final JTextField nameTextField = new JTextField();
     private final JTextField abbreviationTextField = new JTextField();
     private final JComboBox<Unit> unitComboBox = new JComboBox<>();
-    private final SpinnerModel ratioModel = new SpinnerNumberModel(1, 1, 100000000, 1);
-    private final JSpinner ratioSpinner = new JSpinner(ratioModel);
+    private final JTextField ratioTextField = new FloatTextField();
     private final Unit unit;
 
     public UnitDialog(Unit unit) {
@@ -26,7 +24,7 @@ public class UnitDialog extends EntityDialog<Unit> {
         limitComponentToOneRow(abbreviationTextField);
 
         unitComboBox.addActionListener(e ->
-                ratioSpinner.setEnabled(!Objects.equals(((Unit) unitComboBox.getSelectedItem()).getName(), "Base unit")));
+                ratioTextField.setEnabled(!Objects.equals(((Unit) unitComboBox.getSelectedItem()).getName(), "Base unit")));
 
         setValues();
         addFields();
@@ -48,13 +46,14 @@ public class UnitDialog extends EntityDialog<Unit> {
         } else {
             unitComboBox.setSelectedItem(baseUnit);
         }
+        ratioTextField.setText(unit.getConversionRatio() + "");
     }
 
     private void addFields() {
         add("Unit name:", nameTextField);
         add("Abbreviation:", abbreviationTextField);
         add("Conversion unit: ", unitComboBox);
-        add("Conversion ratio: ", ratioSpinner);
+        add("Conversion ratio: ", ratioTextField);
     }
 
     @Override
@@ -64,7 +63,7 @@ public class UnitDialog extends EntityDialog<Unit> {
         unit.setAbbreviation(abbreviationTextField.getText());
 
         unit.setConversionUnit(!convUnit.getName().equals("Base unit") ? convUnit : null);
-        unit.setConversionRatio((int) ratioSpinner.getValue());
+        unit.setConversionRatio(Float.parseFloat(ratioTextField.getText()));
 
         return unit;
     }
