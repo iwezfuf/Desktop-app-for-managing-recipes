@@ -12,6 +12,7 @@ import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
 import cz.muni.fi.pv168.project.ui.dialog.UnitDialog;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ static {
     var blankUnit = new Unit("", null, -1, "");
     var blankIngredient = new Ingredient("", 0, blankUnit);
     var blankRecipe = new Recipe("", "", 0, 0,
-            "", blankCategory, new HashMap<Ingredient, Integer>());
+            "", blankCategory, new ArrayList<>());
     defaultValuesMap.put(Recipe.class, blankRecipe);
     defaultValuesMap.put(RecipeCategory.class, blankCategory);
     defaultValuesMap.put(Ingredient.class, blankIngredient);

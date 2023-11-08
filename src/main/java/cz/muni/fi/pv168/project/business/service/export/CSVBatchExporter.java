@@ -27,7 +27,7 @@ public class CSVBatchExporter implements BatchExporter {
             csvWriter.writeNext(new String[]{System.lineSeparator()});
 
             for (var recipe : batch.recipes()) {
-                String[] recData = {recipe.getGuid(), String.valueOf(recipe.getName()), String.valueOf(recipe.getIngredients()), String.valueOf(recipe.getInstructions())};
+                String[] recData = {recipe.getGuid(), String.valueOf(recipe.getName()), String.valueOf(recipe.getIngredientsString()), String.valueOf(recipe.getInstructions())};
                 csvWriter.writeNext(recData);
             }
 

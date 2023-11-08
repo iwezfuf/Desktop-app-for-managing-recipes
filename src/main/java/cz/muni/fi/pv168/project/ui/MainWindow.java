@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.model.UuidGuidProvider;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
@@ -25,6 +26,7 @@ import cz.muni.fi.pv168.project.ui.resources.Icons;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,13 +153,13 @@ public class MainWindow {
         Ingredient tacoSeasoning = new Ingredient("taco seasoning", 1, piece);
         Ingredient tortillas = new Ingredient("tortillas", 1, piece);
 
-        Map<Ingredient, Integer> ingredientsPancakes = new HashMap<>();
-        ingredientsPancakes.put(flour, 250);
-        ingredientsPancakes.put(milk, 250);
-        ingredientsPancakes.put(egg, 2);
-        ingredientsPancakes.put(oil, 1);
-        ingredientsPancakes.put(salt, 1);
-        ingredientsPancakes.put(sugar, 1);
+        ArrayList<RecipeIngredientAmount> ingredientsPancakes = new ArrayList<>();
+        ingredientsPancakes.add(new RecipeIngredientAmount(flour, 250));
+        ingredientsPancakes.add(new RecipeIngredientAmount(milk, 250));
+        ingredientsPancakes.add(new RecipeIngredientAmount(egg, 2));
+        ingredientsPancakes.add(new RecipeIngredientAmount(oil, 1));
+        ingredientsPancakes.add(new RecipeIngredientAmount(salt, 1));
+        ingredientsPancakes.add(new RecipeIngredientAmount(sugar, 1));
 
         String pancakesInstructions = "1. Mix all ingredients together.\n" +
                 "2. Fry pancakes on a pan.\n" +
@@ -167,13 +169,13 @@ public class MainWindow {
         Recipe pancakes = new Recipe("Panckes", "Traditional healthy dish.", 90, 5, pancakesInstructions, breakfast, ingredientsPancakes);
         recipesTable.addData(pancakes);
 
-        Map<Ingredient, Integer> ingredientsSpaghettiAglioOlio = new HashMap<>();
-        ingredientsSpaghettiAglioOlio.put(spaghetti, 200);
-        ingredientsSpaghettiAglioOlio.put(oliveOil, 3);
-        ingredientsSpaghettiAglioOlio.put(garlic, 4);
-        ingredientsSpaghettiAglioOlio.put(redPepperFlakes, 1);
-        ingredientsSpaghettiAglioOlio.put(parsley, 1);
-        ingredientsSpaghettiAglioOlio.put(salt, 1);
+        ArrayList<RecipeIngredientAmount> ingredientsSpaghettiAglioOlio = new ArrayList<>();
+        ingredientsSpaghettiAglioOlio.add(new RecipeIngredientAmount(spaghetti, 200));
+        ingredientsSpaghettiAglioOlio.add(new RecipeIngredientAmount(oliveOil, 3));
+        ingredientsSpaghettiAglioOlio.add(new RecipeIngredientAmount(garlic, 4));
+        ingredientsSpaghettiAglioOlio.add(new RecipeIngredientAmount(redPepperFlakes, 1));
+        ingredientsSpaghettiAglioOlio.add(new RecipeIngredientAmount(parsley, 1));
+        ingredientsSpaghettiAglioOlio.add(new RecipeIngredientAmount(salt, 1));
 
         String spaghettiAglioOlioInstructions = "1. Boil spaghetti in salted water until al dente. Drain and set aside.\n" +
                 "2. In a pan, heat olive oil over low heat. Add minced garlic and red pepper flakes. Cook until garlic is fragrant but not browned.\n" +
@@ -185,15 +187,15 @@ public class MainWindow {
         recipesTable.addData(spaghettiAglioOlio);
 
 
-        Map<Ingredient, Integer> ingredientsChickenTaco = new HashMap<>();
-        ingredientsChickenTaco.put(chickenBreast, 2);
-        ingredientsChickenTaco.put(tacoSeasoning, 1);
-        ingredientsChickenTaco.put(tortillas, 8);
-        ingredientsChickenTaco.put(salsa, 1);
-        ingredientsChickenTaco.put(cheese, 1);
-        ingredientsChickenTaco.put(lettuce, 1);
-        ingredientsChickenTaco.put(tomato, 2);
-        ingredientsChickenTaco.put(avocado, 1);
+        ArrayList<RecipeIngredientAmount> ingredientsChickenTaco = new ArrayList<>();
+        ingredientsChickenTaco.add(new RecipeIngredientAmount(chickenBreast, 2));
+        ingredientsChickenTaco.add(new RecipeIngredientAmount(tacoSeasoning, 1));
+        ingredientsChickenTaco.add(new RecipeIngredientAmount(tortillas, 8));
+        ingredientsChickenTaco.add(new RecipeIngredientAmount(salsa, 1));
+        ingredientsChickenTaco.add(new RecipeIngredientAmount(cheese, 1));
+        ingredientsChickenTaco.add(new RecipeIngredientAmount(lettuce, 1));
+        ingredientsChickenTaco.add(new RecipeIngredientAmount(tomato, 2));
+        ingredientsChickenTaco.add(new RecipeIngredientAmount(avocado, 1));
 
         String chickenTacoInstructions = "1. Season chicken breasts with taco seasoning and grill or cook in a skillet until fully cooked.\n" +
                 "2. While the chicken is cooking, warm the tortillas in a dry skillet or microwave.\n" +
@@ -206,9 +208,9 @@ public class MainWindow {
 
 
 
-        Map<Ingredient, Integer> ingredientsOatMeal = new HashMap<>();
-        ingredientsOatMeal.put(oatmeal, 100);
-        ingredientsOatMeal.put(milk, 100);
+        ArrayList<RecipeIngredientAmount> ingredientsOatMeal = new ArrayList<>();
+        ingredientsOatMeal.add(new RecipeIngredientAmount(oatmeal, 100));
+        ingredientsOatMeal.add(new RecipeIngredientAmount(milk, 100));
 
         Recipe r = new Recipe("Ovesna kase",
                 "Ovesná kaše, or Czech oatmeal porridge, is a beloved breakfast dish in Czech cuisine.",

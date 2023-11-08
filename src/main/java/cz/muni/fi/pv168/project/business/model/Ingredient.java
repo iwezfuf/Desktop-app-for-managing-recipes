@@ -75,7 +75,7 @@ public class Ingredient extends Entity {
     public int getRecipeCount(List<Recipe> recipes) {
         int count = 0;
         for (Recipe recipe : recipes) {
-            if (recipe.containsIngredient(this)) {
+            if (recipe.getIngredientAmount(this) != null) {
                 count++;
             }
         }

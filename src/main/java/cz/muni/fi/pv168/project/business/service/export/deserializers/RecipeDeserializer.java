@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,9 +28,11 @@ public class RecipeDeserializer extends JsonDeserializer<Recipe> {
         String instructions = node.get("instructions").asText();
         RecipeCategoryDeserializer recipeCategoryDeserializer = new RecipeCategoryDeserializer();
         RecipeCategory recipeCategory = recipeCategoryDeserializer.deserialize(node.get("category").traverse(jsonParser.getCodec()), deserializationContext);
-        IngredientDeserializer ingredientDeserializer = new IngredientDeserializer();
-//        HashMap<Ingredient, Integer> ingredients = ingredientDeserializer.deserialize(node.get("ingredients").traverse(jsonParser.getCodec()), deserializationContext);
-        HashMap<Ingredient, Integer> ingredients = new HashMap<>();
+        RecipeIngredientAmountDeserializer recipeIngredientAmountDeserializer = new RecipeIngredientAmountDeserializer();
+        ArrayList<RecipeIngredientAmount> ingredients = new ArrayList<>();
+        for (JsonNode ingredient : node.get("ingredients")) {
+            ingredients.add(recipeIngredientAmountDeserializer.deserialize(ingredient.traverse(jsonParser.getCodec()), deserializationContext));
+        }
         Recipe recipe = new Recipe(name, description, preparationTime, numOfServings, instructions, recipeCategory, ingredients);
         return recipe;
     }
