@@ -5,11 +5,7 @@ import cz.muni.fi.pv168.project.model.Ingredient;
 import cz.muni.fi.pv168.project.model.Recipe;
 import cz.muni.fi.pv168.project.model.RecipeCategory;
 import cz.muni.fi.pv168.project.model.Unit;
-import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
-import cz.muni.fi.pv168.project.ui.dialog.IngredientDialog;
-import cz.muni.fi.pv168.project.ui.dialog.RecipeCategoryDialog;
-import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
-import cz.muni.fi.pv168.project.ui.dialog.UnitDialog;
+import cz.muni.fi.pv168.project.ui.dialog.*;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -18,6 +14,7 @@ import java.util.Map;
 public class UserItemClasses {
     static final Map<Class<? extends AbstractUserItemData>, Class<? extends Component>> componentMap = new HashMap<>();
     public static final Map<Class<? extends  AbstractUserItemData>, Class<? extends EntityDialog>> dialogMap = new HashMap<>();
+    public static final Map<Class<? extends  AbstractUserItemData>, Class<? extends EntityDialog>> filterDialogMap = new HashMap<>();
 
     public static final Map<Class<? extends  AbstractUserItemData>, AbstractUserItemData> defaultValuesMap = new HashMap<>();
 
@@ -31,6 +28,11 @@ static {
     dialogMap.put(Ingredient.class, IngredientDialog.class);
     dialogMap.put(Unit.class, UnitDialog.class);
     dialogMap.put(RecipeCategory.class, RecipeCategoryDialog.class);
+
+    filterDialogMap.put(Recipe.class, RecipeFilterDialog.class);
+    filterDialogMap.put(Ingredient.class, IngredientFilterDialog.class);
+    filterDialogMap.put(Unit.class, RecipeFilterDialog.class);
+    filterDialogMap.put(RecipeCategory.class, RecipeFilterDialog.class);
 
     var blankCategory = new RecipeCategory("", Color.BLACK);
     var blankUnit = new Unit("", null, -1, "");
