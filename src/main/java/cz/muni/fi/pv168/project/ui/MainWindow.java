@@ -11,7 +11,6 @@ import cz.muni.fi.pv168.project.business.service.crud.IngredientCrudService;
 import cz.muni.fi.pv168.project.business.service.crud.RecipeCategoryCrudService;
 import cz.muni.fi.pv168.project.business.service.crud.RecipeCrudService;
 import cz.muni.fi.pv168.project.business.service.crud.UnitCrudService;
-import cz.muni.fi.pv168.project.business.service.export.CSVBatchExporter;
 import cz.muni.fi.pv168.project.business.service.export.GenericExportService;
 import cz.muni.fi.pv168.project.business.service.export.GenericImportService;
 import cz.muni.fi.pv168.project.business.service.export.JSONBatchExporter;
@@ -42,10 +41,10 @@ public class MainWindow {
     RecipeValidator employeeValidator = new RecipeValidator();
 
     UuidGuidProvider guidProvider = new UuidGuidProvider();
-    CrudService recipeCrudService = new RecipeCrudService(recipeRepository, employeeValidator, guidProvider);
-    CrudService ingredientCrudService = new IngredientCrudService(ingredientRepository, guidProvider);
-    CrudService unitCrudService = new UnitCrudService(unitRepository, guidProvider);
-    CrudService categoryCrudService = new RecipeCategoryCrudService(categoryRepository, guidProvider);
+    CrudService<Recipe> recipeCrudService = new RecipeCrudService(recipeRepository, employeeValidator, guidProvider);
+    CrudService<Ingredient> ingredientCrudService = new IngredientCrudService(ingredientRepository, guidProvider);
+    CrudService<Unit> unitCrudService = new UnitCrudService(unitRepository, guidProvider);
+    CrudService<RecipeCategory> categoryCrudService = new RecipeCategoryCrudService(categoryRepository, guidProvider);
     GenericExportService exportService = new GenericExportService(ingredientCrudService, recipeCrudService, List.of(new JSONBatchExporter()), unitCrudService);
     GenericImportService importService = new GenericImportService(ingredientCrudService, recipeCrudService, List.of(new JSONBatchImporter()));
 
