@@ -49,7 +49,7 @@ public class MainWindow {
     GenericImportService importService = new GenericImportService(ingredientCrudService, recipeCrudService, List.of(new JSONBatchImporter()));
 
     private final Action quitAction = new QuitAction();
-    private final Action importAction = new ImportAction(importService, this::show, frame);
+    private final Action importAction = new ImportAction(importService, this::refresh, frame);
     private final Action exportAction = new ExportAction(frame, exportService);
     private final Action filterAction = new FilterAction();
     private final Action cancelFilterAction = new CancelFilterAction();
@@ -57,12 +57,17 @@ public class MainWindow {
     private final AddAction addAction;
     private final DeleteAction deleteAction;
     private final EditAction editAction;
+    private final CustomTable<Recipe> recipesTable;
+    private final CustomTable<Ingredient> ingredientsTable;
+    private final CustomTable<Unit> unitsTable;
+    private final CustomTable<RecipeCategory> categoriesTable;
+
 
     public MainWindow() {
-        CustomTable<Recipe> recipesTable = new CustomTable<Recipe>("My Recipes", new CellEditor(), new CellRenderer(), Recipe.class, recipeCrudService, 130);
-        CustomTable<Ingredient> ingredientsTable = new CustomTable<Ingredient>("My Ingredients", new CellEditor(), new CellRenderer(), Ingredient.class, ingredientCrudService);
-        CustomTable<Unit> unitsTable = new CustomTable<Unit>("My Units", new CellEditor(), new CellRenderer(), Unit.class, unitCrudService);
-        CustomTable<RecipeCategory> categoriesTable = new CustomTable<RecipeCategory>("My Categories", new CellEditor(), new CellRenderer(), RecipeCategory.class, categoryCrudService);
+        recipesTable = new CustomTable<Recipe>("My Recipes", new CellEditor(), new CellRenderer(), Recipe.class, recipeCrudService, 130);
+        ingredientsTable = new CustomTable<Ingredient>("My Ingredients", new CellEditor(), new CellRenderer(), Ingredient.class, ingredientCrudService);
+        unitsTable = new CustomTable<Unit>("My Units", new CellEditor(), new CellRenderer(), Unit.class, unitCrudService);
+        categoriesTable = new CustomTable<RecipeCategory>("My Categories", new CellEditor(), new CellRenderer(), RecipeCategory.class, categoryCrudService);
 
         addAction = new AddAction(recipesTable);
         deleteAction = new DeleteAction(recipesTable);
@@ -85,6 +90,13 @@ public class MainWindow {
 
     public void show() {
         frame.setVisible(true);
+    }
+
+    private void refresh() {
+        recipesTable.refresh();
+        ingredientsTable.refresh();
+        unitsTable.refresh();
+        categoriesTable.refresh();
     }
 
     private void fillTables(CustomTable<Recipe> recipesTable,

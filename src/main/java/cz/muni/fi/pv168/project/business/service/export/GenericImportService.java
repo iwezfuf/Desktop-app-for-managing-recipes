@@ -41,6 +41,7 @@ public class GenericImportService implements ImportService {
     }
 
     private void createRecipe(Recipe Recipe) {
+        Recipe.getListOfRecipes().add(Recipe);
         recipeCrudService.create(Recipe)
                 .intoException();
     }

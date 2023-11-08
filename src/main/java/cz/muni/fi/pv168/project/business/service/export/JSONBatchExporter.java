@@ -2,9 +2,18 @@ package cz.muni.fi.pv168.project.business.service.export;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import cz.muni.fi.pv168.project.business.model.Ingredient;
+import cz.muni.fi.pv168.project.business.model.Recipe;
+import cz.muni.fi.pv168.project.business.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.export.batch.Batch;
 import cz.muni.fi.pv168.project.business.service.export.batch.BatchExporter;
 import cz.muni.fi.pv168.project.business.service.export.format.Format;
+import cz.muni.fi.pv168.project.business.service.export.serializers.IngredientSerializer;
+import cz.muni.fi.pv168.project.business.service.export.serializers.RecipeCategorySerializer;
+import cz.muni.fi.pv168.project.business.service.export.serializers.RecipeSerializer;
+import cz.muni.fi.pv168.project.business.service.export.serializers.UnitSerializer;
 
 import java.io.*;
 import java.util.List;
@@ -16,42 +25,20 @@ public class JSONBatchExporter implements BatchExporter {
     public void exportBatch(Batch batch, String filePath) {
         try (FileWriter fileWriter = new FileWriter(filePath, true)) {
             final FileOutputStream out = new FileOutputStream(filePath);
-            final ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(out, batch);
+            ObjectMapper objectMapper = new ObjectMapper();
+            SimpleModule module = new SimpleModule();
+            module.addSerializer(Recipe.class, new RecipeSerializer());
+            module.addSerializer(Ingredient.class, new IngredientSerializer());
+            module.addSerializer(Unit.class, new UnitSerializer());
+            module.addSerializer(RecipeCategory.class, new RecipeCategorySerializer());
+            objectMapper.registerModule(module);
+            objectMapper.writeValue(out, batch);
             System.out.println(out);
 
-            /*final ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-            mapper.writeValue(out2, batch.ingredients());
-            System.out.println(out2);
-
-            for (var recipe : batch.recipes()) {
-                System.out.println(">>>>>>>>>>>>>>>> " + recipe.getName());
-                try (FileWriter recipeWriter = new FileWriter(filePath, true)) {
-                    ObjectWriter objectWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
-                    objectWriter.writeValue(recipeWriter, recipe);
-                }
-            }
-
-            for (var ingredient : batch.ingredients()) {
-                try (FileWriter ingredientWriter = new FileWriter(filePath, true)) {
-                    ObjectWriter objectWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
-                    objectWriter.writeValue(ingredientWriter, ingredient);
-                }
-            }
-
-            for (var unit : batch.units()) {
-                try (FileWriter unitWriter = new FileWriter(filePath, true)) {
-                    ObjectWriter objectWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
-                    objectWriter.writeValue(unitWriter, unit);
-                }
-            }*/
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
 
 
     @Override

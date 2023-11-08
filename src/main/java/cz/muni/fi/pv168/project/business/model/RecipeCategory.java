@@ -53,6 +53,9 @@ public class RecipeCategory extends Entity { // TODO probably must be reimplemen
     public void setColor(Color color) {
         this.color = color;
     }
+    public int getId() {
+        return id;
+    }
 
     @Override
     public String toString() {

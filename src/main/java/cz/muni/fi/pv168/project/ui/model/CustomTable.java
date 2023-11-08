@@ -41,8 +41,6 @@ public class CustomTable<T extends Entity> extends JTable {
     private Class<T> typeParameterClass;
     private CrudService<T> crudService;
 
-    private List<T> dataList;
-
     /**
      * Creates a new CustomTable.
      *
@@ -70,7 +68,6 @@ public class CustomTable<T extends Entity> extends JTable {
 
         this.typeParameterClass = typeParameterClass;
         this.crudService = crudService;
-        dataList = new ArrayList<>(crudService.findAll());
     }
 
     /**
@@ -124,7 +121,6 @@ public class CustomTable<T extends Entity> extends JTable {
         lst.add(data);
         model.addRow(lst.toArray());
         crudService.create(data);
-        dataList.add(data);
     }
 
     /**
@@ -183,7 +179,6 @@ public class CustomTable<T extends Entity> extends JTable {
         for (int row : selectedRows) {
             if (row >= 0) {
                 T entityToDelete = (T) model.getValueAt(row - rowsDeleted, 0);
-                dataList.remove(entityToDelete);
                 crudService.deleteByGuid(entityToDelete.getGuid());
                 model.removeRow(row - rowsDeleted);
                 rowsDeleted++;
@@ -237,5 +232,12 @@ public class CustomTable<T extends Entity> extends JTable {
 
     public Class<T> getTypeParameterClass() {
         return typeParameterClass;
+    }
+
+    public void refresh() {
+        for (var item : crudService.findAll()) {
+            model.addRow(new Object[]{item});
+        }
+//        fireContentsChanged(this, 0, getSize() - 1);
     }
 }
