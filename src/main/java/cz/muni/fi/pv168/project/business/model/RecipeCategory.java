@@ -24,6 +24,16 @@ public class RecipeCategory extends Entity { // TODO probably must be reimplemen
         listOfCategories.add(this);
     }
 
+    public RecipeCategory() {
+        this.id = idCounter++;
+        this.name = "";
+        this.color = Color.black;
+        if (listOfCategories == null) {
+            listOfCategories = new ArrayList<>();
+        }
+        listOfCategories.add(this);
+    }
+
     public static List<RecipeCategory> getListOfCategories() {
         return listOfCategories;
     }

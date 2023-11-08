@@ -34,6 +34,18 @@ public class Unit extends Entity {
         listOfUnits.add(this);
     }
 
+    public Unit() {
+        this.name = "";
+        this.id = Unit.idCounter++;
+        this.conversionUnit = null;
+        this.conversionRatio = 0;
+        this.abbreviation = "";
+        if (listOfUnits == null) {
+            listOfUnits = new ArrayList<>();
+        }
+        listOfUnits.add(this);
+    }
+
     public String getName() {
         return name;
     }

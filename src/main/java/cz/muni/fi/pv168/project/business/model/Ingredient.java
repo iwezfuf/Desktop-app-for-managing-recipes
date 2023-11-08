@@ -24,6 +24,17 @@ public class Ingredient extends Entity {
         listOfIngredients.add(this);
     }
 
+    public Ingredient() {
+        this.ingredientId = idCounter++;
+        this.name = "";
+        this.nutritionalValue = 0;
+        this.unit = null;
+        if (listOfIngredients == null) {
+            listOfIngredients = new ArrayList<>();
+        }
+        listOfIngredients.add(this);
+    }
+
     public static List<Ingredient> getListOfIngredients() {
         return listOfIngredients;
     }

@@ -1,9 +1,6 @@
 package cz.muni.fi.pv168.project.business.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Marek Eibel
@@ -40,6 +37,21 @@ public class Recipe extends Entity {
         this.instructions = instructions;
         this.category = category;
         this.ingredients = ingredients;
+        if (listOfRecipes == null) {
+            listOfRecipes = new ArrayList<>();
+        }
+        listOfRecipes.add(this);
+    }
+
+    public Recipe() {
+        this.name = "";
+        this.description = "";
+        this.id = Recipe.idCounter++;
+        this.preparationTime = 0;
+        this.numOfServings = 0;
+        this.instructions = "";
+        this.category = new RecipeCategory();
+        this.ingredients = new HashMap<>();
         if (listOfRecipes == null) {
             listOfRecipes = new ArrayList<>();
         }

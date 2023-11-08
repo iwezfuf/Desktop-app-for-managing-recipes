@@ -41,6 +41,7 @@ static {
     defaultValuesMap.put(RecipeCategory.class, blankCategory);
     defaultValuesMap.put(Ingredient.class, blankIngredient);
     defaultValuesMap.put(Unit.class, blankUnit);
+    Recipe.getListOfRecipes().remove(blankRecipe);
     Ingredient.getListOfIngredients().remove(blankIngredient);
     Unit.getListOfUnits().remove(blankUnit);
     RecipeCategory.getListOfCategories().remove(blankCategory);
