@@ -9,7 +9,7 @@ public class Unit extends AbstractUserItemData {
     private final int id;
     private static int idCounter = 0;
     private Unit conversionUnit;
-    private int conversionRatio;
+    private float conversionRatio;
     private String abbreviation;
 
     public String getAbbreviation() {
@@ -50,7 +50,7 @@ public class Unit extends AbstractUserItemData {
         this.conversionUnit = conversionUnit;
     }
 
-    public void setConversionRatio(int conversionRatio) {
+    public void setConversionRatio(float conversionRatio) {
         this.conversionRatio = conversionRatio;
     }
 
@@ -58,7 +58,7 @@ public class Unit extends AbstractUserItemData {
         this.abbreviation = abbreviation;
     }
 
-    public int getConversionRatio() {
+    public float getConversionRatio() {
         return conversionRatio;
     }
 
