@@ -47,8 +47,8 @@ public class MainWindow {
     CrudService<Ingredient> ingredientCrudService = new IngredientCrudService(ingredientRepository, guidProvider);
     CrudService<Unit> unitCrudService = new UnitCrudService(unitRepository, guidProvider);
     CrudService<RecipeCategory> categoryCrudService = new RecipeCategoryCrudService(categoryRepository, guidProvider);
-    GenericExportService exportService = new GenericExportService(ingredientCrudService, recipeCrudService, List.of(new JSONBatchExporter()), unitCrudService);
-    GenericImportService importService = new GenericImportService(ingredientCrudService, recipeCrudService, List.of(new JSONBatchImporter()));
+    GenericExportService exportService = new GenericExportService(ingredientCrudService, recipeCrudService, unitCrudService, categoryCrudService, List.of(new JSONBatchExporter()));
+    GenericImportService importService = new GenericImportService(ingredientCrudService, recipeCrudService, unitCrudService, categoryCrudService, List.of(new JSONBatchImporter()));
 
     private final Action quitAction = new QuitAction();
     private final Action importAction = new ImportAction(importService, this::refresh, frame);

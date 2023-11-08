@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.project.business.service.export;
 
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
+import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.business.service.crud.UnitCrudService;
@@ -21,17 +22,20 @@ public class GenericExportService implements ExportService {
     private final CrudService<Ingredient> ingredientCrudService;
     private final CrudService<Recipe> recipeCrudService;
     private final CrudService<Unit> unitCrudService;
+    private final CrudService<RecipeCategory> recipeCategoryCrudService;
     private final FormatMapping<BatchExporter> exporters;
 
     public GenericExportService(
             CrudService<Ingredient> IngredientCrudService,
             CrudService<Recipe> RecipeCrudService,
-            Collection<BatchExporter> exporters,
-            CrudService<Unit>UnitCrudService
+            CrudService<Unit> UnitCrudService,
+            CrudService<RecipeCategory> recipeCategoryCrudService,
+            Collection<BatchExporter> exporters
     ) {
         this.ingredientCrudService = IngredientCrudService;
         this.recipeCrudService = RecipeCrudService;
         this.unitCrudService = UnitCrudService;
+        this.recipeCategoryCrudService = recipeCategoryCrudService;
         this.exporters = new FormatMapping<>(exporters);
     }
 
@@ -44,8 +48,7 @@ public class GenericExportService implements ExportService {
     public void exportData(String filePath) {
         var exporter = getExporter(filePath);
 
-        var batch = new Batch(recipeCrudService.findAll(), ingredientCrudService.findAll(), unitCrudService.findAll());
-        System.out.println(">>>>>>>>>>>>>>>2: " + recipeCrudService.findAll());
+        var batch = new Batch(recipeCrudService.findAll(), ingredientCrudService.findAll(), unitCrudService.findAll(), recipeCategoryCrudService.findAll());
         exporter.exportBatch(batch, filePath);
     }
 
