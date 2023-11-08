@@ -103,7 +103,6 @@ public class CustomTable<T> extends JTable {
      */
     public void cancelFilter() {
         this.rowSorter.setRowFilter(null);
-        System.out.println("Here");
         updateColumnHeader(); // keep this order!
         activeFilter = false; // and here!
     }
