@@ -28,6 +28,7 @@ public class MainWindow {
     private final CancelFilterAction cancelFilterAction;
 
     public MainWindow() {
+
         frame = createFrame();
 
         CustomTable<Recipe> recipesTable = new CustomTable<>("My Recipes", new CellEditor(), new CellRenderer(), Recipe.class, 130);

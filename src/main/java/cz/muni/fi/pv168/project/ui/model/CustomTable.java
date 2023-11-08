@@ -39,6 +39,7 @@ public class CustomTable<T> extends JTable {
     private int editingRow = -1;
     private int editingColumn = -1;
     private int rowHeight;
+    private boolean activeFilter = false;
 
     // private AbstractFilter filter; // TODO save later on
 
@@ -92,7 +93,9 @@ public class CustomTable<T> extends JTable {
      * @param filter filter to use
      */
     public void applyFilter(AbstractFilter filter) {
+        activeFilter = true;
         this.rowSorter.setRowFilter(filter.getRowFilter());
+        updateColumnHeader();
     }
 
     /**
@@ -100,6 +103,9 @@ public class CustomTable<T> extends JTable {
      */
     public void cancelFilter() {
         this.rowSorter.setRowFilter(null);
+        System.out.println("Here");
+        updateColumnHeader(); // keep this order!
+        activeFilter = false; // and here!
     }
 
     private void designTable() {
@@ -139,6 +145,7 @@ public class CustomTable<T> extends JTable {
         List<T> lst = new ArrayList<>();
         lst.add(data);
         model.addRow(lst.toArray());
+        updateColumnHeader();
     }
 
     /**
@@ -198,11 +205,26 @@ public class CustomTable<T> extends JTable {
             if (row >= 0) {
                 model.removeRow(row - rowsDeleted);
                 rowsDeleted++;
+
             }
         }
 
-        // Clear the selection
         clearSelection();
+        updateColumnHeader();
+    }
+
+    private void updateColumnHeader()
+    {
+        int currentRowCount;
+
+        if (activeFilter) {
+            currentRowCount = this.rowSorter.getViewRowCount();
+        } else {
+            currentRowCount = model.getRowCount();
+        }
+        getColumnModel().getColumn(0).setHeaderValue(this.name + " (" + currentRowCount + "/" + model.getRowCount() + ")");
+        requestFocus();
+        getTableHeader().requestFocusInWindow();
     }
 
     public void editSelectedCell() {
