@@ -31,7 +31,7 @@ public class AddAction extends AbstractAction {
         Class<?> tableClass = table.getTypeParameterClass();
         Class<? extends EntityDialog> dialogClass = UserItemClasses.dialogMap.get(tableClass);
         try {
-            dialog = dialogClass.getConstructor(tableClass).newInstance(UserItemClasses.defaultValuesMap.get(tableClass));
+            dialog = dialogClass.getConstructor(tableClass).newInstance(tableClass.getConstructor().newInstance());
 
         } catch (Exception exc) {
             throw new RuntimeException("Failed to create dialog.", exc);
