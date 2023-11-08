@@ -6,12 +6,7 @@ import cz.muni.fi.pv168.project.business.service.export.batch.Batch;
 import cz.muni.fi.pv168.project.business.service.export.batch.BatchExporter;
 import cz.muni.fi.pv168.project.business.service.export.format.Format;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.List;
 
 public class JSONBatchExporter implements BatchExporter {
@@ -20,6 +15,14 @@ public class JSONBatchExporter implements BatchExporter {
     @Override
     public void exportBatch(Batch batch, String filePath) {
         try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+            final FileOutputStream out = new FileOutputStream(filePath);
+            final ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(out, batch);
+            System.out.println(out);
+
+            /*final ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+            mapper.writeValue(out2, batch.ingredients());
+            System.out.println(out2);
 
             for (var recipe : batch.recipes()) {
                 System.out.println(">>>>>>>>>>>>>>>> " + recipe.getName());
@@ -41,7 +44,7 @@ public class JSONBatchExporter implements BatchExporter {
                     ObjectWriter objectWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
                     objectWriter.writeValue(unitWriter, unit);
                 }
-            }
+            }*/
         } catch (IOException e) {
             e.printStackTrace();
         }
