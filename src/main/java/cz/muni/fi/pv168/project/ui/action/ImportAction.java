@@ -11,13 +11,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public final class ImportAction extends AbstractAction {
     private final ImportService importService;
-    private final Runnable callback;
+    private final Consumer<ImportType> callback;
     private final Component frame;
 
-    public ImportAction(ImportService importService, Runnable callback, Component frame) {
+    public ImportAction(ImportService importService, Consumer<ImportType> callback, Component frame) {
         super("Import", Icons.IMPORT_ICON);
         putValue(SHORT_DESCRIPTION, "Imports data from file");
 //        putValue(MNEMONIC_KEY, KeyEvent.VK_Q);
@@ -28,7 +30,16 @@ public final class ImportAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var fileChooser = new JFileChooser();
+        ImportDialog dialog = new ImportDialog(null, (s, importType) -> {
+            importService.importData(s, importType);
+            callback.accept(importType);
+            JOptionPane.showMessageDialog(frame, "Import was done");
+        });
+        dialog.setVisible(true);
+
+
+
+        /*var fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         importService.getFormats().forEach(f -> fileChooser.addChoosableFileFilter(new FileFilter(f)));
 
@@ -41,13 +52,6 @@ public final class ImportAction extends AbstractAction {
 
             callback.run();
             JOptionPane.showMessageDialog(frame, "Import was done");
-        }
-    }
-
-//        ImportDialog dialog = new ImportDialog(null);
-//        dialog.setVisible(true);
-
-    public static void importData(ImportType importType, String selectedFile) {
-        System.out.println("import from file: " + selectedFile + " with type: " + importType);
+        }*/
     }
 }
