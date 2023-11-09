@@ -225,10 +225,15 @@ public class MainWindow {
         for (Unit unit : Unit.getListOfUnits()) {
             unitsTable.addData(unit);
         }
+        unitsTable.addToDefaultList(gram);
+        unitsTable.addToDefaultList(milliliter);
+        unitsTable.addToDefaultList(piece);
 
+        RecipeCategory defaultCat = new RecipeCategory("no category", Color.GRAY);
         for (RecipeCategory category : RecipeCategory.getListOfCategories()) {
             categoriesTable.addData(category);
         }
+        categoriesTable.addToDefaultList(defaultCat);
     }
 
     private JFrame createFrame() {
