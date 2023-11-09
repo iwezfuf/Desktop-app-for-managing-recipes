@@ -41,6 +41,7 @@ public class CustomTable<T extends Entity> extends JTable {
     private int editingColumn = -1;
     private int rowHeight;
     private boolean activeFilter = false;
+    private boolean filterable = true;
 
     private CrudService<T> crudService;
     private List<T> defaultValues;
@@ -58,6 +59,7 @@ public class CustomTable<T extends Entity> extends JTable {
         this.editor = editor;
         this.renderer = renderer;
         this.rowHeight = 80;
+        this.filterable = true;
 
         initModel();
         designTable();
@@ -93,20 +95,32 @@ public class CustomTable<T extends Entity> extends JTable {
     }
 
     /**
-     * Applies given filter to the table rows.
+     * Applies given filter to the table rows. If the table does not allow filtering,
+     * nothing happens.
      *
      * @param filter filter to use
      */
     public void applyFilter(AbstractFilter filter) {
+
+        if (!filterable) {
+            return;
+        }
+
         activeFilter = true;
         this.rowSorter.setRowFilter(filter.getRowFilter());
         updateColumnHeader();
     }
 
     /**
-     * Cancels the current applied filter.
+     * Cancels the current applied filter. If the table does not allow filtering,
+     * nothing happens.
      */
     public void cancelFilter() {
+
+        if(!filterable) {
+            return;
+        }
+
         this.rowSorter.setRowFilter(null);
         activeFilter = false;
         updateColumnHeader();
@@ -302,6 +316,14 @@ public class CustomTable<T extends Entity> extends JTable {
 
     public boolean isActiveFilter() {
         return activeFilter;
+    }
+
+    public boolean isFilterable() {
+        return filterable;
+    }
+
+    public void setFilterable(boolean filterable) {
+        this.filterable = filterable;
     }
 
     @Override

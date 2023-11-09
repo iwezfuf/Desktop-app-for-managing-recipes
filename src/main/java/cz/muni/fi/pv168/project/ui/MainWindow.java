@@ -62,6 +62,8 @@ public class MainWindow {
         unitsTable = new CustomTable<Unit>("My Units", new CellEditor(), new CellRenderer(), Unit.class, unitCrudService);
         categoriesTable = new CustomTable<RecipeCategory>("My Categories", new CellEditor(), new CellRenderer(), RecipeCategory.class, categoryCrudService);
 
+        unitsTable.setFilterable(false); categoriesTable.setFilterable(false);
+
         addAction = new AddAction(recipesTable);
         deleteAction = new DeleteAction(recipesTable);
         editAction = new EditAction(recipesTable);
