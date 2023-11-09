@@ -1,8 +1,7 @@
 package cz.muni.fi.pv168.project.ui.model;
 
-import cz.muni.fi.pv168.project.business.model.ImportType;
+import cz.muni.fi.pv168.project.business.model.*;
 import cz.muni.fi.pv168.project.model.AbstractFilter;
-import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
@@ -45,6 +44,8 @@ public class CustomTable<T extends Entity> extends JTable {
 
     private CrudService<T> crudService;
 
+    private List<T> defaultValues;
+
     /**
      * Creates a new CustomTable.
      *
@@ -75,6 +76,7 @@ public class CustomTable<T extends Entity> extends JTable {
 
         this.typeParameterClass = typeParameterClass;
         this.crudService = crudService;
+        defaultValues = new ArrayList<>();
     }
 
     /**
@@ -207,6 +209,26 @@ public class CustomTable<T extends Entity> extends JTable {
         for (int row : selectedRows) {
             if (row >= 0) {
                 T entityToDelete = (T) model.getValueAt(row - rowsDeleted, 0);
+                if (defaultValues.contains(entityToDelete)) {
+                    new JOptionPane().showMessageDialog(null, "Cannot delete default value.", "Error", JOptionPane.ERROR_MESSAGE);
+                    continue;
+                }
+
+                if (entityToDelete instanceof Ingredient && Recipe.isInRecipe((Ingredient) entityToDelete)) {
+                    new JOptionPane().showMessageDialog(null, "Cannot delete ingredient used in recipe.", "Error", JOptionPane.ERROR_MESSAGE);
+                    continue;
+                }
+
+                if (entityToDelete instanceof RecipeCategory && Recipe.isInRecipe((RecipeCategory) entityToDelete)) {
+                    new JOptionPane().showMessageDialog(null, "Cannot delete recipe category used in recipe.", "Error", JOptionPane.ERROR_MESSAGE);
+                    continue;
+                }
+
+                if (entityToDelete instanceof Unit && Ingredient.isInIngredient((Unit) entityToDelete)) {
+                    new JOptionPane().showMessageDialog(null, "Cannot delete unit used in ingredient.", "Error", JOptionPane.ERROR_MESSAGE);
+                    continue;
+                }
+
                 crudService.deleteByGuid(entityToDelete.getGuid());
                 model.removeRow(row - rowsDeleted);
                 rowsDeleted++;
@@ -237,14 +259,24 @@ public class CustomTable<T extends Entity> extends JTable {
             new JOptionPane().showMessageDialog(null, "Please select exactly one item to edit.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        T entityToEdit = (T) model.getValueAt(getSelectedRow(), getSelectedColumn());
+        if (defaultValues.contains(entityToEdit)) {
+            new JOptionPane().showMessageDialog(null, "Cannot edit default value.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         editCell(getSelectedRow(), getSelectedColumn());
-        crudService.update((T) model.getValueAt(getSelectedRow(), getSelectedColumn()));
+        crudService.update(entityToEdit);
         clearSelection();
     }
 
     public void editCell(int x, int y) {
         editingRow = x;
         editingColumn = y;
+        T entityToEdit = (T) model.getValueAt(getSelectedRow(), getSelectedColumn());
+        if (defaultValues.contains(entityToEdit)) {
+            new JOptionPane().showMessageDialog(null, "Cannot edit default value.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         editCellAt(x, y);
         Component editorComponent = getEditorComponent();
         if (editorComponent != null) {
@@ -286,5 +318,9 @@ public class CustomTable<T extends Entity> extends JTable {
         for (var item : crudService.findAll()) {
             model.addRow(new Object[]{item});
         }
+    }
+
+    public void addToDefaultList(T elem) {
+        defaultValues.add(elem);
     }
 }
