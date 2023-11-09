@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.ui.model;
 
+import cz.muni.fi.pv168.project.business.model.ImportType;
 import cz.muni.fi.pv168.project.model.AbstractFilter;
 import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
@@ -276,10 +277,14 @@ public class CustomTable<T extends Entity> extends JTable {
         return typeParameterClass;
     }
 
-    public void refresh() {
+    public void refresh(ImportType importType) {
+        if (importType == ImportType.REPLACE) {
+            model.setRowCount(0);
+            this.revalidate();
+        }
+
         for (var item : crudService.findAll()) {
             model.addRow(new Object[]{item});
         }
-//        fireContentsChanged(this, 0, getSize() - 1);
     }
 }

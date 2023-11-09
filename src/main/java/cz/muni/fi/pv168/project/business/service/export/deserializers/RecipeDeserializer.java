@@ -34,6 +34,7 @@ public class RecipeDeserializer extends JsonDeserializer<Recipe> {
             ingredients.add(recipeIngredientAmountDeserializer.deserialize(ingredient.traverse(jsonParser.getCodec()), deserializationContext));
         }
         Recipe recipe = new Recipe(name, description, preparationTime, numOfServings, instructions, recipeCategory, ingredients);
+        //Recipe.getListOfRecipes().remove(recipe);
         return recipe;
     }
 }

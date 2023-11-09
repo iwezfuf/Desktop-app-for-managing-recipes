@@ -1,12 +1,6 @@
 package cz.muni.fi.pv168.project.ui;
 
-import cz.muni.fi.pv168.project.business.model.Entity;
-import cz.muni.fi.pv168.project.business.model.Ingredient;
-import cz.muni.fi.pv168.project.business.model.Recipe;
-import cz.muni.fi.pv168.project.business.model.RecipeCategory;
-import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
-import cz.muni.fi.pv168.project.business.model.Unit;
-import cz.muni.fi.pv168.project.business.model.UuidGuidProvider;
+import cz.muni.fi.pv168.project.business.model.*;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.business.service.crud.IngredientCrudService;
 import cz.muni.fi.pv168.project.business.service.crud.RecipeCategoryCrudService;
@@ -95,11 +89,11 @@ public class MainWindow {
         frame.setVisible(true);
     }
 
-    private void refresh() {
-        recipesTable.refresh();
-        ingredientsTable.refresh();
-        unitsTable.refresh();
-        categoriesTable.refresh();
+    private void refresh(ImportType importType) {
+        recipesTable.refresh(importType);
+        ingredientsTable.refresh(importType);
+        unitsTable.refresh(importType);
+        categoriesTable.refresh(importType);
     }
 
     private void fillTables(CustomTable<Recipe> recipesTable,

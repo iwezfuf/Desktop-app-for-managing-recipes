@@ -23,6 +23,7 @@ public class IngredientDeserializer extends JsonDeserializer<Ingredient> {
         Unit unit = unitDeserializer.deserialize(node.get("unit").traverse(jsonParser.getCodec()), deserializationContext);
         int nutritionalValue = node.get("nutritionalValue").asInt();
         Ingredient ingredient = new Ingredient(name, nutritionalValue, unit);
+        //Ingredient.getListOfIngredients().remove(ingredient);
         return ingredient;
     }
 }
