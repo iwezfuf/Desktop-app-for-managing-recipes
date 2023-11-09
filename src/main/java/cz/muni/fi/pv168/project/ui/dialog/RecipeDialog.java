@@ -23,7 +23,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     private final SpinnerModel portionsModel = new SpinnerNumberModel(2, 0, 100, 1);
     private final JSpinner numberOfServingsSpinner = new JSpinner(portionsModel);
 
-    private final JTextField preparationTimeTextField = FormattedInput.createIntTextField(1, 999);
+    private final JTextField preparationTimeTextField = FormattedInput.createIntTextField(0, 999);
 
     private final JComboBox<RecipeCategory> recipeCategoryComboBox = new JComboBox<>();
     private final JComboBox<Ingredient> ingredientComboBox = new JComboBox<>();

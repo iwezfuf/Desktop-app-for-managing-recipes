@@ -12,7 +12,7 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
     private final JTextField nameTextField = new JTextField();
     private final JComboBox<Unit> unitComboBox = new JComboBox<>();
 
-    private final JTextField nutritionalValueTextField = FormattedInput.createIntTextField(1, 9999);
+    private final JTextField nutritionalValueTextField = FormattedInput.createIntTextField(0, 9999);
 
     private final Ingredient ingredient;
 
