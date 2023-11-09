@@ -14,11 +14,13 @@ public class CancelFilterAction extends AbstractAction {
 
     private CustomTable table;
     private String name;
+    private FilterAction filterAction;
 
-    public CancelFilterAction(String name, CustomTable<? extends Entity> table) {
+    public CancelFilterAction(String name, CustomTable<? extends Entity> table, FilterAction filterAction) {
         super("Cancel " + name + " Filter", Icons.CANCEL_FILTER_ICON);
         putValue(SHORT_DESCRIPTION, "Cancels filter");
         this.table = table;
+        this.filterAction = filterAction;
     }
 
     public void setCurrentTable(CustomTable<? extends Entity> table) {
@@ -33,5 +35,6 @@ public class CancelFilterAction extends AbstractAction {
         Class<? extends EntityDialog> dialogClass = UserItemClasses.filterDialogMap.get(tableClass);
         FilterAction.filterMap.remove(dialogClass);
         this.table.cancelFilter();
+        this.filterAction.putValue(SMALL_ICON, Icons.FILTER_ICON);
     }
 }

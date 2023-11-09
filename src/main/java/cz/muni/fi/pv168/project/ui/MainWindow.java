@@ -21,9 +21,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MainWindow {
 
@@ -57,8 +55,8 @@ public class MainWindow {
     private final CustomTable<Unit> unitsTable;
     private final CustomTable<RecipeCategory> categoriesTable;
 
-
     public MainWindow() {
+
         recipesTable = new CustomTable<Recipe>("My Recipes", new CellEditor(), new CellRenderer(), Recipe.class, recipeCrudService, 130);
         ingredientsTable = new CustomTable<Ingredient>("My Ingredients", new CellEditor(), new CellRenderer(), Ingredient.class, ingredientCrudService);
         unitsTable = new CustomTable<Unit>("My Units", new CellEditor(), new CellRenderer(), Unit.class, unitCrudService);
@@ -68,7 +66,7 @@ public class MainWindow {
         deleteAction = new DeleteAction(recipesTable);
         editAction = new EditAction(recipesTable);
         filterAction = new FilterAction("", recipesTable);
-        cancelFilterAction = new CancelFilterAction("", recipesTable);
+        cancelFilterAction = new CancelFilterAction("", recipesTable, filterAction);
 
         fillTables(recipesTable, ingredientsTable, unitsTable, categoriesTable); // Only for debugging purposes
 
@@ -298,6 +296,7 @@ public class MainWindow {
             addAction.setCurrentTable(currentTable);
             deleteAction.setCurrentTable(currentTable);
             filterAction.setCurrentTable(currentTable);
+            filterAction.drawFilterIcon();
             cancelFilterAction.setCurrentTable(currentTable);
         });
 

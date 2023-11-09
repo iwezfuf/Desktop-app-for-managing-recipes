@@ -26,6 +26,8 @@ public final class Icons {
     public static final Icon APP_ICON = createIcon("recipe.png");
     public static final Icon FILTER_ICON = createIcon("filter.png");
     public static final Icon CANCEL_FILTER_ICON = createIcon("filter-delete.png");
+    public static final Icon ACTIVE_FILTER = createIcon("active_filter.png");
+    public static final Icon CANCEL_FILTER_ACTIVE_ICON = createIcon("filter-delete - active.png");
 
     private Icons() {
         throw new AssertionError("This class is not instantiable");

@@ -43,17 +43,17 @@ public class CustomTable<T extends Entity> extends JTable {
     private boolean activeFilter = false;
 
     private CrudService<T> crudService;
-
     private List<T> defaultValues;
 
     /**
-     * Creates a new CustomTable.
+     * Creates a new CustomTable with default row height.
      *
      * @param tableName name of the table
      * @param editor editor for editing table cells (called components)
      * @param renderer renderer to render table cells
      */
     public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, Class<T> typeParameterClass, CrudService<T> crudService) {
+
         this.name = tableName;
         this.editor = editor;
         this.renderer = renderer;
@@ -131,12 +131,8 @@ public class CustomTable<T extends Entity> extends JTable {
         model.setColumnIdentifiers(new String[]{name});
         setModel(model);
 
-        // Set your custom cell renderer
         getColumnModel().getColumn(0).setCellRenderer(renderer);
-
-        // Use the new cell renderer to highlight selected cells
         getColumnModel().getColumn(0).setCellRenderer(new CellRendererExtension(renderer));
-
         getColumnModel().getColumn(0).setCellEditor(editor);
     }
 
@@ -146,6 +142,7 @@ public class CustomTable<T extends Entity> extends JTable {
      * @param data row to add
      */
     public void addData(T data) {
+
         List<T> lst = new ArrayList<>();
         lst.add(data);
         model.addRow(lst.toArray());
@@ -235,23 +232,24 @@ public class CustomTable<T extends Entity> extends JTable {
             }
         }
 
-        // Clear the selection
+        // Clear the selection and update column header
         clearSelection();
         updateColumnHeader();
     }
 
+    /**
+     * Updates column header based on the activity of filter.
+     */
     private void updateColumnHeader()
     {
         int currentRowCount;
-        String activeFilterString = "";
 
         if (activeFilter) {
             currentRowCount = this.rowSorter.getViewRowCount();
-            activeFilterString = " - Filter is active";
         } else {
             currentRowCount = model.getRowCount();
         }
-        getColumnModel().getColumn(0).setHeaderValue(this.name + " (" + currentRowCount + "/" + model.getRowCount() + ")" + activeFilterString);
+        getColumnModel().getColumn(0).setHeaderValue(this.name + " (" + currentRowCount + "/" + model.getRowCount() + ")");
         requestFocus();
         getTableHeader().requestFocusInWindow();
     }
@@ -300,6 +298,10 @@ public class CustomTable<T extends Entity> extends JTable {
     @Override
     public int getRowHeight() {
         return rowHeight;
+    }
+
+    public boolean isActiveFilter() {
+        return activeFilter;
     }
 
     @Override

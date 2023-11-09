@@ -14,13 +14,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
+/**
+ * Represents an action which filters the custom table entities.
+ */
 public class FilterAction extends AbstractAction {
 
     private CustomTable table;
-    private String name;
+    private final String name;
     public static HashMap<Class<? extends EntityDialog>, AbstractFilter> filterMap;
 
     public FilterAction(String name, CustomTable<? extends Entity> table) {
+
         super(name, Icons.FILTER_ICON);
         this.table = table;
         this.name = name;
@@ -34,6 +38,14 @@ public class FilterAction extends AbstractAction {
 
     public void setCurrentTable(CustomTable<? extends Entity> table) {
         this.table = table;
+    }
+
+    public void drawFilterIcon() {
+        if (table.isActiveFilter()) {
+            putValue(SMALL_ICON, Icons.ACTIVE_FILTER);
+        } else {
+            putValue(SMALL_ICON, Icons.FILTER_ICON);
+        }
     }
 
     @Override
@@ -55,6 +67,7 @@ public class FilterAction extends AbstractAction {
 
                     filterMap.put(dialogClass, a);
                     table.applyFilter(a);
+                    drawFilterIcon();
                 });
     }
 }
