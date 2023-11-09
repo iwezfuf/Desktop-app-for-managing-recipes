@@ -21,6 +21,9 @@ public class UnitDeserializer extends JsonDeserializer<Unit> {
         int conversionRatio = node.get("conversionRatio").asInt();
         String abbreviation = node.get("abbreviation").asText();
         Unit conversionUnit = new Unit();
-        return new Unit(name, conversionUnit, conversionRatio, abbreviation);
+        Unit result = new Unit(name, conversionUnit, conversionRatio, abbreviation);
+        //Unit.getListOfUnits().remove(conversionUnit);
+        //Unit.getListOfUnits().remove(result);
+        return result;
     }
 }

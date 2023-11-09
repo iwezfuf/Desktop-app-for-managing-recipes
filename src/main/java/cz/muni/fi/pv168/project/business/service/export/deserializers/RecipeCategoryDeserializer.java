@@ -20,6 +20,8 @@ public class RecipeCategoryDeserializer extends JsonDeserializer<RecipeCategory>
         String name = node.get("name").asText();
 //        int id = node.get("id").asInt();
         Color color = new Color(node.get("color").asInt());
-        return new RecipeCategory(name, color);
+        RecipeCategory rc = new RecipeCategory(name, color);
+        //RecipeCategory.getListOfCategories().remove(rc);
+        return rc;
     }
 }
