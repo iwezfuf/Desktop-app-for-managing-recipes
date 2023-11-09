@@ -4,6 +4,10 @@ import cz.muni.fi.pv168.project.model.Ingredient;
 import cz.muni.fi.pv168.project.model.Recipe;
 import cz.muni.fi.pv168.project.model.RecipeCategory;
 import cz.muni.fi.pv168.project.ui.UserInputFields.FormattedInput;
+import cz.muni.fi.pv168.project.business.model.Ingredient;
+import cz.muni.fi.pv168.project.business.model.Recipe;
+import cz.muni.fi.pv168.project.business.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
@@ -99,8 +103,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         ingredientComboBox.setSelectedIndex(0);
         instructionsTextArea.setText(recipe.getInstructions());
 
-        for (Map.Entry<Ingredient, Integer> pair : recipe.getIngredientAmountPairs()) {
-            addToIngredientsPanel(pair.getKey(), pair.getValue());
+        for (RecipeIngredientAmount ingredientAmount : recipe.getIngredients()) {
+            addToIngredientsPanel(ingredientAmount.getIngredient(), ingredientAmount.getAmount());
         }
     }
 
@@ -129,7 +133,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
 
     private void addToIngredientsPanel(Ingredient ingredient, int amount) {
         // update only the amount
-        if (recipe.containsIngredient(ingredient)) {
+        if (recipe.getIngredientAmount(ingredient) != null) {
             for (Component panel : ingredientsPanel.getComponents()) {
                 if (panel instanceof JPanel) {
                     var ingredientLabel = ((JLabel)((JPanel) panel).getComponents()[0]);

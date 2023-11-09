@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
-import cz.muni.fi.pv168.project.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 
 import javax.swing.*;
 import java.awt.*;

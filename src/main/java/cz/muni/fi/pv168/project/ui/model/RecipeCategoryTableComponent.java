@@ -1,9 +1,8 @@
 package cz.muni.fi.pv168.project.ui.model;
 
-import cz.muni.fi.pv168.project.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class RecipeCategoryTableComponent extends AbstractTableComponent {

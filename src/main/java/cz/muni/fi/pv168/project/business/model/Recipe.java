@@ -1,7 +1,7 @@
-package cz.muni.fi.pv168.project.model;
+package cz.muni.fi.pv168.project.business.model;
 
-import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
-import cz.muni.fi.pv168.project.ui.model.RecipeTableComponent;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import cz.muni.fi.pv168.project.business.service.export.serializers.IngredientSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * @author Marek Eibel
  */
-public class Recipe extends AbstractUserItemData {
+public class Recipe extends Entity {
 
     private String name;
     private String description;
@@ -25,7 +25,7 @@ public class Recipe extends AbstractUserItemData {
     /**
      * Represents pairs ingredientId : ingredient amount
      */
-    private Map<Ingredient, Integer> ingredients;
+    private ArrayList<RecipeIngredientAmount> ingredients;
     private static List<Recipe> listOfRecipes = new ArrayList<>();
 
     public static List<Recipe> getListOfRecipes() {
@@ -33,7 +33,7 @@ public class Recipe extends AbstractUserItemData {
     }
 
     public Recipe(String name, String description, int preparationTime, int numOfServings,
-                  String instructions, RecipeCategory category, Map<Ingredient, Integer> ingredients) {
+                  String instructions, RecipeCategory category, ArrayList<RecipeIngredientAmount> ingredients) {
 
         this.name = name;
         this.description = description;
@@ -43,6 +43,21 @@ public class Recipe extends AbstractUserItemData {
         this.instructions = instructions;
         this.category = category;
         this.ingredients = ingredients;
+        if (listOfRecipes == null) {
+            listOfRecipes = new ArrayList<>();
+        }
+        listOfRecipes.add(this);
+    }
+
+    public Recipe() {
+        this.name = "";
+        this.description = "";
+        this.id = Recipe.idCounter++;
+        this.preparationTime = 0;
+        this.numOfServings = 0;
+        this.instructions = "";
+        this.category = new RecipeCategory();
+        this.ingredients = new ArrayList<>();
         if (listOfRecipes == null) {
             listOfRecipes = new ArrayList<>();
         }
@@ -77,46 +92,44 @@ public class Recipe extends AbstractUserItemData {
         this.category = category;
     }
 
-    public String getIngredients() {
+    public ArrayList<RecipeIngredientAmount> getIngredients() {
+        return ingredients;
+    }
+
+    public String getIngredientsString() {
         StringBuilder result = new StringBuilder();
-        for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
-            Ingredient ingredient = entry.getKey();
-            int amount = entry.getValue();
-            result.append(ingredient.getName() + ": " + amount + "\n");
+        for (var ingredientAmount : ingredients) {
+            result.append(ingredientAmount.getIngredient().getName() + ": " + ingredientAmount.getAmount() + "\n");
         }
         return result.toString();
     }
 
-    public void addIngredient(Ingredient ingredient, int amount) {
-        if (ingredients.containsKey(ingredient)) {
-            ingredients.put(ingredient, ingredients.get(ingredient) + amount);
-        } else {
-            ingredients.put(ingredient, amount);
+    public RecipeIngredientAmount getIngredientAmount(Ingredient ingredient) {
+        for (var ingredientAmount : ingredients) {
+            if (ingredientAmount.getIngredient().equals(ingredient)) {
+                return ingredientAmount;
+            }
         }
+        return null;
     }
 
-    public boolean containsIngredient(Ingredient ingredient) {
-        return ingredients.containsKey(ingredient);
+    public void addIngredient(Ingredient ingredient, int amount) {
+        RecipeIngredientAmount ingredientAmount = getIngredientAmount(ingredient);
+        if (ingredientAmount != null) {
+            ingredientAmount.setAmount(ingredientAmount.getAmount() + amount);
+        } else {
+            ingredients.add(new RecipeIngredientAmount(ingredient, amount));
+        }
     }
 
     public void removeIngredient(Ingredient ingredient) {
         ingredients.remove(ingredient);
     }
 
-    public Set<Map.Entry<Ingredient, Integer>> getIngredientAmountPairs() {
-        return ingredients.entrySet();
-    }
-
-    public Set<Ingredient> getIngredientsSet() {
-        return ingredients.keySet();
-    }
-
     public int getNutritionalValue() {
         int result = 0;
-        for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
-            Ingredient ingredient = entry.getKey();
-            int amount = entry.getValue();
-            result += amount * ingredient.getNutritionalValue();
+        for (RecipeIngredientAmount ingredientAmount : ingredients) {
+            result += ingredientAmount.getAmount() * ingredientAmount.getIngredient().getNutritionalValue();
         }
         return result;
     }
@@ -149,4 +162,8 @@ public class Recipe extends AbstractUserItemData {
         return listOfRecipes.size();
     }
 
+    @Override
+    public String getGuid() {
+        return "recipe-" + id;
+    }
 }

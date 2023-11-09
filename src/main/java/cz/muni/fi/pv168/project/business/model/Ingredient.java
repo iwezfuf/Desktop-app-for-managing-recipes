@@ -1,14 +1,9 @@
-package cz.muni.fi.pv168.project.model;
+package cz.muni.fi.pv168.project.business.model;
 
-import cz.muni.fi.pv168.project.ui.dialog.IngredientDialog;
-import cz.muni.fi.pv168.project.ui.model.IngredientTableComponent;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-public class Ingredient extends AbstractUserItemData {
+public class Ingredient extends Entity {
     private final int ingredientId;
     private String name;
 
@@ -23,6 +18,17 @@ public class Ingredient extends AbstractUserItemData {
         this.name = name;
         this.nutritionalValue = nutritionalValue;
         this.unit = unit;
+        if (listOfIngredients == null) {
+            listOfIngredients = new ArrayList<>();
+        }
+        listOfIngredients.add(this);
+    }
+
+    public Ingredient() {
+        this.ingredientId = idCounter++;
+        this.name = "";
+        this.nutritionalValue = 0;
+        this.unit = null;
         if (listOfIngredients == null) {
             listOfIngredients = new ArrayList<>();
         }
@@ -69,7 +75,7 @@ public class Ingredient extends AbstractUserItemData {
     public int getRecipeCount(List<Recipe> recipes) {
         int count = 0;
         for (Recipe recipe : recipes) {
-            if (recipe.containsIngredient(this)) {
+            if (recipe.getIngredientAmount(this) != null) {
                 count++;
             }
         }
@@ -78,5 +84,10 @@ public class Ingredient extends AbstractUserItemData {
 
     public int getRecipeCountPercentage(List<Recipe> recipes) {
         return (int) Math.round((double) getRecipeCount(recipes) / recipes.size() * 100);
+    }
+
+    @Override
+    public String getGuid() {
+        return "ingredient-" + ingredientId;
     }
 }

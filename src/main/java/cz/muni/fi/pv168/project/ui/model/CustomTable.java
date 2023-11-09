@@ -2,6 +2,8 @@ package cz.muni.fi.pv168.project.ui.model;
 
 import cz.muni.fi.pv168.project.model.AbstractUserItemData;
 import cz.muni.fi.pv168.project.model.AbstractFilter;
+import cz.muni.fi.pv168.project.business.model.Entity;
+import cz.muni.fi.pv168.project.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
 
@@ -25,7 +27,7 @@ import java.util.List;
  *
  * @author Marek Eibel
  */
-public class CustomTable<T> extends JTable {
+public class CustomTable<T extends Entity> extends JTable {
 
     private DefaultTableModel model;
     private final String name;
@@ -41,7 +43,8 @@ public class CustomTable<T> extends JTable {
     private int rowHeight;
     private boolean activeFilter = false;
 
-    // private AbstractFilter filter; // TODO save later on
+    private Class<T> typeParameterClass;
+    private CrudService<T> crudService;
 
     /**
      * Creates a new CustomTable.
@@ -50,7 +53,7 @@ public class CustomTable<T> extends JTable {
      * @param editor editor for editing table cells (called components)
      * @param renderer renderer to render table cells
      */
-    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, Class<T> typeParameterClass) {
+    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, Class<T> typeParameterClass, CrudService<T> crudService) {
         this.name = tableName;
         this.editor = editor;
         this.renderer = renderer;
@@ -72,6 +75,7 @@ public class CustomTable<T> extends JTable {
         setRowSorter(rowSorter);
 
         this.typeParameterClass = typeParameterClass;
+        this.crudService = crudService;
     }
 
     /**
@@ -82,8 +86,8 @@ public class CustomTable<T> extends JTable {
      * @param renderer renderer to render table cells
      * @param rowHeight height of one row (component)
      */
-    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, Class<T> typeParameterClass, int rowHeight) {
-        this(tableName, editor, renderer, typeParameterClass);
+    public CustomTable(String tableName, TableCellEditor editor, TableCellRenderer renderer, Class<T> typeParameterClass, CrudService<T> crudService , int rowHeight) {
+        this(tableName, editor, renderer, typeParameterClass, crudService);
         this.rowHeight = rowHeight;
     }
 
@@ -145,6 +149,7 @@ public class CustomTable<T> extends JTable {
         lst.add(data);
         model.addRow(lst.toArray());
         updateColumnHeader();
+        crudService.create(data);
     }
 
     /**
@@ -176,8 +181,8 @@ public class CustomTable<T> extends JTable {
                 JMenuItem editItem = new JMenuItem("Edit");
                 JMenuItem deleteItem = new JMenuItem("Delete");
 
-                editItem.addActionListener(new EditAction((CustomTable<? extends AbstractUserItemData>) CustomTable.this));
-                deleteItem.addActionListener(new DeleteAction((CustomTable<? extends AbstractUserItemData>) CustomTable.this));
+                editItem.addActionListener(new EditAction((CustomTable<? extends Entity>) CustomTable.this));
+                deleteItem.addActionListener(new DeleteAction((CustomTable<? extends Entity>) CustomTable.this));
 
                 popupMenu.add(editItem);
                 popupMenu.add(deleteItem);
@@ -202,12 +207,14 @@ public class CustomTable<T> extends JTable {
         int rowsDeleted = 0;
         for (int row : selectedRows) {
             if (row >= 0) {
+                T entityToDelete = (T) model.getValueAt(row - rowsDeleted, 0);
+                crudService.deleteByGuid(entityToDelete.getGuid());
                 model.removeRow(row - rowsDeleted);
                 rowsDeleted++;
-
             }
         }
 
+        // Clear the selection
         clearSelection();
         updateColumnHeader();
     }
@@ -232,6 +239,7 @@ public class CustomTable<T> extends JTable {
             return;
         }
         editCell(getSelectedRow(), getSelectedColumn());
+        crudService.update((T) model.getValueAt(getSelectedRow(), getSelectedColumn()));
         clearSelection();
     }
 
@@ -268,5 +276,12 @@ public class CustomTable<T> extends JTable {
 
     public Class<T> getTypeParameterClass() {
         return typeParameterClass;
+    }
+
+    public void refresh() {
+        for (var item : crudService.findAll()) {
+            model.addRow(new Object[]{item});
+        }
+//        fireContentsChanged(this, 0, getSize() - 1);
     }
 }

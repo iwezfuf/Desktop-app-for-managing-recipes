@@ -1,36 +1,58 @@
 package cz.muni.fi.pv168.project.ui.action;
 
-import cz.muni.fi.pv168.project.ui.dialog.ImportDialog;
+import cz.muni.fi.pv168.project.business.service.export.ExportService;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
+import cz.muni.fi.pv168.project.util.FileFilter;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.AbstractAction;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.Objects;
 
+/**
+ * Action responsible for exporting all the employees in the employee table to a file.
+ *
+ * <p>This class only handles the UI-related part of the export (choosing a file)
+ * and delegates the export itself to an instance of {@link ExportService},
+ * which also implies the file format to be used.
+ */
 public final class ExportAction extends AbstractAction {
 
-    public ExportAction() {
+    private final Component parent;
+    private final ExportService exportService;
+
+    public ExportAction(Component parent, ExportService exportService) {
         super("Export", Icons.EXPORT_ICON);
-        putValue(SHORT_DESCRIPTION, "Exports data from file");
-//        putValue(MNEMONIC_KEY, KeyEvent.VK_Q);
+        this.parent = Objects.requireNonNull(parent);
+        this.exportService = exportService;
+
+        putValue(SHORT_DESCRIPTION, "Export");
+        putValue(MNEMONIC_KEY, KeyEvent.VK_X);
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl X"));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON files", "json");
-        fileChooser.setFileFilter(filter);
+        var fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        exportService.getFormats().forEach(f -> fileChooser.addChoosableFileFilter(new FileFilter(f)));
 
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            exportData(selectedFile.getAbsolutePath());
+        int dialogResult = fileChooser.showSaveDialog(parent);
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
+            String exportFile = fileChooser.getSelectedFile().getAbsolutePath();
+            var filter = fileChooser.getFileFilter();
+            if (filter instanceof FileFilter) {
+                exportFile = ((FileFilter) filter).decorate(exportFile);
+            }
+
+            exportService.exportData(exportFile);
+
+            JOptionPane.showMessageDialog(parent, "Export has successfully finished.");
         }
-    }
-    
-    private static void exportData(String selectedFile) {
-        System.out.println("export to file: " + selectedFile);
     }
 }

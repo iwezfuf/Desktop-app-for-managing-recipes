@@ -1,10 +1,10 @@
-package cz.muni.fi.pv168.project.model;
+package cz.muni.fi.pv168.project.business.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Unit extends AbstractUserItemData {
+public class Unit extends Entity {
     private String name;
     private final int id;
     private static int idCounter = 0;
@@ -28,6 +28,18 @@ public class Unit extends AbstractUserItemData {
         this.conversionUnit = conversionUnit;
         this.conversionRatio = ratio;
         this.abbreviation = abbreviation;
+        if (listOfUnits == null) {
+            listOfUnits = new ArrayList<>();
+        }
+        listOfUnits.add(this);
+    }
+
+    public Unit() {
+        this.name = "";
+        this.id = Unit.idCounter++;
+        this.conversionUnit = null;
+        this.conversionRatio = 0;
+        this.abbreviation = "";
         if (listOfUnits == null) {
             listOfUnits = new ArrayList<>();
         }
@@ -79,4 +91,8 @@ public class Unit extends AbstractUserItemData {
         return conversionUnit == null;
     }
 
+    @Override
+    public String getGuid() {
+        return "unit-" + id;
+    }
 }
