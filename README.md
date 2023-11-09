@@ -24,8 +24,4 @@ The desktop application will allow users to track their recipes. They will be ab
 |PM              | [Vendula Teuchnerová](https://is.muni.cz/auth/osoba/445583) |
 |Technical Coach | [Jiří Weiser](https://is.muni.cz/auth/osoba/374154) |
 
-## TODO
 
-- Update the [`pom.xml`](pom.xml) - fill in the project and team details (resolve all the `FIXME` comments and remove them).
-- Start with [`Main.java`](src/main/java/cz/muni/fi/pv168/project/Main.java) as the _main class_ for your application.
-- Get rid of this TODO section. 😉

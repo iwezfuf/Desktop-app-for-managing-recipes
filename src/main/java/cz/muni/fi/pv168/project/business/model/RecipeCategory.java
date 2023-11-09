@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Marek Eibel
  */
-public class RecipeCategory extends Entity { // TODO probably must be reimplement it
+public class RecipeCategory extends Entity {
     private final int id;
     private String name;
     private Color color;

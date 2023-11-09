@@ -159,7 +159,7 @@ public class RangePanel extends JPanel {
         return panel;
     }
 
-    private static void limitComponentToOneRow(JComponent component) { // TODO maybe tmp
+    private static void limitComponentToOneRow(JComponent component) {
         // Limit the preferred and maximum height of the JTextField to one row.
         Dimension preferredSize = component.getPreferredSize();
         preferredSize.height = component.getFontMetrics(component.getFont()).getHeight() + 4; // Adjust as needed.

@@ -38,8 +38,6 @@ public class RecipeFilter implements AbstractFilter {
         this.preperationTimeRange = preperationTimeRange;
     }
 
-    // TODO generate setters & getters
-
     /**
      * Returns true if the given recipe should be left in the table.
      *
@@ -82,7 +80,7 @@ public class RecipeFilter implements AbstractFilter {
             @Override
             public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
 
-                Object columnValue = entry.getValue(0); // TODO: think about where to set this column index
+                Object columnValue = entry.getValue(0);
                 return evaluateRecipe((Recipe)columnValue);
             }
         };

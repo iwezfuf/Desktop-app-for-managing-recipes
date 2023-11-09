@@ -20,7 +20,6 @@ public class UserItemClasses {
     static final Map<Class<? extends Entity>, Class<? extends Component>> componentMap = new HashMap<>();
     public static final Map<Class<? extends Entity>, Class<? extends EntityDialog>> dialogMap = new HashMap<>();
     public static final Map<Class<? extends  Entity>, Class<? extends EntityDialog>> filterDialogMap = new HashMap<>();
-    //public static final Map<Class<? extends Entity>, Entity> defaultValuesMap = new HashMap<>();
 
 static {
     componentMap.put(Recipe.class, RecipeTableComponent.class);
@@ -38,18 +37,5 @@ static {
     filterDialogMap.put(Unit.class, null); // without filter
     filterDialogMap.put(RecipeCategory.class, null);
 
-    /*var blankCategory = new RecipeCategory("", Color.BLACK);
-    var blankUnit = new Unit("", null, -1, "");
-    var blankIngredient = new Ingredient("", 0, blankUnit);
-    var blankRecipe = new Recipe("", "", 0, 0,
-            "", blankCategory, new ArrayList<>());
-    defaultValuesMap.put(Recipe.class, blankRecipe);
-    defaultValuesMap.put(RecipeCategory.class, blankCategory);
-    defaultValuesMap.put(Ingredient.class, blankIngredient);
-    defaultValuesMap.put(Unit.class, blankUnit);
-    Recipe.getListOfRecipes().remove(blankRecipe);
-    Ingredient.getListOfIngredients().remove(blankIngredient);
-    Unit.getListOfUnits().remove(blankUnit);
-    RecipeCategory.getListOfCategories().remove(blankCategory);*/
     }
 }
