@@ -90,4 +90,13 @@ public class Ingredient extends Entity {
     public String getGuid() {
         return "ingredient-" + ingredientId;
     }
+
+    public static boolean isInIngredient(Unit unit) {
+        for (Ingredient ingredient : getListOfIngredients()) {
+            if (ingredient.getUnit() == unit || ingredient.getUnit().getConversionUnit() == unit) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

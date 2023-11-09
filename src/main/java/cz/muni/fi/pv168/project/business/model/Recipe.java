@@ -1,12 +1,8 @@
 package cz.muni.fi.pv168.project.business.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import cz.muni.fi.pv168.project.business.service.export.serializers.IngredientSerializer;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -174,5 +170,23 @@ public class Recipe extends Entity {
     @Override
     public String getGuid() {
         return "recipe-" + id;
+    }
+
+    public static boolean isInRecipe(Ingredient ingr) {
+        for (Recipe rec : getListOfRecipes()) {
+            if (rec.getIngredientsSet().contains(ingr)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isInRecipe(RecipeCategory recipeCategory) {
+        for (Recipe rec : getListOfRecipes()) {
+            if (rec.getCategory() == recipeCategory) {
+                return true;
+            }
+        }
+        return false;
     }
 }
