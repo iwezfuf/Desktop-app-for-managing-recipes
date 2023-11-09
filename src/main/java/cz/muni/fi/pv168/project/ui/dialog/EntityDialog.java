@@ -10,11 +10,9 @@ import static javax.swing.JOptionPane.PLAIN_MESSAGE;
 
 public abstract class EntityDialog<E> extends JPanel{
 
-    //private final JPanel panel = new JPanel();
-
     EntityDialog(Dimension preferredSize) {
         this.setPreferredSize(preferredSize);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // TODO this all may be tmp
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
     void add(String labelText, JComponent component) {
@@ -51,10 +49,10 @@ public abstract class EntityDialog<E> extends JPanel{
         }
     }
 
-    static void limitComponentToOneRow(JComponent component) { // TODO maybe tmp
-        // Limit the preferred and maximum height of the JTextField to one row.
+    static void limitComponentToOneRow(JComponent component) {
+
         Dimension preferredSize = component.getPreferredSize();
-        preferredSize.height = component.getFontMetrics(component.getFont()).getHeight() + 4; // Adjust as needed.
+        preferredSize.height = component.getFontMetrics(component.getFont()).getHeight() + 4;
         component.setPreferredSize(preferredSize);
         component.setMaximumSize(preferredSize);
     }

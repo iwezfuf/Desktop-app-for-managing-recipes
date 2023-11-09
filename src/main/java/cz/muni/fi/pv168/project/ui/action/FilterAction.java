@@ -56,8 +56,11 @@ public class FilterAction extends AbstractAction {
         Class<? extends EntityDialog> dialogClass = UserItemClasses.filterDialogMap.get(tableClass);
         try {
             dialog = dialogClass.getConstructor(AbstractFilter.class).newInstance(filterMap.get(dialogClass));
-
         } catch (Exception exc) {
+            if (!this.table.isFilterable()) {
+                new JOptionPane().showMessageDialog(null, "Cannot use filter in this table.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             throw new RuntimeException("Failed to create dialog.", exc);
         }
 

@@ -13,7 +13,6 @@ import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
 import cz.muni.fi.pv168.project.ui.dialog.UnitDialog;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,8 +35,8 @@ static {
 
     filterDialogMap.put(Recipe.class, RecipeFilterDialog.class);
     filterDialogMap.put(Ingredient.class, IngredientFilterDialog.class);
-    filterDialogMap.put(Unit.class, NotExistFilterDialog.class);
-    filterDialogMap.put(RecipeCategory.class, NotExistFilterDialog.class);
+    filterDialogMap.put(Unit.class, null); // without filter
+    filterDialogMap.put(RecipeCategory.class, null);
 
     /*var blankCategory = new RecipeCategory("", Color.BLACK);
     var blankUnit = new Unit("", null, -1, "");
