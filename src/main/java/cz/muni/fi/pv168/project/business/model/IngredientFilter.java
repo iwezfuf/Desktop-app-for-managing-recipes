@@ -1,9 +1,11 @@
-package cz.muni.fi.pv168.project.model;
+package cz.muni.fi.pv168.project.business.model;
+
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import cz.muni.fi.pv168.project.model.AbstractFilter;
 
-public class IngredientFilter implements AbstractFilter{
+public class IngredientFilter implements AbstractFilter {
 
     private Range nutritionValueRange;
 

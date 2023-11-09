@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
-import cz.muni.fi.pv168.project.model.Range;
+import cz.muni.fi.pv168.project.business.model.Range;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

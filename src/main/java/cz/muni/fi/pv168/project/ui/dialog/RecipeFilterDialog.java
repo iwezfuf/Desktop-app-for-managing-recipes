@@ -1,7 +1,9 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
-import cz.muni.fi.pv168.project.model.*;
-import cz.muni.fi.pv168.project.ui.model.CustomTable;
+import cz.muni.fi.pv168.project.business.model.Ingredient;
+import cz.muni.fi.pv168.project.business.model.Range;
+import cz.muni.fi.pv168.project.business.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.model.RecipeFilter;
 import cz.muni.fi.pv168.project.ui.model.Tab;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
@@ -12,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import cz.muni.fi.pv168.project.model.AbstractFilter;
 
 /**
  * Represents a dialog for configuring and applying filters to recipes.
@@ -86,7 +89,6 @@ public class RecipeFilterDialog extends EntityDialog<RecipeFilter> {
      */
     @Override
     RecipeFilter getEntity() {
-        System.out.println("Ingredients: " + ingredientsSet + ", categories: " + recipeCategoriesSet + ", nutrirtion: " + nutritionalRange + ", prep time: " + prepTimeRange);
         return new RecipeFilter(ingredientsSet, recipeCategoriesSet, nutritionalRange, prepTimeRange);
     }
 }

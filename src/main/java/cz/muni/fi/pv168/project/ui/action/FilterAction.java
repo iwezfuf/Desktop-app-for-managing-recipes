@@ -1,7 +1,7 @@
 package cz.muni.fi.pv168.project.ui.action;
 
+import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.model.AbstractFilter;
-import cz.muni.fi.pv168.project.model.AbstractUserItemData;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.dialog.IngredientFilterDialog;
 import cz.muni.fi.pv168.project.ui.dialog.RecipeFilterDialog;
@@ -20,7 +20,7 @@ public class FilterAction extends AbstractAction {
     private String name;
     public static HashMap<Class<? extends EntityDialog>, AbstractFilter> filterMap;
 
-    public FilterAction(String name, CustomTable<? extends AbstractUserItemData> table) {
+    public FilterAction(String name, CustomTable<? extends Entity> table) {
         super(name, Icons.FILTER_ICON);
         this.table = table;
         this.name = name;
@@ -32,7 +32,7 @@ public class FilterAction extends AbstractAction {
         putValue(MNEMONIC_KEY, KeyEvent.VK_F);
     }
 
-    public void setCurrentTable(CustomTable<? extends AbstractUserItemData> table) {
+    public void setCurrentTable(CustomTable<? extends Entity> table) {
         this.table = table;
     }
 

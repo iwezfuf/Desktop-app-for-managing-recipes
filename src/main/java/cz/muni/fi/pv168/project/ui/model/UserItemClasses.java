@@ -1,10 +1,5 @@
 package cz.muni.fi.pv168.project.ui.model;
 
-import cz.muni.fi.pv168.project.model.AbstractUserItemData;
-import cz.muni.fi.pv168.project.model.Ingredient;
-import cz.muni.fi.pv168.project.model.Recipe;
-import cz.muni.fi.pv168.project.model.RecipeCategory;
-import cz.muni.fi.pv168.project.model.Unit;
 import cz.muni.fi.pv168.project.ui.dialog.*;
 import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
@@ -25,7 +20,7 @@ import java.util.Map;
 public class UserItemClasses {
     static final Map<Class<? extends Entity>, Class<? extends Component>> componentMap = new HashMap<>();
     public static final Map<Class<? extends Entity>, Class<? extends EntityDialog>> dialogMap = new HashMap<>();
-    public static final Map<Class<? extends  AbstractUserItemData>, Class<? extends EntityDialog>> filterDialogMap = new HashMap<>();
+    public static final Map<Class<? extends  Entity>, Class<? extends EntityDialog>> filterDialogMap = new HashMap<>();
     public static final Map<Class<? extends Entity>, Entity> defaultValuesMap = new HashMap<>();
 
 static {

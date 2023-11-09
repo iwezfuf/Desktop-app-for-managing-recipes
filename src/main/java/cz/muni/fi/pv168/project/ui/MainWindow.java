@@ -53,11 +53,6 @@ public class MainWindow {
     private final Action quitAction = new QuitAction();
     private final Action importAction = new ImportAction(importService, this::refresh, frame);
     private final Action exportAction = new ExportAction(frame, exportService);
-    private final Action filterAction = new FilterAction();
-    private final Action cancelFilterAction = new CancelFilterAction();
-    private final Action importAction = new ImportAction();
-    private final Action exportAction = new ExportAction();
-
     private final AddAction addAction;
     private final DeleteAction deleteAction;
     private final EditAction editAction;
@@ -70,7 +65,6 @@ public class MainWindow {
 
 
     public MainWindow() {
-        frame = createFrame();
         recipesTable = new CustomTable<Recipe>("My Recipes", new CellEditor(), new CellRenderer(), Recipe.class, recipeCrudService, 130);
         ingredientsTable = new CustomTable<Ingredient>("My Ingredients", new CellEditor(), new CellRenderer(), Ingredient.class, ingredientCrudService);
         unitsTable = new CustomTable<Unit>("My Units", new CellEditor(), new CellRenderer(), Unit.class, unitCrudService);

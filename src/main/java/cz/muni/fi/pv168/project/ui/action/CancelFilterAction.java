@@ -1,7 +1,7 @@
 package cz.muni.fi.pv168.project.ui.action;
 
+import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.model.AbstractFilter;
-import cz.muni.fi.pv168.project.model.AbstractUserItemData;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.model.CustomTable;
 import cz.muni.fi.pv168.project.ui.model.UserItemClasses;
@@ -15,13 +15,13 @@ public class CancelFilterAction extends AbstractAction {
     private CustomTable table;
     private String name;
 
-    public CancelFilterAction(String name, CustomTable<? extends AbstractUserItemData> table) {
+    public CancelFilterAction(String name, CustomTable<? extends Entity> table) {
         super("Cancel " + name + " Filter", Icons.CANCEL_FILTER_ICON);
         putValue(SHORT_DESCRIPTION, "Cancels filter");
         this.table = table;
     }
 
-    public void setCurrentTable(CustomTable<? extends AbstractUserItemData> table) {
+    public void setCurrentTable(CustomTable<? extends Entity> table) {
         this.table = table;
     }
 

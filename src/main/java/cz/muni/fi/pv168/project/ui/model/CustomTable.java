@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.project.ui.model;
 
-import cz.muni.fi.pv168.project.model.AbstractUserItemData;
 import cz.muni.fi.pv168.project.model.AbstractFilter;
 import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
@@ -43,7 +42,6 @@ public class CustomTable<T extends Entity> extends JTable {
     private int rowHeight;
     private boolean activeFilter = false;
 
-    private Class<T> typeParameterClass;
     private CrudService<T> crudService;
 
     /**

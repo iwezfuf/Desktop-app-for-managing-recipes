@@ -18,13 +18,6 @@ public class Main {
     private static void initNimbusLookAndFeel() {
         try {
             UIManager.setLookAndFeel( new FlatLightLaf() );
-            /*for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                System.out.println(info.getName());
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }*/
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "Nimbus layout initialization failed", ex);
         }

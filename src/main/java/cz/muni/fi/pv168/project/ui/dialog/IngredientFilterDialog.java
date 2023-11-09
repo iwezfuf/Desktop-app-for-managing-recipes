@@ -1,8 +1,8 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
+import cz.muni.fi.pv168.project.business.model.IngredientFilter;
+import cz.muni.fi.pv168.project.business.model.Range;
 import cz.muni.fi.pv168.project.model.AbstractFilter;
-import cz.muni.fi.pv168.project.model.IngredientFilter;
-import cz.muni.fi.pv168.project.model.Range;
 
 import java.awt.*;
 

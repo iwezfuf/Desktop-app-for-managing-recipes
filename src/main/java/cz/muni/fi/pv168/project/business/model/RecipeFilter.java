@@ -1,9 +1,10 @@
-package cz.muni.fi.pv168.project.model;
+package cz.muni.fi.pv168.project.business.model;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import java.util.Set;
+import cz.muni.fi.pv168.project.model.AbstractFilter;
 
 /**
  * The RecipeFilter class represents a filter for recipes.

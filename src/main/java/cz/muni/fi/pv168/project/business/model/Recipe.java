@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import cz.muni.fi.pv168.project.business.service.export.serializers.IngredientSerializer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -111,6 +112,14 @@ public class Recipe extends Entity {
             }
         }
         return null;
+    }
+
+    public Set<Ingredient> getIngredientsSet() {
+        HashSet<Ingredient> result = new HashSet<>();
+        for (var ingredientAmount : ingredients) {
+            result.add(ingredientAmount.getIngredient());
+        }
+        return result;
     }
 
     public void addIngredient(Ingredient ingredient, int amount) {
