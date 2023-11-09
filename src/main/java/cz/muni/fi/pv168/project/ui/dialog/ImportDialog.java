@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
 import cz.muni.fi.pv168.project.business.model.ImportType;
-import cz.muni.fi.pv168.project.ui.action.ImportAction;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -9,12 +8,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.function.BiConsumer;
 
 public class ImportDialog extends JDialog {
     private final JComboBox<ImportType> importTypeComboBox;
     private final JTextField selectedFileField;
 
-    public ImportDialog(JFrame parent) {
+    public ImportDialog(JFrame parent, BiConsumer<String,ImportType> onDispose) {
         super(parent, "Import Data", true);
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -57,7 +57,8 @@ public class ImportDialog extends JDialog {
                     return;
                 }
 
-                ImportAction.importData(importType, selectedFile);
+                onDispose.accept(selectedFile, importType);
+                //ImportAction.importData(importType, selectedFile);
                 dispose();
             }
         });
