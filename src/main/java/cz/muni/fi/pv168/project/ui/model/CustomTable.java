@@ -108,8 +108,8 @@ public class CustomTable<T extends Entity> extends JTable {
      */
     public void cancelFilter() {
         this.rowSorter.setRowFilter(null);
-        updateColumnHeader(); // keep this order!
-        activeFilter = false; // and here!
+        activeFilter = false;
+        updateColumnHeader();
     }
 
     private void designTable() {
@@ -243,13 +243,15 @@ public class CustomTable<T extends Entity> extends JTable {
     private void updateColumnHeader()
     {
         int currentRowCount;
+        String activeFilterString = "";
 
         if (activeFilter) {
             currentRowCount = this.rowSorter.getViewRowCount();
+            activeFilterString = " - Filter is active";
         } else {
             currentRowCount = model.getRowCount();
         }
-        getColumnModel().getColumn(0).setHeaderValue(this.name + " (" + currentRowCount + "/" + model.getRowCount() + ")");
+        getColumnModel().getColumn(0).setHeaderValue(this.name + " (" + currentRowCount + "/" + model.getRowCount() + ")" + activeFilterString);
         requestFocus();
         getTableHeader().requestFocusInWindow();
     }

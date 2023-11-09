@@ -36,8 +36,8 @@ static {
 
     filterDialogMap.put(Recipe.class, RecipeFilterDialog.class);
     filterDialogMap.put(Ingredient.class, IngredientFilterDialog.class);
-    filterDialogMap.put(Unit.class, RecipeFilterDialog.class);
-    filterDialogMap.put(RecipeCategory.class, RecipeFilterDialog.class);
+    filterDialogMap.put(Unit.class, NotExistFilterDialog.class);
+    filterDialogMap.put(RecipeCategory.class, NotExistFilterDialog.class);
 
     /*var blankCategory = new RecipeCategory("", Color.BLACK);
     var blankUnit = new Unit("", null, -1, "");
