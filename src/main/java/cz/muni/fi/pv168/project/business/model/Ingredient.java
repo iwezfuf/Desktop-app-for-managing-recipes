@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ingredient extends Entity {
-    private String name;
-    private int nutritionalValue;
-    private Unit unit;
+        private String name;
+        private int nutritionalValue;
+        private Unit unit;
 
     public Ingredient(String guid, String name, int nutritionalValue, Unit unit) {
         super(guid);

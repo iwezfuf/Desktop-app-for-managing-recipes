@@ -1,79 +1,98 @@
 package cz.muni.fi.pv168.project.storage.sql.entity.mapper;
 
-import cz.muni.fi.pv168.project.business.model.Department;
-import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.Recipe;
+import cz.muni.fi.pv168.project.business.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.storage.sql.dao.DataAccessObject;
 import cz.muni.fi.pv168.project.storage.sql.dao.DataStorageException;
-import cz.muni.fi.pv168.project.storage.sql.entity.DepartmentEntity;
-import cz.muni.fi.pv168.project.storage.sql.entity.EmployeeEntity;
+import cz.muni.fi.pv168.project.storage.sql.entity.RecipeCategoryEntity;
 import cz.muni.fi.pv168.project.storage.sql.entity.RecipeEntity;
+import cz.muni.fi.pv168.project.storage.sql.entity.RecipeIngredientAmountEntity;
+
+import java.util.ArrayList;
 
 /**
- * Mapper from the {@link EmployeeEntity} to {@link Employee}.
+ * Mapper from the {@link RecipeEntity} to {@link Recipe}.
  */
 public class RecipeMapper implements EntityMapper<RecipeEntity, Recipe> {
 
-    private final DataAccessObject<DepartmentEntity> departmentDao;
-    private final EntityMapper<DepartmentEntity, Department> departmentMapper;
+    private final DataAccessObject<RecipeIngredientAmountEntity> recipeIngredientAmountDao;
+    private final EntityMapper<RecipeIngredientAmountEntity, RecipeIngredientAmount> recipeIngredientAmountMapper;
+    private final DataAccessObject<RecipeCategoryEntity> recipeCategoryDao;
+    private final EntityMapper<RecipeCategoryEntity, RecipeCategory> recipeCategoryMapper;
 
-    public EmployeeMapper(
-            DataAccessObject<DepartmentEntity> departmentDao,
-            EntityMapper<DepartmentEntity, Department> departmentMapper) {
-        this.departmentDao = departmentDao;
-        this.departmentMapper = departmentMapper;
+
+    public RecipeMapper(
+            DataAccessObject<RecipeIngredientAmountEntity> recipeIngredientAmountDao, EntityMapper<RecipeIngredientAmountEntity, RecipeIngredientAmount> recipeIngredientAmountMapper, DataAccessObject<RecipeCategoryEntity> recipeCategoryDao, EntityMapper<RecipeCategoryEntity, RecipeCategory> recipeCategoryMapper) {
+        this.recipeIngredientAmountDao = recipeIngredientAmountDao;
+        this.recipeIngredientAmountMapper = recipeIngredientAmountMapper;
+        this.recipeCategoryDao = recipeCategoryDao;
+        this.recipeCategoryMapper = recipeCategoryMapper;
     }
 
     @Override
-    public Employee mapToBusiness(EmployeeEntity entity) {
-        var department = departmentDao
-                .findById(entity.departmentId())
-                .map(departmentMapper::mapToBusiness)
-                .orElseThrow(() -> new DataStorageException("Department not found, id: " +
-                        entity.departmentId()));
+    public Recipe mapToBusiness(RecipeEntity entity) {
+        var recipeIngredientAmount = recipeIngredientAmountDao
+                .findById(entity.recipeIngredientAmountId())
+                .map(recipeIngredientAmountMapper::mapToBusiness)
+                .orElseThrow(() -> new DataStorageException("RecipeIngredientAmount not found, id: " +
+                        entity.recipeIngredientAmountId()));
 
-        return new Employee(
+        var category = recipeCategoryDao
+                .findById(entity.recipeCategoryId())
+                .map(recipeCategoryMapper::mapToBusiness)
+                .orElseThrow(() -> new DataStorageException("RecipeCategory not found, id: " +
+                        entity.recipeCategoryId()));
+
+        return new Recipe(
                 entity.guid(),
-                entity.firstName(),
-                entity.lastName(),
-                entity.gender(),
-                entity.birthDate(),
-                department
+                entity.name(),
+                entity.description(),
+                entity.preparationTime(),
+                entity.numOfServings(),
+                entity.instructions(),
+                category,
+                new ArrayList<>() // TODO
+//                recipeIngredientAmount
         );
     }
 
     @Override
-    public EmployeeEntity mapNewEntityToDatabase(Employee entity) {
-        var departmentEntity = departmentDao
-                .findByGuid(entity.getDepartment().getGuid())
-                .orElseThrow(() -> new DataStorageException("Department not found, guid: " +
-                        entity.getDepartment().getGuid()));
+    public RecipeEntity mapNewEntityToDatabase(Recipe entity) {
+        var category = recipeCategoryDao
+                .findByGuid(entity.getCategory().getGuid())
+                .orElseThrow(() -> new DataStorageException("RecipeCategory not found, guid: " +
+                        entity.getCategory().getGuid()));
 
-        return new EmployeeEntity(
+        return new RecipeEntity(
                 entity.getGuid(),
-                departmentEntity.id(),
-                entity.getFirstName(),
-                entity.getLastName(),
-                entity.getGender(),
-                entity.getBirthDate()
+                entity.getName(),
+                entity.getDescription(),
+                entity.getPreparationTime(),
+                entity.getNumOfServings(),
+                entity.getInstructions(),
+                category.id(),
+                0L // TODO
         );
     }
 
     @Override
-    public EmployeeEntity mapExistingEntityToDatabase(Employee entity, Long dbId) {
-        var departmentEntity = departmentDao
-                .findByGuid(entity.getDepartment().getGuid())
-                .orElseThrow(() -> new DataStorageException("Department not found, guid: " +
-                        entity.getDepartment().getGuid()));
+    public RecipeEntity mapExistingEntityToDatabase(Recipe entity, Long dbId) {
+        var category = recipeCategoryDao
+                .findByGuid(entity.getCategory().getGuid())
+                .orElseThrow(() -> new DataStorageException("RecipeCategory not found, guid: " +
+                        entity.getCategory().getGuid()));
 
-        return new EmployeeEntity(
+        return new RecipeEntity(
                 dbId,
                 entity.getGuid(),
-                departmentEntity.id(),
-                entity.getFirstName(),
-                entity.getLastName(),
-                entity.getGender(),
-                entity.getBirthDate()
+                entity.getName(),
+                entity.getDescription(),
+                entity.getPreparationTime(),
+                entity.getNumOfServings(),
+                entity.getInstructions(),
+                category.id(),
+                0L // TODO
         );
     }
 }

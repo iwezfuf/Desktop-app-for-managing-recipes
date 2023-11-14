@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.business.model;
 
-public class RecipeIngredientAmount {
+public class RecipeIngredientAmount extends Entity {
     private Ingredient ingredient;
     private int amount;
 

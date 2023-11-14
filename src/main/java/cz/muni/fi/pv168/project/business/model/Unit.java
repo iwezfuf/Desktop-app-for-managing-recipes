@@ -13,7 +13,7 @@ public class Unit extends Entity {
         return abbreviation;
     }
 
-    public Unit(String guid, String name, Unit conversionUnit, int ratio, String abbreviation) {
+    public Unit(String guid, String name, Unit conversionUnit, float ratio, String abbreviation) {
         super(guid);
         this.name = name;
         this.conversionUnit = conversionUnit;
