@@ -4,7 +4,8 @@ public class RecipeIngredientAmount extends Entity {
     private Ingredient ingredient;
     private int amount;
 
-    public RecipeIngredientAmount(Ingredient ingredient, int amount) {
+    public RecipeIngredientAmount(String guid, Ingredient ingredient, int amount) {
+        super(guid);
         this.ingredient = ingredient;
         this.amount = amount;
     }

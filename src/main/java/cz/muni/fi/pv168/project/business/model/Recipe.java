@@ -102,7 +102,7 @@ public class Recipe extends Entity {
         if (ingredientAmount != null) {
             ingredientAmount.setAmount(ingredientAmount.getAmount() + amount);
         } else {
-            ingredients.add(new RecipeIngredientAmount(ingredient, amount));
+            ingredients.add(new RecipeIngredientAmount("", ingredient, amount)); // TODO
         }
     }
 

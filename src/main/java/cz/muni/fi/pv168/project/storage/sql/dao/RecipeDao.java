@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.business.model;
+package cz.muni.fi.pv168.project.storage.sql.dao;
 
 import cz.muni.fi.pv168.project.storage.DataStorageException;
 import cz.muni.fi.pv168.project.storage.sql.dao.DataAccessObject;
