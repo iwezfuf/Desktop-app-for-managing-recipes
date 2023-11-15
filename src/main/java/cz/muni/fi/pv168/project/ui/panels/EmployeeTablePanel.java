@@ -4,7 +4,7 @@ import cz.muni.fi.pv168.project.business.model.Department;
 import cz.muni.fi.pv168.project.business.model.Gender;
 import cz.muni.fi.pv168.project.ui.model.ComboBoxModelAdapter;
 import cz.muni.fi.pv168.project.ui.model.DepartmentListModel;
-import cz.muni.fi.pv168.project.ui.model.EmployeeTableModel;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.renderers.DepartmentRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.GenderRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.LocalDateRenderer;
@@ -27,23 +27,23 @@ public class EmployeeTablePanel extends JPanel {
 
     private final JTable table;
     private final Consumer<Integer> onSelectionChange;
-    private final EmployeeTableModel employeeTableModel;
+    private final EntityTableModel entityTableModel;
 
-    public EmployeeTablePanel(EmployeeTableModel employeeTableModel, DepartmentListModel departmentListModel, Consumer<Integer> onSelectionChange) {
+    public EmployeeTablePanel(EntityTableModel entityTableModel, DepartmentListModel departmentListModel, Consumer<Integer> onSelectionChange) {
         setLayout(new BorderLayout());
-        table = setUpTable(employeeTableModel, departmentListModel);
+        table = setUpTable(entityTableModel, departmentListModel);
         add(new JScrollPane(table), BorderLayout.CENTER);
 
         this.onSelectionChange = onSelectionChange;
-        this.employeeTableModel = employeeTableModel;
+        this.entityTableModel = entityTableModel;
     }
 
     public JTable getTable() {
         return table;
     }
 
-    private JTable setUpTable(EmployeeTableModel employeeTableModel, DepartmentListModel departmentListModel) {
-        var table = new JTable(employeeTableModel);
+    private JTable setUpTable(EntityTableModel entityTableModel, DepartmentListModel departmentListModel) {
+        var table = new JTable(entityTableModel);
 
         var genderRenderer = new GenderRenderer();
         var departmentRenderer = new DepartmentRenderer();
@@ -75,6 +75,6 @@ public class EmployeeTablePanel extends JPanel {
     }
 
     public void refresh() {
-        employeeTableModel.refresh();
+        entityTableModel.refresh();
     }
 }

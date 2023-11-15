@@ -5,7 +5,7 @@ import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.Gender;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.dialog.EmployeeDialog;
-import cz.muni.fi.pv168.project.ui.model.EmployeeTableModel;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.AbstractAction;
@@ -38,7 +38,7 @@ public final class AddAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var employeeTableModel = (EmployeeTableModel) employeeTable.getModel();
+        var employeeTableModel = (EntityTableModel) employeeTable.getModel();
         var dialog = new EmployeeDialog(createPrefilledEmployee(), departmentListModel, employeeValidator);
         dialog.show(employeeTable, "Add Employee")
                 .ifPresent(employeeTableModel::addRow);

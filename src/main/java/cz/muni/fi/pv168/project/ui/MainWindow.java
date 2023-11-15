@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.ui;
 
 import cz.muni.fi.pv168.project.business.model.Department;
+import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.Gender;
 import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
@@ -15,9 +16,8 @@ import cz.muni.fi.pv168.project.ui.filters.components.FilterListModelBuilder;
 import cz.muni.fi.pv168.project.ui.filters.values.SpecialFilterDepartmentValues;
 import cz.muni.fi.pv168.project.ui.filters.values.SpecialFilterGenderValues;
 import cz.muni.fi.pv168.project.ui.model.DepartmentListModel;
-import cz.muni.fi.pv168.project.ui.model.EmployeeTableModel;
-import cz.muni.fi.pv168.project.ui.model.EntityListModelAdapter;
-import cz.muni.fi.pv168.project.ui.panels.EmployeeListPanel;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
+import cz.muni.fi.pv168.project.ui.model.Column;
 import cz.muni.fi.pv168.project.ui.panels.EmployeeTablePanel;
 import cz.muni.fi.pv168.project.ui.renderers.DepartmentRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.GenderRenderer;
@@ -40,6 +40,8 @@ import javax.swing.WindowConstants;
 import javax.swing.table.TableRowSorter;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.time.LocalDate;
+import java.util.List;
 
 public class MainWindow {
 
@@ -51,18 +53,16 @@ public class MainWindow {
     private final Action editAction;
     private final Action exportAction;
     private final Action importAction;
-    private final EmployeeTableModel employeeTableModel;
+    private final EntityTableModel<Employee> employeeTableModel;
     private final DepartmentListModel departmentListModel;
 
     public MainWindow(DependencyProvider dependencyProvider) {
         frame = createFrame();
 
-        employeeTableModel = new EmployeeTableModel(dependencyProvider.getEmployeeCrudService());
+        employeeTableModel = createEmployeeTableModel(dependencyProvider);
         departmentListModel = new DepartmentListModel(dependencyProvider.getDepartmentCrudService());
-        var employeeListModel = new EntityListModelAdapter<>(employeeTableModel);
 
         var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, departmentListModel, this::changeActionsState);
-        var employeeListPanel = new EmployeeListPanel(employeeListModel);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
         addAction = new AddAction(employeeTablePanel.getTable(), departmentListModel,
@@ -77,13 +77,12 @@ public class MainWindow {
 
         var tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Employees (table)", employeeTablePanel);
-        tabbedPane.addTab("Employees (list)", employeeListPanel);
 
         frame.add(tabbedPane, BorderLayout.CENTER);
 
-        var rowSorter = new TableRowSorter<>(employeeTableModel);
-        var employeeTableFilter = new EmployeeTableFilter(rowSorter);
-        employeeTablePanel.getTable().setRowSorter(rowSorter);
+        var employeeRowSorter = new TableRowSorter<EntityTableModel<Employee>>(employeeTableModel);
+        var employeeTableFilter = new EmployeeTableFilter(employeeRowSorter);
+        employeeTablePanel.getTable().setRowSorter(employeeRowSorter);
 
         var genderFilter = createGenderFilter(employeeTableFilter);
         var departmentFilter = new JScrollPane(createDepartmentFilter(employeeTableFilter, departmentListModel));
@@ -92,6 +91,17 @@ public class MainWindow {
         frame.setJMenuBar(createMenuBar());
         frame.pack();
         changeActionsState(0);
+    }
+
+    private EntityTableModel<Employee> createEmployeeTableModel(DependencyProvider dependencyProvider) {
+        List<Column<Employee, ?>> columns = List.of(
+            Column.editable("Gender", Gender.class, Employee::getGender, Employee::setGender),
+            Column.editable("Last name", String.class, Employee::getLastName, Employee::setLastName),
+            Column.editable("First name", String.class, Employee::getFirstName, Employee::setFirstName),
+            Column.readonly("Birthdate", LocalDate.class, Employee::getBirthDate),
+            Column.editable("Department", Department.class, Employee::getDepartment, Employee::setDepartment)
+    );
+        return new EntityTableModel<>(dependencyProvider.getEmployeeCrudService(), columns);
     }
 
     private void refresh() {
@@ -125,7 +135,7 @@ public class MainWindow {
     }
 
     private JFrame createFrame() {
-        var frame = new JFrame("Employee records");
+        var frame = new JFrame("Easy Food Recipe Book");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         return frame;
     }

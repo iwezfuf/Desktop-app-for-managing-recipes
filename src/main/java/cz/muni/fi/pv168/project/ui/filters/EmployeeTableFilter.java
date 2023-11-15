@@ -10,7 +10,7 @@ import cz.muni.fi.pv168.project.ui.filters.matchers.employee.EmployeeDepartmentM
 import cz.muni.fi.pv168.project.ui.filters.matchers.employee.EmployeeGenderMatcher;
 import cz.muni.fi.pv168.project.ui.filters.values.SpecialFilterDepartmentValues;
 import cz.muni.fi.pv168.project.ui.filters.values.SpecialFilterGenderValues;
-import cz.muni.fi.pv168.project.ui.model.EmployeeTableModel;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.util.Either;
 
 import javax.swing.table.TableRowSorter;
@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 public final class EmployeeTableFilter {
     private final EmployeeCompoundMatcher employeeCompoundMatcher;
 
-    public EmployeeTableFilter(TableRowSorter<EmployeeTableModel> rowSorter) {
+    public EmployeeTableFilter(TableRowSorter<EntityTableModel<Employee>> rowSorter) {
         employeeCompoundMatcher = new EmployeeCompoundMatcher(rowSorter);
         rowSorter.setRowFilter(employeeCompoundMatcher);
     }
@@ -53,11 +53,11 @@ public final class EmployeeTableFilter {
      */
     private static class EmployeeCompoundMatcher extends EntityMatcher<Employee> {
 
-        private final TableRowSorter<EmployeeTableModel> rowSorter;
+        private final TableRowSorter<EntityTableModel<Employee>> rowSorter;
         private EntityMatcher<Employee> genderMatcher = EntityMatchers.all();
         private EntityMatcher<Employee> departmentMatcher = EntityMatchers.all();
 
-        private EmployeeCompoundMatcher(TableRowSorter<EmployeeTableModel> rowSorter) {
+        private EmployeeCompoundMatcher(TableRowSorter<EntityTableModel<Employee>> rowSorter) {
             this.rowSorter = rowSorter;
         }
 

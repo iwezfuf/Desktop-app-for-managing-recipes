@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-abstract class Column<E, T> {
+public abstract class Column<E, T> {
 
     private final String name;
     private final Function<E, T> valueGetter;

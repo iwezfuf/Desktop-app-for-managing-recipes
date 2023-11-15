@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.ui.filters.matchers;
 
+import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 
 import javax.swing.RowFilter;
@@ -10,7 +11,7 @@ import javax.swing.RowFilter;
  *
  * @param <T> entity type
  */
-public abstract class EntityMatcher<T> extends RowFilter<EntityTableModel<T>, Integer> {
+public abstract class EntityMatcher<T extends Entity> extends RowFilter<EntityTableModel<T>, Integer> {
 
     @Override
     public boolean include(Entry<? extends EntityTableModel<T>, ? extends Integer> entry) {
