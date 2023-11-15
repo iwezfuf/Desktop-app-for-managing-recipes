@@ -7,6 +7,7 @@ import cz.muni.fi.pv168.project.business.service.export.batch.BatchOperationExce
 import cz.muni.fi.pv168.project.business.service.export.format.Format;
 import cz.muni.fi.pv168.project.business.service.export.format.FormatMapping;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -35,46 +36,13 @@ public class GenericImportService implements ImportService {
     }
 
     @Override
-    public void importData(String filePath, ImportType importType) {
-        if (importType == ImportType.REPLACE) {
-            Recipe.getListOfRecipes().clear();
-            Ingredient.getListOfIngredients().clear();
-            RecipeCategory.getListOfCategories().clear();
-            Unit.getListOfUnits().clear();
+    public void importData(String filePath, ImportStrategy importStrategy) {
+
+        try {
+            importStrategy.executeImport(recipeCrudService, ingredientCrudService, unitCrudService, recipeCategoryCrudService, getImporter(filePath), filePath);
+        }  catch (NullPointerException e) {
+            System.out.println("Import strategy has not been set.\n" + Arrays.toString(e.getStackTrace()));
         }
-
-        ingredientCrudService.deleteAll();
-        recipeCrudService.deleteAll();
-        recipeCategoryCrudService.deleteAll();
-        unitCrudService.deleteAll();
-
-        var batch = getImporter(filePath).importBatch(filePath);
-
-        batch.recipes().forEach(this::createRecipe);
-        batch.ingredients().forEach(this::createIngredient);
-        batch.units().forEach(this::createUnit);
-        batch.recipeCategories().forEach(this::createRecipeCategory);
-    }
-
-    private void createRecipe(Recipe recipe) {
-        //Recipe.getListOfRecipes().add(Recipe);
-        recipeCrudService.create(recipe)
-                .intoException();
-    }
-
-    private void createIngredient(Ingredient ingredient) {
-        ingredientCrudService.create(ingredient)
-                .intoException();
-    }
-
-    private void createUnit(Unit unit) {
-        unitCrudService.create(unit)
-                .intoException();
-    }
-
-    private void createRecipeCategory(RecipeCategory recipeCategory) {
-        recipeCategoryCrudService.create(recipeCategory)
-                .intoException();
     }
 
     @Override

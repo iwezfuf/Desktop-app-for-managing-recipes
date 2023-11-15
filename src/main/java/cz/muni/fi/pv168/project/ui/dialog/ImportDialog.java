@@ -1,6 +1,8 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
-import cz.muni.fi.pv168.project.business.model.ImportType;
+import cz.muni.fi.pv168.project.business.service.export.ImportStrategy;
+import cz.muni.fi.pv168.project.business.service.export.MergeImportStrategy;
+import cz.muni.fi.pv168.project.business.service.export.ReplaceImportStrategy;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -11,10 +13,14 @@ import java.io.File;
 import java.util.function.BiConsumer;
 
 public class ImportDialog extends JDialog {
+
     private final JComboBox<ImportType> importTypeComboBox;
     private final JTextField selectedFileField;
+    private enum ImportType {
+        MERGE, REPLACE
+    }
 
-    public ImportDialog(JFrame parent, BiConsumer<String,ImportType> onDispose) {
+    public ImportDialog(JFrame parent, BiConsumer<String, ImportStrategy> onDispose) {
         super(parent, "Import Data", true);
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -47,29 +53,20 @@ public class ImportDialog extends JDialog {
         Box buttonBox = Box.createHorizontalBox();
 
         JButton importButton = new JButton("Import Data");
-        importButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ImportType importType = (ImportType) importTypeComboBox.getSelectedItem();
-                String selectedFile = selectedFileField.getText();
-                if (selectedFile == null || selectedFile.isEmpty()) {
-                    JOptionPane.showMessageDialog(ImportDialog.this, "Please select a file to import from.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                onDispose.accept(selectedFile, importType);
-                //ImportAction.importData(importType, selectedFile);
-                dispose();
+        importButton.addActionListener(e -> {
+            ImportStrategy importStrategy = (importTypeComboBox.getSelectedItem() == ImportType.MERGE) ? new MergeImportStrategy() : new ReplaceImportStrategy();
+            String selectedFile = selectedFileField.getText();
+            if (selectedFile == null || selectedFile.isEmpty()) {
+                JOptionPane.showMessageDialog(ImportDialog.this, "Please select a file to import from.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+
+            onDispose.accept(selectedFile, importStrategy);
+            dispose();
         });
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        cancelButton.addActionListener(e -> dispose());
 
         buttonBox.add(importButton);
         buttonBox.add(cancelButton);
