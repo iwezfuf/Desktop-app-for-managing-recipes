@@ -85,7 +85,6 @@ CREATE TABLE IF NOT EXISTS "Ingredient"
 );
 
 
-
 --
 -- RecipeIngredientAmount table definition
 --
@@ -93,9 +92,9 @@ CREATE TABLE IF NOT EXISTS "RecipeIngredientAmount"
 (
     `id`               BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     `guid`             VARCHAR       NOT NULL UNIQUE,
-    `amount`           INT           NOT NULL,
-    `ingredientId`     BIGINT REFERENCES "Ingredient"(`id`),
     `recipeId`         BIGINT REFERENCES "Recipe"(`id`),
+    `ingredientId`     BIGINT REFERENCES "Ingredient"(`id`),
+    `amount`           INT           NOT NULL,
     `createdAt`        TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

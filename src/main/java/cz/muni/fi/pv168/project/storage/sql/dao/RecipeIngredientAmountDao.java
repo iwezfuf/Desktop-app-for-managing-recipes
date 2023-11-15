@@ -20,7 +20,7 @@ public class RecipeIngredientAmountDao implements DataAccessObject<RecipeIngredi
 
     @Override
     public RecipeIngredientAmountEntity create(RecipeIngredientAmountEntity newRecipeIngredientAmount) {
-        var sql = "INSERT INTO RecipeIngredientAmount (guid, ingredientId, amount) VALUES (?, ?);";
+        var sql = "INSERT INTO RecipeIngredientAmount (guid, recipeId, ingredientId, amount) VALUES (?, ?);";
 
         try (
                 var connection = connections.get();
@@ -78,7 +78,7 @@ public class RecipeIngredientAmountDao implements DataAccessObject<RecipeIngredi
     @Override
     public java.util.Optional<RecipeIngredientAmountEntity> findById(long id) {
         var sql = """
-                SELECT id, guid, ingredientId, amount
+                SELECT id, guid, recipeId, ingredientId, amount
                 FROM RecipeIngredientAmount
                 WHERE id = ?
                 """;
@@ -101,7 +101,7 @@ public class RecipeIngredientAmountDao implements DataAccessObject<RecipeIngredi
     @Override
     public Optional<RecipeIngredientAmountEntity> findByGuid(String guid) {
         var sql = """
-                SELECT id, guid, ingredientId, amount
+                SELECT id, guid, recipeId, ingredientId, amount
                 FROM RecipeIngredientAmount
                 WHERE guid = ?
                 """;
@@ -212,8 +212,9 @@ public class RecipeIngredientAmountDao implements DataAccessObject<RecipeIngredi
 
     private RecipeIngredientAmountEntity recipeIngredientAmountFromResultSet(ResultSet resultSet) throws SQLException {
         return new RecipeIngredientAmountEntity(
-                resultSet.getString("guid"),
                 resultSet.getLong("id"),
+                resultSet.getString("guid"),
+                resultSet.getLong("recipeId"),
                 resultSet.getLong("ingredientId"),
                 resultSet.getInt("amount")
         );
