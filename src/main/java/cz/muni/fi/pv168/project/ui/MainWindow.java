@@ -56,18 +56,18 @@ public class MainWindow {
     private final Action exportAction;
     private final Action importAction;
     private final EntityTableModel<Employee> employeeTableModel;
-    private final EntityTableModel<Recipe> recipeListModel;
+    private final EntityTableModel<Recipe> recipeTableModel;
     private final DepartmentListModel departmentListModel;
 
     public MainWindow(DependencyProvider dependencyProvider) {
         frame = createFrame();
 
         employeeTableModel = createEmployeeTableModel(dependencyProvider);
-        recipeListModel = createRecipeTableModel(dependencyProvider);
+        recipeTableModel = createRecipeTableModel(dependencyProvider);
         departmentListModel = new DepartmentListModel(dependencyProvider.getDepartmentCrudService());
 
         var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, departmentListModel, this::changeActionsState);
-        var recipeTablePanel = new EmployeeTablePanel(recipeListModel, departmentListModel, this::changeActionsState);
+        var recipeTablePanel = new EmployeeTablePanel(recipeTableModel, departmentListModel, this::changeActionsState);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
         addAction = new AddAction(employeeTablePanel.getTable(), departmentListModel,
@@ -124,6 +124,7 @@ public class MainWindow {
     private void refresh() {
         departmentListModel.refresh();
         employeeTableModel.refresh();
+        recipeTableModel.refresh();
     }
 
     private static JList<Either<SpecialFilterDepartmentValues, Department>> createDepartmentFilter(
