@@ -168,6 +168,31 @@ public class CommonDependencyProvider implements DependencyProvider {
     }
 
     @Override
+    public Repository<Recipe> getRecipeRepository() {
+        return recipes;
+    }
+
+    @Override
+    public Repository<RecipeCategory> getRecipeCategoryRepository() {
+        return recipeCategories;
+    }
+
+    @Override
+    public Repository<Ingredient> getRecipeIngredientRepository() {
+        return ingredients;
+    }
+
+    @Override
+    public Repository<RecipeIngredientAmount> getRecipeIngredientAmountRepository() {
+        return recipeIngredientAmounts;
+    }
+
+    @Override
+    public Repository<Unit> getUnitRepository() {
+        return units;
+    }
+
+    @Override
     public TransactionExecutor getTransactionExecutor() {
         return transactionExecutor;
     }
@@ -197,24 +222,34 @@ public class CommonDependencyProvider implements DependencyProvider {
         return employeeValidator;
     }
 
+    @Override
     public CrudService<Ingredient> getIngredientCrudService() {
         return ingredientCrudService;
     }
 
+    @Override
     public CrudService<Recipe> getRecipeCrudService() {
         return recipeCrudService;
     }
 
+    @Override
     public CrudService<Unit> getUnitCrudService() {
         return unitCrudService;
     }
 
+    @Override
     public CrudService<RecipeCategory> getRecipeCategoryCrudService() {
         return recipeCategoryCrudService;
     }
 
+    @Override
     public RecipeValidator getRecipeValidator() {
         return recipeValidator;
+    }
+
+    @Override
+    public CrudService<RecipeIngredientAmount> getRecipeIngredientAmountCrudService() {
+        return recipeIngredientAmountCrudService;
     }
 
 }

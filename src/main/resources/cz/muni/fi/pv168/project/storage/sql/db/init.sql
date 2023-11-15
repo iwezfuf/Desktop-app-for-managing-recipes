@@ -24,3 +24,30 @@ CREATE TABLE IF NOT EXISTS "Employee"
     `departmentId` BIGINT REFERENCES "Department"(`id`),
     `createdAt`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+--
+-- Recipe table definition
+--
+CREATE TABLE IF NOT EXISTS "Recipe"
+(
+    `id`               BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    `guid`             VARCHAR      NOT NULL UNIQUE,
+    `name`             VARCHAR(150) NOT NULL,
+    `description`      VARCHAR(1500) NOT NULL,
+    `preparationTime`  INT NOT NULL,
+    `numOfServings`    INT NOT NULL,
+    `instructions`     VARCHAR(2500) NOT NULL,
+    `recipeCategoryId` BIGINT REFERENCES "RecipeCategory"(`id`),
+);
+
+--
+-- RecipeCategory table definition
+--
+CREATE TABLE IF NOT EXISTS "RecipeCategory"
+(
+    `id`        BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    `guid`      VARCHAR      NOT NULL UNIQUE,
+    `name`      VARCHAR(150) NOT NULL,
+    `color`     INT          NOT NULL,
+);
+

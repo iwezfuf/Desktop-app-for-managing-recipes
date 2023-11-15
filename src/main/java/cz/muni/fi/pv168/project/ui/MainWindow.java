@@ -3,6 +3,8 @@ package cz.muni.fi.pv168.project.ui;
 import cz.muni.fi.pv168.project.business.model.Department;
 import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.Gender;
+import cz.muni.fi.pv168.project.business.model.Recipe;
+import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
@@ -54,15 +56,18 @@ public class MainWindow {
     private final Action exportAction;
     private final Action importAction;
     private final EntityTableModel<Employee> employeeTableModel;
+    private final EntityTableModel<Recipe> recipeListModel;
     private final DepartmentListModel departmentListModel;
 
     public MainWindow(DependencyProvider dependencyProvider) {
         frame = createFrame();
 
         employeeTableModel = createEmployeeTableModel(dependencyProvider);
+        recipeListModel = createRecipeTableModel(dependencyProvider);
         departmentListModel = new DepartmentListModel(dependencyProvider.getDepartmentCrudService());
 
         var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, departmentListModel, this::changeActionsState);
+        var recipeTablePanel = new EmployeeTablePanel(recipeListModel, departmentListModel, this::changeActionsState);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
         addAction = new AddAction(employeeTablePanel.getTable(), departmentListModel,
@@ -76,7 +81,8 @@ public class MainWindow {
         employeeTablePanel.setComponentPopupMenu(createEmployeeTablePopupMenu());
 
         var tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Employees (table)", employeeTablePanel);
+        tabbedPane.addTab("Employees", employeeTablePanel);
+        tabbedPane.addTab("Recipes", recipeTablePanel);
 
         frame.add(tabbedPane, BorderLayout.CENTER);
 
@@ -95,13 +101,24 @@ public class MainWindow {
 
     private EntityTableModel<Employee> createEmployeeTableModel(DependencyProvider dependencyProvider) {
         List<Column<Employee, ?>> columns = List.of(
-            Column.editable("Gender", Gender.class, Employee::getGender, Employee::setGender),
-            Column.editable("Last name", String.class, Employee::getLastName, Employee::setLastName),
-            Column.editable("First name", String.class, Employee::getFirstName, Employee::setFirstName),
+            Column.readonly("Gender", Gender.class, Employee::getGender),
+            Column.readonly("Last name", String.class, Employee::getLastName),
+            Column.readonly("First name", String.class, Employee::getFirstName),
             Column.readonly("Birthdate", LocalDate.class, Employee::getBirthDate),
-            Column.editable("Department", Department.class, Employee::getDepartment, Employee::setDepartment)
+            Column.readonly("Department", Department.class, Employee::getDepartment)
     );
         return new EntityTableModel<>(dependencyProvider.getEmployeeCrudService(), columns);
+    }
+
+    private EntityTableModel<Recipe> createRecipeTableModel(DependencyProvider dependencyProvider) {
+        List<Column<Recipe, ?>> columns = List.of(
+                Column.readonly("Name", String.class, Recipe::getName),
+                Column.readonly("Description", String.class, Recipe::getDescription),
+                Column.readonly("Preparation Time (min)", int.class, Recipe::getPreparationTime),
+                Column.readonly("Nutritional Value (kcal)", int.class, Recipe::getNutritionalValue),
+                Column.readonly("Category", RecipeCategory.class, Recipe::getCategory)
+        );
+        return new EntityTableModel<>(dependencyProvider.getRecipeCrudService(), columns);
     }
 
     private void refresh() {
