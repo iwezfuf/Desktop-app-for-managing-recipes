@@ -17,11 +17,9 @@ public class RecipeCategoryDeserializer extends JsonDeserializer<RecipeCategory>
     @Override
     public RecipeCategory deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+        String guid = node.get("guid").asText();
         String name = node.get("name").asText();
-//        int id = node.get("id").asInt();
         Color color = new Color(node.get("color").asInt());
-        RecipeCategory rc = new RecipeCategory(name, color);
-        //RecipeCategory.getListOfCategories().remove(rc);
-        return rc;
+        return new RecipeCategory(guid, name, color);
     }
 }

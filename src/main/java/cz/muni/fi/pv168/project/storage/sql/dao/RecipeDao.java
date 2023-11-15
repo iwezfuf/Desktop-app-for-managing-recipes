@@ -233,8 +233,7 @@ public class RecipeDao implements DataAccessObject<RecipeEntity> {
                 resultSet.getInt("preparationTime"),
                 resultSet.getInt("numOfServings"),
                 resultSet.getString("instructions"),
-                resultSet.getLong("recipeCategoryId"),
-                resultSet.getLong("recipeIngredientAmountId")
+                resultSet.getLong("recipeCategoryId")
         );
     }
 }

@@ -19,6 +19,11 @@ public class RecipeCategory extends Entity {
         this.color = categoryColor;
     }
 
+    public RecipeCategory(String categoryName, Color categoryColor) {
+        this.name = categoryName;
+        this.color = categoryColor;
+    }
+
     public RecipeCategory() {
         this.name = "";
         this.color = Color.black;

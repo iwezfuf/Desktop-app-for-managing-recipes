@@ -14,8 +14,8 @@ public class RecipeCategorySerializer extends JsonSerializer<RecipeCategory> {
     @Override
     public void serialize(RecipeCategory recipeCategory, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
+        jsonGenerator.writeStringField("guid", recipeCategory.getGuid());
         jsonGenerator.writeStringField("name", recipeCategory.getName());
-        jsonGenerator.writeNumberField("id", recipeCategory.getId());
         jsonGenerator.writeNumberField("color", recipeCategory.getColor().getRGB());
         jsonGenerator.writeEndObject();
     }

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class RecipeMapper implements EntityMapper<RecipeEntity, Recipe> {
 
     private final DataAccessObject<RecipeIngredientAmountEntity> recipeIngredientAmountDao;
-    private final EntityMapper<RecipeIngredientAmountEntity, RecipeIngredientAmount> recipeIngredientAmountMapper;
+    private EntityMapper<RecipeIngredientAmountEntity, RecipeIngredientAmount> recipeIngredientAmountMapper;
     private final DataAccessObject<RecipeCategoryEntity> recipeCategoryDao;
     private final EntityMapper<RecipeCategoryEntity, RecipeCategory> recipeCategoryMapper;
 
@@ -32,17 +32,18 @@ public class RecipeMapper implements EntityMapper<RecipeEntity, Recipe> {
 
     @Override
     public Recipe mapToBusiness(RecipeEntity entity) {
-        var recipeIngredientAmount = recipeIngredientAmountDao
-                .findById(entity.recipeIngredientAmountId())
-                .map(recipeIngredientAmountMapper::mapToBusiness)
-                .orElseThrow(() -> new DataStorageException("RecipeIngredientAmount not found, id: " +
-                        entity.recipeIngredientAmountId()));
-
         var category = recipeCategoryDao
                 .findById(entity.recipeCategoryId())
                 .map(recipeCategoryMapper::mapToBusiness)
                 .orElseThrow(() -> new DataStorageException("RecipeCategory not found, id: " +
                         entity.recipeCategoryId()));
+
+        ArrayList<RecipeIngredientAmount> recipeIngredientAmounts = new ArrayList<>();
+        for (RecipeIngredientAmountEntity recipeIngredientAmountEntity : recipeIngredientAmountDao.findAll()) {
+            if (recipeIngredientAmountEntity.recipeId() == entity.id()) {
+                recipeIngredientAmounts.add(recipeIngredientAmountMapper.mapToBusiness(recipeIngredientAmountEntity));
+            }
+        }
 
         return new Recipe(
                 entity.guid(),
@@ -52,8 +53,7 @@ public class RecipeMapper implements EntityMapper<RecipeEntity, Recipe> {
                 entity.numOfServings(),
                 entity.instructions(),
                 category,
-                new ArrayList<>() // TODO
-//                recipeIngredientAmount
+                recipeIngredientAmounts
         );
     }
 
@@ -71,8 +71,7 @@ public class RecipeMapper implements EntityMapper<RecipeEntity, Recipe> {
                 entity.getPreparationTime(),
                 entity.getNumOfServings(),
                 entity.getInstructions(),
-                category.id(),
-                0L // TODO
+                category.id()
         );
     }
 
@@ -91,8 +90,11 @@ public class RecipeMapper implements EntityMapper<RecipeEntity, Recipe> {
                 entity.getPreparationTime(),
                 entity.getNumOfServings(),
                 entity.getInstructions(),
-                category.id(),
-                0L // TODO
+                category.id()
         );
+    }
+
+    public void setRecipeIngredientAmountMapper(EntityMapper<RecipeIngredientAmountEntity, RecipeIngredientAmount> recipeIngredientAmountMapper) {
+        this.recipeIngredientAmountMapper = recipeIngredientAmountMapper;
     }
 }

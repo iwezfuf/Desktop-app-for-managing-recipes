@@ -35,7 +35,7 @@ public class BatchCsvImporter implements BatchImporter {
                     .map(line -> parseEmployee(departments, line))
                     .toList();
 
-            return new Batch(departments.values(), employees);
+            return new Batch(departments.values(), employees, List.of(), List.of(), List.of(), List.of());
         } catch (IOException e) {
             throw new DataManipulationException("Unable to read file", e);
         }

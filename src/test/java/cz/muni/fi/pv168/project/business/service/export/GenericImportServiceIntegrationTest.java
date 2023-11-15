@@ -48,12 +48,12 @@ class GenericImportServiceIntegrationTest
         var departmentValidator = new DepartmentValidator();
         var departmentCrudService = new DepartmentCrudService(departmentRepository, departmentValidator,
                 uuidGuidProvider);
-
-        genericImportService = new GenericImportService(
-                employeeCrudService,
-                departmentCrudService,
-                List.of(new BatchCsvImporter())
-        );
+        // TODO
+//        genericImportService = new GenericImportService(
+//                employeeCrudService,
+//                departmentCrudService,
+//                List.of(new BatchCsvImporter())
+//        );
     }
 
     @Test

@@ -15,6 +15,13 @@ public class Ingredient extends Entity {
         this.unit = unit;
     }
 
+    public Ingredient(String name, int nutritionalValue, Unit unit) {
+        this.name = name;
+        this.nutritionalValue = nutritionalValue;
+        this.unit = unit;
+    }
+
+
     public Ingredient() {
         this.name = "";
         this.nutritionalValue = 0;

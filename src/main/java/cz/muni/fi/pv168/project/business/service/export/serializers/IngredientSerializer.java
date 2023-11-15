@@ -14,8 +14,8 @@ public class IngredientSerializer extends JsonSerializer<Ingredient> {
     @Override
     public void serialize(Ingredient ingredient, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
+        jsonGenerator.writeStringField("guid", ingredient.getGuid());
         jsonGenerator.writeStringField("name", ingredient.getName());
-        jsonGenerator.writeNumberField("id", ingredient.getIngredientId());
         jsonGenerator.writeObjectField("unit", ingredient.getUnit());
         jsonGenerator.writeNumberField("nutritionalValue", ingredient.getNutritionalValue());
         jsonGenerator.writeEndObject();

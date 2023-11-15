@@ -14,8 +14,8 @@ public class UnitSerializer extends JsonSerializer<Unit> {
     @Override
     public void serialize(Unit unit, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
+        jsonGenerator.writeStringField("guid", unit.getGuid());
         jsonGenerator.writeStringField("name", unit.getName());
-        jsonGenerator.writeNumberField("id", unit.getUnitId());
         jsonGenerator.writeNumberField("conversionRatio", unit.getConversionRatio());
         jsonGenerator.writeStringField("abbreviation", unit.getAbbreviation());
         jsonGenerator.writeObjectField("conversionUnit", unit.getConversionUnit());

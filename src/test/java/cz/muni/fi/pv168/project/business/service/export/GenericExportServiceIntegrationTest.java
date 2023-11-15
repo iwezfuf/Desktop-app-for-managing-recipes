@@ -51,11 +51,11 @@ class GenericExportServiceIntegrationTest {
         var departmentCrudService = new DepartmentCrudService(departmentRepository, departmentValidator,
                 uuidGuidProvider);
 
-        genericExportService = new GenericExportService(
-                employeeCrudService,
-                departmentCrudService,
-                List.of(new BatchCsvExporter())
-        );
+//        genericExportService = new GenericExportService(
+//                employeeCrudService,
+//                departmentCrudService,
+//                List.of(new BatchCsvExporter())
+//        );
     }
 
     @AfterEach

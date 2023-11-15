@@ -13,6 +13,7 @@ public class RecipeIngredientAmountSerializer extends JsonSerializer<RecipeIngre
     @Override
     public void serialize(RecipeIngredientAmount recipeIngredientAmount, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
+        jsonGenerator.writeStringField("guid", recipeIngredientAmount.getGuid());
         jsonGenerator.writeObjectField("ingredient", recipeIngredientAmount.getIngredient());
         jsonGenerator.writeNumberField("amount", recipeIngredientAmount.getAmount());
         jsonGenerator.writeEndObject();

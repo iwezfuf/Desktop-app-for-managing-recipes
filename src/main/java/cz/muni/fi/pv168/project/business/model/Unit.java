@@ -21,6 +21,13 @@ public class Unit extends Entity {
         this.abbreviation = abbreviation;
     }
 
+    public Unit(String name, Unit conversionUnit, float ratio, String abbreviation) {
+        this.name = name;
+        this.conversionUnit = conversionUnit;
+        this.conversionRatio = ratio;
+        this.abbreviation = abbreviation;
+    }
+
     public Unit() {
         this.name = "";
         this.conversionUnit = null;

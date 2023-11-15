@@ -16,14 +16,11 @@ public class UnitDeserializer extends JsonDeserializer<Unit> {
     @Override
     public Unit deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+        String guid = node.get("guid").asText();
         String name = node.get("name").asText();
-//        int id = node.get("id").asInt();
         int conversionRatio = node.get("conversionRatio").asInt();
         String abbreviation = node.get("abbreviation").asText();
-        Unit conversionUnit = new Unit();
-        Unit result = new Unit(name, conversionUnit, conversionRatio, abbreviation);
-        //Unit.getListOfUnits().remove(conversionUnit);
-        //Unit.getListOfUnits().remove(result);
-        return result;
+        Unit conversionUnit = node.get("conversionUnit").asText().equals("null") ? null : deserialize(jsonParser, deserializationContext);
+        return new Unit(guid, name, conversionUnit, conversionRatio, abbreviation);
     }
 }

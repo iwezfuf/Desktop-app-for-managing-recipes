@@ -20,9 +20,9 @@ public class RecipeDeserializer extends JsonDeserializer<Recipe> {
     @Override
     public Recipe deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+        String guid = node.get("guid").asText();
         String name = node.get("name").asText();
         String description = node.get("description").asText();
-//        int id = node.get("id").asInt();
         int preparationTime = node.get("preparationTime").asInt();
         int numOfServings = node.get("numOfServings").asInt();
         String instructions = node.get("instructions").asText();
@@ -33,8 +33,6 @@ public class RecipeDeserializer extends JsonDeserializer<Recipe> {
         for (JsonNode ingredient : node.get("ingredients")) {
             ingredients.add(recipeIngredientAmountDeserializer.deserialize(ingredient.traverse(jsonParser.getCodec()), deserializationContext));
         }
-        Recipe recipe = new Recipe(name, description, preparationTime, numOfServings, instructions, recipeCategory, ingredients);
-        //Recipe.getListOfRecipes().remove(recipe);
-        return recipe;
+        return new Recipe(guid, name, description, preparationTime, numOfServings, instructions, recipeCategory, ingredients);
     }
 }

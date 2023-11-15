@@ -17,13 +17,11 @@ public class IngredientDeserializer extends JsonDeserializer<Ingredient> {
     @Override
     public Ingredient deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+        String guid = node.get("guid").asText();
         String name = node.get("name").asText();
-//        int id = node.get("id").asInt();
         UnitDeserializer unitDeserializer = new UnitDeserializer();
         Unit unit = unitDeserializer.deserialize(node.get("unit").traverse(jsonParser.getCodec()), deserializationContext);
         int nutritionalValue = node.get("nutritionalValue").asInt();
-        Ingredient ingredient = new Ingredient(name, nutritionalValue, unit);
-        //Ingredient.getListOfIngredients().remove(ingredient);
-        return ingredient;
+        return new Ingredient(guid, name, nutritionalValue, unit);
     }
 }

@@ -34,6 +34,17 @@ public class Recipe extends Entity {
         this.ingredients = ingredients;
     }
 
+    public Recipe(String name, String description, int preparationTime, int numOfServings,
+                  String instructions, RecipeCategory category, ArrayList<RecipeIngredientAmount> ingredients) {
+        this.name = name;
+        this.description = description;
+        this.preparationTime = preparationTime;
+        this.numOfServings = numOfServings;
+        this.instructions = instructions;
+        this.category = category;
+        this.ingredients = ingredients;
+    }
+
     public Recipe() {
         this.name = "";
         this.description = "";
@@ -95,15 +106,6 @@ public class Recipe extends Entity {
             result.add(ingredientAmount.getIngredient());
         }
         return result;
-    }
-
-    public void addIngredient(Ingredient ingredient, int amount) {
-        RecipeIngredientAmount ingredientAmount = getIngredientAmount(ingredient);
-        if (ingredientAmount != null) {
-            ingredientAmount.setAmount(ingredientAmount.getAmount() + amount);
-        } else {
-            ingredients.add(new RecipeIngredientAmount("", ingredient, amount)); // TODO
-        }
     }
 
     public void removeIngredient(Ingredient ingredient) {

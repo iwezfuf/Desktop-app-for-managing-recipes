@@ -8,6 +8,7 @@ import cz.muni.fi.pv168.project.business.service.crud.EmployeeCrudService;
 import cz.muni.fi.pv168.project.business.service.crud.IngredientCrudService;
 import cz.muni.fi.pv168.project.business.service.crud.RecipeCategoryCrudService;
 import cz.muni.fi.pv168.project.business.service.crud.RecipeCrudService;
+import cz.muni.fi.pv168.project.business.service.crud.RecipeIngredientAmountCrudService;
 import cz.muni.fi.pv168.project.business.service.crud.UnitCrudService;
 import cz.muni.fi.pv168.project.business.service.export.ExportService;
 import cz.muni.fi.pv168.project.business.service.export.GenericExportService;
@@ -23,6 +24,7 @@ import cz.muni.fi.pv168.project.storage.sql.DepartmentSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.EmployeeSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.IngredientSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.RecipeCategorySqlRepository;
+import cz.muni.fi.pv168.project.storage.sql.RecipeIngredientAmountSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.RecipeSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.UnitSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.dao.DepartmentDao;
@@ -58,6 +60,7 @@ public class CommonDependencyProvider implements DependencyProvider {
     private final Repository<Ingredient> ingredients;
     private final Repository<RecipeCategory> recipeCategories;
     private final Repository<Unit> units;
+    private final Repository<RecipeIngredientAmount> recipeIngredientAmounts;
     private final DatabaseManager databaseManager;
     private final TransactionExecutor transactionExecutor;
     private final CrudService<Employee> employeeCrudService;
@@ -66,6 +69,7 @@ public class CommonDependencyProvider implements DependencyProvider {
     private final CrudService<Recipe> recipeCrudService;
     private final CrudService<Unit> unitCrudService;
     private final CrudService<RecipeCategory> recipeCategoryCrudService;
+    private final CrudService<RecipeIngredientAmount> recipeIngredientAmountCrudService;
     private final ImportService importService;
     private final ExportService exportService;
     private final EmployeeValidator employeeValidator;
@@ -95,12 +99,13 @@ public class CommonDependencyProvider implements DependencyProvider {
         var ingredientDao = new IngredientDao(transactionConnectionSupplier);
         var ingredientMapper = new IngredientMapper(unitDao, unitMapper);
 
-        var recipeIngredientAmountDao = new RecipeIngredientAmountDao(transactionConnectionSupplier);
-        var recipeIngredientAmountMapper = new RecipeIngredientAmountMapper(ingredientDao, ingredientMapper);
-
         var recipeDao = new RecipeDao(transactionConnectionSupplier);
-        var recipeMapper = new RecipeMapper(recipeIngredientAmountDao, recipeIngredientAmountMapper,
+        var recipeIngredientAmountDao = new RecipeIngredientAmountDao(transactionConnectionSupplier);
+        var recipeMapper = new RecipeMapper(recipeIngredientAmountDao, null,
                 recipeCategoryDao, recipeCategoryMapper);
+
+        var recipeIngredientAmountMapper = new RecipeIngredientAmountMapper(ingredientDao, ingredientMapper, recipeDao, recipeMapper);
+        recipeMapper.setRecipeIngredientAmountMapper(recipeIngredientAmountMapper);
 
         var employeeMapper = new EmployeeMapper(departmentDao, departmentMapper);
 
@@ -128,14 +133,19 @@ public class CommonDependencyProvider implements DependencyProvider {
                 recipeDao,
                 recipeMapper
         );
+        this.recipeIngredientAmounts = new RecipeIngredientAmountSqlRepository(
+                recipeIngredientAmountDao,
+                recipeIngredientAmountMapper
+        );
 
         recipeCategoryCrudService = new RecipeCategoryCrudService(recipeCategories, recipeCategoryValidator, guidProvider);
         departmentCrudService = new DepartmentCrudService(departments, departmentValidator, guidProvider);
         unitCrudService = new UnitCrudService(units, guidProvider);
         ingredientCrudService = new IngredientCrudService(ingredients, guidProvider);
         recipeCrudService = new RecipeCrudService(recipes, recipeValidator, guidProvider);
+        recipeIngredientAmountCrudService = new RecipeIngredientAmountCrudService(recipeIngredientAmounts, guidProvider);
         employeeCrudService = new EmployeeCrudService(employees, employeeValidator, guidProvider);
-        exportService = new GenericExportService(employeeCrudService, departmentCrudService,
+        exportService = new GenericExportService(employeeCrudService, departmentCrudService, recipeCrudService, ingredientCrudService, unitCrudService, recipeCategoryCrudService,
                 List.of(new BatchCsvExporter()));
         importService = new GenericImportService(employeeCrudService, departmentCrudService,
                 this.ingredientCrudService, this.recipeCrudService, this.unitCrudService, recipeCategoryCrudService,
