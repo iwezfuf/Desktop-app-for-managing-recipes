@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.project.business.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Unit extends Entity {
@@ -80,7 +81,7 @@ public class Unit extends Entity {
 
     @Override
     public String toString() {
-        return getName();
+        return getName() + " (" + getAbbreviation() + ", " + getConversionRatio() + ", " + getConversionUnit() + ")";
     }
 
     public String getFullName() {
@@ -94,5 +95,18 @@ public class Unit extends Entity {
     @Override
     public String getGuid() {
         return "unit-" + id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Unit unit = (Unit) o;
+        return Float.compare(unit.conversionRatio, conversionRatio) == 0 && name.equals(unit.name) && conversionUnit.equals(unit.conversionUnit) && abbreviation.equals(unit.abbreviation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, conversionUnit, conversionRatio, abbreviation);
     }
 }
