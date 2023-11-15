@@ -335,11 +335,10 @@ public class CustomTable<T extends Entity> extends JTable {
         return typeParameterClass;
     }
 
-    public void refresh(ImportType importType) {
-        if (importType == ImportType.REPLACE) {
-            model.setRowCount(0);
-            this.revalidate();
-        }
+    public void refresh() {
+
+        model.setRowCount(0);
+        this.revalidate();
 
         for (var item : crudService.findAll()) {
             model.addRow(new Object[]{item});

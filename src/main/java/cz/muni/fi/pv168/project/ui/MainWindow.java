@@ -89,11 +89,11 @@ public class MainWindow {
         frame.setVisible(true);
     }
 
-    private void refresh(ImportType importType) {
-        recipesTable.refresh(importType);
-        ingredientsTable.refresh(importType);
-        unitsTable.refresh(importType);
-        categoriesTable.refresh(importType);
+    private void refresh() {
+        recipesTable.refresh();
+        ingredientsTable.refresh();
+        unitsTable.refresh();
+        categoriesTable.refresh();
     }
 
     private void fillTables(CustomTable<Recipe> recipesTable,
