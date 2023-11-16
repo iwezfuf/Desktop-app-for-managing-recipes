@@ -126,3 +126,7 @@ VALUES ('lunch', 'lunch', '1'),
 INSERT INTO "Recipe" ("guid", "name", "description", "preparationTime", "numOfServings", "instructions", "recipeCategoryId")
 VALUES ('pancakes', 'pancakes', 'delicious pancakes', '10', '2', 'mix everything together', '1')
 ;
+
+INSERT INTO "Recipe" ("guid", "name", "description", "preparationTime", "numOfServings", "instructions", "recipeCategoryId")
+VALUES ('aaa', 'zzz', 'aaa', '15', '5', 'aaaaaaa', '1')
+;

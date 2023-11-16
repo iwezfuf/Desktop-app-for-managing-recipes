@@ -97,14 +97,18 @@ public class MainWindow {
 
         frame.add(tabbedPane, BorderLayout.CENTER);
 
+        // Set up sorting
         var employeeRowSorter = new TableRowSorter<EntityTableModel<Employee>>(employeeTableModel);
-        var employeeTableFilter = new EmployeeTableFilter(employeeRowSorter);
         employeeTablePanel.getTable().setRowSorter(employeeRowSorter);
+        var recipeRowSorter = new TableRowSorter<EntityTableModel<Recipe>>(recipeTableModel);
+        recipeTablePanel.getTable().setRowSorter(recipeRowSorter);
 
+        // Set up filtering
+        var employeeTableFilter = new EmployeeTableFilter(employeeRowSorter);
         var genderFilter = createGenderFilter(employeeTableFilter);
         var departmentFilter = new JScrollPane(createDepartmentFilter(employeeTableFilter, departmentListModel));
-
         frame.add(createToolbar(genderFilter, departmentFilter), BorderLayout.BEFORE_FIRST_LINE);
+
         frame.setJMenuBar(createMenuBar());
         frame.pack();
         changeActionsState(0);
