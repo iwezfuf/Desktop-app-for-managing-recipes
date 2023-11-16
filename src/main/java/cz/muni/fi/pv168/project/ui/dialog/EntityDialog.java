@@ -14,7 +14,7 @@ import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 import static javax.swing.JOptionPane.OK_OPTION;
 import static javax.swing.JOptionPane.PLAIN_MESSAGE;
 
-abstract class EntityDialog<E> {
+public abstract class EntityDialog<E> {
 
     private final JPanel panel = new JPanel();
     private final Validator<E> entityValidator;

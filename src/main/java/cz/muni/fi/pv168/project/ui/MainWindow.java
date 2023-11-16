@@ -5,6 +5,7 @@ import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.Gender;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
@@ -12,6 +13,8 @@ import cz.muni.fi.pv168.project.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.ui.action.ImportAction;
 import cz.muni.fi.pv168.project.ui.action.NuclearQuitAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
+import cz.muni.fi.pv168.project.ui.dialog.EmployeeDialog;
+import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
 import cz.muni.fi.pv168.project.ui.filters.EmployeeTableFilter;
 import cz.muni.fi.pv168.project.ui.filters.components.FilterComboboxBuilder;
 import cz.muni.fi.pv168.project.ui.filters.components.FilterListModelBuilder;
@@ -67,8 +70,11 @@ public class MainWindow {
         recipeTableModel = createRecipeTableModel(dependencyProvider);
         departmentListModel = new DepartmentListModel(dependencyProvider.getDepartmentCrudService());
 
-        var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, this::changeActionsState);
-        var recipeTablePanel = new RecipeTablePanel(recipeTableModel, this::changeActionsState);
+        Validator<Employee> employeeValidator = dependencyProvider.getEmployeeValidator();
+        Validator<Recipe> recipeValidator = dependencyProvider.getRecipeValidator();
+
+        var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, employeeValidator, EmployeeDialog.class, this::changeActionsState);
+        var recipeTablePanel = new RecipeTablePanel(recipeTableModel, recipeValidator, RecipeDialog.class, this::changeActionsState);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
         addAction = new AddAction(employeeTablePanel.getTable(), departmentListModel,

@@ -3,6 +3,8 @@ package cz.muni.fi.pv168.project.ui.panels;
 import cz.muni.fi.pv168.project.business.model.Department;
 import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.Gender;
+import cz.muni.fi.pv168.project.business.service.validation.Validator;
+import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.model.ComboBoxModelAdapter;
 import cz.muni.fi.pv168.project.ui.model.DepartmentListModel;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
@@ -25,8 +27,8 @@ import java.util.function.Consumer;
  * Panel with employee records in a table.
  */
 public class EmployeeTablePanel extends EntityTablePanel<Employee> {
-    public EmployeeTablePanel(EntityTableModel<Employee> entityTableModel, Consumer<Integer> onSelectionChange) {
-        super(entityTableModel, onSelectionChange);
+    public EmployeeTablePanel(EntityTableModel<Employee> entityTableModel, Validator<Employee> employeeValidator, Class<? extends EntityDialog<Employee>> employeeDialog, Consumer<Integer> onSelectionChange) {
+        super(entityTableModel, Employee.class, employeeValidator, employeeDialog, onSelectionChange);
     }
 
     @Override
