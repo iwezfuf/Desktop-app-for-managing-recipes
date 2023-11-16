@@ -16,6 +16,7 @@ public class RecipeTablePanel extends EntityTablePanel<Recipe> {
     @Override
     protected JTable setUpTable(EntityTableModel<Recipe> entityTableModel) {
         var table = new JTable(entityTableModel);
+        table.getSelectionModel().addListSelectionListener(this::rowSelectionChanged);
         return table;
     }
 }

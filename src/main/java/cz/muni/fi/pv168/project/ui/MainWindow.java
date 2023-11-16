@@ -48,7 +48,7 @@ public class MainWindow {
     private final Action quitAction = new QuitAction();
     private final Action nuclearQuit;
     private final NewAddAction addAction;
-    private final Action deleteAction;
+    private final DeleteAction deleteAction;
     private final Action editAction;
     private final Action exportAction;
     private final Action importAction;
@@ -89,7 +89,7 @@ public class MainWindow {
         tabbedPane.addChangeListener(e -> {
             EntityTablePanel selectedTablePanel = (EntityTablePanel) tabbedPane.getSelectedComponent();
             addAction.setCurrentTablePanel(selectedTablePanel);
-//            deleteAction.setCurrentTable(currentTable);
+            deleteAction.setCurrentTable(selectedTablePanel.getTable());
 //            filterAction.setCurrentTable(currentTable);
 //            filterAction.drawFilterIcon();
 //            cancelFilterAction.setCurrentTable(currentTable);
@@ -210,6 +210,7 @@ public class MainWindow {
     }
 
     private void changeActionsState(int selectedItemsCount) {
+        System.out.println("Selected items count: " + selectedItemsCount);
         editAction.setEnabled(selectedItemsCount == 1);
         deleteAction.setEnabled(selectedItemsCount >= 1);
     }

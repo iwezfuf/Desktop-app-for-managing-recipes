@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.ui.action;
 
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
+import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.AbstractAction;
@@ -13,7 +14,7 @@ import java.util.Comparator;
 
 public final class DeleteAction extends AbstractAction {
 
-    private final JTable entityTable;
+    private JTable entityTable;
 
     public DeleteAction(JTable entityTable) {
         super("Delete", Icons.DELETE_ICON);
@@ -34,5 +35,9 @@ public final class DeleteAction extends AbstractAction {
                 // which are not deleted yet
                 .sorted(Comparator.reverseOrder())
                 .forEach(employeeTableModel::deleteRow);
+    }
+
+    public void setCurrentTable(JTable table) {
+        this.entityTable = table;
     }
 }
