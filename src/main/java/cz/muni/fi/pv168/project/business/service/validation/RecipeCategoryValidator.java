@@ -12,8 +12,6 @@ public class RecipeCategoryValidator implements Validator<RecipeCategory> {
         var validators = List.of(
                 Validator.extracting(
                         RecipeCategory::getName, new StringLengthValidator(1, 50, "RecipeCategory name"))
-//                extracting(
-//                        RecipeCategory::getColor, new StringLengthValidator(2, 10, "Department number"))
         );
 
         return Validator.compose(validators).validate(category);

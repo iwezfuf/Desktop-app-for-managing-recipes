@@ -16,11 +16,13 @@ import java.util.List;
 public final class UnitCrudService implements CrudService<Unit> {
 
     private final Repository<Unit> unitRepository;
+    private final Validator<Unit> unitValidator;
     private final GuidProvider guidProvider;
 
-    public UnitCrudService(Repository<Unit> UnitRepository,
+    public UnitCrudService(Repository<Unit> UnitRepository, Validator<Unit> UnitValidator,
                                  GuidProvider guidProvider) {
         this.unitRepository = UnitRepository;
+        this.unitValidator = UnitValidator;
         this.guidProvider = guidProvider;
     }
 
@@ -31,9 +33,17 @@ public final class UnitCrudService implements CrudService<Unit> {
 
     @Override
     public ValidationResult create(Unit newEntity) {
-        unitRepository.create(newEntity);
+        var validationResult = unitValidator.validate(newEntity);
+        if (newEntity.getGuid() == null || newEntity.getGuid().isBlank()) {
+            newEntity.setGuid(guidProvider.newGuid());
+        } else if (unitRepository.existsByGuid(newEntity.getGuid())) {
+            throw new EntityAlreadyExistsException("Unit with given guid already exists: " + newEntity.getGuid());
+        }
+        if (validationResult.isValid()) {
+            unitRepository.create(newEntity);
+        }
 
-        return ValidationResult.success();
+        return validationResult;
     }
 
     @Override

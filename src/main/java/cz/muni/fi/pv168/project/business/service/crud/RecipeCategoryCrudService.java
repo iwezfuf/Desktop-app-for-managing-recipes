@@ -32,9 +32,17 @@ public final class RecipeCategoryCrudService implements CrudService<RecipeCatego
 
     @Override
     public ValidationResult create(RecipeCategory newEntity) {
-        recipeCategoryRepository.create(newEntity);
+        var validationResult = recipeCategoryValidator.validate(newEntity);
+        if (newEntity.getGuid() == null || newEntity.getGuid().isBlank()) {
+            newEntity.setGuid(guidProvider.newGuid());
+        } else if (recipeCategoryRepository.existsByGuid(newEntity.getGuid())) {
+            throw new EntityAlreadyExistsException("RecipeCategory with given guid already exists: " + newEntity.getGuid());
+        }
+        if (validationResult.isValid()) {
+            recipeCategoryRepository.create(newEntity);
+        }
 
-        return ValidationResult.success();
+        return validationResult;
     }
 
     @Override

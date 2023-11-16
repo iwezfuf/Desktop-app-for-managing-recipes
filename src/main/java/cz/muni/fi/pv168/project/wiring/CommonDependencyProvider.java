@@ -16,8 +16,10 @@ import cz.muni.fi.pv168.project.business.service.export.GenericImportService;
 import cz.muni.fi.pv168.project.business.service.export.ImportService;
 import cz.muni.fi.pv168.project.business.service.validation.DepartmentValidator;
 import cz.muni.fi.pv168.project.business.service.validation.EmployeeValidator;
+import cz.muni.fi.pv168.project.business.service.validation.IngredientValidator;
 import cz.muni.fi.pv168.project.business.service.validation.RecipeCategoryValidator;
 import cz.muni.fi.pv168.project.business.service.validation.RecipeValidator;
+import cz.muni.fi.pv168.project.business.service.validation.UnitValidator;
 import cz.muni.fi.pv168.project.export.csv.BatchCsvExporter;
 import cz.muni.fi.pv168.project.export.csv.BatchCsvImporter;
 import cz.muni.fi.pv168.project.storage.sql.DepartmentSqlRepository;
@@ -75,11 +77,15 @@ public class CommonDependencyProvider implements DependencyProvider {
     private final EmployeeValidator employeeValidator;
     private final RecipeValidator recipeValidator;
     private final RecipeCategoryValidator recipeCategoryValidator;
+    private final IngredientValidator ingredientValidator;
+    private final UnitValidator unitValidator;
 
     public CommonDependencyProvider(DatabaseManager databaseManager) {
         employeeValidator = new EmployeeValidator();
         recipeValidator = new RecipeValidator();
         recipeCategoryValidator = new RecipeCategoryValidator();
+        ingredientValidator = new IngredientValidator();
+        unitValidator = new UnitValidator();
         var departmentValidator = new DepartmentValidator();
         var recipeCategoryValidator = new RecipeCategoryValidator();
         var guidProvider = new UuidGuidProvider();
@@ -142,8 +148,8 @@ public class CommonDependencyProvider implements DependencyProvider {
 
         recipeCategoryCrudService = new RecipeCategoryCrudService(recipeCategories, recipeCategoryValidator, guidProvider);
         departmentCrudService = new DepartmentCrudService(departments, departmentValidator, guidProvider);
-        unitCrudService = new UnitCrudService(units, guidProvider);
-        ingredientCrudService = new IngredientCrudService(ingredients, guidProvider);
+        unitCrudService = new UnitCrudService(units, unitValidator, guidProvider);
+        ingredientCrudService = new IngredientCrudService(ingredients, ingredientValidator, guidProvider);
         recipeCrudService = new RecipeCrudService(recipes, recipeValidator, guidProvider);
         recipeIngredientAmountCrudService = new RecipeIngredientAmountCrudService(recipeIngredientAmounts, guidProvider);
         employeeCrudService = new EmployeeCrudService(employees, employeeValidator, guidProvider);

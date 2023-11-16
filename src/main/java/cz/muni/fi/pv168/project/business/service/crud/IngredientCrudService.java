@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.business.service.crud;
 
 
+import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.GuidProvider;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.repository.Repository;
@@ -15,11 +16,13 @@ import java.util.List;
 public final class IngredientCrudService implements CrudService<Ingredient> {
 
     private final Repository<Ingredient> ingredientRepository;
+    private final Validator<Ingredient> ingredientValidator;
     private final GuidProvider guidProvider;
 
-    public IngredientCrudService(Repository<Ingredient> IngredientRepository,
+    public IngredientCrudService(Repository<Ingredient> IngredientRepository, Validator<Ingredient> ingredientValidator,
                                  GuidProvider guidProvider) {
         this.ingredientRepository = IngredientRepository;
+        this.ingredientValidator = ingredientValidator;
         this.guidProvider = guidProvider;
     }
 
@@ -30,9 +33,17 @@ public final class IngredientCrudService implements CrudService<Ingredient> {
 
     @Override
     public ValidationResult create(Ingredient newEntity) {
-        ingredientRepository.create(newEntity);
+        var validationResult = ingredientValidator.validate(newEntity);
+        if (newEntity.getGuid() == null || newEntity.getGuid().isBlank()) {
+            newEntity.setGuid(guidProvider.newGuid());
+        } else if (ingredientRepository.existsByGuid(newEntity.getGuid())) {
+            throw new EntityAlreadyExistsException("Ingredient with given guid already exists: " + newEntity.getGuid());
+        }
+        if (validationResult.isValid()) {
+            ingredientRepository.create(newEntity);
+        }
 
-        return ValidationResult.success();
+        return validationResult;
     }
 
     @Override
