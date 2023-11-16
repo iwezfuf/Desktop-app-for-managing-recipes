@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.ui.panels;
 
 import cz.muni.fi.pv168.project.business.model.Department;
+import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.Gender;
 import cz.muni.fi.pv168.project.ui.model.ComboBoxModelAdapter;
 import cz.muni.fi.pv168.project.ui.model.DepartmentListModel;
@@ -23,26 +24,13 @@ import java.util.function.Consumer;
 /**
  * Panel with employee records in a table.
  */
-public class EmployeeTablePanel extends JPanel {
-
-    private final JTable table;
-    private final Consumer<Integer> onSelectionChange;
-    private final EntityTableModel entityTableModel;
-
-    public EmployeeTablePanel(EntityTableModel entityTableModel, DepartmentListModel departmentListModel, Consumer<Integer> onSelectionChange) {
-        setLayout(new BorderLayout());
-        table = setUpTable(entityTableModel, departmentListModel);
-        add(new JScrollPane(table), BorderLayout.CENTER);
-
-        this.onSelectionChange = onSelectionChange;
-        this.entityTableModel = entityTableModel;
+public class EmployeeTablePanel extends EntityTablePanel<Employee> {
+    public EmployeeTablePanel(EntityTableModel<Employee> entityTableModel, Consumer<Integer> onSelectionChange) {
+        super(entityTableModel, onSelectionChange);
     }
 
-    public JTable getTable() {
-        return table;
-    }
-
-    private JTable setUpTable(EntityTableModel entityTableModel, DepartmentListModel departmentListModel) {
+    @Override
+    protected JTable setUpTable(EntityTableModel<Employee> entityTableModel) {
         var table = new JTable(entityTableModel);
 
         var genderRenderer = new GenderRenderer();
@@ -55,26 +43,10 @@ public class EmployeeTablePanel extends JPanel {
         genderComboBox.setRenderer(genderRenderer);
         table.setDefaultEditor(Gender.class, new DefaultCellEditor(genderComboBox));
 
-        var departmentComboBox = new JComboBox<>(new ComboBoxModelAdapter<>(departmentListModel));
-        departmentComboBox.setRenderer(departmentRenderer);
-        table.setDefaultEditor(Department.class, new DefaultCellEditor(departmentComboBox));
-
         table.setDefaultRenderer(Gender.class, genderRenderer);
         table.setDefaultRenderer(Department.class, departmentRenderer);
         table.setDefaultRenderer(LocalDate.class, new LocalDateRenderer());
 
         return table;
-    }
-
-    private void rowSelectionChanged(ListSelectionEvent listSelectionEvent) {
-        var selectionModel = (ListSelectionModel) listSelectionEvent.getSource();
-        var count = selectionModel.getSelectedItemsCount();
-        if (onSelectionChange != null) {
-            onSelectionChange.accept(count);
-        }
-    }
-
-    public void refresh() {
-        entityTableModel.refresh();
     }
 }

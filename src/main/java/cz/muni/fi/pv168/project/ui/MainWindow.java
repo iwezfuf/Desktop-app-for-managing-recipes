@@ -21,6 +21,7 @@ import cz.muni.fi.pv168.project.ui.model.DepartmentListModel;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.model.Column;
 import cz.muni.fi.pv168.project.ui.panels.EmployeeTablePanel;
+import cz.muni.fi.pv168.project.ui.panels.RecipeTablePanel;
 import cz.muni.fi.pv168.project.ui.renderers.DepartmentRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.GenderRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.SpecialFilterDepartmentValuesRenderer;
@@ -66,8 +67,8 @@ public class MainWindow {
         recipeTableModel = createRecipeTableModel(dependencyProvider);
         departmentListModel = new DepartmentListModel(dependencyProvider.getDepartmentCrudService());
 
-        var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, departmentListModel, this::changeActionsState);
-        var recipeTablePanel = new EmployeeTablePanel(recipeTableModel, departmentListModel, this::changeActionsState);
+        var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, this::changeActionsState);
+        var recipeTablePanel = new RecipeTablePanel(recipeTableModel, this::changeActionsState);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
         addAction = new AddAction(employeeTablePanel.getTable(), departmentListModel,
