@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public final class NewAddAction<T extends Entity> extends AbstractAction {
 
-    private final EntityTablePanel<T> entityTablePanel;
+    private EntityTablePanel<T> entityTablePanel;
     private final ListModel<Department> departmentListModel;
 
     public NewAddAction(
@@ -48,5 +48,9 @@ public final class NewAddAction<T extends Entity> extends AbstractAction {
         }
         dialog.show(entityTablePanel.getTable(), "Add Entity")
                 .ifPresent(entityTableModel::addRow);
+    }
+
+    public void setCurrentTablePanel(EntityTablePanel<T> panel) {
+        this.entityTablePanel = panel;
     }
 }

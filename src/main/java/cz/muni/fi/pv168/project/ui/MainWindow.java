@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.project.ui;
 
 import cz.muni.fi.pv168.project.business.model.Department;
 import cz.muni.fi.pv168.project.business.model.Employee;
+import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.model.Gender;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
@@ -14,6 +15,7 @@ import cz.muni.fi.pv168.project.ui.action.NewAddAction;
 import cz.muni.fi.pv168.project.ui.action.NuclearQuitAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.dialog.EmployeeDialog;
+import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
 import cz.muni.fi.pv168.project.ui.filters.EmployeeTableFilter;
 import cz.muni.fi.pv168.project.ui.filters.components.FilterComboboxBuilder;
 import cz.muni.fi.pv168.project.ui.filters.components.FilterListModelBuilder;
@@ -23,6 +25,7 @@ import cz.muni.fi.pv168.project.ui.model.DepartmentListModel;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.model.Column;
 import cz.muni.fi.pv168.project.ui.panels.EmployeeTablePanel;
+import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.RecipeTablePanel;
 import cz.muni.fi.pv168.project.ui.renderers.DepartmentRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.GenderRenderer;
@@ -31,29 +34,20 @@ import cz.muni.fi.pv168.project.ui.renderers.SpecialFilterGenderValuesRenderer;
 import cz.muni.fi.pv168.project.util.Either;
 import cz.muni.fi.pv168.project.wiring.DependencyProvider;
 
-import javax.swing.Action;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JToolBar;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.table.TableRowSorter;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class MainWindow {
 
     private final JFrame frame;
     private final Action quitAction = new QuitAction();
     private final Action nuclearQuit;
-    private final Action addAction;
+    private final NewAddAction addAction;
     private final Action deleteAction;
     private final Action editAction;
     private final Action exportAction;
@@ -73,12 +67,12 @@ public class MainWindow {
         Validator<Recipe> recipeValidator = dependencyProvider.getRecipeValidator();
 
         var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, employeeValidator, EmployeeDialog.class, this::changeActionsState);
-        var recipeTablePanel = new RecipeTablePanel(recipeTableModel, recipeValidator, null, this::changeActionsState);
+        var recipeTablePanel = new RecipeTablePanel(recipeTableModel, recipeValidator, RecipeDialog.class, this::changeActionsState);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
 //        addAction = new AddAction(employeeTablePanel.getTable(), departmentListModel,
 //                dependencyProvider.getEmployeeValidator());
-        addAction = new NewAddAction(employeeTablePanel, departmentListModel);
+        addAction = new NewAddAction<>(employeeTablePanel, departmentListModel);
         deleteAction = new DeleteAction(employeeTablePanel.getTable());
         editAction = new EditAction(employeeTablePanel.getTable(), departmentListModel,
                 dependencyProvider.getEmployeeValidator());
@@ -90,6 +84,16 @@ public class MainWindow {
         var tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Employees", employeeTablePanel);
         tabbedPane.addTab("Recipes", recipeTablePanel);
+
+        // TODO this definitely needs to be refactored
+        tabbedPane.addChangeListener(e -> {
+            EntityTablePanel selectedTablePanel = (EntityTablePanel) tabbedPane.getSelectedComponent();
+            addAction.setCurrentTablePanel(selectedTablePanel);
+//            deleteAction.setCurrentTable(currentTable);
+//            filterAction.setCurrentTable(currentTable);
+//            filterAction.drawFilterIcon();
+//            cancelFilterAction.setCurrentTable(currentTable);
+        });
 
         frame.add(tabbedPane, BorderLayout.CENTER);
 
