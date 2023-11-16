@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.project.ui.action;
 
 import cz.muni.fi.pv168.project.business.model.Department;
 import cz.muni.fi.pv168.project.business.model.Entity;
+import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
@@ -35,14 +36,17 @@ public final class NewAddAction<T extends Entity> extends AbstractAction {
         EntityDialog<T> dialog;
         Class<T> type = entityTablePanel.getType();
         try {
-            dialog = entityTablePanel.getEntityDialog().getConstructor(type).newInstance(
-                    type.getConstructor().newInstance(),
+            T entityInstance = type.getConstructor().newInstance();
+            dialog = entityTablePanel.getEntityDialog().getConstructor(
+                    type, ListModel.class, Validator.class
+            ).newInstance(
+                    entityInstance,
                     departmentListModel,
                     entityTablePanel.getEntityValidator());
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
             throw new RuntimeException("Failed to create dialog.", ex);
         }
-        dialog.show(entityTablePanel.getTable(), "Add Employee")
+        dialog.show(entityTablePanel.getTable(), "Add Entity")
                 .ifPresent(entityTableModel::addRow);
     }
 }

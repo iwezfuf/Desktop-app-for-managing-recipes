@@ -38,10 +38,11 @@ public final class AddAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var employeeTableModel = (EntityTableModel) employeeTable.getModel();
-        var dialog = new EmployeeDialog(createPrefilledEmployee(), departmentListModel, employeeValidator);
-        dialog.show(employeeTable, "Add Employee")
-                .ifPresent(employeeTableModel::addRow);
+        // TODO whole class should be deleted once NewAddAction works
+//        var employeeTableModel = (EntityTableModel) employeeTable.getModel();
+//        var dialog = new EmployeeDialog(createPrefilledEmployee(), departmentListModel, employeeValidator);
+//        dialog.show(employeeTable, "Add Employee")
+//                .ifPresent(employeeTableModel::addRow);
     }
 
     private Employee createPrefilledEmployee()

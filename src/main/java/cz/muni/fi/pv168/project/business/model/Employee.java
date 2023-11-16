@@ -39,6 +39,14 @@ public class Employee extends Entity {
         setDepartment(department);
     }
 
+    public Employee() {
+        setFirstName("");
+        setLastName("");
+        setGender(Gender.MALE);
+        setBirthDate(LocalDate.now());
+        setDepartment(new Department("", "", ""));
+    };
+
     public String getFirstName() {
         return firstName;
     }

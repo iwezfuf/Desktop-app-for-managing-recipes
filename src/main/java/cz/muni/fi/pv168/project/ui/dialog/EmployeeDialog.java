@@ -24,28 +24,26 @@ public final class EmployeeDialog extends EntityDialog<Employee> {
     private final JTextField firstNameField = new JTextField();
     private final JTextField lastNameField = new JTextField();
     private final ComboBoxModel<Gender> genderModel = new DefaultComboBoxModel<>(Gender.values());
-    private final ComboBoxModel<Department> departmentModel;
     private final DateModel<LocalDate> birthDateModel = new LocalDateModel();
+    private final ComboBoxModel<Department> departmentModel;
 
-    private final Employee employee;
 
     public EmployeeDialog(
             Employee employee,
-            ListModel<Department> departmentModel,
+            ListModel<Department> departmentListModel,
             Validator<Employee> entityValidator) {
-        super(Objects.requireNonNull(entityValidator));
-        this.employee = employee;
-        this.departmentModel = new ComboBoxModelAdapter<>(departmentModel);
+        super(employee, departmentListModel, Objects.requireNonNull(entityValidator));
+        departmentModel = new ComboBoxModelAdapter<>(departmentListModel);
         setValues();
         addFields();
     }
 
     private void setValues() {
-        firstNameField.setText(employee.getFirstName());
-        lastNameField.setText(employee.getLastName());
-        genderModel.setSelectedItem(employee.getGender());
-        departmentModel.setSelectedItem(employee.getDepartment());
-        birthDateModel.setValue(employee.getBirthDate());
+        firstNameField.setText(entity.getFirstName());
+        lastNameField.setText(entity.getLastName());
+        genderModel.setSelectedItem(entity.getGender());
+        departmentModel.setSelectedItem(entity.getDepartment());
+        birthDateModel.setValue(entity.getBirthDate());
     }
 
     private void addFields() {
@@ -64,11 +62,11 @@ public final class EmployeeDialog extends EntityDialog<Employee> {
 
     @Override
     Employee getEntity() {
-        employee.setFirstName(firstNameField.getText());
-        employee.setLastName(lastNameField.getText());
-        employee.setGender((Gender) genderModel.getSelectedItem());
-        employee.setDepartment((Department) departmentModel.getSelectedItem());
-        employee.setBirthDate(birthDateModel.getValue());
-        return employee;
+        entity.setFirstName(firstNameField.getText());
+        entity.setLastName(lastNameField.getText());
+        entity.setGender((Gender) genderModel.getSelectedItem());
+        entity.setDepartment((Department) departmentModel.getSelectedItem());
+        entity.setBirthDate(birthDateModel.getValue());
+        return entity;
     }
 }
