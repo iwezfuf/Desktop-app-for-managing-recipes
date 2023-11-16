@@ -210,7 +210,6 @@ public class MainWindow {
     }
 
     private void changeActionsState(int selectedItemsCount) {
-        System.out.println("Selected items count: " + selectedItemsCount);
         editAction.setEnabled(selectedItemsCount == 1);
         deleteAction.setEnabled(selectedItemsCount >= 1);
     }
