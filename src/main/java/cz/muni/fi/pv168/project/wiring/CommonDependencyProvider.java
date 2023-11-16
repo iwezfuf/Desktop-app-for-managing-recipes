@@ -74,10 +74,12 @@ public class CommonDependencyProvider implements DependencyProvider {
     private final ExportService exportService;
     private final EmployeeValidator employeeValidator;
     private final RecipeValidator recipeValidator;
+    private final RecipeCategoryValidator recipeCategoryValidator;
 
     public CommonDependencyProvider(DatabaseManager databaseManager) {
         employeeValidator = new EmployeeValidator();
         recipeValidator = new RecipeValidator();
+        recipeCategoryValidator = new RecipeCategoryValidator();
         var departmentValidator = new DepartmentValidator();
         var recipeCategoryValidator = new RecipeCategoryValidator();
         var guidProvider = new UuidGuidProvider();
@@ -245,6 +247,11 @@ public class CommonDependencyProvider implements DependencyProvider {
     @Override
     public RecipeValidator getRecipeValidator() {
         return recipeValidator;
+    }
+
+    @Override
+    public RecipeCategoryValidator getRecipeCategoryValidator() {
+        return recipeCategoryValidator;
     }
 
     @Override

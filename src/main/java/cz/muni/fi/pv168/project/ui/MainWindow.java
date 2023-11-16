@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.model.Gender;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.service.validation.RecipeCategoryValidator;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
@@ -15,6 +16,7 @@ import cz.muni.fi.pv168.project.ui.action.NewAddAction;
 import cz.muni.fi.pv168.project.ui.action.NuclearQuitAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.dialog.EmployeeDialog;
+import cz.muni.fi.pv168.project.ui.dialog.RecipeCategoryDialog;
 import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
 import cz.muni.fi.pv168.project.ui.filters.EmployeeTableFilter;
 import cz.muni.fi.pv168.project.ui.filters.components.FilterComboboxBuilder;
@@ -26,6 +28,7 @@ import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.model.Column;
 import cz.muni.fi.pv168.project.ui.panels.EmployeeTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
+import cz.muni.fi.pv168.project.ui.panels.RecipeCategoryTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.RecipeTablePanel;
 import cz.muni.fi.pv168.project.ui.renderers.DepartmentRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.GenderRenderer;
@@ -36,8 +39,7 @@ import cz.muni.fi.pv168.project.wiring.DependencyProvider;
 
 import javax.swing.*;
 import javax.swing.table.TableRowSorter;
-import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +56,7 @@ public class MainWindow {
     private final Action importAction;
     private final EntityTableModel<Employee> employeeTableModel;
     private final EntityTableModel<Recipe> recipeTableModel;
+    private final EntityTableModel<RecipeCategory> recipeCategoryEntityTableModel;
     private final DepartmentListModel departmentListModel;
 
     public MainWindow(DependencyProvider dependencyProvider) {
@@ -61,13 +64,16 @@ public class MainWindow {
 
         employeeTableModel = createEmployeeTableModel(dependencyProvider);
         recipeTableModel = createRecipeTableModel(dependencyProvider);
+        recipeCategoryEntityTableModel = createRecipeCategoryTableModel(dependencyProvider);
         departmentListModel = new DepartmentListModel(dependencyProvider.getDepartmentCrudService());
 
         Validator<Employee> employeeValidator = dependencyProvider.getEmployeeValidator();
         Validator<Recipe> recipeValidator = dependencyProvider.getRecipeValidator();
+        Validator<RecipeCategory> recipeCategoryValidator = dependencyProvider.getRecipeCategoryValidator();
 
         var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, employeeValidator, EmployeeDialog.class, this::changeActionsState);
         var recipeTablePanel = new RecipeTablePanel(recipeTableModel, recipeValidator, RecipeDialog.class, this::changeActionsState);
+        var recipeCategoryTablePanel = new RecipeCategoryTablePanel(recipeCategoryEntityTableModel, recipeCategoryValidator, RecipeCategoryDialog.class, this::changeActionsState);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
 //        addAction = new AddAction(employeeTablePanel.getTable(), departmentListModel,
@@ -84,6 +90,7 @@ public class MainWindow {
         var tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Employees", employeeTablePanel);
         tabbedPane.addTab("Recipes", recipeTablePanel);
+        tabbedPane.addTab("Recipe Categories", recipeCategoryTablePanel);
 
         // TODO this definitely needs to be refactored
         tabbedPane.addChangeListener(e -> {
@@ -102,6 +109,8 @@ public class MainWindow {
         employeeTablePanel.getTable().setRowSorter(employeeRowSorter);
         var recipeRowSorter = new TableRowSorter<EntityTableModel<Recipe>>(recipeTableModel);
         recipeTablePanel.getTable().setRowSorter(recipeRowSorter);
+        var recipeCategoryRowSorter = new TableRowSorter<EntityTableModel<RecipeCategory>>(recipeCategoryEntityTableModel);
+        recipeCategoryTablePanel.getTable().setRowSorter(recipeCategoryRowSorter);
 
         // Set up filtering
         var employeeTableFilter = new EmployeeTableFilter(employeeRowSorter);
@@ -134,6 +143,14 @@ public class MainWindow {
                 Column.readonly("Category", RecipeCategory.class, Recipe::getCategory)
         );
         return new EntityTableModel<>(dependencyProvider.getRecipeCrudService(), columns);
+    }
+
+    private EntityTableModel<RecipeCategory> createRecipeCategoryTableModel(DependencyProvider dependencyProvider) {
+        List<Column<RecipeCategory, ?>> columns = List.of(
+                Column.readonly("Name", String.class, RecipeCategory::getName),
+                Column.readonly("Color", Color.class, RecipeCategory::getColor)
+        );
+        return new EntityTableModel<>(dependencyProvider.getRecipeCategoryCrudService(), columns);
     }
 
     private void refresh() {

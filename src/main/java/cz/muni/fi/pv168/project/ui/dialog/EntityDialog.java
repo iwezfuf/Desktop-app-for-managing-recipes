@@ -35,6 +35,12 @@ public abstract class EntityDialog<E> {
         panel.add(component, "wmin 250lp, grow");
     }
 
+    void addAsScrollable(String labelText, JComponent component) {
+        var label = new JLabel(labelText);
+        panel.add(label);
+        panel.add(new JScrollPane(component), "wmin 250lp, grow");
+    }
+
     abstract E getEntity();
 
     public Optional<E> show(JComponent parentComponent, String title) {
