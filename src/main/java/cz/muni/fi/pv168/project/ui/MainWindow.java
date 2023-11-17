@@ -9,10 +9,10 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
-import cz.muni.fi.pv168.project.ui.action.EditAction;
 import cz.muni.fi.pv168.project.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.ui.action.ImportAction;
 import cz.muni.fi.pv168.project.ui.action.NewAddAction;
+import cz.muni.fi.pv168.project.ui.action.NewEditAction;
 import cz.muni.fi.pv168.project.ui.action.NuclearQuitAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.dialog.EmployeeDialog;
@@ -53,7 +53,7 @@ public class MainWindow {
     private final Action nuclearQuit;
     private final NewAddAction addAction;
     private final DeleteAction deleteAction;
-    private final Action editAction;
+    private final NewEditAction editAction;
     private final Action exportAction;
     private final Action importAction;
     private final EntityTableModel<Employee> employeeTableModel;
@@ -100,8 +100,7 @@ public class MainWindow {
 //                dependencyProvider.getEmployeeValidator());
         addAction = new NewAddAction<>(employeeTablePanel, entityTableModelProvider);
         deleteAction = new DeleteAction(employeeTablePanel.getTable());
-        editAction = new EditAction(employeeTablePanel.getTable(), departmentListModel,
-                dependencyProvider.getEmployeeValidator());
+        editAction = new NewEditAction<>(employeeTablePanel, entityTableModelProvider);
         exportAction = new ExportAction(employeeTablePanel, dependencyProvider.getExportService());
         importAction = new ImportAction(employeeTablePanel, dependencyProvider.getImportService(), this::refresh);
 
@@ -118,6 +117,7 @@ public class MainWindow {
             EntityTablePanel selectedTablePanel = (EntityTablePanel) tabbedPane.getSelectedComponent();
             addAction.setCurrentTablePanel(selectedTablePanel);
             deleteAction.setCurrentTable(selectedTablePanel.getTable());
+            editAction.setCurrentTablePanel(selectedTablePanel);
 //            filterAction.setCurrentTable(currentTable);
 //            filterAction.drawFilterIcon();
 //            cancelFilterAction.setCurrentTable(currentTable);
