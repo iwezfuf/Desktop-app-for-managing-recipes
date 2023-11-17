@@ -21,11 +21,14 @@ public class UnitMapper implements EntityMapper<UnitEntity, Unit> {
 
     @Override
     public Unit mapToBusiness(UnitEntity entity) {
-        var conversionUnit = unitDao
-                .findById(entity.conversionUnitId())
-                .map(this::mapToBusiness)
-                .orElseThrow(() -> new DataStorageException("Unit not found, id: " +
-                        entity.conversionUnitId()));
+        Unit conversionUnit = null;
+        if (entity.conversionUnitId() != 0) {
+            conversionUnit = unitDao
+                    .findById(entity.conversionUnitId())
+                    .map(this::mapToBusiness)
+                    .orElseThrow(() -> new DataStorageException("Unit not found, id: " +
+                            entity.conversionUnitId()));
+        }
 
         return new Unit(
                 entity.guid(),
@@ -38,26 +41,32 @@ public class UnitMapper implements EntityMapper<UnitEntity, Unit> {
 
     @Override
     public UnitEntity mapNewEntityToDatabase(Unit entity) {
-        var unitEntity = unitDao
+        long conversionUnitEntityId = 0;
+        if (entity.getConversionUnit() != null) {
+            conversionUnitEntityId = (unitDao
                 .findByGuid(entity.getConversionUnit().getGuid())
                 .orElseThrow(() -> new DataStorageException("Unit not found, guid: " +
-                        entity.getConversionUnit().getGuid()));
+                        entity.getConversionUnit().getGuid()))).id();
+        }
 
         return new UnitEntity(
             entity.getGuid(),
             entity.getName(),
             entity.getAbbreviation(),
             entity.getConversionRatio(),
-            unitEntity.id()
+            conversionUnitEntityId
         );
     }
 
     @Override
     public UnitEntity mapExistingEntityToDatabase(Unit entity, Long dbId) {
-        var unitEntity = unitDao
+        long conversionUnitEntityId = 0;
+        if (entity.getConversionUnit() != null) {
+            conversionUnitEntityId = (unitDao
                 .findByGuid(entity.getConversionUnit().getGuid())
                 .orElseThrow(() -> new DataStorageException("Unit not found, guid: " +
-                        entity.getConversionUnit().getGuid()));
+                        entity.getConversionUnit().getGuid()))).id();
+        }
 
         return new UnitEntity(
             dbId,
@@ -65,7 +74,7 @@ public class UnitMapper implements EntityMapper<UnitEntity, Unit> {
             entity.getName(),
             entity.getAbbreviation(),
             entity.getConversionRatio(),
-            unitEntity.id()
+            conversionUnitEntityId
         );
     }
 }

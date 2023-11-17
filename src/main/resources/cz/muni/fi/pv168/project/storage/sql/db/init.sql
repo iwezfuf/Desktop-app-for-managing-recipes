@@ -57,10 +57,9 @@ CREATE TABLE IF NOT EXISTS "Recipe"
 --
 -- Unit table definition
 --
--- TODO - conversionUnitId can be null
 CREATE TABLE IF NOT EXISTS "Unit"
 (
-    `id`               BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    `id`               BIGINT GENERATED ALWAYS AS IDENTITY (START WITH 0) PRIMARY KEY,
     `guid`             VARCHAR       NOT NULL UNIQUE,
     `name`             VARCHAR(150)  NOT NULL,
     `abbreviation`     VARCHAR(30)   NOT NULL,
@@ -130,4 +129,10 @@ VALUES ('pancakes', 'pancakes', 'delicious pancakes', '10', '2', 'mix everything
 
 INSERT INTO "Recipe" ("guid", "name", "description", "preparationTime", "numOfServings", "instructions", "recipeCategoryId")
 VALUES ('aaa', 'zzz', 'aaa', '15', '5', 'aaaaaaa', '1')
+;
+
+--  Units
+-- TODO this is probably not the best way to do this...
+INSERT INTO "Unit" ("guid", "name", "abbreviation", "conversionRatio", "conversionUnitId")
+VALUES ('Base Unit', 'Base Unit', 'bu', '1', NULL)
 ;
