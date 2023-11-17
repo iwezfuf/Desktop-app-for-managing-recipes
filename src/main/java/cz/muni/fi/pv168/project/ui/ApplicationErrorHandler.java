@@ -12,6 +12,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
     public void uncaughtException(Thread t, Throwable e) {
         // TODO: Handle exceptions better
         showGeneralError("Oops something went wrong!", true);
+        e.printStackTrace();
     }
 
     private static void showGeneralError(String message, boolean isFatal) {
