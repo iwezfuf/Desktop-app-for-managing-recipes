@@ -35,7 +35,7 @@ public class Main {
         try {
             UIManager.setLookAndFeel( new FlatLightLaf() );
         } catch (Exception ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "Nimbus layout initialization failed", ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "FlatLightLaf layout initialization failed", ex);
         }
 
     }
