@@ -46,6 +46,8 @@ public interface DependencyProvider {
 
     Validator<Employee> getEmployeeValidator();
     Validator<Recipe> getRecipeValidator();
+    Validator<Ingredient> getIngredientValidator();
+    Validator<Unit> getUnitValidator();
     Validator<RecipeCategory> getRecipeCategoryValidator();
 }
 

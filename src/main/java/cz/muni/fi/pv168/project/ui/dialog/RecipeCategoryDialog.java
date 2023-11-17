@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.project.business.model.Department;
 import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +17,9 @@ public class RecipeCategoryDialog extends EntityDialog<RecipeCategory> {
     private final RecipeCategory recipeCategory;
 
     public RecipeCategoryDialog(RecipeCategory recipeCategory,
-                                ListModel<Department> departmentListModel,
+                                EntityTableModelProvider entityTableModelProvider,
                                 Validator<RecipeCategory> entityValidator) {
-        super(recipeCategory, departmentListModel, Objects.requireNonNull(entityValidator));
+        super(recipeCategory, entityTableModelProvider, Objects.requireNonNull(entityValidator));
         this.recipeCategory = recipeCategory;
         setValues();
         addFields();

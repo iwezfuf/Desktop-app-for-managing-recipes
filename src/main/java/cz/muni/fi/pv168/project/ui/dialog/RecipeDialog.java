@@ -1,11 +1,11 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
-import cz.muni.fi.pv168.project.business.model.Department;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
@@ -38,9 +38,9 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     private final Recipe recipe;
 
     public RecipeDialog(Recipe recipe,
-                        ListModel<Department> departmentListModel,
+                        EntityTableModelProvider entityTableModelProvider,
                         Validator<Recipe> entityValidator) {
-        super(recipe, departmentListModel, Objects.requireNonNull(entityValidator));
+        super(recipe, entityTableModelProvider, Objects.requireNonNull(entityValidator));
 //        this.setLayout(new GridBagLayout());
 
 //        var centerPanelConstraints = new GridBagConstraints();

@@ -5,6 +5,7 @@ import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.Gender;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.model.ComboBoxModelAdapter;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
 import cz.muni.fi.pv168.project.ui.model.LocalDateModel;
 import cz.muni.fi.pv168.project.ui.renderers.DepartmentRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.GenderRenderer;
@@ -15,7 +16,6 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -30,10 +30,10 @@ public final class EmployeeDialog extends EntityDialog<Employee> {
 
     public EmployeeDialog(
             Employee employee,
-            ListModel<Department> departmentListModel,
+            EntityTableModelProvider entityTableModelProvider,
             Validator<Employee> entityValidator) {
-        super(employee, departmentListModel, Objects.requireNonNull(entityValidator));
-        departmentModel = new ComboBoxModelAdapter<>(departmentListModel);
+        super(employee, entityTableModelProvider, Objects.requireNonNull(entityValidator));
+        departmentModel = new ComboBoxModelAdapter<>(entityTableModelProvider.getDepartmentListModel());
         setValues();
         addFields();
     }

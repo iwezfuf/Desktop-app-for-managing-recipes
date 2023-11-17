@@ -46,8 +46,9 @@ public final class EditAction extends AbstractAction {
         var employeeTableModel = (EntityTableModel<Employee>) employeeTable.getModel();
         int modelRow = employeeTable.convertRowIndexToModel(selectedRows[0]);
         var employee = employeeTableModel.getEntity(modelRow);
-        var dialog = new EmployeeDialog(employee, departmentListModel, employeeValidator);
-        dialog.show(employeeTable, "Edit Employee")
-                .ifPresent(employeeTableModel::updateRow);
+        // TODO
+//        var dialog = new EmployeeDialog(employee, departmentListModel, employeeValidator);
+//        dialog.show(employeeTable, "Edit Employee")
+//                .ifPresent(employeeTableModel::updateRow);
     }
 }

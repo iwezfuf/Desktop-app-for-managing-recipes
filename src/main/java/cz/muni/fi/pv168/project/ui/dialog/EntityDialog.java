@@ -1,8 +1,7 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
-import cz.muni.fi.pv168.project.business.model.Department;
-import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -17,14 +16,14 @@ public abstract class EntityDialog<E> {
 
     private final JPanel panel = new JPanel();
     private final Validator<E> entityValidator;
-    ListModel<Department> departmentListModel;
+    private final EntityTableModelProvider entityTableModelProvider;
     E entity;
 
     EntityDialog(E entity,
-                 ListModel<Department> departmentModel,
+                 EntityTableModelProvider entityTableModelProvider,
                  Validator<E> entityValidator) {
         this.entity = entity;
-        this.departmentListModel = departmentModel;
+        this.entityTableModelProvider = Objects.requireNonNull(entityTableModelProvider);
         this.entityValidator = Objects.requireNonNull(entityValidator);
         panel.setLayout(new MigLayout("wrap 2"));
     }
