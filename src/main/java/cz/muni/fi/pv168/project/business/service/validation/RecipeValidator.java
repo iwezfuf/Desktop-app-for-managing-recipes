@@ -16,7 +16,9 @@ public class RecipeValidator implements Validator<Recipe> {
     @Override
     public ValidationResult validate(Recipe model) {
         var validators = List.of(
-                extracting(Recipe::getName, new StringLengthValidator(2, 30, "Name"))
+                extracting(Recipe::getName, new StringLengthValidator(1, 50, "Name")),
+                extracting(Recipe::getDescription, new StringLengthValidator(1, 1000, "Description")),
+                extracting(Recipe::getInstructions, new StringLengthValidator(1, 10000, "Instructions"))
         );
 
         return Validator.compose(validators).validate(model);
