@@ -22,7 +22,7 @@ public class RecipeDao implements DataAccessObject<RecipeEntity> {
 
     @Override
     public RecipeEntity create(RecipeEntity newRecipe) {
-        var sql = "INSERT INTO Recipe (guid, name, description, preparationTime, numOfServings, instructions, recipeCategoryId, recipeIngredientAmountId) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        var sql = "INSERT INTO Recipe (guid, name, description, preparationTime, numOfServings, instructions, recipeCategoryId) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
         try (
                 var connection = connections.get();

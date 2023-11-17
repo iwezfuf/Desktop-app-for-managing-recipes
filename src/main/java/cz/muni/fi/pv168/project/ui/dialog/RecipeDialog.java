@@ -69,6 +69,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
             Ingredient selectedIngredient = (Ingredient) ingredientComboBox.getSelectedItem();
             int amount = (int) ingredientsSpinner.getValue();
             // TODO: recipe.addIngredient(selectedIngredient, amount);
+            RecipeIngredientAmount recipeIngredientAmount = new RecipeIngredientAmount(recipe, selectedIngredient, amount);
+            entityTableModelProvider.getIngredientAmountCrudService().create(recipeIngredientAmount);
             addToIngredientsPanel(selectedIngredient, amount);
         });
     }

@@ -16,6 +16,7 @@ import cz.muni.fi.pv168.project.ui.action.NewEditAction;
 import cz.muni.fi.pv168.project.ui.action.NuclearQuitAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.dialog.EmployeeDialog;
+import cz.muni.fi.pv168.project.ui.dialog.IngredientDialog;
 import cz.muni.fi.pv168.project.ui.dialog.RecipeCategoryDialog;
 import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
 import cz.muni.fi.pv168.project.ui.dialog.UnitDialog;
@@ -30,6 +31,7 @@ import cz.muni.fi.pv168.project.ui.model.Column;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
 import cz.muni.fi.pv168.project.ui.panels.EmployeeTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
+import cz.muni.fi.pv168.project.ui.panels.IngredientTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.RecipeCategoryTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.RecipeTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.UnitTablePanel;
@@ -81,6 +83,7 @@ public class MainWindow {
                 ingredientTableModel,
                 unitTableModel,
                 recipeCategoryTableModel,
+                dependencyProvider.getRecipeIngredientAmountCrudService(),
                 departmentListModel
         );
 
@@ -92,6 +95,7 @@ public class MainWindow {
 
         var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, employeeValidator, EmployeeDialog.class, this::changeActionsState);
         var recipeTablePanel = new RecipeTablePanel(recipeTableModel, recipeValidator, RecipeDialog.class, this::changeActionsState);
+        var ingredientTablePanel = new IngredientTablePanel(ingredientTableModel, ingredientValidator, IngredientDialog.class, this::changeActionsState);
         var unitTablePanel = new UnitTablePanel(unitTableModel, unitValidator, UnitDialog.class, this::changeActionsState);
         var recipeCategoryTablePanel = new RecipeCategoryTablePanel(recipeCategoryTableModel, recipeCategoryValidator, RecipeCategoryDialog.class, this::changeActionsState);
 
@@ -109,6 +113,7 @@ public class MainWindow {
         var tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Employees", employeeTablePanel);
         tabbedPane.addTab("Recipes", recipeTablePanel);
+        tabbedPane.addTab("Ingredients", ingredientTablePanel);
         tabbedPane.addTab("Units", unitTablePanel);
         tabbedPane.addTab("Recipe Categories", recipeCategoryTablePanel);
 
@@ -130,6 +135,8 @@ public class MainWindow {
         employeeTablePanel.getTable().setRowSorter(employeeRowSorter);
         var recipeRowSorter = new TableRowSorter<EntityTableModel<Recipe>>(recipeTableModel);
         recipeTablePanel.getTable().setRowSorter(recipeRowSorter);
+        var ingredientRowSorter = new TableRowSorter<EntityTableModel<Ingredient>>(ingredientTableModel);
+        ingredientTablePanel.getTable().setRowSorter(ingredientRowSorter);
         var unitRowSorter = new TableRowSorter<EntityTableModel<Unit>>(unitTableModel);
         unitTablePanel.getTable().setRowSorter(unitRowSorter);
         var recipeCategoryRowSorter = new TableRowSorter<EntityTableModel<RecipeCategory>>(recipeCategoryTableModel);
