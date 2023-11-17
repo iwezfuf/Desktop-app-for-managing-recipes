@@ -19,13 +19,13 @@ import java.util.Objects;
  */
 public class RecipeDialog extends EntityDialog<Recipe> {
 
+    private final Recipe recipe;
+
     private final JTextField recipeNameTextField = new JTextField();
     private final JTextArea briefDescriptionTextArea = new JTextArea();
     private final SpinnerModel portionsModel = new SpinnerNumberModel(2, 0, 100, 1);
     private final JSpinner numberOfServingsSpinner = new JSpinner(portionsModel);
-
     private final JTextField preparationTimeTextField = new JTextField();
-
     private final JComboBox<RecipeCategory> recipeCategoryComboBox = new JComboBox<>();
     private final JComboBox<Ingredient> ingredientComboBox = new JComboBox<>();
     private final SpinnerModel ingredientsModel = new SpinnerNumberModel(1, 0, 999, 1);
@@ -35,62 +35,57 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     private final JPanel centerPanel = new JPanel(new GridBagLayout());
     private final JPanel ingredientsPanel = new JPanel(new GridBagLayout());
 
-    private final Recipe recipe;
-
     public RecipeDialog(Recipe recipe,
                         EntityTableModelProvider entityTableModelProvider,
                         Validator<Recipe> entityValidator) {
+
         super(recipe, entityTableModelProvider, Objects.requireNonNull(entityValidator));
-//        this.setLayout(new GridBagLayout());
-
-//        var centerPanelConstraints = new GridBagConstraints();
-//        centerPanelConstraints.fill = GridBagConstraints.BOTH;
-//        centerPanelConstraints.gridy = 0;
-//        centerPanelConstraints.gridx = 0;
-//        centerPanelConstraints.weightx = 2;
-//        centerPanelConstraints.weighty = 1;
-//        this.add(centerPanel, centerPanelConstraints);
-
-//        numberOfServingsSpinner.setEditor(new JSpinner.DefaultEditor(numberOfServingsSpinner));
-//
         this.recipe = recipe;
-//        recipeNameTextField.setColumns(600); // Set the number of visible columns (width).
-////        limitComponentToOneRow(recipeNameTextField);
-//        this.briefDescriptionTextArea.setRows(5);
-//        briefDescriptionTextArea.setLineWrap(true);
-//        briefDescriptionTextArea.setWrapStyleWord(true);
-//        this.preparationTimeTextField.setColumns(600);
-////        limitComponentToOneRow(preparationTimeTextField);
-//        this.instructionsTextArea.setRows(10);
-//        instructionsTextArea.setLineWrap(true);
-//        instructionsTextArea.setWrapStyleWord(true);
-//
-//        fillComboBoxes();
-//        setValues();
-//        addFields();
-//        this.addIngredientButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                Ingredient selectedIngredient = (Ingredient) ingredientComboBox.getSelectedItem();
-//                int amount = (int) ingredientsSpinner.getValue();
-//                // TODO
-////                recipe.addIngredient(selectedIngredient, amount);
-//                addToIngredientsPanel(selectedIngredient, amount);
-//            }
-//        });
+
+        initField();
+        fillComboBoxes();
+        setValues();
+        addFields();
+        addListenerToAddButton();
+    }
+
+    private void initField() {
+
+        final int width = 75;
+
+        numberOfServingsSpinner.setEditor(new JSpinner.DefaultEditor(numberOfServingsSpinner));
+        recipeNameTextField.setColumns(width);
+        briefDescriptionTextArea.setRows(5);
+        briefDescriptionTextArea.setLineWrap(true);
+        briefDescriptionTextArea.setWrapStyleWord(true);
+        preparationTimeTextField.setColumns(width);
+        instructionsTextArea.setRows(10);
+        instructionsTextArea.setLineWrap(true);
+        instructionsTextArea.setWrapStyleWord(true);
+    }
+
+    private void addListenerToAddButton() {
+        this.addIngredientButton.addActionListener(e -> {
+            Ingredient selectedIngredient = (Ingredient) ingredientComboBox.getSelectedItem();
+            int amount = (int) ingredientsSpinner.getValue();
+            // TODO: recipe.addIngredient(selectedIngredient, amount);
+            addToIngredientsPanel(selectedIngredient, amount);
+        });
     }
 
     private void fillComboBoxes() {
-//        for (RecipeCategory category : RecipeCategory.getListOfCategories()) {
-//            recipeCategoryComboBox.addItem(category);
-//        }
 
-//        for (Ingredient ingredient : Ingredient.getListOfIngredients()) {
-//            ingredientComboBox.addItem(ingredient);
-//        }
+        for (RecipeCategory category : entityTableModelProvider.getRecipeCategoryTableModel().getEntities()) {
+            recipeCategoryComboBox.addItem(category);
+        }
+
+        for (Ingredient ingredient : entityTableModelProvider.getIngredientTableModel().getEntities()) {
+            ingredientComboBox.addItem(ingredient);
+        }
     }
 
     private void setValues() {
+
         recipeNameTextField.setText(recipe.getName());
         briefDescriptionTextArea.setText(recipe.getDescription());
         numberOfServingsSpinner.setValue(recipe.getNumOfServings());
@@ -100,7 +95,10 @@ public class RecipeDialog extends EntityDialog<Recipe> {
             recipeCategoryComboBox.setSelectedItem(recipe.getCategory());
         }
 
-        ingredientComboBox.setSelectedIndex(0);
+        if (ingredientComboBox.getItemCount() != 0) {
+            ingredientComboBox.setSelectedIndex(0);
+        }
+
         instructionsTextArea.setText(recipe.getInstructions());
 
         for (RecipeIngredientAmount ingredientAmount : recipe.getIngredients()) {
@@ -109,6 +107,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     }
 
     private void addToCenterPanel(String labelText, JComponent component, int weighty) {
+
         var label = new JLabel(labelText);
         GridBagConstraints labelConstraints = new GridBagConstraints();
         labelConstraints.fill = GridBagConstraints.BOTH;
@@ -117,7 +116,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         labelConstraints.weightx = 1;
         labelConstraints.weighty = weighty;
         Insets spacing = new Insets(5, 5, 5, 5);
-        labelConstraints.insets = spacing; // Set the insets for the label
+        labelConstraints.insets = spacing;
         centerPanel.add(label, labelConstraints);
 
         GridBagConstraints componentConstraints = new GridBagConstraints();
@@ -126,7 +125,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         componentConstraints.gridx = 1;
         componentConstraints.weightx = 3;
         componentConstraints.weighty = weighty;
-        componentConstraints.insets = spacing; // Set the insets for the component
+        componentConstraints.insets = spacing;
         centerPanel.add(component, componentConstraints);
     }
 
@@ -150,14 +149,11 @@ public class RecipeDialog extends EntityDialog<Recipe> {
 
         var panel = new JPanel(new GridBagLayout());
         var removeButton = new JButton(Icons.DELETE_ICON);
-        removeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                recipe.removeIngredient(ingredient);
-                ingredientsPanel.remove(panel);
-                ingredientsPanel.revalidate();
-                ingredientsPanel.repaint();
-            }
+        removeButton.addActionListener(e -> {
+            recipe.removeIngredient(ingredient);
+            ingredientsPanel.remove(panel);
+            ingredientsPanel.revalidate();
+            ingredientsPanel.repaint();
         });
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -193,6 +189,9 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     }
 
     private void addFields() {
+
+        add("", centerPanel);
+
         addToCenterPanel("Recipe name:", recipeNameTextField, 1);
         addToCenterPanel("Brief description:", briefDescriptionTextArea, 1);
         addToCenterPanel("Number of servings:", numberOfServingsSpinner, 1);
