@@ -18,6 +18,7 @@ import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.dialog.EmployeeDialog;
 import cz.muni.fi.pv168.project.ui.dialog.RecipeCategoryDialog;
 import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
+import cz.muni.fi.pv168.project.ui.dialog.UnitDialog;
 import cz.muni.fi.pv168.project.ui.filters.EmployeeTableFilter;
 import cz.muni.fi.pv168.project.ui.filters.components.FilterComboboxBuilder;
 import cz.muni.fi.pv168.project.ui.filters.components.FilterListModelBuilder;
@@ -31,6 +32,7 @@ import cz.muni.fi.pv168.project.ui.panels.EmployeeTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.RecipeCategoryTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.RecipeTablePanel;
+import cz.muni.fi.pv168.project.ui.panels.UnitTablePanel;
 import cz.muni.fi.pv168.project.ui.renderers.DepartmentRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.GenderRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.SpecialFilterDepartmentValuesRenderer;
@@ -84,10 +86,13 @@ public class MainWindow {
 
         Validator<Employee> employeeValidator = dependencyProvider.getEmployeeValidator();
         Validator<Recipe> recipeValidator = dependencyProvider.getRecipeValidator();
+        Validator<Ingredient> ingredientValidator = dependencyProvider.getIngredientValidator();
+        Validator<Unit> unitValidator = dependencyProvider.getUnitValidator();
         Validator<RecipeCategory> recipeCategoryValidator = dependencyProvider.getRecipeCategoryValidator();
 
         var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, employeeValidator, EmployeeDialog.class, this::changeActionsState);
         var recipeTablePanel = new RecipeTablePanel(recipeTableModel, recipeValidator, RecipeDialog.class, this::changeActionsState);
+        var unitTablePanel = new UnitTablePanel(unitTableModel, unitValidator, UnitDialog.class, this::changeActionsState);
         var recipeCategoryTablePanel = new RecipeCategoryTablePanel(recipeCategoryTableModel, recipeCategoryValidator, RecipeCategoryDialog.class, this::changeActionsState);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
@@ -105,6 +110,7 @@ public class MainWindow {
         var tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Employees", employeeTablePanel);
         tabbedPane.addTab("Recipes", recipeTablePanel);
+        tabbedPane.addTab("Units", unitTablePanel);
         tabbedPane.addTab("Recipe Categories", recipeCategoryTablePanel);
 
         // TODO this definitely needs to be refactored
@@ -124,6 +130,8 @@ public class MainWindow {
         employeeTablePanel.getTable().setRowSorter(employeeRowSorter);
         var recipeRowSorter = new TableRowSorter<EntityTableModel<Recipe>>(recipeTableModel);
         recipeTablePanel.getTable().setRowSorter(recipeRowSorter);
+        var unitRowSorter = new TableRowSorter<EntityTableModel<Unit>>(unitTableModel);
+        unitTablePanel.getTable().setRowSorter(unitRowSorter);
         var recipeCategoryRowSorter = new TableRowSorter<EntityTableModel<RecipeCategory>>(recipeCategoryTableModel);
         recipeCategoryTablePanel.getTable().setRowSorter(recipeCategoryRowSorter);
 

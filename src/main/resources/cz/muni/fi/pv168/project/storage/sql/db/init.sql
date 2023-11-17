@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS "Recipe"
 --
 -- Unit table definition
 --
+-- TODO - conversionUnitId can be null
 CREATE TABLE IF NOT EXISTS "Unit"
 (
     `id`               BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

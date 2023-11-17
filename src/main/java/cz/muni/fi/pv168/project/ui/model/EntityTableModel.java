@@ -1,13 +1,11 @@
 package cz.muni.fi.pv168.project.ui.model;
 
-import cz.muni.fi.pv168.project.business.model.Department;
 import cz.muni.fi.pv168.project.business.model.Entity;
-import cz.muni.fi.pv168.project.business.model.Gender;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
 
 import javax.swing.table.AbstractTableModel;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -94,5 +92,9 @@ public class EntityTableModel<T extends Entity> extends AbstractTableModel {
 
     public T getEntity(int rowIndex) {
         return entities.get(rowIndex);
+    }
+
+    public Collection<T> getEntities() {
+        return entities;
     }
 }

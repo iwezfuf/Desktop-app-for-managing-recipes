@@ -15,8 +15,8 @@ import static javax.swing.JOptionPane.PLAIN_MESSAGE;
 public abstract class EntityDialog<E> {
 
     private final JPanel panel = new JPanel();
-    private final Validator<E> entityValidator;
-    private final EntityTableModelProvider entityTableModelProvider;
+    protected final Validator<E> entityValidator;
+    protected final EntityTableModelProvider entityTableModelProvider;
     E entity;
 
     EntityDialog(E entity,
