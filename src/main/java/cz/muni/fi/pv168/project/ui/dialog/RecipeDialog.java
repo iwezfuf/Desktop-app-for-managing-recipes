@@ -205,10 +205,10 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         panel.add(ingredientsSpinner);
         panel.add(addIngredientButton);
 
-        addToCenterPanel("Add instructions: ", instructionsTextArea, 3);
+        addToCenterPanel("Add instructions: ", new JScrollPane(instructionsTextArea), 3);
         addToCenterPanel("Add ingredients:", panel, 1);
 
-        var scrollPane = new JScrollPane(this.ingredientsPanel);
+        var scrollPane = new JScrollPane(ingredientsPanel);
         addToCenterPanel("Used ingredients: ", scrollPane, 3);
     }
 
