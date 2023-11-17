@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import cz.muni.fi.pv168.project.ui.ApplicationErrorHandler;
 import cz.muni.fi.pv168.project.ui.MainWindow;
 import cz.muni.fi.pv168.project.ui.action.NuclearQuitAction;
@@ -19,7 +20,7 @@ public class Main {
         var errorHandler = new ApplicationErrorHandler();
         Thread.setDefaultUncaughtExceptionHandler(errorHandler);
 
-        initNimbusLookAndFeel();
+        initFlatLightLafLookAndFeel();
 
         EventQueue.invokeLater(() -> {
             try {
@@ -30,17 +31,13 @@ public class Main {
         });
     }
 
-    private static void initNimbusLookAndFeel() {
+    private static void initFlatLightLafLookAndFeel() {
         try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
+            UIManager.setLookAndFeel( new FlatLightLaf() );
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "Nimbus layout initialization failed", ex);
         }
+
     }
 
     private static void showInitializationFailedDialog(Exception ex) {
