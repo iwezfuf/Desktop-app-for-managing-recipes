@@ -67,6 +67,7 @@ public class MainWindow {
     private final EntityTableModelProvider entityTableModelProvider;
 
     public MainWindow(DependencyProvider dependencyProvider) {
+
         frame = createFrame();
 
         employeeTableModel = createEmployeeTableModel(dependencyProvider);
@@ -94,8 +95,8 @@ public class MainWindow {
         Validator<RecipeCategory> recipeCategoryValidator = dependencyProvider.getRecipeCategoryValidator();
 
         var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, employeeValidator, EmployeeDialog.class, this::changeActionsState);
-        var recipeTablePanel = new RecipeTablePanel(recipeTableModel, recipeValidator, RecipeDialog.class, this::changeActionsState);
-        var ingredientTablePanel = new IngredientTablePanel(ingredientTableModel, ingredientValidator, IngredientDialog.class, this::changeActionsState);
+        var recipeTablePanel = new RecipeTablePanel(recipeTableModel, recipeValidator, RecipeDialog.class, this::changeActionsState, frame.getHeight());
+        var ingredientTablePanel = new IngredientTablePanel(ingredientTableModel, ingredientValidator, IngredientDialog.class, this::changeActionsState, frame.getHeight());
         var unitTablePanel = new UnitTablePanel(unitTableModel, unitValidator, UnitDialog.class, this::changeActionsState);
         var recipeCategoryTablePanel = new RecipeCategoryTablePanel(recipeCategoryTableModel, recipeCategoryValidator, RecipeCategoryDialog.class, this::changeActionsState);
 
@@ -128,8 +129,6 @@ public class MainWindow {
 //            cancelFilterAction.setCurrentTable(currentTable);
         });
 
-        frame.add(tabbedPane, BorderLayout.CENTER);
-
         // Set up sorting
         var employeeRowSorter = new TableRowSorter<EntityTableModel<Employee>>(employeeTableModel);
         employeeTablePanel.getTable().setRowSorter(employeeRowSorter);
@@ -146,11 +145,22 @@ public class MainWindow {
         var employeeTableFilter = new EmployeeTableFilter(employeeRowSorter);
         var genderFilter = createGenderFilter(employeeTableFilter);
         var departmentFilter = new JScrollPane(createDepartmentFilter(employeeTableFilter, departmentListModel));
-        frame.add(createToolbar(genderFilter, departmentFilter), BorderLayout.BEFORE_FIRST_LINE);
 
+        frame.add(tabbedPane, BorderLayout.CENTER);
+
+
+        frame.add(createToolbar(genderFilter, departmentFilter), BorderLayout.BEFORE_FIRST_LINE);
+        frame.setMinimumSize(new Dimension(800, 400));
         frame.setJMenuBar(createMenuBar());
         frame.pack();
         changeActionsState(0);
+    }
+
+    private JPanel createSidePanel() {
+
+        JPanel sidePanel = new JPanel();
+        sidePanel.setPreferredSize(new Dimension(175, frame.getHeight()));
+        return sidePanel;
     }
 
     private EntityTableModel<Employee> createEmployeeTableModel(DependencyProvider dependencyProvider) {
@@ -273,9 +283,9 @@ public class MainWindow {
         toolbar.add(exportAction);
         toolbar.add(importAction);
 
-        for (var component : components) {
-            toolbar.add(component);
-        }
+//        for (var component : components) {
+//            toolbar.add(component);
+//        }
 
         return toolbar;
     }
