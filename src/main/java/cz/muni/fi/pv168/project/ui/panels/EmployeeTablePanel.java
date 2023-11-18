@@ -51,4 +51,9 @@ public class EmployeeTablePanel extends EntityTablePanel<Employee> {
 
         return table;
     }
+
+    @Override
+    protected JPanel setUpTableWithSidePanel(EntityTableModel<Employee> entityTableModel, int frameHeight) {
+        return null;
+    }
 }

@@ -19,4 +19,9 @@ public class UnitTablePanel extends EntityTablePanel<Unit> {
         table.getSelectionModel().addListSelectionListener(this::rowSelectionChanged);
         return table;
     }
+
+    @Override
+    protected JPanel setUpTableWithSidePanel(EntityTableModel<Unit> entityTableModel, int frameHeight) {
+        return null;
+    }
 }

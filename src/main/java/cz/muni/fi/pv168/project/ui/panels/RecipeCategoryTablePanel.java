@@ -19,4 +19,9 @@ public class RecipeCategoryTablePanel extends EntityTablePanel<RecipeCategory> {
         table.getSelectionModel().addListSelectionListener(this::rowSelectionChanged);
         return table;
     }
+
+    @Override
+    protected JPanel setUpTableWithSidePanel(EntityTableModel<RecipeCategory> entityTableModel, int frameHeight) {
+        return null;
+    }
 }

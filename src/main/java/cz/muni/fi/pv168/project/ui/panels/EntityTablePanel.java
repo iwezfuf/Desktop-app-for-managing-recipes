@@ -9,7 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.util.function.Consumer;
 
 /**
@@ -23,6 +23,41 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
     private final Validator<T> entityValidator;
     private final Class<? extends EntityDialog<T>> entityDialog;
 
+    /**
+     * Creates an EntityTablePanel with a side panel.
+     *
+     * @param entityTableModel
+     * @param type
+     * @param entityValidator
+     * @param entityDialog
+     * @param onSelectionChange
+     * @param frameHeight height of the main frame
+     */
+    public EntityTablePanel(EntityTableModel<T> entityTableModel, Class<T> type, Validator<T> entityValidator, Class<? extends EntityDialog<T>> entityDialog, Consumer<Integer> onSelectionChange, int frameHeight) {
+
+        setLayout(new BorderLayout());
+
+        JPanel panel;
+        panel = setUpTableWithSidePanel(entityTableModel, frameHeight);
+        add(new JScrollPane(panel), BorderLayout.CENTER);
+        this.table = findTableInPanel(panel);
+
+        this.type = type;
+        this.onSelectionChange = onSelectionChange;
+        this.entityTableModel = entityTableModel;
+        this.entityValidator = entityValidator;
+        this.entityDialog = entityDialog;
+    }
+
+    /**
+     * Creates an EntityTablePanel containing the table.
+     *
+     * @param entityTableModel
+     * @param type
+     * @param entityValidator
+     * @param entityDialog
+     * @param onSelectionChange
+     */
     public EntityTablePanel(EntityTableModel<T> entityTableModel, Class<T> type, Validator<T> entityValidator, Class<? extends EntityDialog<T>> entityDialog, Consumer<Integer> onSelectionChange) {
         setLayout(new BorderLayout());
         table = setUpTable(entityTableModel);
@@ -35,11 +70,28 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
         this.entityDialog = entityDialog;
     }
 
+    private JTable findTableInPanel(JPanel panel) {
+
+        Component[] components = panel.getComponents();
+
+        for (Component component : components) {
+            if (component instanceof JScrollPane) {
+                Component viewportView = ((JScrollPane) component).getViewport().getView();
+                if (viewportView instanceof JTable) {
+                    return (JTable) viewportView;
+                }
+            }
+        }
+        return null;
+    }
+
     public JTable getTable() {
         return table;
     }
 
     protected abstract JTable setUpTable(EntityTableModel<T> entityTableModel);
+
+    protected abstract JPanel setUpTableWithSidePanel(EntityTableModel<T> entityTableModel, int frameHeight);
 
     protected void rowSelectionChanged(ListSelectionEvent listSelectionEvent) {
         var selectionModel = (ListSelectionModel) listSelectionEvent.getSource();
