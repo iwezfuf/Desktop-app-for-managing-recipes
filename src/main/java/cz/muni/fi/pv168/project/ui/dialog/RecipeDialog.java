@@ -69,26 +69,19 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         this.addIngredientButton.addActionListener(e -> {
             Ingredient selectedIngredient = (Ingredient) ingredientComboBox.getSelectedItem();
             int amount = (int) ingredientsSpinner.getValue();
-            RecipeIngredientAmount recipeIngredientAmount = new RecipeIngredientAmount(recipe, selectedIngredient, amount);
-            addRecipeIngredientAmount(recipeIngredientAmount);
-            //entityTableModelProvider.getIngredientAmountCrudService().create(recipeIngredientAmount);
+            updateRecipeIngredientAmounts(selectedIngredient, amount);
             addToIngredientsPanel(selectedIngredient, amount);
         });
     }
 
-    private void addRecipeIngredientAmount(RecipeIngredientAmount recipeIngredientAmount) {
-
-        Optional<RecipeIngredientAmount> existingIngredientAmount = currentIngredients.stream()
-                .filter(ria -> ria.getIngredient().getName().equals(recipeIngredientAmount.getIngredient().getName()))
-                .findFirst();
-
-        int currentAmount = existingIngredientAmount.map(RecipeIngredientAmount::getAmount).orElse(0);
-        existingIngredientAmount.ifPresent(currentIngredients::remove);
-
-        RecipeIngredientAmount newIngredientAmount = new RecipeIngredientAmount(recipeIngredientAmount.getRecipe(),
-                                                                                recipeIngredientAmount.getIngredient(),
-                                                                                recipeIngredientAmount.getAmount() + currentAmount);
-        currentIngredients.add(newIngredientAmount);
+    private void updateRecipeIngredientAmounts(Ingredient ingredient, int amount) {
+        for (RecipeIngredientAmount recipeIngredientAmount : currentIngredients) {
+            if (recipeIngredientAmount.getIngredient().getName().equals(ingredient.getName())) {
+                recipeIngredientAmount.setAmount(recipeIngredientAmount.getAmount() + amount);
+                return;
+            }
+        }
+        currentIngredients.add(new RecipeIngredientAmount(recipe, ingredient, amount));
     }
 
     private void fillComboBoxes() {
@@ -121,6 +114,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
 
         for (RecipeIngredientAmount ingredientAmount : recipe.getIngredients()) {
             addToIngredientsPanel(ingredientAmount.getIngredient(), ingredientAmount.getAmount());
+            currentIngredients.add(ingredientAmount);
         }
     }
 
@@ -154,13 +148,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         }
 
         var panel = new JPanel(new GridBagLayout());
-        var removeButton = new JButton(Icons.DELETE_ICON);
-        removeButton.addActionListener(e -> {
-            currentIngredients.removeIf(ria -> ria.getIngredient().getName().equals(ingredient.getName()));
-            ingredientsPanel.remove(panel);
-            ingredientsPanel.revalidate();
-            ingredientsPanel.repaint();
-        });
+        var removeButton = getRemoveIngredientButton(ingredient, panel);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -192,6 +180,25 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         ingredientsPanel.add(panel, gbc);
         ingredientsPanel.revalidate();
         ingredientsPanel.repaint();
+    }
+
+    private JButton getRemoveIngredientButton(Ingredient ingredient, JPanel panel) {
+        var removeButton = new JButton(Icons.DELETE_ICON);
+        removeButton.addActionListener(e -> {
+            for (RecipeIngredientAmount recipeIngredientAmount : currentIngredients) {
+                if (recipeIngredientAmount.getIngredient().getName().equals(ingredient.getName())) {
+                    currentIngredients.remove(recipeIngredientAmount);
+                    if (recipeIngredientAmount.getGuid() != null) {
+                        entityTableModelProvider.getIngredientAmountCrudService().deleteByGuid(recipeIngredientAmount.getGuid());
+                    }
+                    break;
+                }
+            }
+            ingredientsPanel.remove(panel);
+            ingredientsPanel.revalidate();
+            ingredientsPanel.repaint();
+        });
+        return removeButton;
     }
 
     private boolean tryToUpdateAmount(Ingredient ingredient, int amount) {
