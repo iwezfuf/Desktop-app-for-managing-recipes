@@ -2,10 +2,13 @@ package cz.muni.fi.pv168.project.business.service.crud;
 
 import cz.muni.fi.pv168.project.business.model.GuidProvider;
 import cz.muni.fi.pv168.project.business.model.Recipe;
+import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.repository.Repository;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
+import cz.muni.fi.pv168.project.wiring.DependencyProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,10 +43,16 @@ public class RecipeCrudService implements CrudService<Recipe> {
             throw new EntityAlreadyExistsException("Recipe with given guid already exists: " + newEntity.getGuid());
         }
 
+        ArrayList<RecipeIngredientAmount> storedRecipeIngredientAmounts = newEntity.getIngredients();
+        newEntity.setIngredients(new ArrayList<>());
+
         if (validationResult.isValid()) {
-            System.out.println("Adding recipe: <" + newEntity.getName() + "> into crud");
+            System.out.println("Adding recipe: <" + newEntity + "> into crud");
             recipeRepository.create(newEntity);
         }
+
+        newEntity.setIngredients(storedRecipeIngredientAmounts);
+        update(newEntity);
 
         return validationResult;
     }
