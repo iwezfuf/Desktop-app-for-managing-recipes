@@ -46,7 +46,7 @@ public abstract class EntityDialog<E> {
         int result = JOptionPane.showOptionDialog(parentComponent, panel, title,
                 OK_CANCEL_OPTION, PLAIN_MESSAGE, null, null, null);
 
-        // TODO implement validatior
+        // TODO implement validator
         if (result == OK_OPTION) {
             return Optional.of(getEntity());
         } else {

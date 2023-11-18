@@ -71,8 +71,7 @@ public class EntityTableModel<T extends Entity> extends AbstractTableModel {
     }
 
     public void addRow(T entity) {
-        entityCrudService.create(entity)
-                .intoException();
+        entityCrudService.create(entity).intoException();
         int newRowIndex = entities.size();
         entities.add(entity);
         fireTableRowsInserted(newRowIndex, newRowIndex);
