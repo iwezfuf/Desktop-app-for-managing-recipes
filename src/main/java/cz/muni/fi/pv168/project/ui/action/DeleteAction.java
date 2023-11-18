@@ -26,12 +26,12 @@ public final class DeleteAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         int option = showDeleteConfirmationDialog();
         if (option == JOptionPane.YES_OPTION) {
-            var employeeTableModel = (EntityTableModel) entityTable.getModel();
+            var entityTableModel = (EntityTableModel) entityTable.getModel();
             Arrays.stream(entityTable.getSelectedRows())
                     .map(entityTable::convertRowIndexToModel)
                     .boxed()
                     .sorted(Comparator.reverseOrder())
-                    .forEach(employeeTableModel::deleteRow);
+                    .forEach(entityTableModel::deleteRow);
         }
     }
 

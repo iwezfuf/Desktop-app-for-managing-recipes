@@ -16,14 +16,14 @@ import java.util.List;
 public class RecipeCrudService implements CrudService<Recipe> {
 
     private final Repository<Recipe> recipeRepository;
-    private final CrudService<RecipeIngredientAmount> ingredientAmountCrudService;
+    private final CrudService<RecipeIngredientAmount> recipeIngredientAmountCrudService;
     private final GuidProvider guidProvider;
     private final Validator<Recipe> recipeValidator;
 
     public RecipeCrudService(Repository<Recipe> recipeRepository, Validator<Recipe> recipeValidator,
-                             GuidProvider guidProvider, CrudService<RecipeIngredientAmount> recipeIngredientAmountRepository) {
+                             GuidProvider guidProvider, CrudService<RecipeIngredientAmount> recipeIngredientAmountCrudService) {
         this.recipeRepository = recipeRepository;
-        this.ingredientAmountCrudService = recipeIngredientAmountRepository;
+        this.recipeIngredientAmountCrudService = recipeIngredientAmountCrudService;
         this.guidProvider = guidProvider;
         this.recipeValidator = recipeValidator;
     }
@@ -52,18 +52,11 @@ public class RecipeCrudService implements CrudService<Recipe> {
         }
 
         for (RecipeIngredientAmount recipeIngredientAmount:storedRecipeIngredientAmounts) {
-            ingredientAmountCrudService.create(recipeIngredientAmount);
+            recipeIngredientAmountCrudService.create(recipeIngredientAmount);
         }
 
         newEntity.setIngredients(storedRecipeIngredientAmounts);
         update(newEntity);
-
-//        System.out.println("Adding recipe: <" + newEntity + "> into crud");
-//
-//        var x = recipeRepository.findAll();
-//        for (int i = 0; i < x.size(); ++i) {
-//            System.out.println(x.get(i));
-//        }
 
         return validationResult;
     }
@@ -80,11 +73,16 @@ public class RecipeCrudService implements CrudService<Recipe> {
 
     @Override
     public void deleteByGuid(String guid) {
+        for (RecipeIngredientAmount recipeIngredientAmount:recipeRepository.findByGuid(guid).get().getIngredients()) {
+            recipeIngredientAmountCrudService.deleteByGuid(recipeIngredientAmount.getGuid());
+        }
         recipeRepository.deleteByGuid(guid);
     }
 
     @Override
     public void deleteAll() {
-        recipeRepository.deleteAll();
+        for (Recipe recipe:recipeRepository.findAll()) {
+            deleteByGuid(recipe.getGuid());
+        }
     }
 }

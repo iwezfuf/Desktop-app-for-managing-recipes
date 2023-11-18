@@ -27,8 +27,9 @@ public class RecipeIngredientAmountDao implements DataAccessObject<RecipeIngredi
                 var statement = connection.use().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
             statement.setString(1, newRecipeIngredientAmount.guid());
-            statement.setLong(2, newRecipeIngredientAmount.ingredientId());
-            statement.setDouble(3, newRecipeIngredientAmount.amount());
+            statement.setLong(2, newRecipeIngredientAmount.recipeId());
+            statement.setLong(3, newRecipeIngredientAmount.ingredientId());
+            statement.setDouble(4, newRecipeIngredientAmount.amount());
             statement.executeUpdate();
 
             try (ResultSet keyResultSet = statement.getGeneratedKeys()) {
@@ -53,7 +54,7 @@ public class RecipeIngredientAmountDao implements DataAccessObject<RecipeIngredi
     @Override
     public Collection<RecipeIngredientAmountEntity> findAll() {
         var sql = """
-                SELECT id, guid, ingredientId, amount
+                SELECT id, recipeId, guid, ingredientId, amount
                 FROM RecipeIngredientAmount
                 """;
 
@@ -126,6 +127,7 @@ public class RecipeIngredientAmountDao implements DataAccessObject<RecipeIngredi
         var sql = """
                 UPDATE RecipeIngredientAmount
                 SET guid = ?,
+                    recipeId = ?,
                     ingredientId = ?,
                     amount = ?
                 WHERE id = ?
