@@ -132,9 +132,16 @@ CREATE TABLE IF NOT EXISTS "RecipeIngredientAmount"
 --;
 
 --  Units
+
 -- TODO: move to somewhere else
 INSERT INTO "Unit" ("guid", "name", "abbreviation", "conversionRatio", "conversionUnitId")
-SELECT 'Base Unit', 'Base Unit', 'bu', '1', NULL
+SELECT 'Base Unit', 'Base Unit', '-', '1', NULL
 WHERE NOT EXISTS (
     SELECT 1 FROM "Unit" WHERE "guid" = 'Base Unit'
+);
+
+INSERT INTO "RecipeCategory" ("guid", "name", "color")
+SELECT 'no category', 'no category', 1
+WHERE NOT EXISTS (
+    SELECT 1 FROM "RecipeCategory" WHERE "guid" = 'no category'
 );
