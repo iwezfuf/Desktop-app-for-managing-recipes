@@ -10,9 +10,9 @@ import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Marek Eibel
@@ -20,6 +20,7 @@ import java.util.Objects;
 public class RecipeDialog extends EntityDialog<Recipe> {
 
     private final Recipe recipe;
+    private final ArrayList<RecipeIngredientAmount> currentIngredients = new ArrayList<>();
 
     private final JTextField recipeNameTextField = new JTextField();
     private final JTextArea briefDescriptionTextArea = new JTextArea();
@@ -68,11 +69,26 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         this.addIngredientButton.addActionListener(e -> {
             Ingredient selectedIngredient = (Ingredient) ingredientComboBox.getSelectedItem();
             int amount = (int) ingredientsSpinner.getValue();
-            // TODO: recipe.addIngredient(selectedIngredient, amount);
             RecipeIngredientAmount recipeIngredientAmount = new RecipeIngredientAmount(recipe, selectedIngredient, amount);
-            entityTableModelProvider.getIngredientAmountCrudService().create(recipeIngredientAmount);
+            addRecipeIngredientAmount(recipeIngredientAmount);
+            //entityTableModelProvider.getIngredientAmountCrudService().create(recipeIngredientAmount);
             addToIngredientsPanel(selectedIngredient, amount);
         });
+    }
+
+    private void addRecipeIngredientAmount(RecipeIngredientAmount recipeIngredientAmount) {
+
+        Optional<RecipeIngredientAmount> existingIngredientAmount = currentIngredients.stream()
+                .filter(ria -> ria.getIngredient().getName().equals(recipeIngredientAmount.getIngredient().getName()))
+                .findFirst();
+
+        int currentAmount = existingIngredientAmount.map(RecipeIngredientAmount::getAmount).orElse(0);
+        existingIngredientAmount.ifPresent(currentIngredients::remove);
+
+        RecipeIngredientAmount newIngredientAmount = new RecipeIngredientAmount(recipeIngredientAmount.getRecipe(),
+                                                                                recipeIngredientAmount.getIngredient(),
+                                                                                recipeIngredientAmount.getAmount() + currentAmount);
+        currentIngredients.add(newIngredientAmount);
     }
 
     private void fillComboBoxes() {
@@ -131,28 +147,16 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         centerPanel.add(component, componentConstraints);
     }
 
-
     private void addToIngredientsPanel(Ingredient ingredient, int amount) {
-        // update only the amount
-        if (recipe.getIngredientAmount(ingredient) != null) {
-            for (Component panel : ingredientsPanel.getComponents()) {
-                if (panel instanceof JPanel) {
-                    var ingredientLabel = ((JLabel)((JPanel) panel).getComponents()[0]);
-                    if (ingredientLabel.getText().equals(ingredient.toString())) {
-                        var amountLabel = ((JLabel)((JPanel) panel).getComponents()[1]);
-                        amountLabel.setText(String.valueOf(Integer.parseInt(amountLabel.getText()) + amount));
-                        ingredientsPanel.revalidate();
-                        ingredientsPanel.repaint();
-                        return;
-                    }
-                }
-            }
+
+        if (tryToUpdateAmount(ingredient, amount)) {
+            return;
         }
 
         var panel = new JPanel(new GridBagLayout());
         var removeButton = new JButton(Icons.DELETE_ICON);
         removeButton.addActionListener(e -> {
-            recipe.removeIngredient(ingredient);
+            currentIngredients.removeIf(ria -> ria.getIngredient().getName().equals(ingredient.getName()));
             ingredientsPanel.remove(panel);
             ingredientsPanel.revalidate();
             ingredientsPanel.repaint();
@@ -190,6 +194,26 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         ingredientsPanel.repaint();
     }
 
+    private boolean tryToUpdateAmount(Ingredient ingredient, int amount) {
+
+        if (currentIngredients.stream().anyMatch(i -> i.getIngredient().getName().equals(ingredient.getName()))) {
+            for (Component panel : ingredientsPanel.getComponents()) {
+                if (panel instanceof JPanel) {
+                    var ingredientLabel = ((JLabel)((JPanel) panel).getComponents()[0]);
+                    if (ingredientLabel.getText().equals(ingredient.toString())) {
+                        var amountLabel = ((JLabel)((JPanel) panel).getComponents()[1]);
+                        amountLabel.setText(String.valueOf(Integer.parseInt(amountLabel.getText()) + amount));
+                        ingredientsPanel.revalidate();
+                        ingredientsPanel.repaint();
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     private void addFields() {
 
         add("", centerPanel);
@@ -222,7 +246,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         recipe.setNumOfServings((int)numberOfServingsSpinner.getValue());
         recipe.setPreparationTime(Integer.parseInt(preparationTimeTextField.getText()));
         recipe.setCategory((RecipeCategory)recipeCategoryComboBox.getSelectedItem());
-        // ingredients are added/removed on button click
+        recipe.setIngredients(currentIngredients);
         recipe.setInstructions(instructionsTextArea.getText());
 
         return recipe;
