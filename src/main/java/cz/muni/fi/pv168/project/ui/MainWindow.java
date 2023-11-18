@@ -106,7 +106,7 @@ public class MainWindow {
         deleteAction = new DeleteAction(employeeTablePanel.getTable());
         editAction = new NewEditAction<>(employeeTablePanel, entityTableModelProvider);
         exportAction = new ExportAction(employeeTablePanel, dependencyProvider.getExportService());
-        importAction = new ImportAction(employeeTablePanel, dependencyProvider.getImportService(), this::refresh);
+        importAction = new ImportAction(dependencyProvider.getImportService(), this::refresh, frame);
 
         employeeTablePanel.setComponentPopupMenu(createEmployeeTablePopupMenu());
 

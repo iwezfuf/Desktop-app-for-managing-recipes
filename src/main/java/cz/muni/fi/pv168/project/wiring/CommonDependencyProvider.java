@@ -14,14 +14,14 @@ import cz.muni.fi.pv168.project.business.service.export.ExportService;
 import cz.muni.fi.pv168.project.business.service.export.GenericExportService;
 import cz.muni.fi.pv168.project.business.service.export.GenericImportService;
 import cz.muni.fi.pv168.project.business.service.export.ImportService;
+import cz.muni.fi.pv168.project.business.service.export.JSONBatchExporter;
+import cz.muni.fi.pv168.project.business.service.export.JSONBatchImporter;
 import cz.muni.fi.pv168.project.business.service.validation.DepartmentValidator;
 import cz.muni.fi.pv168.project.business.service.validation.EmployeeValidator;
 import cz.muni.fi.pv168.project.business.service.validation.IngredientValidator;
 import cz.muni.fi.pv168.project.business.service.validation.RecipeCategoryValidator;
 import cz.muni.fi.pv168.project.business.service.validation.RecipeValidator;
 import cz.muni.fi.pv168.project.business.service.validation.UnitValidator;
-import cz.muni.fi.pv168.project.export.csv.BatchCsvExporter;
-import cz.muni.fi.pv168.project.export.csv.BatchCsvImporter;
 import cz.muni.fi.pv168.project.storage.sql.DepartmentSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.EmployeeSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.IngredientSqlRepository;
@@ -81,11 +81,13 @@ public class CommonDependencyProvider implements DependencyProvider {
     private final RecipeCategoryValidator recipeCategoryValidator;
 
     public CommonDependencyProvider(DatabaseManager databaseManager) {
+
         employeeValidator = new EmployeeValidator();
         recipeValidator = new RecipeValidator();
         ingredientValidator = new IngredientValidator();
         unitValidator = new UnitValidator();
         recipeCategoryValidator = new RecipeCategoryValidator();
+
         var departmentValidator = new DepartmentValidator();
         var recipeCategoryValidator = new RecipeCategoryValidator();
         var guidProvider = new UuidGuidProvider();
@@ -153,11 +155,11 @@ public class CommonDependencyProvider implements DependencyProvider {
         recipeCrudService = new RecipeCrudService(recipes, recipeValidator, guidProvider);
         recipeIngredientAmountCrudService = new RecipeIngredientAmountCrudService(recipeIngredientAmounts, guidProvider);
         employeeCrudService = new EmployeeCrudService(employees, employeeValidator, guidProvider);
-        exportService = new GenericExportService(employeeCrudService, departmentCrudService, recipeCrudService, ingredientCrudService, unitCrudService, recipeCategoryCrudService,
-                List.of(new BatchCsvExporter()));
-        importService = new GenericImportService(employeeCrudService, departmentCrudService,
-                this.ingredientCrudService, this.recipeCrudService, this.unitCrudService, recipeCategoryCrudService,
-                List.of(new BatchCsvImporter()));
+
+
+
+        exportService = new GenericExportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, List.of(new JSONBatchExporter()));
+        importService = new GenericImportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, List.of(new JSONBatchImporter()));
     }
 
     @Override

@@ -14,10 +14,9 @@ public interface ImportService {
      * Imports data from a file.
      *
      * @param filePath absolute path of the export file (to be created or overwritten)
-     *
      * @throws BatchOperationException if the import cannot be done
      */
-    void importData(String filePath);
+    void importData(String filePath, ImportStrategy importStrategy);
 
     /**
      * Gets all available formats for import.

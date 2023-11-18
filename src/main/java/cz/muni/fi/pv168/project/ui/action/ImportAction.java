@@ -1,61 +1,42 @@
 package cz.muni.fi.pv168.project.ui.action;
 
+import cz.muni.fi.pv168.project.business.service.export.ExportService;
 import cz.muni.fi.pv168.project.business.service.export.ImportService;
-import cz.muni.fi.pv168.project.ui.panels.EmployeeTablePanel;
+import cz.muni.fi.pv168.project.ui.dialog.ImportDialog;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
-import cz.muni.fi.pv168.project.util.Filter;
 
-import javax.swing.AbstractAction;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.util.Objects;
 
 /**
- * Action responsible for importing employees from a file and adding them to the employee table.
+ * Action responsible for importing all the data to a file.
  *
- * <p>This class only handles the UI-related part of the import (choosing a file, adding employees)
- * and delegates the import itself to an instance of {@link ImportService},
- * which also implies the file format to be used.
+ * <p>This class only handles the UI-related part of the import (choosing a file and choosing type of import)
+ * and delegates the import itself to an instance of {@link ImportService}.
  */
 public final class ImportAction extends AbstractAction {
-
-    private final EmployeeTablePanel employeeTablePanel;
     private final ImportService importService;
-    private final Runnable callback;
+    private final Runnable refreshCallback;
+    private final Component frame;
 
-    public ImportAction(
-            EmployeeTablePanel employeeTablePanel,
-            ImportService importService,
-            Runnable callback) {
+    public ImportAction(ImportService importService, Runnable refreshCallback, Component frame) {
         super("Import", Icons.IMPORT_ICON);
-        this.employeeTablePanel = Objects.requireNonNull(employeeTablePanel);
-        this.importService = Objects.requireNonNull(importService);
-        this.callback = Objects.requireNonNull(callback);
-
-        putValue(SHORT_DESCRIPTION, "Imports employees from a file");
+        putValue(SHORT_DESCRIPTION, "Import data from file");
         putValue(MNEMONIC_KEY, KeyEvent.VK_I);
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl I"));
+        this.importService = importService;
+        this.refreshCallback = refreshCallback;
+        this.frame = frame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        importService.getFormats().forEach(f -> fileChooser.addChoosableFileFilter(new Filter(f)));
-
-        int dialogResult = fileChooser.showOpenDialog(employeeTablePanel);
-
-        if (dialogResult == JFileChooser.APPROVE_OPTION) {
-            File importFile = fileChooser.getSelectedFile();
-
-            importService.importData(importFile.getAbsolutePath());
-
-            callback.run();
-            JOptionPane.showMessageDialog(employeeTablePanel, "Import was done");
-        }
+        ImportDialog dialog = new ImportDialog(null, (filepath, importStrategy) -> {
+            importService.importData(filepath, importStrategy);
+            refreshCallback.run();
+            JOptionPane.showMessageDialog(frame, "Import was done");
+        });
+        dialog.setVisible(true);
     }
 }
