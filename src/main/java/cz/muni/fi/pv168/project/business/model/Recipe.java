@@ -2,7 +2,6 @@ package cz.muni.fi.pv168.project.business.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,10 +15,6 @@ public class Recipe extends Entity {
     private int numOfServings;
     private String instructions;
     private RecipeCategory category;
-
-    /**
-     * Represents pairs ingredientId : ingredient amount
-     */
     private ArrayList<RecipeIngredientAmount> ingredients;
 
     public Recipe(String guid, String name, String description, int preparationTime, int numOfServings,
@@ -120,6 +115,10 @@ public class Recipe extends Entity {
         return result;
     }
 
+    public void setIngredients(ArrayList<RecipeIngredientAmount> ingredients) {
+        this.ingredients = ingredients;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -143,4 +142,22 @@ public class Recipe extends Entity {
     public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Recipe{")
+                .append("name='").append(name).append('\'')
+                .append(", description='").append(description).append('\'')
+                .append(", preparationTime=").append(preparationTime)
+                .append(", numOfServings=").append(numOfServings)
+                .append(", instructions='").append(instructions).append('\'')
+                .append(", category=").append(category)
+                .append(", ingredients=").append(ingredients.size())
+                .append(", guid='").append(guid).append('\'')
+                .append('}');
+        return builder.toString();
+    }
+
 }
+
