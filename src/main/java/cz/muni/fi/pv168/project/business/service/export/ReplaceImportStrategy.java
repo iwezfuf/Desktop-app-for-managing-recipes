@@ -23,9 +23,9 @@ public class ReplaceImportStrategy implements ImportStrategy {
 
         var batch = batchImporter.importBatch(filePath);
 
-        batch.recipes().forEach(recipe -> ImportStrategy.createRecipe(recipe, recipeCrudService));
-        batch.ingredients().forEach(ingredient -> ImportStrategy.createIngredient(ingredient, ingredientCrudService));
-        batch.units().forEach(unit -> ImportStrategy.createUnit(unit, unitCrudService));
         batch.recipeCategories().forEach(recipeCategory -> ImportStrategy.createRecipeCategory(recipeCategory, recipeCategoryCrudService));
+        batch.units().forEach(unit -> ImportStrategy.createUnit(unit, unitCrudService));
+        batch.ingredients().forEach(ingredient -> ImportStrategy.createIngredient(ingredient, ingredientCrudService));
+        batch.recipes().forEach(recipe -> ImportStrategy.createRecipe(recipe, recipeCrudService));
     }
 }
