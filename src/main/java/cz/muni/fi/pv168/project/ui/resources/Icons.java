@@ -15,8 +15,8 @@ public final class Icons {
     public static final Icon ADD_ICON = createIcon("Crystal_Clear_action_edit_add.png");
     public static final Icon QUIT_ICON = createIcon("Crystal_Clear_action_exit.png");
 
-    public static final Icon EXPORT_ICON = createIcon("Crystal_Clear_action_export.png");
-    public static final Icon IMPORT_ICON = createIcon("Crystal_Clear_action_import.png");
+    public static final Icon EXPORT_ICON = createIcon("file-export-solid.png");
+    public static final Icon IMPORT_ICON = createIcon("file-import-solid.png");
 
     public static final Icon NUCLEAR_QUIT_ICON = createIcon("Nuclear.png");
 
