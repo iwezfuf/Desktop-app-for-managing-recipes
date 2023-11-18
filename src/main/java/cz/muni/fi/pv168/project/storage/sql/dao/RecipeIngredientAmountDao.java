@@ -20,7 +20,7 @@ public class RecipeIngredientAmountDao implements DataAccessObject<RecipeIngredi
 
     @Override
     public RecipeIngredientAmountEntity create(RecipeIngredientAmountEntity newRecipeIngredientAmount) {
-        var sql = "INSERT INTO RecipeIngredientAmount (guid, recipeId, ingredientId, amount) VALUES (?, ?);";
+        var sql = "INSERT INTO RecipeIngredientAmount (guid, recipeId, ingredientId, amount) VALUES (?, ?, ?, ?);";
 
         try (
                 var connection = connections.get();

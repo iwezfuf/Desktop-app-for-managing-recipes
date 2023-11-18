@@ -152,8 +152,9 @@ public class CommonDependencyProvider implements DependencyProvider {
         departmentCrudService = new DepartmentCrudService(departments, departmentValidator, guidProvider);
         unitCrudService = new UnitCrudService(units, unitValidator, guidProvider);
         ingredientCrudService = new IngredientCrudService(ingredients, ingredientValidator, guidProvider);
-        recipeCrudService = new RecipeCrudService(recipes, recipeValidator, guidProvider);
+
         recipeIngredientAmountCrudService = new RecipeIngredientAmountCrudService(recipeIngredientAmounts, guidProvider);
+        recipeCrudService = new RecipeCrudService(recipes, recipeValidator, guidProvider, recipeIngredientAmountCrudService);
         employeeCrudService = new EmployeeCrudService(employees, employeeValidator, guidProvider);
 
 
