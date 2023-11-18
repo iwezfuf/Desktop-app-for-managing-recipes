@@ -152,7 +152,6 @@ public class MainWindow {
         frame.add(createToolbar(genderFilter, departmentFilter), BorderLayout.BEFORE_FIRST_LINE);
         frame.setMinimumSize(new Dimension(800, 400));
         frame.setJMenuBar(createMenuBar());
-        frame.pack();
         changeActionsState(0);
     }
 
@@ -246,6 +245,8 @@ public class MainWindow {
 
     private JFrame createFrame() {
         var frame = new JFrame("Easy Food Recipe Book");
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         return frame;
     }
