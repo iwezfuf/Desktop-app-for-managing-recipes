@@ -21,9 +21,7 @@ import cz.muni.fi.pv168.project.storage.sql.db.TransactionExecutor;
 public interface DependencyProvider {
 
     DatabaseManager getDatabaseManager();
-
     Repository<Department> getDepartmentRepository();
-
     Repository<Employee> getEmployeeRepository();
     Repository<Recipe> getRecipeRepository();
     Repository<RecipeCategory> getRecipeCategoryRepository();
@@ -31,7 +29,6 @@ public interface DependencyProvider {
     Repository<RecipeIngredientAmount> getRecipeIngredientAmountRepository();
     Repository<Unit> getUnitRepository();
     TransactionExecutor getTransactionExecutor();
-
     CrudService<Employee> getEmployeeCrudService();
     CrudService<Department> getDepartmentCrudService();
     CrudService<Recipe> getRecipeCrudService();
@@ -39,11 +36,8 @@ public interface DependencyProvider {
     CrudService<Ingredient> getIngredientCrudService();
     CrudService<RecipeIngredientAmount> getRecipeIngredientAmountCrudService();
     CrudService<Unit> getUnitCrudService();
-
     ImportService getImportService();
-
     ExportService getExportService();
-
     Validator<Employee> getEmployeeValidator();
     Validator<Recipe> getRecipeValidator();
     Validator<Ingredient> getIngredientValidator();
