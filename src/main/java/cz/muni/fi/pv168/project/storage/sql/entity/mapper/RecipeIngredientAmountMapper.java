@@ -49,6 +49,21 @@ public class RecipeIngredientAmountMapper implements EntityMapper<RecipeIngredie
         );
     }
 
+    public RecipeIngredientAmount mapToBusinessWithRecipe(RecipeIngredientAmountEntity entity, Recipe recipe) {
+        var ingredient = ingredientDao
+                .findById(entity.ingredientId())
+                .map(ingredientMapper::mapToBusiness)
+                .orElseThrow(() -> new DataStorageException("Ingredient not found, id: " +
+                        entity.ingredientId()));
+
+        return new RecipeIngredientAmount(
+                entity.guid(),
+                recipe,
+                ingredient,
+                entity.amount()
+        );
+    }
+
     @Override
     public RecipeIngredientAmountEntity mapNewEntityToDatabase(RecipeIngredientAmount entity) {
         var ingredient = ingredientDao
