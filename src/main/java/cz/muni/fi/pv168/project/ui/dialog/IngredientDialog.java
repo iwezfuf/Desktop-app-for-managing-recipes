@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.ui.model.FormattedInput;
 
 import javax.swing.*;
 import java.util.Objects;
@@ -17,7 +18,7 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
 
     private final JTextField nameTextField = new JTextField();
     private final JComboBox<Unit> unitComboBox = new JComboBox<>();
-    private final JTextField nutritionalValueTextField = new JTextField();
+    private final JTextField nutritionalValueTextField = FormattedInput.createIntTextField(0, 9999);
 
     public IngredientDialog(Ingredient ingredient, EntityTableModelProvider entityTableModelProvider,
                             Validator<Ingredient> entityValidator) {
@@ -62,7 +63,7 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
     Ingredient getEntity() {
 
         ingredient.setName(nameTextField.getText());
-        ingredient.setNutritionalValue(Integer.parseInt(nutritionalValueTextField.getText()));
+        ingredient.setNutritionalValue(FormattedInput.getInt(nutritionalValueTextField.getText()));
         ingredient.setUnit((Unit) unitComboBox.getSelectedItem());
 
         return ingredient;

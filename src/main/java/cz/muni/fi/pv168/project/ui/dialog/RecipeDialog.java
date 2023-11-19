@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.ui.model.FormattedInput;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
@@ -26,8 +27,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     private final JTextArea briefDescriptionTextArea = new JTextArea();
     private final SpinnerModel portionsModel = new SpinnerNumberModel(2, 0, 100, 1);
     private final JSpinner numberOfServingsSpinner = new JSpinner(portionsModel);
-    private final JTextField preparationTimeHoursTextField = new JTextField();
-    private final JTextField preparationTimeMinutesTextField = new JTextField();
+    private final JTextField preparationTimeHoursTextField = FormattedInput.createIntTextField(0, 999);
+    private final JTextField preparationTimeMinutesTextField = FormattedInput.createIntTextField(0, 59);
     private final JComboBox<RecipeCategory> recipeCategoryComboBox = new JComboBox<>();
     private final JComboBox<Ingredient> ingredientComboBox = new JComboBox<>();
     private final SpinnerModel ingredientsModel = new SpinnerNumberModel(1, 0, 999, 1);
@@ -266,8 +267,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         recipe.setName(recipeNameTextField.getText());
         recipe.setDescription(briefDescriptionTextArea.getText());
         recipe.setNumOfServings((int)numberOfServingsSpinner.getValue());
-        recipe.setPreparationTime(Integer.parseInt(preparationTimeHoursTextField.getText()) * 60
-                + Integer.parseInt(preparationTimeMinutesTextField.getText()));
+        recipe.setPreparationTime(FormattedInput.getInt(preparationTimeHoursTextField.getText()) * 60
+                + FormattedInput.getInt(preparationTimeMinutesTextField.getText()));
         recipe.setCategory((RecipeCategory)recipeCategoryComboBox.getSelectedItem());
         recipe.setIngredients(currentIngredients);
         recipe.setInstructions(instructionsTextArea.getText());
