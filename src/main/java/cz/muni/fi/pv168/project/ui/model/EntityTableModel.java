@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.ui.model;
 import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
 
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +13,7 @@ import java.util.List;
  * {@link javax.swing.table.TableModel} for {@link T} objects.
  */
 public class EntityTableModel<T extends Entity> extends AbstractTableModel {
-
+    // TODO add tooltips
     private List<T> entities;
     private final CrudService<T> entityCrudService;
     private final List<Column<T, ?>> columns;
@@ -82,6 +83,10 @@ public class EntityTableModel<T extends Entity> extends AbstractTableModel {
                 .intoException();
         int rowIndex = entities.indexOf(entity);
         fireTableRowsUpdated(rowIndex, rowIndex);
+    }
+
+    public boolean nameExist(String name) {
+        return entities.stream().anyMatch(e -> e.getName().equals(name));
     }
 
     public void refresh() {

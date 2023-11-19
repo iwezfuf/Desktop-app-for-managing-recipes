@@ -29,6 +29,7 @@ public class RecipeCategory extends Entity {
         this.color = Color.black;
     }
 
+    @Override
     public String getName() {
         return name;
     }

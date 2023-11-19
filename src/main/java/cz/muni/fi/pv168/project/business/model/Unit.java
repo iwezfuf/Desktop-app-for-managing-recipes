@@ -35,6 +35,7 @@ public class Unit extends Entity {
         this.abbreviation = "";
     }
 
+    @Override
     public String getName() {
         return name;
     }

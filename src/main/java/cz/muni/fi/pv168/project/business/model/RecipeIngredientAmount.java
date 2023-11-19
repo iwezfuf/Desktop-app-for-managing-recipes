@@ -34,6 +34,11 @@ public class RecipeIngredientAmount extends Entity {
         this.amount = 0;
     }
 
+    @Override
+    public String getName() {
+        return ingredient.getName();
+    }
+
     public Ingredient getIngredient() {
         return ingredient;
     }

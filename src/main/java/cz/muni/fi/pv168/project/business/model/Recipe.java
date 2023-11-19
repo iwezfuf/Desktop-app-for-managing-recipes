@@ -62,6 +62,7 @@ public class Recipe extends Entity {
         return instructions;
     }
 
+    @Override
     public String getName() {
         return name;
     }

@@ -24,6 +24,8 @@ public abstract class Entity {
         this.guid = guid;
     }
 
+    public abstract String getName();
+
     @Override
     public boolean equals(Object o)
     {

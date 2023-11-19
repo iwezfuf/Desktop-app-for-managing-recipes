@@ -7,8 +7,7 @@ import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
 import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
-import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.InvocationTargetException;
@@ -46,7 +45,29 @@ public final class AddAction<T extends Entity> extends AbstractAction {
             throw new RuntimeException("Failed to create dialog.", ex);
         }
         dialog.show(entityTablePanel.getTable(), "Add Entity")
-                .ifPresent(entityTableModel::addRow);
+                .ifPresent(this::addEntryToTable);
+    }
+
+    private void addEntryToTable(T entity) {
+        // First check if there already exist an entry with the same name
+        var entityTableModel = entityTablePanel.getEntityTableModel();
+        if (entityTableModel.nameExist(entity.getName())) {
+            int option = showDuplicateConfirmationDialog();
+            if (option == JOptionPane.NO_OPTION) {
+                return;
+            }
+        }
+        entityTableModel.addRow(entity);
+    }
+
+    private int showDuplicateConfirmationDialog() {
+        return JOptionPane.showConfirmDialog(
+                null,
+                "An entry with the same name already exists. \nDo you want to add the new entity anyways?",
+                "Confirmation",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
     }
 
     public void setCurrentTablePanel(EntityTablePanel<T> panel) {

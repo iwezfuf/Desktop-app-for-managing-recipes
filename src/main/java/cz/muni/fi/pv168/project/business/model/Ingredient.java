@@ -28,6 +28,7 @@ public class Ingredient extends Entity {
         this.unit = null;
     }
 
+    @Override
     public String getName() {
         return name;
     }

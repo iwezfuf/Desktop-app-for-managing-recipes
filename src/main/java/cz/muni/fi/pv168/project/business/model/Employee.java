@@ -45,7 +45,14 @@ public class Employee extends Entity {
         setGender(Gender.MALE);
         setBirthDate(LocalDate.now());
         setDepartment(new Department("", "", ""));
-    };
+    }
+
+    @Override
+    public String getName() {
+        return firstName + " " + lastName;
+    }
+
+    ;
 
     public String getFirstName() {
         return firstName;

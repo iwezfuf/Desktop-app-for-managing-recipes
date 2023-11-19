@@ -13,6 +13,7 @@ public class Department extends Entity {
         setNumber(number);
     }
 
+    @Override
     public String getName() {
         return name;
     }
