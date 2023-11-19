@@ -17,7 +17,7 @@ public class UnitValidator implements Validator<Unit> {
     public ValidationResult validate(Unit model) {
         var validators = List.of(
                 extracting(Unit::getName, new StringLengthValidator(1, 50, "Name")),
-                extracting(Unit::getAbbreviation, new StringLengthValidator(2, 10, "Abbreviation"))
+                extracting(Unit::getAbbreviation, new StringLengthValidator(1, 10, "Abbreviation"))
         );
 
         return Validator.compose(validators).validate(model);

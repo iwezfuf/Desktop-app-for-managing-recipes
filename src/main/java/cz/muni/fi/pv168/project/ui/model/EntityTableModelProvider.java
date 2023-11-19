@@ -17,6 +17,7 @@ public class EntityTableModelProvider {
     private final CrudService<RecipeIngredientAmount> ingredientAmountCrudService;
     private final DepartmentListModel departmentListModel;
 
+    // TODO Rename this class or merge it with CommonDependencyProvider
     public EntityTableModelProvider(EntityTableModel<Employee> employeeTableModel, EntityTableModel<Recipe> recipeTableModel, EntityTableModel<Ingredient> ingredientTableModel, EntityTableModel<Unit> unitTableModel, EntityTableModel<RecipeCategory> recipeCategoryTableModel, CrudService<RecipeIngredientAmount> ingredientAmountCrudService, DepartmentListModel departmentListModel) {
         this.employeeTableModel = employeeTableModel;
         this.recipeTableModel = recipeTableModel;

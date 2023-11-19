@@ -8,6 +8,7 @@ import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
+import cz.muni.fi.pv168.project.data.TestDataGenerator;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.ui.action.ImportAction;
@@ -87,6 +88,12 @@ public class MainWindow {
                 dependencyProvider.getRecipeIngredientAmountCrudService(),
                 departmentListModel
         );
+
+        // Only run this once to fill the database with test data
+        if (recipeTableModel.getRowCount() == 0) {
+            TestDataGenerator testDataGenerator = new TestDataGenerator();
+            testDataGenerator.fillTables(entityTableModelProvider);
+        }
 
         Validator<Employee> employeeValidator = dependencyProvider.getEmployeeValidator();
         Validator<Recipe> recipeValidator = dependencyProvider.getRecipeValidator();
