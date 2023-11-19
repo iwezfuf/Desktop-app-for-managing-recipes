@@ -12,8 +12,8 @@ import cz.muni.fi.pv168.project.data.TestDataGenerator;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.ui.action.ImportAction;
-import cz.muni.fi.pv168.project.ui.action.NewAddAction;
-import cz.muni.fi.pv168.project.ui.action.NewEditAction;
+import cz.muni.fi.pv168.project.ui.action.AddAction;
+import cz.muni.fi.pv168.project.ui.action.EditAction;
 import cz.muni.fi.pv168.project.ui.action.NuclearQuitAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.dialog.EmployeeDialog;
@@ -54,9 +54,9 @@ public class MainWindow {
     private final JFrame frame;
     private final Action quitAction = new QuitAction();
     private final Action nuclearQuit;
-    private final NewAddAction addAction;
+    private final AddAction addAction;
     private final DeleteAction deleteAction;
-    private final NewEditAction editAction;
+    private final EditAction editAction;
     private final Action exportAction;
     private final Action importAction;
     private final EntityTableModel<Employee> employeeTableModel;
@@ -110,9 +110,9 @@ public class MainWindow {
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
 //        addAction = new AddAction(employeeTablePanel.getTable(), departmentListModel,
 //                dependencyProvider.getEmployeeValidator());
-        addAction = new NewAddAction<>(employeeTablePanel, entityTableModelProvider);
+        addAction = new AddAction<>(employeeTablePanel, entityTableModelProvider);
         deleteAction = new DeleteAction(employeeTablePanel.getTable());
-        editAction = new NewEditAction<>(employeeTablePanel, entityTableModelProvider);
+        editAction = new EditAction<>(employeeTablePanel, entityTableModelProvider);
         exportAction = new ExportAction(employeeTablePanel, dependencyProvider.getExportService());
         importAction = new ImportAction(dependencyProvider.getImportService(), this::refresh, frame);
 

@@ -1,58 +1,55 @@
 package cz.muni.fi.pv168.project.ui.action;
 
-import cz.muni.fi.pv168.project.business.model.Department;
-import cz.muni.fi.pv168.project.business.model.Employee;
-import cz.muni.fi.pv168.project.business.model.Gender;
+import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
-import cz.muni.fi.pv168.project.ui.dialog.EmployeeDialog;
-import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
+import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.AbstractAction;
-import javax.swing.JTable;
 import javax.swing.KeyStroke;
-import javax.swing.ListModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.time.LocalDate;
-import java.util.Objects;
+import java.lang.reflect.InvocationTargetException;
 
-public final class AddAction extends AbstractAction {
+public final class AddAction<T extends Entity> extends AbstractAction {
 
-    private final JTable employeeTable;
-    private final ListModel<Department> departmentListModel;
-    private final Validator<Employee> employeeValidator;
+    private EntityTablePanel<T> entityTablePanel;
+    private final EntityTableModelProvider entityTableModelProvider;
 
     public AddAction(
-            JTable employeeTable,
-            ListModel<Department> departmentListModel,
-            Validator<Employee> employeeValidator) {
+            EntityTablePanel<T> entityTablePanel,
+            EntityTableModelProvider entityTableModelProvider) {
         super("Add", Icons.ADD_ICON);
-        this.employeeValidator = Objects.requireNonNull(employeeValidator);
-        this.employeeTable = employeeTable;
-        this.departmentListModel = departmentListModel;
-        putValue(SHORT_DESCRIPTION, "Adds new employee");
+        this.entityTablePanel = entityTablePanel;
+        this.entityTableModelProvider = entityTableModelProvider;
+        putValue(SHORT_DESCRIPTION, "Adds new entity");
         putValue(MNEMONIC_KEY, KeyEvent.VK_A);
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl N"));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO whole class should be deleted once NewAddAction works
-//        var employeeTableModel = (EntityTableModel) employeeTable.getModel();
-//        var dialog = new EmployeeDialog(createPrefilledEmployee(), departmentListModel, employeeValidator);
-//        dialog.show(employeeTable, "Add Employee")
-//                .ifPresent(employeeTableModel::addRow);
+        var entityTableModel = entityTablePanel.getEntityTableModel();
+        EntityDialog<T> dialog;
+        Class<T> type = entityTablePanel.getType();
+        try {
+            T entityInstance = type.getConstructor().newInstance();
+            dialog = entityTablePanel.getEntityDialog().getConstructor(
+                    type, EntityTableModelProvider.class, Validator.class
+            ).newInstance(
+                    entityInstance,
+                    entityTableModelProvider,
+                    entityTablePanel.getEntityValidator());
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            throw new RuntimeException("Failed to create dialog.", ex);
+        }
+        dialog.show(entityTablePanel.getTable(), "Add Entity")
+                .ifPresent(entityTableModel::addRow);
     }
 
-    private Employee createPrefilledEmployee()
-    {
-        return new Employee(
-                "Jan",
-                "Novák",
-                Gender.MALE,
-                LocalDate.now(),
-                departmentListModel.getElementAt(0)
-        );
+    public void setCurrentTablePanel(EntityTablePanel<T> panel) {
+        this.entityTablePanel = panel;
     }
 }
