@@ -246,7 +246,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         addToCenterPanel("Add ingredients:", panel, 1);
 
         var scrollPane = new JScrollPane(ingredientsPanel);
-        addToCenterPanel("Used ingredients: ", scrollPane, 3);
+        scrollPane.setMinimumSize(new Dimension(0, 420));
+        addToCenterPanel("Used ingredients: ", scrollPane, 6);
     }
 
     private JPanel createPreparationTimePanel() {
