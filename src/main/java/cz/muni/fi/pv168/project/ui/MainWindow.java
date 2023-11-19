@@ -140,16 +140,7 @@ public class MainWindow {
         });
 
         // Set up sorting
-        var employeeRowSorter = new TableRowSorter<EntityTableModel<Employee>>(employeeTableModel);
-        employeeTablePanel.getTable().setRowSorter(employeeRowSorter);
-        var recipeRowSorter = new TableRowSorter<EntityTableModel<Recipe>>(recipeTableModel);
-        recipeTablePanel.getTable().setRowSorter(recipeRowSorter);
-        var ingredientRowSorter = new TableRowSorter<EntityTableModel<Ingredient>>(ingredientTableModel);
-        ingredientTablePanel.getTable().setRowSorter(ingredientRowSorter);
-        var unitRowSorter = new TableRowSorter<EntityTableModel<Unit>>(unitTableModel);
-        unitTablePanel.getTable().setRowSorter(unitRowSorter);
-        var recipeCategoryRowSorter = new TableRowSorter<EntityTableModel<RecipeCategory>>(recipeCategoryTableModel);
-        recipeCategoryTablePanel.getTable().setRowSorter(recipeCategoryRowSorter);
+        var employeeRowSorter = initSorters(employeeTablePanel, recipeTablePanel, ingredientTablePanel, unitTablePanel, recipeCategoryTablePanel);
 
         // Set up filtering
         var employeeTableFilter = new EmployeeTableFilter(employeeRowSorter);
@@ -163,6 +154,20 @@ public class MainWindow {
         frame.setMinimumSize(new Dimension(800, 400));
         frame.setJMenuBar(createMenuBar());
         changeActionsState(0);
+    }
+
+    private TableRowSorter<EntityTableModel<Employee>> initSorters(EmployeeTablePanel employeeTablePanel, RecipeTablePanel recipeTablePanel, IngredientTablePanel ingredientTablePanel, UnitTablePanel unitTablePanel, RecipeCategoryTablePanel recipeCategoryTablePanel) {
+        var employeeRowSorter = new TableRowSorter<EntityTableModel<Employee>>(employeeTableModel);
+        employeeTablePanel.getTable().setRowSorter(employeeRowSorter);
+        var recipeRowSorter = new TableRowSorter<EntityTableModel<Recipe>>(recipeTableModel);
+        recipeTablePanel.getTable().setRowSorter(recipeRowSorter);
+        var ingredientRowSorter = new TableRowSorter<EntityTableModel<Ingredient>>(ingredientTableModel);
+        ingredientTablePanel.getTable().setRowSorter(ingredientRowSorter);
+        var unitRowSorter = new TableRowSorter<EntityTableModel<Unit>>(unitTableModel);
+        unitTablePanel.getTable().setRowSorter(unitRowSorter);
+        var recipeCategoryRowSorter = new TableRowSorter<EntityTableModel<RecipeCategory>>(recipeCategoryTableModel);
+        recipeCategoryTablePanel.getTable().setRowSorter(recipeCategoryRowSorter);
+        return employeeRowSorter;
     }
 
     private JPanel createSidePanel() {
