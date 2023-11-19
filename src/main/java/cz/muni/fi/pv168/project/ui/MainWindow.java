@@ -41,6 +41,7 @@ import cz.muni.fi.pv168.project.ui.renderers.DepartmentRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.GenderRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.SpecialFilterDepartmentValuesRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.SpecialFilterGenderValuesRenderer;
+import cz.muni.fi.pv168.project.ui.resources.Icons;
 import cz.muni.fi.pv168.project.util.Either;
 import cz.muni.fi.pv168.project.wiring.DependencyProvider;
 
@@ -110,8 +111,6 @@ public class MainWindow {
         var recipeCategoryTablePanel = new RecipeCategoryTablePanel(recipeCategoryTableModel, recipeCategoryValidator, RecipeCategoryDialog.class, this::changeActionsState);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
-//        addAction = new AddAction(employeeTablePanel.getTable(), departmentListModel,
-//                dependencyProvider.getEmployeeValidator());
         addAction = new AddAction<>(employeeTablePanel, entityTableModelProvider);
         deleteAction = new DeleteAction(employeeTablePanel.getTable());
         editAction = new EditAction<>(employeeTablePanel, entityTableModelProvider);
@@ -122,11 +121,11 @@ public class MainWindow {
         employeeTablePanel.setComponentPopupMenu(createEmployeeTablePopupMenu());
 
         var tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Employees", employeeTablePanel);
-        tabbedPane.addTab("Recipes", recipeTablePanel);
-        tabbedPane.addTab("Ingredients", ingredientTablePanel);
-        tabbedPane.addTab("Units", unitTablePanel);
-        tabbedPane.addTab("Recipe Categories", recipeCategoryTablePanel);
+        tabbedPane.addTab("Employees", null, employeeTablePanel, "Employees");
+        tabbedPane.addTab("Recipes", Icons.BOOK_ICON, recipeTablePanel, "Recipes");
+        tabbedPane.addTab("Ingredients", Icons.INGREDIENTS_ICON, ingredientTablePanel, "Ingredients");
+        tabbedPane.addTab("Units", Icons.WEIGHTS_ICON, unitTablePanel, "Units");
+        tabbedPane.addTab("Recipe Categories", Icons.CATEGORY_ICON, recipeCategoryTablePanel, "Recipe Categories");
 
         // TODO this definitely needs to be refactored
         tabbedPane.addChangeListener(e -> {

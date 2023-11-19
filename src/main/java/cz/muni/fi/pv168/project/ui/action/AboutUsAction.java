@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.project.ui.dialog.AboutUsDialog;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 public class AboutUsAction extends AbstractAction {
     private final JFrame parent;
@@ -11,6 +12,7 @@ public class AboutUsAction extends AbstractAction {
     public AboutUsAction(JFrame parent) {
         super("About Us");
         this.parent = parent;
+        putValue(SHORT_DESCRIPTION, "About Us");
     }
 
     @Override
