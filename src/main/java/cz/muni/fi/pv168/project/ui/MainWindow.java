@@ -231,6 +231,9 @@ public class MainWindow {
         departmentListModel.refresh();
         employeeTableModel.refresh();
         recipeTableModel.refresh();
+        ingredientTableModel.refresh();
+        unitTableModel.refresh();
+        recipeCategoryTableModel.refresh();
     }
 
     private static JList<Either<SpecialFilterDepartmentValues, Department>> createDepartmentFilter(
