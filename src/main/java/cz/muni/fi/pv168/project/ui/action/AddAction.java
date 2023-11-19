@@ -30,11 +30,22 @@ public final class AddAction<T extends Entity> extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var entityTableModel = entityTablePanel.getEntityTableModel();
+        Class<T> type = entityTablePanel.getType();
+        T entityInstance;
+        try {
+            entityInstance = type.getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            throw new RuntimeException(ex);
+        }
+        EntityDialog<T> dialog = createDialog(entityInstance);
+        dialog.show(entityTablePanel.getTable(), "Add Entity")
+                .ifPresent(this::addEntryToTable);
+    }
+
+    private EntityDialog<T> createDialog(T entityInstance) {
         EntityDialog<T> dialog;
         Class<T> type = entityTablePanel.getType();
         try {
-            T entityInstance = type.getConstructor().newInstance();
             dialog = entityTablePanel.getEntityDialog().getConstructor(
                     type, EntityTableModelProvider.class, Validator.class
             ).newInstance(
@@ -44,16 +55,20 @@ public final class AddAction<T extends Entity> extends AbstractAction {
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
             throw new RuntimeException("Failed to create dialog.", ex);
         }
-        dialog.show(entityTablePanel.getTable(), "Add Entity")
-                .ifPresent(this::addEntryToTable);
+        return dialog;
     }
 
     private void addEntryToTable(T entity) {
-        // First check if there already exist an entry with the same name
+        // First check if there already exists an entry with the same name
         var entityTableModel = entityTablePanel.getEntityTableModel();
         if (entityTableModel.nameExist(entity.getName())) {
             int option = showDuplicateConfirmationDialog();
             if (option == JOptionPane.NO_OPTION) {
+                EntityDialog<T> dialog = createDialog(entity);
+                dialog.show(entityTablePanel.getTable(), "Add Entity")
+                        .ifPresent(this::addEntryToTable);
+                return;
+            } else if (option == JOptionPane.CANCEL_OPTION) {
                 return;
             }
         }
@@ -61,14 +76,19 @@ public final class AddAction<T extends Entity> extends AbstractAction {
     }
 
     private int showDuplicateConfirmationDialog() {
-        return JOptionPane.showConfirmDialog(
+        Object[] options = {"Yes", "No, return to add dialog", "Cancel"};
+        return JOptionPane.showOptionDialog(
                 null,
                 "An entry with the same name already exists. \nDo you want to add the new entity anyways?",
                 "Confirmation",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[2] // Default to "Cancel"
         );
     }
+
 
     public void setCurrentTablePanel(EntityTablePanel<T> panel) {
         this.entityTablePanel = panel;
