@@ -9,6 +9,7 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.data.TestDataGenerator;
+import cz.muni.fi.pv168.project.ui.action.AboutUsAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.ui.action.ImportAction;
@@ -59,6 +60,7 @@ public class MainWindow {
     private final EditAction editAction;
     private final Action exportAction;
     private final Action importAction;
+    private final AboutUsAction aboutUsAction;
     private final EntityTableModel<Employee> employeeTableModel;
     private final EntityTableModel<Recipe> recipeTableModel;
     private final EntityTableModel<Ingredient> ingredientTableModel;
@@ -115,6 +117,7 @@ public class MainWindow {
         editAction = new EditAction<>(employeeTablePanel, entityTableModelProvider);
         exportAction = new ExportAction(employeeTablePanel, dependencyProvider.getExportService());
         importAction = new ImportAction(dependencyProvider.getImportService(), this::refresh, frame);
+        aboutUsAction = new AboutUsAction(frame);
 
         employeeTablePanel.setComponentPopupMenu(createEmployeeTablePopupMenu());
 
@@ -277,6 +280,8 @@ public class MainWindow {
         editMenu.add(quitAction);
         menuBar.add(editMenu);
         editMenu.add(nuclearQuit);
+        editMenu.addSeparator();
+        editMenu.add(aboutUsAction);
         return menuBar;
     }
 
