@@ -133,6 +133,7 @@ public class MainWindow {
             addAction.setCurrentTablePanel(selectedTablePanel);
             deleteAction.setCurrentTable(selectedTablePanel.getTable());
             editAction.setCurrentTablePanel(selectedTablePanel);
+            refresh();
 //            filterAction.setCurrentTable(currentTable);
 //            filterAction.drawFilterIcon();
 //            cancelFilterAction.setCurrentTable(currentTable);
