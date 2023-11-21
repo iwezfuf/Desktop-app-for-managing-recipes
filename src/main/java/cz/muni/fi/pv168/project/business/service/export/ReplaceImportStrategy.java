@@ -16,16 +16,17 @@ public class ReplaceImportStrategy implements ImportStrategy {
                               CrudService<Unit> unitCrudService, CrudService<RecipeCategory> recipeCategoryCrudService,
                               BatchImporter batchImporter, String filePath) {
 
-        ingredientCrudService.deleteAll();
         recipeCrudService.deleteAll();
         recipeCategoryCrudService.deleteAll();
+        ingredientCrudService.deleteAll();
         unitCrudService.deleteAll();
 
         var batch = batchImporter.importBatch(filePath);
 
-        batch.recipeCategories().forEach(recipeCategory -> ImportStrategy.createRecipeCategory(recipeCategory, recipeCategoryCrudService));
-        batch.units().forEach(unit -> ImportStrategy.createUnit(unit, unitCrudService));
-        batch.ingredients().forEach(ingredient -> ImportStrategy.createIngredient(ingredient, ingredientCrudService));
         batch.recipes().forEach(recipe -> ImportStrategy.createRecipe(recipe, recipeCrudService));
+        batch.ingredients().forEach(ingredient -> ImportStrategy.createIngredient(ingredient, ingredientCrudService));
+        batch.units().forEach(unit -> ImportStrategy.createUnit(unit, unitCrudService));
+        batch.recipeCategories().forEach(recipeCategory -> ImportStrategy.createRecipeCategory(recipeCategory, recipeCategoryCrudService));
+
     }
 }
