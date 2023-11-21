@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.export.batch.Batch;
 import cz.muni.fi.pv168.project.business.service.export.batch.BatchExporter;
@@ -13,6 +14,7 @@ import cz.muni.fi.pv168.project.business.service.export.batch.BatchImporter;
 import cz.muni.fi.pv168.project.business.service.export.deserializers.IngredientDeserializer;
 import cz.muni.fi.pv168.project.business.service.export.deserializers.RecipeCategoryDeserializer;
 import cz.muni.fi.pv168.project.business.service.export.deserializers.RecipeDeserializer;
+import cz.muni.fi.pv168.project.business.service.export.deserializers.RecipeIngredientAmountDeserializer;
 import cz.muni.fi.pv168.project.business.service.export.deserializers.UnitDeserializer;
 import cz.muni.fi.pv168.project.business.service.export.format.Format;
 
@@ -39,6 +41,7 @@ public class JSONBatchImporter implements BatchImporter {
         module.addDeserializer(Ingredient.class, new IngredientDeserializer());
         module.addDeserializer(Unit.class, new UnitDeserializer());
         module.addDeserializer(RecipeCategory.class, new RecipeCategoryDeserializer());
+        module.addDeserializer(RecipeIngredientAmount.class, new RecipeIngredientAmountDeserializer());
         objectMapper.registerModule(module);
 
         try {
@@ -47,7 +50,6 @@ public class JSONBatchImporter implements BatchImporter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(batch);
         return batch;
     }
 

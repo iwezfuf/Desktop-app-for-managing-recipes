@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 
 import java.io.IOException;
@@ -16,12 +17,13 @@ public class RecipeIngredientAmountDeserializer extends JsonDeserializer<RecipeI
     public RecipeIngredientAmount deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         IngredientDeserializer ingredientDeserializer = new IngredientDeserializer();
-        RecipeDeserializer recipeDeserializer = new RecipeDeserializer();
         String guid = node.get("guid").asText();
         int amount = node.get("amount").asInt();
+        Ingredient ingredient = ingredientDeserializer.deserialize(node.get("ingredient").traverse(jsonParser.getCodec()), deserializationContext);
         return new RecipeIngredientAmount(guid,
-                recipeDeserializer.deserialize(node.get("recipe").traverse(jsonParser.getCodec()), deserializationContext),
-                ingredientDeserializer.deserialize(node.get("ingredient").traverse(jsonParser.getCodec()), deserializationContext),
+                null,
+//                recipeDeserializer.deserialize(node.get("recipe").traverse(jsonParser.getCodec()), deserializationContext),
+                ingredient,
                 amount);
     }
 }

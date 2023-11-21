@@ -17,7 +17,6 @@ public class RecipeDeserializer extends JsonDeserializer<Recipe> {
     }
     @Override
     public Recipe deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
 
         String guid = node.get("guid").asText();

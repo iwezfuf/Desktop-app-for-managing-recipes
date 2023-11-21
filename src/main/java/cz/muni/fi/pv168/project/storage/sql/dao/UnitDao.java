@@ -30,7 +30,11 @@ public class UnitDao implements DataAccessObject<UnitEntity>{
             statement.setString(2, newUnit.name());
             statement.setString(3, newUnit.abbreviation());
             statement.setDouble(4, newUnit.conversionRatio());
-            statement.setLong(5, newUnit.conversionUnitId());
+            if (newUnit.conversionUnitId() == 0) {
+                statement.setNull(5, java.sql.Types.INTEGER);
+            } else {
+                statement.setLong(5, newUnit.conversionUnitId());
+            }
             statement.executeUpdate();
 
             try (ResultSet keyResultSet = statement.getGeneratedKeys()) {

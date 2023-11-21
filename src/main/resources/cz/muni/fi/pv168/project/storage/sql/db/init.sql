@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS "Recipe"
 --
 CREATE TABLE IF NOT EXISTS "Unit"
 (
-    `id`               BIGINT GENERATED ALWAYS AS IDENTITY (START WITH 0) PRIMARY KEY,
+    `id`               BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     `guid`             VARCHAR       NOT NULL UNIQUE,
     `name`             VARCHAR(150)  NOT NULL,
     `abbreviation`     VARCHAR(30)   NOT NULL,
@@ -96,52 +96,4 @@ CREATE TABLE IF NOT EXISTS "RecipeIngredientAmount"
     `ingredientId`     BIGINT REFERENCES "Ingredient"(`id`),
     `amount`           INT           NOT NULL,
     `createdAt`        TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-
---
--- Development data - used for development
---
--- // TODO: remove this later
-
-----  Departments
---INSERT INTO "Department" ("guid", "number", "name")
---VALUES ('d-1', '007', 'IT'),
---       ('d-2', '666', 'Sales'),
---       ('d-3', '112', 'HR')
---;
-
-----  Employees
---INSERT INTO "Employee" ("guid", "firstName", "lastName", "birthDate", "gender", "departmentId")
---VALUES ('martin', 'martin', 'drazkovec', CURRENT_TIMESTAMP, 'MALE', '1')
---;
-
-----  RecipeCategories
---INSERT INTO "RecipeCategory" ("guid", "name", "color")
---VALUES ('lunch', 'lunch', '1'),
---       ('dinner', 'dinner', '2')
---;
---
-----  Recipes
---INSERT INTO "Recipe" ("guid", "name", "description", "preparationTime", "numOfServings", "instructions", "recipeCategoryId")
---VALUES ('pancakes', 'pancakes', 'delicious pancakes', '10', '2', 'mix everything together', '1')
---;
---
---INSERT INTO "Recipe" ("guid", "name", "description", "preparationTime", "numOfServings", "instructions", "recipeCategoryId")
---VALUES ('aaa', 'zzz', 'aaa', '15', '5', 'aaaaaaa', '1')
---;
-
---  Units
-
--- TODO: move to somewhere else
-INSERT INTO "Unit" ("guid", "name", "abbreviation", "conversionRatio", "conversionUnitId")
-SELECT 'Base Unit', 'Base Unit', '-', '1', NULL
-WHERE NOT EXISTS (
-    SELECT 1 FROM "Unit" WHERE "guid" = 'Base Unit'
-);
-
-INSERT INTO "RecipeCategory" ("guid", "name", "color")
-SELECT 'no category', 'no category', 1
-WHERE NOT EXISTS (
-    SELECT 1 FROM "RecipeCategory" WHERE "guid" = 'no category'
 );
