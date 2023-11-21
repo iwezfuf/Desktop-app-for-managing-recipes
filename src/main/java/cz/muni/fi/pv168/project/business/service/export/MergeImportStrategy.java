@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.business.service.export;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.business.service.export.batch.BatchImporter;
@@ -21,6 +22,7 @@ public class MergeImportStrategy implements ImportStrategy {
     @Override
     public void executeImport(CrudService<Recipe> recipeCrudService, CrudService<Ingredient> ingredientCrudService,
                               CrudService<Unit> unitCrudService, CrudService<RecipeCategory> recipeCategoryCrudService,
+                                CrudService<RecipeIngredientAmount> recipeIngredientAmountCrudService,
                               BatchImporter batchImporter, String filePath) {
 
         var batch = batchImporter.importBatch(filePath);
@@ -28,6 +30,7 @@ public class MergeImportStrategy implements ImportStrategy {
         batch.recipes().forEach(recipe -> ImportStrategy.createRecipe(recipe, recipeCrudService));
         batch.ingredients().forEach(ingredient -> createIngredient(ingredient, ingredientCrudService));
         batch.units().forEach(unit -> createUnit(unit, unitCrudService));
+        batch.recipeIngredientAmounts().forEach(recipeIngredientAmount -> ImportStrategy.createRecipeIngredientAmount(recipeIngredientAmount, recipeIngredientAmountCrudService));
         batch.recipeCategories().forEach(recipeCategory -> ImportStrategy.createRecipeCategory(recipeCategory, recipeCategoryCrudService));
     }
 

@@ -19,6 +19,7 @@ public class GenericImportService implements ImportService {
     private final CrudService<Recipe> recipeCrudService;
     private final CrudService<Unit> unitCrudService;
     private final CrudService<RecipeCategory> recipeCategoryCrudService;
+    private final CrudService<RecipeIngredientAmount> recipeIngredientAmountCrudService;
     private final FormatMapping<BatchImporter> importers;
 
     public GenericImportService(
@@ -26,12 +27,14 @@ public class GenericImportService implements ImportService {
             CrudService<Recipe> RecipeCrudService,
             CrudService<Unit> UnitCrudService,
             CrudService<RecipeCategory> recipeCategoryCrudService,
+            CrudService<RecipeIngredientAmount> recipeIngredientAmountCrudService,
             Collection<BatchImporter> importers
     ) {
         this.ingredientCrudService = IngredientCrudService;
         this.recipeCrudService = RecipeCrudService;
         this.unitCrudService = UnitCrudService;
         this.recipeCategoryCrudService = recipeCategoryCrudService;
+        this.recipeIngredientAmountCrudService = recipeIngredientAmountCrudService;
         this.importers = new FormatMapping<>(importers);
     }
 
@@ -39,7 +42,7 @@ public class GenericImportService implements ImportService {
     public void importData(String filePath, ImportStrategy importStrategy) {
 
         try {
-            importStrategy.executeImport(recipeCrudService, ingredientCrudService, unitCrudService, recipeCategoryCrudService, getImporter(filePath), filePath);
+            importStrategy.executeImport(recipeCrudService, ingredientCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, getImporter(filePath), filePath);
         }  catch (NullPointerException e) {
             System.out.println("Import strategy has not been set.\n" + Arrays.toString(e.getStackTrace()));
         }

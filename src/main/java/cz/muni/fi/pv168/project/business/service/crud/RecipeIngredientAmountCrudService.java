@@ -34,7 +34,7 @@ public final class RecipeIngredientAmountCrudService implements CrudService<Reci
         if (newEntity.getGuid() == null || newEntity.getGuid().isBlank()) {
             newEntity.setGuid(guidProvider.newGuid());
         } else if (recipeRecipeIngredientAmountAmountRepository.existsByGuid(newEntity.getGuid())) {
-            throw new EntityAlreadyExistsException("Recipe with given guid already exists: " + newEntity.getGuid());
+            throw new EntityAlreadyExistsException("RecipeIngredientAmount with given guid already exists: " + newEntity.getGuid());
         }
 
         recipeRecipeIngredientAmountAmountRepository.create(newEntity);

@@ -53,7 +53,8 @@ public class RecipeCrudService implements CrudService<Recipe> {
                 recipeIngredientAmountCrudService.create(recipeIngredientAmount);
             }
             newEntity.setIngredients(storedRecipeIngredientAmounts);
-            update(newEntity);
+            // TODO continue here
+//            updateIngredientAmounts(newEntity);
         }
 
         return validationResult;
@@ -64,15 +65,19 @@ public class RecipeCrudService implements CrudService<Recipe> {
         var validationResult = recipeValidator.validate(entity);
         if (validationResult.isValid()) {
             recipeRepository.update(entity);
-            for (RecipeIngredientAmount recipeIngredientAmount:entity.getIngredients()) {
-                if (recipeIngredientAmount.getGuid() != null) {
-                    recipeIngredientAmountCrudService.update(recipeIngredientAmount);
-                } else {
-                    recipeIngredientAmountCrudService.create(recipeIngredientAmount);
-                }
-            }
+            updateIngredientAmounts(entity);
         }
         return validationResult;
+    }
+
+    public void updateIngredientAmounts(Recipe entity) {
+        for (RecipeIngredientAmount recipeIngredientAmount:entity.getIngredients()) {
+            if (recipeIngredientAmount.getGuid() != null) {
+                recipeIngredientAmountCrudService.update(recipeIngredientAmount);
+            } else {
+                recipeIngredientAmountCrudService.create(recipeIngredientAmount);
+            }
+        }
     }
 
     @Override

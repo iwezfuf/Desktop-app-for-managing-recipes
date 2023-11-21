@@ -164,8 +164,8 @@ public class CommonDependencyProvider implements DependencyProvider {
 
 
 
-        exportService = new GenericExportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, List.of(new JSONBatchExporter()));
-        importService = new GenericImportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, List.of(new JSONBatchImporter()));
+        exportService = new GenericExportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, List.of(new JSONBatchExporter()));
+        importService = new GenericImportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, List.of(new JSONBatchImporter()));
     }
 
     @Override

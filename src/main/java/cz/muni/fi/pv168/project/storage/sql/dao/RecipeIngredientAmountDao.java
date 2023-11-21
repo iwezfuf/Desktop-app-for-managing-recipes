@@ -27,7 +27,11 @@ public class RecipeIngredientAmountDao implements DataAccessObject<RecipeIngredi
                 var statement = connection.use().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
             statement.setString(1, newRecipeIngredientAmount.guid());
-            statement.setLong(2, newRecipeIngredientAmount.recipeId());
+            if (newRecipeIngredientAmount.recipeId() == 0) {
+                statement.setNull(2, java.sql.Types.INTEGER);
+            } else {
+                statement.setLong(2, newRecipeIngredientAmount.recipeId());
+            }
             statement.setLong(3, newRecipeIngredientAmount.ingredientId());
             statement.setDouble(4, newRecipeIngredientAmount.amount());
             statement.executeUpdate();
@@ -138,7 +142,11 @@ public class RecipeIngredientAmountDao implements DataAccessObject<RecipeIngredi
                 var statement = connection.use().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
             statement.setString(1, entity.guid());
-            statement.setLong(2, entity.recipeId());
+            if (entity.recipeId() == 0) {
+                statement.setNull(2, java.sql.Types.INTEGER);
+            } else {
+                statement.setLong(2, entity.recipeId());
+            }
             statement.setLong(3, entity.ingredientId());
             statement.setDouble(4, entity.amount());
             statement.setLong(5, entity.id());
