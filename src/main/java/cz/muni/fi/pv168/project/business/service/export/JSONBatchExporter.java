@@ -24,7 +24,7 @@ public class JSONBatchExporter implements BatchExporter {
 
     @Override
     public void exportBatch(Batch batch, String filePath) {
-        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
             final FileOutputStream out = new FileOutputStream(filePath);
             ObjectMapper objectMapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();
