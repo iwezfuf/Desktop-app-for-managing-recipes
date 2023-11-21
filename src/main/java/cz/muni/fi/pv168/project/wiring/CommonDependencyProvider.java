@@ -49,6 +49,7 @@ import cz.muni.fi.pv168.project.storage.sql.entity.mapper.RecipeIngredientAmount
 import cz.muni.fi.pv168.project.storage.sql.entity.mapper.RecipeMapper;
 import cz.muni.fi.pv168.project.storage.sql.entity.mapper.UnitMapper;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -149,6 +150,10 @@ public class CommonDependencyProvider implements DependencyProvider {
         );
 
         recipeCategoryCrudService = new RecipeCategoryCrudService(recipeCategories, recipeCategoryValidator, guidProvider);
+        // Add no category to the list of categories, only if there are no categories in the database
+        if (recipeCategoryCrudService.findAll().isEmpty()) {
+            recipeCategoryCrudService.create(new RecipeCategory("No category", Color.LIGHT_GRAY));
+        }
         departmentCrudService = new DepartmentCrudService(departments, departmentValidator, guidProvider);
         unitCrudService = new UnitCrudService(units, unitValidator, guidProvider);
         ingredientCrudService = new IngredientCrudService(ingredients, ingredientValidator, guidProvider);
