@@ -9,6 +9,7 @@ import cz.muni.fi.pv168.project.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.business.service.export.batch.BatchImporter;
 
 import javax.swing.*;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,16 +23,23 @@ public class MergeImportStrategy implements ImportStrategy {
     @Override
     public void executeImport(CrudService<Recipe> recipeCrudService, CrudService<Ingredient> ingredientCrudService,
                               CrudService<Unit> unitCrudService, CrudService<RecipeCategory> recipeCategoryCrudService,
-                                CrudService<RecipeIngredientAmount> recipeIngredientAmountCrudService,
+                              CrudService<RecipeIngredientAmount> recipeIngredientAmountCrudService,
                               BatchImporter batchImporter, String filePath) {
 
         var batch = batchImporter.importBatch(filePath);
 
-        batch.recipes().forEach(recipe -> ImportStrategy.createRecipe(recipe, recipeCrudService));
-        batch.ingredients().forEach(ingredient -> createIngredient(ingredient, ingredientCrudService));
-        batch.units().forEach(unit -> createUnit(unit, unitCrudService));
-        batch.recipeIngredientAmounts().forEach(recipeIngredientAmount -> ImportStrategy.createRecipeIngredientAmount(recipeIngredientAmount, recipeIngredientAmountCrudService));
         batch.recipeCategories().forEach(recipeCategory -> ImportStrategy.createRecipeCategory(recipeCategory, recipeCategoryCrudService));
+        batch.units().forEach(unit -> createUnit(unit, unitCrudService));
+        batch.ingredients().forEach(ingredient -> createIngredient(ingredient, ingredientCrudService));
+        batch.recipeIngredientAmounts().forEach(recipeIngredientAmount -> ImportStrategy.createRecipeIngredientAmount(recipeIngredientAmount, recipeIngredientAmountCrudService));
+        Collection<Recipe> recipes = batch.recipes();
+        for (Recipe recipe : recipes) {
+            ImportStrategy.createRecipe(recipe, recipeCrudService);
+            for (RecipeIngredientAmount recipeIngredientAmount : recipe.getIngredients()) {
+                recipeIngredientAmount.setRecipe(recipe);
+                recipeIngredientAmountCrudService.update(recipeIngredientAmount);
+            }
+        }
     }
 
     private static void createIngredient(Ingredient ingredient, CrudService<Ingredient> ingredientCrudService) { // TODO: create dialog window with all duplicates where the user has a chance which version should be used
