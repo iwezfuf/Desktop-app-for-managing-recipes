@@ -30,32 +30,10 @@ public final class AddAction<T extends Entity> extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Class<T> type = entityTablePanel.getType();
-        T entityInstance;
-        try {
-            entityInstance = type.getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-            throw new RuntimeException(ex);
-        }
-        EntityDialog<T> dialog = createDialog(entityInstance);
+        T entityInstance = entityTablePanel.getEntityInstance();
+        EntityDialog<T> dialog = entityTablePanel.createDialog(entityInstance, entityTableModelProvider);
         dialog.show(entityTablePanel.getTable(), "Add Entity")
                 .ifPresent(this::addEntryToTable);
-    }
-
-    private EntityDialog<T> createDialog(T entityInstance) {
-        EntityDialog<T> dialog;
-        Class<T> type = entityTablePanel.getType();
-        try {
-            dialog = entityTablePanel.getEntityDialog().getConstructor(
-                    type, EntityTableModelProvider.class, Validator.class
-            ).newInstance(
-                    entityInstance,
-                    entityTableModelProvider,
-                    entityTablePanel.getEntityValidator());
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-            throw new RuntimeException("Failed to create dialog.", ex);
-        }
-        return dialog;
     }
 
     private void addEntryToTable(T entity) {
@@ -64,7 +42,7 @@ public final class AddAction<T extends Entity> extends AbstractAction {
         if (entityTableModel.nameExist(entity.getName())) {
             int option = showDuplicateConfirmationDialog();
             if (option == JOptionPane.NO_OPTION) {
-                EntityDialog<T> dialog = createDialog(entity);
+                EntityDialog<T> dialog = entityTablePanel.createDialog(entity, entityTableModelProvider);
                 dialog.show(entityTablePanel.getTable(), "Add Entity")
                         .ifPresent(this::addEntryToTable);
                 return;
@@ -85,7 +63,7 @@ public final class AddAction<T extends Entity> extends AbstractAction {
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 options,
-                options[2] // Default to "Cancel"
+                options[2] // Defaults to "Cancel"
         );
     }
 

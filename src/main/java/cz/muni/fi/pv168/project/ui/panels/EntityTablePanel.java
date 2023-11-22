@@ -4,6 +4,8 @@ import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -120,5 +122,21 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
     // TODO should i really do this??
     public EntityTableModel<T> getEntityTableModel() {
         return entityTableModel;
+    }
+
+    public EntityDialog<T> createDialog(T instance, EntityTableModelProvider entityTableModelProvider) {
+        try {
+            return entityDialog.getConstructor(type, EntityTableModelProvider.class, Validator.class).newInstance(instance, entityTableModelProvider, entityValidator);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public T getEntityInstance() {
+        try {
+            return type.getConstructor().newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

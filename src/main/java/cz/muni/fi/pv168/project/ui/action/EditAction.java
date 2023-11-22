@@ -44,18 +44,7 @@ public final class EditAction<T extends Entity> extends AbstractAction {
         var entityTableModel = (EntityTableModel<T>) entityTable.getModel();
         int modelRow = entityTable.convertRowIndexToModel(selectedRows[0]);
         var entity = entityTableModel.getEntity(modelRow);
-        EntityDialog<T> dialog;
-        Class<T> type = entityTablePanel.getType();
-        try {
-            dialog = entityTablePanel.getEntityDialog().getConstructor(
-                    type, EntityTableModelProvider.class, Validator.class
-            ).newInstance(
-                    entity,
-                    entityTableModelProvider,
-                    entityTablePanel.getEntityValidator());
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-            throw new RuntimeException("Failed to create dialog.", ex);
-        }
+        EntityDialog<T> dialog = entityTablePanel.createDialog(entity, entityTableModelProvider);
         dialog.show(entityTable, "Edit Entity")
                 .ifPresent(entityTableModel::updateRow);
     }
