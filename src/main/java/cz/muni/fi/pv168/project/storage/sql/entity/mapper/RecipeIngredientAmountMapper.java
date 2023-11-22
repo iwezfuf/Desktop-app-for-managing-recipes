@@ -94,15 +94,18 @@ public class RecipeIngredientAmountMapper implements EntityMapper<RecipeIngredie
                 .orElseThrow(() -> new DataStorageException("Ingredient not found, guid: " +
                         entity.getIngredient().getGuid()));
 
-        var recipe = recipeDao
-                .findByGuid(entity.getRecipe().getGuid())
-                .orElseThrow(() -> new DataStorageException("Recipe not found, guid: " +
-                        entity.getRecipe().getGuid()));
+        long recipeId = 0;
+        if (entity.getRecipe() != null) {
+            recipeId = recipeDao
+                    .findByGuid(entity.getRecipe().getGuid())
+                    .orElseThrow(() -> new DataStorageException("Recipe not found, guid: " +
+                            entity.getRecipe().getGuid())).id();
+        }
 
         return new RecipeIngredientAmountEntity(
                 dbId,
                 entity.getGuid(),
-                recipe.id(),
+                recipeId,
                 ingredient.id(),
                 entity.getAmount()
         );

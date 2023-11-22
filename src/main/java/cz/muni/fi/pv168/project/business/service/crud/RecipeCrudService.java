@@ -45,16 +45,11 @@ public class RecipeCrudService implements CrudService<Recipe> {
         }
 
         ArrayList<RecipeIngredientAmount> storedRecipeIngredientAmounts = newEntity.getIngredients();
-        newEntity.setIngredients(new ArrayList<>());
+        newEntity.setIngredients(storedRecipeIngredientAmounts);
+        updateIngredientAmounts(newEntity);
 
         if (validationResult.isValid()) {
             recipeRepository.create(newEntity);
-            for (RecipeIngredientAmount recipeIngredientAmount:storedRecipeIngredientAmounts) {
-                recipeIngredientAmountCrudService.create(recipeIngredientAmount);
-            }
-            newEntity.setIngredients(storedRecipeIngredientAmounts);
-            // TODO continue here
-//            updateIngredientAmounts(newEntity);
         }
 
         return validationResult;
