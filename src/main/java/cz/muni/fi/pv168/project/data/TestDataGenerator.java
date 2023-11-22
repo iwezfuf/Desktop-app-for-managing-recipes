@@ -49,23 +49,33 @@ public final class TestDataGenerator {
         categoriesTable.addRow(snack);
         categoriesTable.addRow(drink);
 
-        Unit gram = new Unit("gram", null, 1, "g");
+        // Find base units
+        Unit gram = null;
+        Unit piece = null;
+        Unit liter= null;
+        for (Unit unit : models.getUnitTableModel().getEntities()) {
+            if (unit.getName().equals("gram")) {
+                gram = unit;
+            }
+            if (unit.getName().equals("piece")) {
+                piece = unit;
+            }
+            if (unit.getName().equals("liter")) {
+                liter = unit;
+            }
+        }
+
         Unit kilogram = new Unit("kilogram", gram, 1000, "kg");
         Unit milliliter = new Unit("milliliter", null, 1, "ml");
-        Unit liter = new Unit("liter", milliliter, 1000, "l");
         Unit deciliter = new Unit("deciliter", milliliter, 100, "dl");
-        Unit piece = new Unit("piece", null, 1, "pcs");
         Unit dozen = new Unit("dozen", piece, 12, "pcs");
         Unit teaspoon = new Unit("teaspoon", milliliter, 5, "tsp");
         Unit tablespoon = new Unit("tablespoon", milliliter, 15, "tbsp");
         Unit cup = new Unit("cup", milliliter, 250, "cup");
 
-        unitsTable.addRow(gram);
         unitsTable.addRow(kilogram);
         unitsTable.addRow(milliliter);
-        unitsTable.addRow(liter);
         unitsTable.addRow(deciliter);
-        unitsTable.addRow(piece);
         unitsTable.addRow(dozen);
         unitsTable.addRow(teaspoon);
         unitsTable.addRow(tablespoon);

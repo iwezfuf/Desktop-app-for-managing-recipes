@@ -150,10 +150,6 @@ public class CommonDependencyProvider implements DependencyProvider {
         );
 
         recipeCategoryCrudService = new RecipeCategoryCrudService(recipeCategories, recipeCategoryValidator, guidProvider);
-        // Add no category to the list of categories, only if there are no categories in the database
-        if (recipeCategoryCrudService.findAll().isEmpty()) {
-            recipeCategoryCrudService.create(new RecipeCategory("No category", Color.LIGHT_GRAY));
-        }
         departmentCrudService = new DepartmentCrudService(departments, departmentValidator, guidProvider);
         unitCrudService = new UnitCrudService(units, unitValidator, guidProvider);
         ingredientCrudService = new IngredientCrudService(ingredients, ingredientValidator, guidProvider);
@@ -162,10 +158,23 @@ public class CommonDependencyProvider implements DependencyProvider {
         recipeCrudService = new RecipeCrudService(recipes, recipeValidator, guidProvider, recipeIngredientAmountCrudService);
         employeeCrudService = new EmployeeCrudService(employees, employeeValidator, guidProvider);
 
-
+        initEntityDefaultValues();
 
         exportService = new GenericExportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, List.of(new JSONBatchExporter()));
         importService = new GenericImportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, List.of(new JSONBatchImporter()));
+    }
+
+    private void initEntityDefaultValues() {
+        // Add no category to the list of categories, only if there are no categories in the database
+        if (recipeCategoryCrudService.findAll().isEmpty()) {
+            recipeCategoryCrudService.create(new RecipeCategory("No category", Color.LIGHT_GRAY));
+        }
+        // Add base units to the list of units, only if there are no units in the database
+        if (unitCrudService.findAll().isEmpty()) {
+            unitCrudService.create(new Unit("gram", null , 1, "g"));
+            unitCrudService.create(new Unit("liter", null , 1, "l"));
+            unitCrudService.create(new Unit("piece", null , 1, "pcs"));
+        }
     }
 
     @Override
