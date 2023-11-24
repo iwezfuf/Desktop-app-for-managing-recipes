@@ -5,6 +5,8 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.ui.panels.filter.RecipeFilterPanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -12,8 +14,14 @@ import java.awt.*;
 import java.util.function.Consumer;
 
 public class RecipeTablePanel extends EntityTablePanel<Recipe> {
-    public RecipeTablePanel(EntityTableModel<Recipe> entityTableModel, Validator<Recipe> recipeValidator, Class<? extends EntityDialog<Recipe>> recipeDialog, Consumer<Integer> onSelectionChange, int frameHeight) {
+    private JPanel sidePanel;
+    private JPanel mainPanel;
+    private EntityTableModelProvider etmp;
+    public RecipeTablePanel(EntityTableModel<Recipe> entityTableModel, Validator<Recipe> recipeValidator, Class<? extends EntityDialog<Recipe>> recipeDialog, Consumer<Integer> onSelectionChange, int frameHeight, EntityTableModelProvider etmp) {
         super(entityTableModel, Recipe.class, recipeValidator, recipeDialog, onSelectionChange, frameHeight);
+        this.etmp = etmp;
+
+        this.mainPanel.add(new RecipeFilterPanel(this.etmp), BorderLayout.WEST);
     }
 
     @Override
@@ -25,9 +33,9 @@ public class RecipeTablePanel extends EntityTablePanel<Recipe> {
 
     protected JPanel setUpTableWithSidePanel(EntityTableModel<Recipe> entityTableModel, int frameHeight) {
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        JPanel sidePanel = createSidePanel(frameHeight);
-        mainPanel.add(sidePanel, BorderLayout.WEST);
+        this.mainPanel = new JPanel(new BorderLayout());
+        //this.sidePanel = createSidePanel(frameHeight);
+        //mainPanel.add(sidePanel, BorderLayout.WEST);
         var table = new JTable(entityTableModel);
         table.getSelectionModel().addListSelectionListener(this::rowSelectionChanged);
         table.setDefaultRenderer(Object.class, new ColoredRowRenderer());
