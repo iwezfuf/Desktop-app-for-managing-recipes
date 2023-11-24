@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
+import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
 import cz.muni.fi.pv168.project.ui.model.FormattedInput;
@@ -273,6 +274,12 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         recipe.setCategory((RecipeCategory)recipeCategoryComboBox.getSelectedItem());
         recipe.setIngredients(currentIngredients);
         recipe.setInstructions(instructionsTextArea.getText());
+
+        ValidationResult result = entityValidator.validate(recipe);
+        if (!result.isValid()) {
+            new JOptionPane().showMessageDialog(null, "Invalid entered data: " + result.getValidationErrors() + ".", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
 
         return recipe;
     }
