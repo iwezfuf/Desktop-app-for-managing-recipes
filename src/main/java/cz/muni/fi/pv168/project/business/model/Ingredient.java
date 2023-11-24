@@ -58,16 +58,6 @@ public class Ingredient extends Entity {
         return this.name + " [" + this.unit.getAbbreviation() + "]";
     }
 
-  /*  public int getRecipeCount(List<Recipe> recipes) {
-        int count = 0;
-        for (Recipe recipe : recipes) {
-            if (recipe.getIngredientAmount(this) != null) {
-                count++;
-            }
-        }
-        return count;
-    }*/
-
     public int getRecipesCount(Collection<Recipe> allRecipes) {
         int count = 0;
         for (Recipe recipe : allRecipes) {
@@ -83,10 +73,10 @@ public class Ingredient extends Entity {
 
     public String getRecipeCountPercentage(Collection<Recipe> recipes) {
         if (recipes.isEmpty()) {
-            return "Recepies not exist";
+            return "No recipes";
         }
         int count = getRecipesCount(recipes);
-        return "Used in " + count + " (" + ((int) Math.round((double) getRecipesCount(recipes) / recipes.size() * 100) + "%) recepies");
+        return "Used in " + count + " (" + ((int) Math.round((double) getRecipesCount(recipes) / recipes.size() * 100) + "%) recipes");
     }
 
 }
