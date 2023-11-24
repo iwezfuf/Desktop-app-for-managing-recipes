@@ -204,7 +204,8 @@ public class MainWindow {
         List<Column<Ingredient, ?>> columns = List.of(
                 Column.readonly("Name", String.class, Ingredient::getName),
                 Column.readonly("Nutritional Value (kcal)", int.class, Ingredient::getNutritionalValue),
-                Column.readonly("Unit", Unit.class, Ingredient::getUnit)
+                Column.readonly("Unit", Unit.class, Ingredient::getUnit),
+                Column.readonly("Recipes Count",  String.class, ingredient -> ingredient.getRecipeCountPercentage(recipeTableModel.getEntities()))
         );
         return new EntityTableModel<>(dependencyProvider.getIngredientCrudService(), columns);
     }
@@ -218,6 +219,7 @@ public class MainWindow {
         );
         return new EntityTableModel<>(dependencyProvider.getUnitCrudService(), columns);
     }
+
 
     private EntityTableModel<RecipeCategory> createRecipeCategoryTableModel(DependencyProvider dependencyProvider) {
         List<Column<RecipeCategory, ?>> columns = List.of(

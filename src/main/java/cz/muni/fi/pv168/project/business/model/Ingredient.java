@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.business.model;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Ingredient extends Entity {
@@ -58,7 +58,7 @@ public class Ingredient extends Entity {
         return this.name + " [" + this.unit.getAbbreviation() + "]";
     }
 
-    public int getRecipeCount(List<Recipe> recipes) {
+  /*  public int getRecipeCount(List<Recipe> recipes) {
         int count = 0;
         for (Recipe recipe : recipes) {
             if (recipe.getIngredientAmount(this) != null) {
@@ -66,9 +66,27 @@ public class Ingredient extends Entity {
             }
         }
         return count;
+    }*/
+
+    public int getRecipesCount(Collection<Recipe> allRecipes) {
+        int count = 0;
+        for (Recipe recipe : allRecipes) {
+            for (RecipeIngredientAmount ingredientAmount : recipe.getIngredients()) {
+                if (ingredientAmount.getIngredient().equals(this)) {
+                    count++;
+                    break;
+                }
+            }
+        }
+        return count;
     }
 
-    public int getRecipeCountPercentage(List<Recipe> recipes) {
-        return (int) Math.round((double) getRecipeCount(recipes) / recipes.size() * 100);
+    public String getRecipeCountPercentage(Collection<Recipe> recipes) {
+        if (recipes.isEmpty()) {
+            return "Recepies not exist";
+        }
+        int count = getRecipesCount(recipes);
+        return "Used in " + count + " (" + ((int) Math.round((double) getRecipesCount(recipes) / recipes.size() * 100) + "%) recepies");
     }
+
 }
