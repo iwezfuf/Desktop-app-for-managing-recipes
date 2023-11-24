@@ -93,7 +93,10 @@ public class MainWindow {
         );
 
         // Only run this once to fill the database with test data
-        if (recipeTableModel.getRowCount() == 0) {
+        if (recipeTableModel.getRowCount() == 0
+            && ingredientTableModel.getRowCount() == 0
+            && unitTableModel.getRowCount() == 3 // number of base units
+            && recipeCategoryTableModel.getRowCount() == 1) { // no category
             TestDataGenerator testDataGenerator = new TestDataGenerator();
             testDataGenerator.fillTables(entityTableModelProvider);
         }
