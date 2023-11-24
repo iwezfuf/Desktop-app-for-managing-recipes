@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.ui.panels.filter;
 
 import cz.muni.fi.pv168.project.business.model.Entity;
+import cz.muni.fi.pv168.project.ui.model.CustomLabel;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
@@ -48,11 +49,18 @@ public class FilterPanel<E extends Entity> extends JPanel {
 
         panel.add(comboBox);
         panel.add(addButton);
-        addToPanel(new JLabel("Include " + msg1 + " in your filter:"), 1);
+
+        String text = "Include " + msg1 + " in your filter:";
+        CustomLabel label = new CustomLabel(text, CustomLabel.getTextSizeForCustomLabel(text));
+        label.makeBold();
+        addToPanel(label, 1);
         addToPanel(panel, 1);
 
         var scrollPane = new JScrollPane(this.filterPanel);
-        addToPanel(new JLabel("Used " + msg2 + ": "), 1);
+        text = "Used " + msg2 + ": ";
+        label = new CustomLabel(text, CustomLabel.getTextSizeForCustomLabel(text));
+        label.makeBold();
+        addToPanel(label, 1);
         addToPanel(scrollPane, 4);
     }
 
