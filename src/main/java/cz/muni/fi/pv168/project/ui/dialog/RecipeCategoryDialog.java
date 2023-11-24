@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.ui.dialog;
 import cz.muni.fi.pv168.project.business.model.Department;
 import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
+import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
 
@@ -40,6 +41,13 @@ public class RecipeCategoryDialog extends EntityDialog<RecipeCategory> {
 
         recipeCategory.setName(nameTextField.getText());
         recipeCategory.setColor(colorChooser.getColor());
+
+        ValidationResult result = entityValidator.validate(recipeCategory);
+        if (!result.isValid()) {
+            new JOptionPane().showMessageDialog(null, "Invalid entered data: " + result.getValidationErrors() + ".", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+
         return recipeCategory;
     }
 }
