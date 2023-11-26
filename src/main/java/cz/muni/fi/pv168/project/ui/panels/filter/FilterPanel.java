@@ -24,7 +24,11 @@ public class FilterPanel<E extends Entity> extends JPanel {
         this.msg2 = msg2;
 
         init();
+        fillComboBox(comboBoxData);
+    }
 
+    public void fillComboBox(Collection<E> comboBoxData) {
+        comboBox.removeAllItems();
         for (E element : comboBoxData) {
             comboBox.addItem(element);
         }
@@ -32,6 +36,8 @@ public class FilterPanel<E extends Entity> extends JPanel {
 
     private void init() {
         this.setLayout(new GridBagLayout());
+
+        this.filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 200));
 
         this.addButton.addActionListener(e -> {
             E selectedItem = (E) comboBox.getSelectedItem();
@@ -102,5 +108,9 @@ public class FilterPanel<E extends Entity> extends JPanel {
         filterPanel.add(panel, gbc);
         filterPanel.revalidate();
         filterPanel.repaint();
+    }
+
+    public JComboBox<E> getComboBox() {
+        return this.comboBox;
     }
 }

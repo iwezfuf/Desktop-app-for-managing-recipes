@@ -1,6 +1,8 @@
 package cz.muni.fi.pv168.project.ui.panels.filter;
 
 
+import cz.muni.fi.pv168.project.ui.filters.Range;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
