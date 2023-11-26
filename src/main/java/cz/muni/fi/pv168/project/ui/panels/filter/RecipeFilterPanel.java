@@ -82,6 +82,9 @@ public class RecipeFilterPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 recipeTablePanel.applyFilter(new RecipeFilter(ingredientsSet, recipeCategoriesSet, nutritionalRange, prepTimeRange));
+                recipeTablePanel.refresh();
+                recipeTablePanel.revalidate();
+                recipeTablePanel.repaint();
                 recipeTablePanel.getTable().revalidate();
                 recipeTablePanel.getTable().repaint();
             }

@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.function.Consumer;
 
-public class RecipeTablePanel extends EntityTablePanelS<Recipe> {
+public class RecipeTablePanel extends EntityTablePanelSidePanel<Recipe> {
 
     private RecipeFilterPanel recipeFilterPanel;
 

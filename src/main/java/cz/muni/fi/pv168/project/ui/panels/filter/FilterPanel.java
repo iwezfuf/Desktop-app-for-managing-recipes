@@ -38,7 +38,8 @@ public class FilterPanel<E extends Entity> extends JPanel {
     private void init() {
         this.setLayout(new GridBagLayout());
 
-        this.filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 200));
+        //this.filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 200));
+        this.filterPanel.setMaximumSize(new Dimension(filterPanel.getWidth(), 200));
 
         this.addButton.addActionListener(e -> {
             E selectedItem = (E) comboBox.getSelectedItem();
