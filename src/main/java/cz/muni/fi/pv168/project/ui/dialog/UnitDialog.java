@@ -61,7 +61,7 @@ public class UnitDialog extends EntityDialog<Unit> {
         try {
             unit.setConversionRatio(FormattedInput.getFloat(ratioTextField.getText()));
         } catch (NumberFormatException e) {
-            new JOptionPane().showMessageDialog(null, "Invalid conversion ration value.", "Error", JOptionPane.ERROR_MESSAGE);
+            new JOptionPane().showMessageDialog(null, "Invalid conversion ratio value.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
