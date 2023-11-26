@@ -70,7 +70,7 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
         activeFilter = true;
         RowFilter<EntityTableModel<T>, Integer> rowFilter = filter.getRowFilter();
         this.rowSorter.setRowFilter(rowFilter);
-        //updateColumnHeader();
+        this.table.setRowSorter(rowSorter);
     }
 
     /**
@@ -85,7 +85,6 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
 
         this.rowSorter.setRowFilter(null);
         activeFilter = false;
-        //updateColumnHeader();
     }
 
     public JTable getTable() {
@@ -118,7 +117,6 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
         return type;
     }
 
-    // TODO should i really do this??
     public EntityTableModel<T> getEntityTableModel() {
         return entityTableModel;
     }
