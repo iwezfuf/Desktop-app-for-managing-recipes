@@ -28,6 +28,7 @@ import cz.muni.fi.pv168.project.storage.sql.IngredientSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.RecipeCategorySqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.RecipeIngredientAmountSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.RecipeSqlRepository;
+import cz.muni.fi.pv168.project.storage.sql.TransactionalImportService;
 import cz.muni.fi.pv168.project.storage.sql.UnitSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.dao.DepartmentDao;
 import cz.muni.fi.pv168.project.storage.sql.dao.EmployeeDao;
@@ -161,7 +162,7 @@ public class CommonDependencyProvider implements DependencyProvider {
         initEntityDefaultValues();
 
         exportService = new GenericExportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, List.of(new JSONBatchExporter()));
-        importService = new GenericImportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, List.of(new JSONBatchImporter()));
+        importService = new TransactionalImportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, List.of(new JSONBatchImporter()), transactionExecutor);
     }
 
     private void initEntityDefaultValues() {

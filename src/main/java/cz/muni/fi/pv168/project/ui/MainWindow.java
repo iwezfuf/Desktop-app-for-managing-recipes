@@ -130,16 +130,12 @@ public class MainWindow {
         tabbedPane.addTab("Units", Icons.WEIGHTS_ICON, unitTablePanel, "Units");
         tabbedPane.addTab("Recipe Categories", Icons.CATEGORY_ICON, recipeCategoryTablePanel, "Recipe Categories");
 
-        // TODO this definitely needs to be refactored
         tabbedPane.addChangeListener(e -> {
             EntityTablePanel selectedTablePanel = (EntityTablePanel) tabbedPane.getSelectedComponent();
             addAction.setCurrentTablePanel(selectedTablePanel);
             deleteAction.setCurrentTable(selectedTablePanel.getTable());
             editAction.setCurrentTablePanel(selectedTablePanel);
             refresh();
-//            filterAction.setCurrentTable(currentTable);
-//            filterAction.drawFilterIcon();
-//            cancelFilterAction.setCurrentTable(currentTable);
         });
 
         // Set up sorting
