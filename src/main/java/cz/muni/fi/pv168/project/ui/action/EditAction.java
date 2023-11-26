@@ -1,10 +1,9 @@
 package cz.muni.fi.pv168.project.ui.action;
 
 import cz.muni.fi.pv168.project.business.model.Entity;
-import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
-import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
 import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
@@ -13,7 +12,6 @@ import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.lang.reflect.InvocationTargetException;
 
 public final class EditAction<T extends Entity> extends AbstractAction {
 

@@ -1,14 +1,11 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
-import cz.muni.fi.pv168.project.business.model.Department;
-import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
-import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Objects;
 
 public class RecipeCategoryDialog extends EntityDialog<RecipeCategory> {

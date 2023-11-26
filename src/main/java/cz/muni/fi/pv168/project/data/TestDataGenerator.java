@@ -1,30 +1,16 @@
 package cz.muni.fi.pv168.project.data;
 
-import cz.muni.fi.pv168.project.business.model.Department;
-import cz.muni.fi.pv168.project.business.model.Employee;
-import cz.muni.fi.pv168.project.business.model.Gender;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
-import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
-import cz.muni.fi.pv168.project.ui.panels.RecipeCategoryTablePanel;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
 
 import java.awt.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
-import java.util.stream.Stream;
-
-import static java.time.Month.DECEMBER;
-import static java.time.Month.JANUARY;
-import static java.time.temporal.ChronoUnit.DAYS;
 
 public final class TestDataGenerator {
     private final Random random = new Random(2L);

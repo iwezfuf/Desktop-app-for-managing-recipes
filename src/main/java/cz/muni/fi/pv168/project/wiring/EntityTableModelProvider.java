@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.ui.model;
+package cz.muni.fi.pv168.project.wiring;
 
 import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
@@ -7,6 +7,8 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
+import cz.muni.fi.pv168.project.ui.model.DepartmentListModel;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 
 public class EntityTableModelProvider {
     private final EntityTableModel<Employee> employeeTableModel;

@@ -30,7 +30,7 @@ import cz.muni.fi.pv168.project.ui.filters.values.SpecialFilterGenderValues;
 import cz.muni.fi.pv168.project.ui.model.DepartmentListModel;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.model.Column;
-import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
 import cz.muni.fi.pv168.project.ui.panels.EmployeeTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.IngredientTablePanel;

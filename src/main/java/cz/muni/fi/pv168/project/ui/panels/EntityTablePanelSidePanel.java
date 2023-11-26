@@ -4,7 +4,7 @@ import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
-import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
 
 import javax.swing.*;
 import java.awt.*;

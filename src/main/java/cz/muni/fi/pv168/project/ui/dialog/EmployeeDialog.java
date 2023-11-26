@@ -5,7 +5,7 @@ import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.Gender;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.model.ComboBoxModelAdapter;
-import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
 import cz.muni.fi.pv168.project.ui.model.LocalDateModel;
 import cz.muni.fi.pv168.project.ui.renderers.DepartmentRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.GenderRenderer;

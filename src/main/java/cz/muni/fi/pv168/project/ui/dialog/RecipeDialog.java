@@ -6,7 +6,7 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
-import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
 import cz.muni.fi.pv168.project.ui.model.FormattedInput;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
@@ -14,7 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author Marek Eibel
