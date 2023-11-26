@@ -13,41 +13,24 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.function.Consumer;
 
-public class RecipeTablePanel extends EntityTablePanel<Recipe> {
-    private JPanel sidePanel;
-    private JPanel mainPanel;
-    private EntityTableModelProvider etmp;
-    public RecipeTablePanel(EntityTableModel<Recipe> entityTableModel, Validator<Recipe> recipeValidator, Class<? extends EntityDialog<Recipe>> recipeDialog, Consumer<Integer> onSelectionChange, int frameHeight, EntityTableModelProvider etmp) {
-        super(entityTableModel, Recipe.class, recipeValidator, recipeDialog, onSelectionChange, frameHeight);
-        this.etmp = etmp;
+public class RecipeTablePanel extends EntityTablePanelS<Recipe> {
 
-        this.mainPanel.add(new RecipeFilterPanel(this.etmp), BorderLayout.WEST);
+    private RecipeFilterPanel recipeFilterPanel;
+
+    public RecipeTablePanel(EntityTableModel<Recipe> entityTableModel, Validator<Recipe> recipeValidator, Class<? extends EntityDialog<Recipe>> recipeDialog, Consumer<Integer> onSelectionChange, EntityTableModelProvider etmp) {
+        super(entityTableModel, Recipe.class, recipeValidator, recipeDialog, onSelectionChange, etmp);
+
+        this.recipeFilterPanel = new RecipeFilterPanel(this);
+        this.getSideScrollPane().setViewportView(recipeFilterPanel);
     }
 
     @Override
-    protected JTable setUpTable(EntityTableModel<Recipe> entityTableModel) {
-        var table = new JTable(entityTableModel);
-        table.getSelectionModel().addListSelectionListener(this::rowSelectionChanged);
-        return table;
-    }
-
-    protected JPanel setUpTableWithSidePanel(EntityTableModel<Recipe> entityTableModel, int frameHeight) {
-
-        this.mainPanel = new JPanel(new BorderLayout());
-        //this.sidePanel = createSidePanel(frameHeight);
-        //mainPanel.add(sidePanel, BorderLayout.WEST);
-        var table = new JTable(entityTableModel);
-        table.getSelectionModel().addListSelectionListener(this::rowSelectionChanged);
+    protected void customizeTable(JTable table) {
         table.setDefaultRenderer(Object.class, new ColoredRowRenderer());
-        mainPanel.add(new JScrollPane(table), BorderLayout.CENTER);
-        return mainPanel;
     }
 
-    private JPanel createSidePanel(int frameHeight) {
-
-        JPanel sidePanel = new JPanel();
-        sidePanel.setPreferredSize(new Dimension(175, frameHeight));
-        return sidePanel;
+    public RecipeFilterPanel getRecipeFilterPanel() {
+        return recipeFilterPanel;
     }
 
     private static class ColoredRowRenderer extends DefaultTableCellRenderer {
