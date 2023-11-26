@@ -3,14 +3,13 @@ package cz.muni.fi.pv168.project.ui.panels;
 import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
+import cz.muni.fi.pv168.project.ui.filters.AbstractFilter;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModelProvider;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.util.function.Consumer;
 
@@ -25,31 +24,9 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
     private final Validator<T> entityValidator;
     private final Class<? extends EntityDialog<T>> entityDialog;
 
-    /**
-     * Creates an EntityTablePanel with a side panel.
-     *
-     * @param entityTableModel
-     * @param type
-     * @param entityValidator
-     * @param entityDialog
-     * @param onSelectionChange
-     * @param frameHeight height of the main frame
-     */
-    public EntityTablePanel(EntityTableModel<T> entityTableModel, Class<T> type, Validator<T> entityValidator, Class<? extends EntityDialog<T>> entityDialog, Consumer<Integer> onSelectionChange, int frameHeight) {
-
-        setLayout(new BorderLayout());
-
-        JPanel panel;
-        panel = setUpTableWithSidePanel(entityTableModel, frameHeight);
-        add(new JScrollPane(panel), BorderLayout.CENTER);
-        this.table = findTableInPanel(panel);
-
-        this.type = type;
-        this.onSelectionChange = onSelectionChange;
-        this.entityTableModel = entityTableModel;
-        this.entityValidator = entityValidator;
-        this.entityDialog = entityDialog;
-    }
+    private boolean activeFilter;
+    private boolean filterable;
+    private TableRowSorter<EntityTableModel<T>> rowSorter;
 
     /**
      * Creates an EntityTablePanel containing the table.
@@ -70,21 +47,45 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
         this.entityTableModel = entityTableModel;
         this.entityValidator = entityValidator;
         this.entityDialog = entityDialog;
+
+        // Filtering
+        this.activeFilter = false;
+        this.filterable = true;
+        this.rowSorter = new TableRowSorter<>(entityTableModel);
+        table.setRowSorter(rowSorter);
     }
 
-    private JTable findTableInPanel(JPanel panel) {
+    /**
+     * Applies given filter to the table rows. If the table does not allow filtering,
+     * nothing happens.
+     *
+     * @param filter filter to use
+     */
+    public void applyFilter(AbstractFilter filter) {
 
-        Component[] components = panel.getComponents();
-
-        for (Component component : components) {
-            if (component instanceof JScrollPane) {
-                Component viewportView = ((JScrollPane) component).getViewport().getView();
-                if (viewportView instanceof JTable) {
-                    return (JTable) viewportView;
-                }
-            }
+        if (!filterable) {
+            return;
         }
-        return null;
+
+        activeFilter = true;
+        RowFilter<EntityTableModel<T>, Integer> rowFilter = filter.getRowFilter();
+        this.rowSorter.setRowFilter(rowFilter);
+        //updateColumnHeader();
+    }
+
+    /**
+     * Cancels the current applied filter. If the table does not allow filtering,
+     * nothing happens.
+     */
+    public void cancelFilter() {
+
+        if(!filterable) {
+            return;
+        }
+
+        this.rowSorter.setRowFilter(null);
+        activeFilter = false;
+        //updateColumnHeader();
     }
 
     public JTable getTable() {
@@ -92,8 +93,6 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
     }
 
     protected abstract JTable setUpTable(EntityTableModel<T> entityTableModel);
-
-    protected abstract JPanel setUpTableWithSidePanel(EntityTableModel<T> entityTableModel, int frameHeight);
 
     protected void rowSelectionChanged(ListSelectionEvent listSelectionEvent) {
         var selectionModel = (ListSelectionModel) listSelectionEvent.getSource();
