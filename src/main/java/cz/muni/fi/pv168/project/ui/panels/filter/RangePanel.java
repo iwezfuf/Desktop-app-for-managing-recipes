@@ -3,6 +3,8 @@ package cz.muni.fi.pv168.project.ui.panels.filter;
 
 import cz.muni.fi.pv168.project.ui.filters.Range;
 
+import cz.muni.fi.pv168.project.ui.model.CustomLabel;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -93,7 +95,9 @@ public class RangePanel extends JPanel {
         gbc.weighty = 1;
         gbc.insets = spacing; // Set the insets for the component
         gbc.anchor = GridBagConstraints.PAGE_START;
-        this.add(new JLabel(msg), gbc);
+        CustomLabel label = new CustomLabel(msg, CustomLabel.getTextSizeForCustomLabel(msg));
+        label.makeBold();
+        this.add(label, gbc);
 
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -103,7 +107,10 @@ public class RangePanel extends JPanel {
         gbc.weighty = 1;
         gbc.insets = spacing; // Set the insets for the component
         gbc.anchor = GridBagConstraints.PAGE_START;
-        this.add(new JLabel("Choose the range:"), gbc);
+        String text = "Choose the range:";
+        label = new CustomLabel(text, CustomLabel.getTextSizeForCustomLabel(text));
+        label.makeBold();
+        this.add(label, gbc);
 
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -137,7 +144,9 @@ public class RangePanel extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = 1;
         gbc.insets = spacing; // Set the insets for the component
-        panel.add(new JLabel(labelText), gbc);
+        CustomLabel label = new CustomLabel(labelText, CustomLabel.getTextSizeForCustomLabel(labelText));
+        label.makeBold();
+        panel.add(label, gbc);
 
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -155,7 +164,9 @@ public class RangePanel extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = 1;
         gbc.insets = spacing; // Set the insets for the component
-        panel.add(new JLabel(units), gbc);
+        label = new CustomLabel(units, CustomLabel.getTextSizeForCustomLabel(units));
+        label.makeBold();
+        panel.add(label, gbc);
 
         return panel;
     }
