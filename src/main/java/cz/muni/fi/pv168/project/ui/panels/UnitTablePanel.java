@@ -20,8 +20,4 @@ public class UnitTablePanel extends EntityTablePanel<Unit> {
         return table;
     }
 
-    @Override
-    protected JPanel setUpTableWithSidePanel(EntityTableModel<Unit> entityTableModel, int frameHeight) {
-        return null;
-    }
 }

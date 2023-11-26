@@ -23,11 +23,6 @@ public class RecipeCategoryTablePanel extends EntityTablePanel<RecipeCategory> {
         return table;
     }
 
-    @Override
-    protected JPanel setUpTableWithSidePanel(EntityTableModel<RecipeCategory> entityTableModel, int frameHeight) {
-        return null;
-    }
-
     private static class ColoredRowRenderer extends DefaultTableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
