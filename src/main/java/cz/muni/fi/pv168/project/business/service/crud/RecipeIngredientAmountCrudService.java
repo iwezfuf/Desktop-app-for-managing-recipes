@@ -50,8 +50,9 @@ public final class RecipeIngredientAmountCrudService implements CrudService<Reci
     }
 
     @Override
-    public void deleteByGuid(String guid) {
+    public boolean deleteByGuid(String guid) {
         recipeRecipeIngredientAmountAmountRepository.deleteByGuid(guid);
+        return true;
     }
 
     @Override

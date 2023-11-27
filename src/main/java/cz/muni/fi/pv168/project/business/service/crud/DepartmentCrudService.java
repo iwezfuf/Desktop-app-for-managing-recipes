@@ -56,8 +56,9 @@ public class DepartmentCrudService implements CrudService<Department> {
     }
 
     @Override
-    public void deleteByGuid(String guid) {
+    public boolean deleteByGuid(String guid) {
         departmentRepository.deleteByGuid(guid);
+        return true;
     }
 
     @Override

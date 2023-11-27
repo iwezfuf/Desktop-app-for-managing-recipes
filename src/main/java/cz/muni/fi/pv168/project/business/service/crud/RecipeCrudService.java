@@ -76,11 +76,12 @@ public class RecipeCrudService implements CrudService<Recipe> {
     }
 
     @Override
-    public void deleteByGuid(String guid) {
+    public boolean deleteByGuid(String guid) {
         for (RecipeIngredientAmount recipeIngredientAmount:recipeRepository.findByGuid(guid).get().getIngredients()) {
             recipeIngredientAmountCrudService.deleteByGuid(recipeIngredientAmount.getGuid());
         }
         recipeRepository.deleteByGuid(guid);
+        return true;
     }
 
     @Override

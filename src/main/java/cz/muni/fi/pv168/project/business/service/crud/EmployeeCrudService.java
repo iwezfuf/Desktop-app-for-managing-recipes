@@ -55,8 +55,9 @@ public final class EmployeeCrudService implements CrudService<Employee> {
     }
 
     @Override
-    public void deleteByGuid(String guid) {
+    public boolean deleteByGuid(String guid) {
         employeeRepository.deleteByGuid(guid);
+        return true;
     }
 
     @Override

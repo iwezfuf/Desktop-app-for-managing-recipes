@@ -31,8 +31,10 @@ public interface CrudService<T extends Entity> {
 
     /**
      * Delete entity with given guid.
+     *
+     * @return true if the entity was deleted, false if it could not be deleted
      */
-    void deleteByGuid(String guid);
+    boolean deleteByGuid(String guid);
 
     /**
      * Delete all entities.

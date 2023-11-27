@@ -7,7 +7,9 @@ import cz.muni.fi.pv168.project.business.repository.Repository;
 import cz.muni.fi.pv168.project.business.service.validation.RecipeCategoryValidator;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 
+import javax.swing.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Crud operations for the {@link RecipeCategory} entity.
@@ -53,8 +55,16 @@ public final class RecipeCategoryCrudService implements CrudService<RecipeCatego
     }
 
     @Override
-    public void deleteByGuid(String guid) {
+    public boolean deleteByGuid(String guid) {
+        String recipeCategoryName = recipeCategoryRepository.findByGuid(guid).get().getName();
+        if (Objects.equals(recipeCategoryName, "No category")) {
+            JOptionPane.showMessageDialog(null, "Cannot delete base category",
+                    "Deletion error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         recipeCategoryRepository.deleteByGuid(guid);
+        return true;
     }
 
     @Override

@@ -8,7 +8,9 @@ import cz.muni.fi.pv168.project.business.repository.Repository;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 
+import javax.swing.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Crud operations for the {@link Unit} entity.
@@ -54,8 +56,16 @@ public final class UnitCrudService implements CrudService<Unit> {
     }
 
     @Override
-    public void deleteByGuid(String guid) {
+    public boolean deleteByGuid(String guid) {
+        String unitName = unitRepository.findByGuid(guid).get().getName();
+        if (Objects.equals(unitName, "gram") || Objects.equals(unitName, "liter") || Objects.equals(unitName, "piece")) {
+            JOptionPane.showMessageDialog(null, "Cannot delete base unit",
+                    "Deletion error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         unitRepository.deleteByGuid(guid);
+        return true;
     }
 
     @Override

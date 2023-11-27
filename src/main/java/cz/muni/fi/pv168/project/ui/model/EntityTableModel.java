@@ -12,7 +12,8 @@ import java.util.List;
 /**
  * {@link javax.swing.table.TableModel} for {@link T} objects.
  */
-public class EntityTableModel<T extends Entity> extends AbstractTableModel { private List<T> entities;
+public class EntityTableModel<T extends Entity> extends AbstractTableModel {
+    private List<T> entities;
     private final CrudService<T> entityCrudService;
     private final List<Column<T, ?>> columns;
 
@@ -64,9 +65,11 @@ public class EntityTableModel<T extends Entity> extends AbstractTableModel { pri
 
     public void deleteRow(int rowIndex) {
         var entityToBeDeleted = getEntity(rowIndex);
-        entityCrudService.deleteByGuid(entityToBeDeleted.getGuid());
-        entities.remove(rowIndex);
-        fireTableRowsDeleted(rowIndex, rowIndex);
+        boolean deletionResult = entityCrudService.deleteByGuid(entityToBeDeleted.getGuid());
+        if (deletionResult) {
+            entities.remove(rowIndex);
+            fireTableRowsDeleted(rowIndex, rowIndex);
+        }
     }
 
     public void addRow(T entity) {
