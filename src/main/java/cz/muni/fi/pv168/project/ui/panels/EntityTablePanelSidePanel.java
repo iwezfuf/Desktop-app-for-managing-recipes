@@ -14,6 +14,7 @@ public abstract class EntityTablePanelSidePanel<T extends Entity> extends Entity
 
     private JScrollPane sideScrollPane;
     private EntityTableModelProvider etmp;
+    private JLabel jLabel;
 
     public EntityTablePanelSidePanel(EntityTableModel<T> entityTableModel, Class<T> type, Validator<T> entityValidator, Class<? extends EntityDialog<T>> entityDialog, Consumer<Integer> onSelectionChange, EntityTableModelProvider etmp) {
         super(entityTableModel, type, entityValidator, entityDialog, onSelectionChange);
@@ -28,6 +29,10 @@ public abstract class EntityTablePanelSidePanel<T extends Entity> extends Entity
         this.add(sideScrollPane, BorderLayout.WEST);
         table.getSelectionModel().addListSelectionListener(this::rowSelectionChanged);
         customizeTable(table);
+        JPanel sideNorth = new JPanel();
+        jLabel = new JLabel(("Count: " + entityTableModel.getEntities().size()));
+        this.add(sideNorth, BorderLayout.NORTH);
+        sideNorth.add(jLabel);
         return table;
     }
 

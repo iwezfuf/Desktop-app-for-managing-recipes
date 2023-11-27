@@ -190,7 +190,7 @@ public class MainWindow {
     private EntityTableModel<Recipe> createRecipeTableModel(DependencyProvider dependencyProvider) {
         List<Column<Recipe, ?>> columns = List.of(
                 Column.readonly("Name", String.class, Recipe::getName),
-                Column.readonly("Description", String.class, Recipe::getDescription),
+                Column.readonly("Number of servings", int.class, Recipe::getNumOfServings),
                 Column.readonly("Preparation Time (min)", int.class, Recipe::getPreparationTime),
                 Column.readonly("Nutritional Value (kcal)", int.class, Recipe::getNutritionalValue),
                 Column.readonly("Category", RecipeCategory.class, Recipe::getCategory)
