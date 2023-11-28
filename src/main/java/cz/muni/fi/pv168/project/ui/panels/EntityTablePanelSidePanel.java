@@ -7,6 +7,10 @@ import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
 
 import javax.swing.*;
+import javax.swing.event.RowSorterEvent;
+import javax.swing.event.RowSorterListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import java.awt.*;
 import java.util.function.Consumer;
 
@@ -20,6 +24,21 @@ public abstract class EntityTablePanelSidePanel<T extends Entity> extends Entity
         super(entityTableModel, type, entityValidator, entityDialog, onSelectionChange);
 
         this.etmp = etmp;
+        getEntityTableModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                refreshStatics();
+            }
+        });
+
+        getRowSorter().addRowSorterListener(new RowSorterListener() {
+            @Override
+            public void sorterChanged(RowSorterEvent e) {
+                refreshStatics();
+            }
+        });
+
+
     }
 
     @Override
@@ -30,7 +49,7 @@ public abstract class EntityTablePanelSidePanel<T extends Entity> extends Entity
         table.getSelectionModel().addListSelectionListener(this::rowSelectionChanged);
         customizeTable(table);
         JPanel sideNorth = new JPanel();
-        jLabel = new JLabel(("Count: " + entityTableModel.getEntities().size()));
+        this.jLabel = new JLabel(("Count: " + entityTableModel.getEntities().size()));
         this.add(sideNorth, BorderLayout.NORTH);
         sideNorth.add(jLabel);
         return table;
@@ -38,6 +57,10 @@ public abstract class EntityTablePanelSidePanel<T extends Entity> extends Entity
 
     protected void customizeTable(JTable table) {
 
+    }
+
+    public void refreshStatics() {
+        jLabel.setText("Count: " + getRowSorter().getViewRowCount() + "/" + getEntityTableModel().getRowCount());
     }
 
     public EntityTableModelProvider getEtmp() {

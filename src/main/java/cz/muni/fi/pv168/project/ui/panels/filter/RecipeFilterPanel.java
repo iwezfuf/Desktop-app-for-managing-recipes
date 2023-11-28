@@ -78,16 +78,13 @@ public class RecipeFilterPanel extends JPanel {
         this.add(prepTimeRangePanel);
 
         this.filterButton = new JButton("Apply filters");
-        filterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                recipeTablePanel.applyFilter(new RecipeFilter(ingredientsSet, recipeCategoriesSet, nutritionalRange, prepTimeRange));
-                recipeTablePanel.refresh();
-                recipeTablePanel.revalidate();
-                recipeTablePanel.repaint();
-                recipeTablePanel.getTable().revalidate();
-                recipeTablePanel.getTable().repaint();
-            }
+        filterButton.addActionListener(e -> {
+            recipeTablePanel.applyFilter(new RecipeFilter(ingredientsSet, recipeCategoriesSet, nutritionalRange, prepTimeRange));
+            recipeTablePanel.refresh();
+            recipeTablePanel.revalidate();
+            recipeTablePanel.repaint();
+            recipeTablePanel.getTable().revalidate();
+            recipeTablePanel.getTable().repaint();
         });
         this.add(filterButton);
     }

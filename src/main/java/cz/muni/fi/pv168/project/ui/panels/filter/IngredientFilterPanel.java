@@ -24,13 +24,10 @@ public class IngredientFilterPanel extends JPanel {
         this.add(nutritionalValuePanel);
 
         this.filterButton = new JButton("Apply filters");
-        filterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ingredientTablePanel.applyFilter(new IngredientFilter(nutritionalRange));
-                ingredientTablePanel.getTable().revalidate();
-                ingredientTablePanel.getTable().repaint();
-            }
+        filterButton.addActionListener(e -> {
+            ingredientTablePanel.applyFilter(new IngredientFilter(nutritionalRange));
+            ingredientTablePanel.getTable().revalidate();
+            ingredientTablePanel.getTable().repaint();
         });
         this.add(filterButton);
     }

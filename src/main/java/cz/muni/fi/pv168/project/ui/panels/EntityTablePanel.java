@@ -136,4 +136,8 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
             throw new RuntimeException(e);
         }
     }
+
+    public TableRowSorter<EntityTableModel<T>> getRowSorter() {
+        return rowSorter;
+    }
 }
