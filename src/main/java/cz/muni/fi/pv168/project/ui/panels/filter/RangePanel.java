@@ -89,48 +89,93 @@ public class RangePanel extends JPanel {
         Insets spacing = new Insets(5, 5, 5, 5);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.weightx = 1;
-        gbc.weighty = 1;
+        //gbc.weighty = 1;
         gbc.insets = spacing; // Set the insets for the component
-        gbc.anchor = GridBagConstraints.PAGE_START;
+        //gbc.anchor = GridBagConstraints.PAGE_START;
         CustomLabel label = new CustomLabel(msg, CustomLabel.getTextSizeForCustomLabel(msg));
         label.makeBold();
         this.add(label, gbc);
 
-        gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridy = GridBagConstraints.RELATIVE;
-        gbc.gridx = 0;
-        gbc.weightx = 1;
-        gbc.weighty = 1;
-        gbc.insets = spacing; // Set the insets for the component
-        gbc.anchor = GridBagConstraints.PAGE_START;
-        String text = "Choose the range:";
-        label = new CustomLabel(text, CustomLabel.getTextSizeForCustomLabel(text));
-        label.makeBold();
-        this.add(label, gbc);
+
+        JPanel rangePanel = new JPanel(new GridBagLayout());
 
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.weightx = 1;
-        gbc.weighty = 1;
+        //gbc.weighty = 1;
         gbc.insets = spacing; // Set the insets for the component
         gbc.anchor = GridBagConstraints.PAGE_START;
-        this.add(createRangePanel(minRangeField, "MIN:"), gbc);
+        CustomLabel lbl = new CustomLabel("MIN:", CustomLabel.getTextSizeForCustomLabel("MIN:"));
+        lbl.makeBold();
+        rangePanel.add(lbl, gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridy = 0;
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+        //gbc.weighty = 1;
+        gbc.insets = spacing; // Set the insets for the component
+        rangePanel.add(minRangeField, gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridy = 0;
+        gbc.gridx = 2;
+        gbc.weightx = 1;
+        //gbc.weighty = 1;
+        gbc.insets = spacing; // Set the insets for the component
+        CustomLabel lbl2 = new CustomLabel(units, CustomLabel.getTextSizeForCustomLabel(units));
+        lbl2.makeBold();
+        rangePanel.add(lbl2, gbc);
+
+        // --------------------------
 
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.gridy = 1;
         gbc.gridx = 0;
         gbc.weightx = 1;
-        gbc.weighty = 1;
+        //gbc.weighty = 1;
         gbc.insets = spacing; // Set the insets for the component
         gbc.anchor = GridBagConstraints.PAGE_START;
-        this.add(createRangePanel(maxRangeField, "MAX:"), gbc);
+        CustomLabel lbl3 = new CustomLabel("MAX:", CustomLabel.getTextSizeForCustomLabel("MAX:"));
+        lbl3.makeBold();
+        rangePanel.add(lbl3, gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridy = 1;
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+        //gbc.weighty = 1;
+        gbc.insets = spacing; // Set the insets for the component
+        rangePanel.add(maxRangeField, gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridy = 1;
+        gbc.gridx = 2;
+        gbc.weightx = 1;
+        //gbc.weighty = 1;
+        gbc.insets = spacing; // Set the insets for the component
+        CustomLabel lbl4 = new CustomLabel(units, CustomLabel.getTextSizeForCustomLabel(units));
+        lbl4.makeBold();
+        rangePanel.add(lbl4, gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.weightx = 1;
+        //gbc.weighty = 1;
+        gbc.insets = spacing; // Set the insets for the component
+        this.add(rangePanel, gbc);
     }
 
     private JPanel createRangePanel(JTextField field, String labelText) {
@@ -177,5 +222,10 @@ public class RangePanel extends JPanel {
         preferredSize.height = component.getFontMetrics(component.getFont()).getHeight() + 4; // Adjust as needed.
         component.setPreferredSize(preferredSize);
         component.setMaximumSize(preferredSize);
+    }
+
+    public void clearPanel() {
+        minRangeField.setText("");
+        maxRangeField.setText("");
     }
 }

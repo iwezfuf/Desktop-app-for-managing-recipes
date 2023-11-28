@@ -2,7 +2,6 @@ package cz.muni.fi.pv168.project.ui.panels.filter;
 
 import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.ui.model.CustomLabel;
-import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;
@@ -121,5 +120,9 @@ public class FilterPanel<E extends Entity> extends JPanel {
 
     public JComboBox<E> getComboBox() {
         return this.comboBox;
+    }
+
+    public void clearPanel() {
+        filterPanel.removeAll();
     }
 }
