@@ -9,6 +9,7 @@ import cz.muni.fi.pv168.project.ui.resources.Icons;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.Optional;
 
 public final class AddAction<T extends Entity> extends AbstractAction {
 
@@ -28,10 +29,24 @@ public final class AddAction<T extends Entity> extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         T entityInstance = entityTablePanel.getEntityInstance();
-        EntityDialog<T> dialog = entityTablePanel.createDialog(entityInstance, entityTableModelProvider);
-        dialog.show(entityTablePanel.getTable(), "Add Entity")
-                .ifPresent(this::addEntryToTable);
+        openDialog(entityInstance);
+    }
+
+    private void openDialog(T entity) {
+
+        EntityDialog<T> dialog = entityTablePanel.createDialog(entity, entityTableModelProvider);
+        Optional<T> result = dialog.show(entityTablePanel.getTable(), "Add Entity");
+
+        if (result.isPresent()) {
+            addEntryToTable(result.get());
+        } else {
+            int option = showInvalidDataConfirmationDialog();
+            if (option == JOptionPane.YES_OPTION) {
+                openDialog(entity);
+            }
+        }
     }
 
     private void addEntryToTable(T entity) {
@@ -62,6 +77,20 @@ public final class AddAction<T extends Entity> extends AbstractAction {
                 null,
                 options,
                 options[2] // Defaults to "Cancel"
+        );
+    }
+
+    private int showInvalidDataConfirmationDialog() {
+        Object[] options = {"Yes", "No", "Cancel"};
+        return JOptionPane.showOptionDialog(
+                null,
+                "Invalid data were entered. \nDo you want to come back to the dialog?",
+                "Confirmation",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                options,
+                options[1] // Defaults to "Cancel"
         );
     }
 
