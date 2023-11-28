@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.ui.model;
 import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
 
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,11 +64,15 @@ public class EntityTableModel<T extends Entity> extends AbstractTableModel {
     }
 
     public void deleteRow(int rowIndex) {
+
         var entityToBeDeleted = getEntity(rowIndex);
         boolean deletionResult = entityCrudService.deleteByGuid(entityToBeDeleted.getGuid());
+
         if (deletionResult) {
             entities.remove(rowIndex);
             fireTableRowsDeleted(rowIndex, rowIndex);
+        } else {
+            JOptionPane.showMessageDialog(null, "Cannot delete the entity because it is currently used in one or more places.", "Deletion error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
