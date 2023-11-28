@@ -23,24 +23,4 @@ public class RecipeTablePanel extends EntityTablePanelSidePanel<Recipe> {
         this.recipeFilterPanel = new RecipeFilterPanel(this);
         this.getSideScrollPane().setViewportView(recipeFilterPanel);
     }
-
-    @Override
-    protected void customizeTable(JTable table) {
-        table.setDefaultRenderer(Object.class, new ColoredRowRenderer());
-    }
-
-    public RecipeFilterPanel getRecipeFilterPanel() {
-        return recipeFilterPanel;
-    }
-
-    private static class ColoredRowRenderer extends DefaultTableCellRenderer {
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            Component rendererComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-            RecipeCategory recipeCategory = (RecipeCategory) table.getValueAt(row, 4);
-            rendererComponent.setBackground(recipeCategory.getColor());
-            return rendererComponent;
-        }
-    }
 }

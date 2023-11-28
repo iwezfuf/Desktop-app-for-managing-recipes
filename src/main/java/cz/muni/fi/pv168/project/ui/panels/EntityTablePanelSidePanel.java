@@ -47,16 +47,11 @@ public abstract class EntityTablePanelSidePanel<T extends Entity> extends Entity
         this.sideScrollPane = new JScrollPane();
         this.add(sideScrollPane, BorderLayout.WEST);
         table.getSelectionModel().addListSelectionListener(this::rowSelectionChanged);
-        customizeTable(table);
         JPanel sideNorth = new JPanel();
         this.jLabel = new JLabel(("Count: " + entityTableModel.getEntities().size()));
         this.add(sideNorth, BorderLayout.NORTH);
         sideNorth.add(jLabel);
         return table;
-    }
-
-    protected void customizeTable(JTable table) {
-
     }
 
     public void refreshStatics() {
