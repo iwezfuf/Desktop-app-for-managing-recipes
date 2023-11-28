@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.repository.Repository;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
+import cz.muni.fi.pv168.project.storage.sql.dao.InvalidDataDeletionException;
 
 import java.util.List;
 
@@ -51,7 +52,11 @@ public final class RecipeIngredientAmountCrudService implements CrudService<Reci
 
     @Override
     public boolean deleteByGuid(String guid) {
-        recipeRecipeIngredientAmountAmountRepository.deleteByGuid(guid);
+        try {
+            recipeRecipeIngredientAmountAmountRepository.deleteByGuid(guid);
+        } catch (InvalidDataDeletionException e) {
+            return false;
+        }
         return true;
     }
 

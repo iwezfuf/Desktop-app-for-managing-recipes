@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.repository.Repository;
 import cz.muni.fi.pv168.project.business.service.validation.RecipeCategoryValidator;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
+import cz.muni.fi.pv168.project.storage.sql.dao.InvalidDataDeletionException;
 
 import javax.swing.*;
 import java.util.List;
@@ -58,12 +59,14 @@ public final class RecipeCategoryCrudService implements CrudService<RecipeCatego
     public boolean deleteByGuid(String guid) {
         String recipeCategoryName = recipeCategoryRepository.findByGuid(guid).get().getName();
         if (Objects.equals(recipeCategoryName, "No category")) {
-            JOptionPane.showMessageDialog(null, "Cannot delete base category",
-                    "Deletion error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        recipeCategoryRepository.deleteByGuid(guid);
+        try {
+            recipeCategoryRepository.deleteByGuid(guid);
+        } catch (InvalidDataDeletionException e) {
+            return false;
+        }
         return true;
     }
 

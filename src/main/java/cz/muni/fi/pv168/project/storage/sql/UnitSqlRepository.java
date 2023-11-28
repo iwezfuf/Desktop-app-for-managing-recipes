@@ -5,6 +5,7 @@ import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.repository.Repository;
 import cz.muni.fi.pv168.project.storage.sql.dao.DataAccessObject;
 import cz.muni.fi.pv168.project.storage.sql.dao.DataStorageException;
+import cz.muni.fi.pv168.project.storage.sql.dao.InvalidDataDeletionException;
 import cz.muni.fi.pv168.project.storage.sql.entity.UnitEntity;
 import cz.muni.fi.pv168.project.storage.sql.entity.mapper.EntityMapper;
 
@@ -54,8 +55,13 @@ public class UnitSqlRepository implements Repository<Unit> {
     }
 
     @Override
-    public void deleteByGuid(String guid) {
-        unitDao.deleteByGuid(guid);
+    public void deleteByGuid(String guid) throws InvalidDataDeletionException {
+
+        try {
+            unitDao.deleteByGuid(guid);
+        } catch (DataStorageException exception) {
+            throw new InvalidDataDeletionException("Unable to delete unit by guid.", exception);
+        }
     }
 
     @Override

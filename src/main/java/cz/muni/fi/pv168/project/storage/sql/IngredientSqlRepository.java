@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.repository.Repository;
 import cz.muni.fi.pv168.project.storage.sql.dao.DataAccessObject;
 import cz.muni.fi.pv168.project.storage.sql.dao.DataStorageException;
+import cz.muni.fi.pv168.project.storage.sql.dao.InvalidDataDeletionException;
 import cz.muni.fi.pv168.project.storage.sql.entity.IngredientEntity;
 import cz.muni.fi.pv168.project.storage.sql.entity.mapper.EntityMapper;
 
@@ -53,8 +54,13 @@ public class IngredientSqlRepository implements Repository<Ingredient> {
     }
 
     @Override
-    public void deleteByGuid(String guid) {
-        ingredientDao.deleteByGuid(guid);
+    public void deleteByGuid(String guid) throws InvalidDataDeletionException {
+
+        try {
+            ingredientDao.deleteByGuid(guid);
+        } catch (DataStorageException exception) {
+            throw new InvalidDataDeletionException("Unable to delete ingredient by guid.", exception);
+        }
     }
 
     @Override

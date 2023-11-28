@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.repository.Repository;
 import cz.muni.fi.pv168.project.storage.sql.dao.DataAccessObject;
 import cz.muni.fi.pv168.project.storage.sql.dao.DataStorageException;
+import cz.muni.fi.pv168.project.storage.sql.dao.InvalidDataDeletionException;
 import cz.muni.fi.pv168.project.storage.sql.entity.RecipeEntity;
 import cz.muni.fi.pv168.project.storage.sql.entity.mapper.EntityMapper;
 
@@ -53,8 +54,13 @@ public class RecipeSqlRepository implements Repository<Recipe> {
     }
 
     @Override
-    public void deleteByGuid(String guid) {
-        recipeDao.deleteByGuid(guid);
+    public void deleteByGuid(String guid) throws InvalidDataDeletionException {
+
+        try {
+            recipeDao.deleteByGuid(guid);
+        } catch (DataStorageException exception) {
+            throw new InvalidDataDeletionException("Unable to delete recipe by guid.", exception);
+        }
     }
 
     @Override

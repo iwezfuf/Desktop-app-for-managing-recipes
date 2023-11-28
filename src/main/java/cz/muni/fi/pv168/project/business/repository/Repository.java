@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.business.repository;
 
 import cz.muni.fi.pv168.project.business.model.Entity;
+import cz.muni.fi.pv168.project.storage.sql.dao.InvalidDataDeletionException;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,8 +30,9 @@ public interface Repository<T extends Entity> {
 
     /**
      * Delete entity with given {@code guid}.
+     * @throws InvalidDataDeletionException if the deletion cannot be executed
      */
-    void deleteByGuid(String guid);
+    void deleteByGuid(String guid) throws InvalidDataDeletionException;
 
     /**
      * Find entity with given {@code guid}.

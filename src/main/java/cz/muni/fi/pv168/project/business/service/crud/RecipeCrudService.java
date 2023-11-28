@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.repository.Repository;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
+import cz.muni.fi.pv168.project.storage.sql.dao.InvalidDataDeletionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +81,11 @@ public class RecipeCrudService implements CrudService<Recipe> {
         for (RecipeIngredientAmount recipeIngredientAmount:recipeRepository.findByGuid(guid).get().getIngredients()) {
             recipeIngredientAmountCrudService.deleteByGuid(recipeIngredientAmount.getGuid());
         }
-        recipeRepository.deleteByGuid(guid);
+        try {
+            recipeRepository.deleteByGuid(guid);
+        } catch (InvalidDataDeletionException e) {
+            return false;
+        }
         return true;
     }
 
