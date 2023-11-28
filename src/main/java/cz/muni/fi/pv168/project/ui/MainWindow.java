@@ -32,6 +32,7 @@ import cz.muni.fi.pv168.project.wiring.DependencyProvider;
 import javax.swing.*;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
 
 public class MainWindow {
@@ -131,6 +132,16 @@ public class MainWindow {
         unitTablePanel.getTable().setRowSorter(unitRowSorter);
         var recipeCategoryRowSorter = new TableRowSorter<EntityTableModel<RecipeCategory>>(recipeCategoryTableModel);
         recipeCategoryTablePanel.getTable().setRowSorter(recipeCategoryRowSorter);
+
+        // Sort by first column on startup
+        recipeRowSorter.setSortKeys(Collections.singletonList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+        recipeRowSorter.sort();
+        ingredientRowSorter.setSortKeys(Collections.singletonList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+        ingredientRowSorter.sort();
+        unitRowSorter.setSortKeys(Collections.singletonList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+        unitRowSorter.sort();
+        recipeCategoryRowSorter.setSortKeys(Collections.singletonList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+        recipeCategoryRowSorter.sort();
     }
 
     private EntityTableModel<Recipe> createRecipeTableModel(DependencyProvider dependencyProvider) {
