@@ -1,16 +1,20 @@
 package cz.muni.fi.pv168.project.ui.panels;
 
 import cz.muni.fi.pv168.project.business.model.Entity;
+import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.filters.AbstractFilter;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
+import cz.muni.fi.pv168.project.ui.renderers.ColorRenderer;
+import cz.muni.fi.pv168.project.ui.renderers.RecipeCategoryRenderer;
 import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.util.Comparator;
 import java.util.function.Consumer;
 
 /**
@@ -52,7 +56,11 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
         this.activeFilter = false;
         this.filterable = true;
         this.rowSorter = new TableRowSorter<>(entityTableModel);
+        rowSorter.setComparator(0, Comparator.naturalOrder());
         table.setRowSorter(rowSorter);
+
+        table.setDefaultRenderer(Color.class, new ColorRenderer());
+        table.setDefaultRenderer(RecipeCategory.class, new RecipeCategoryRenderer());
     }
 
     /**
@@ -70,6 +78,7 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
         activeFilter = true;
         RowFilter<EntityTableModel<T>, Integer> rowFilter = filter.getRowFilter();
         this.rowSorter.setRowFilter(rowFilter);
+        rowSorter.setComparator(0, Comparator.naturalOrder());
         this.table.setRowSorter(rowSorter);
     }
 
