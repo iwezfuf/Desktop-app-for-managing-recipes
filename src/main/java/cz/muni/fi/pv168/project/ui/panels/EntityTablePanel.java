@@ -114,18 +114,6 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
         entityTableModel.refresh();
     }
 
-    public Validator<T> getEntityValidator() {
-        return entityValidator;
-    }
-
-    public Class<? extends EntityDialog<T>> getEntityDialog() {
-        return entityDialog;
-    }
-
-    public Class<T> getType() {
-        return type;
-    }
-
     public EntityTableModel<T> getEntityTableModel() {
         return entityTableModel;
     }

@@ -19,7 +19,7 @@ public class UnitDialog extends EntityDialog<Unit> {
     public UnitDialog(Unit unit,
                       EntityTableModelProvider entityTableModelProvider,
                       Validator<Unit> entityValidator) {
-        super(unit, entityTableModelProvider, Objects.requireNonNull(entityValidator));
+        super(entityTableModelProvider, Objects.requireNonNull(entityValidator));
         this.unit = unit;
 
         unitComboBox.addActionListener(e ->

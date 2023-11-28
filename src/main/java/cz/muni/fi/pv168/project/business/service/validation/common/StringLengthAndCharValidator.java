@@ -10,12 +10,6 @@ public final class StringLengthAndCharValidator extends PropertyValidator<String
     private final int max;
     private final Set<Character> forbiddenChars = Set.of('<', '>', ';', '\'', '\"', '\\', '/', '&', '#', '@', '{', '}', '[', ']', '(', ')', '^', '$', '%', '*', '!');
 
-
-
-    public StringLengthAndCharValidator(int min, int max) {
-        this(min, max, null);
-    }
-
     public StringLengthAndCharValidator(int min, int max, String name) {
         super(name);
         this.min = min;

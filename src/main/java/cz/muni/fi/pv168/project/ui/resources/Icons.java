@@ -21,24 +21,10 @@ public final class Icons {
     public static final Icon CATEGORY_ICON = createIcon("list.png");
     public static final Icon BOOK_ICON = createIcon("book-solid.png");
     public static final Icon WEIGHTS_ICON = createIcon("scale-unbalanced-flip-solid.png");
-    public static final Icon PORTION_ICON = createIcon("portions-height.png");
-    public static  final Icon NUTRTIONS_ICON = createIcon("nutritions.png");
-    public static final Icon TIME_ICON = createIcon("time-height.png");
     public static final Icon APP_ICON = createIcon("recipe.png");
-    public static final Icon FILTER_ICON = createIcon("filter.png");
-    public static final Icon CANCEL_FILTER_ICON = createIcon("filter-delete.png");
-    public static final Icon ACTIVE_FILTER = createIcon("active_filter.png");
-    public static final Icon CANCEL_FILTER_ACTIVE_ICON = createIcon("filter-delete - active.png");
 
     private Icons() {
         throw new AssertionError("This class is not instantiable");
-    }
-
-    public static <E extends Enum<E>> Map<E, Icon> createEnumIcons(Class<E> clazz, int width) {
-        return Stream.of(clazz.getEnumConstants())
-                .collect(Collectors.toUnmodifiableMap(
-                        Function.identity(),
-                        e -> createIcon(clazz.getSimpleName() + "." + e.name() + "-" + width + ".png")));
     }
 
     private static ImageIcon createIcon(String name) {

@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public final class TestDataGenerator {
-    private final Random random = new Random(2L);
-
     public void fillTables(EntityTableModelProvider models) {
         EntityTableModel<Recipe> recipesTable = models.getRecipeTableModel();
         EntityTableModel<Ingredient> ingredientsTable = models.getIngredientTableModel();

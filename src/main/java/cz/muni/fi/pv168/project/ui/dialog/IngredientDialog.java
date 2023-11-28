@@ -24,7 +24,7 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
     public IngredientDialog(Ingredient ingredient, EntityTableModelProvider entityTableModelProvider,
                             Validator<Ingredient> entityValidator) {
 
-        super(ingredient, entityTableModelProvider, Objects.requireNonNull(entityValidator));
+        super(entityTableModelProvider, Objects.requireNonNull(entityValidator));
 
         this.ingredient = ingredient;
         initField();

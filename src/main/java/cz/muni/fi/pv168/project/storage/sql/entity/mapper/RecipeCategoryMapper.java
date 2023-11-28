@@ -1,8 +1,6 @@
 package cz.muni.fi.pv168.project.storage.sql.entity.mapper;
 
-import cz.muni.fi.pv168.project.business.model.Department;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
-import cz.muni.fi.pv168.project.storage.sql.entity.DepartmentEntity;
 import cz.muni.fi.pv168.project.storage.sql.entity.RecipeCategoryEntity;
 
 import java.awt.*;
