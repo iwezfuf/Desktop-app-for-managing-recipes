@@ -17,12 +17,9 @@ public abstract class EntityDialog<E> {
     private final JPanel panel = new JPanel();
     protected final Validator<E> entityValidator;
     protected final EntityTableModelProvider entityTableModelProvider;
-    E entity;
 
-    EntityDialog(E entity,
-                 EntityTableModelProvider entityTableModelProvider,
+    EntityDialog(EntityTableModelProvider entityTableModelProvider,
                  Validator<E> entityValidator) {
-        this.entity = entity;
         this.entityTableModelProvider = Objects.requireNonNull(entityTableModelProvider);
         this.entityValidator = Objects.requireNonNull(entityValidator);
         panel.setLayout(new MigLayout("wrap 2"));

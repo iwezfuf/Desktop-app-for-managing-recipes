@@ -3,8 +3,6 @@ package cz.muni.fi.pv168.project.wiring;
 import cz.muni.fi.pv168.project.business.model.*;
 import cz.muni.fi.pv168.project.business.repository.Repository;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
-import cz.muni.fi.pv168.project.business.service.crud.DepartmentCrudService;
-import cz.muni.fi.pv168.project.business.service.crud.EmployeeCrudService;
 import cz.muni.fi.pv168.project.business.service.crud.IngredientCrudService;
 import cz.muni.fi.pv168.project.business.service.crud.RecipeCategoryCrudService;
 import cz.muni.fi.pv168.project.business.service.crud.RecipeCrudService;
@@ -12,26 +10,19 @@ import cz.muni.fi.pv168.project.business.service.crud.RecipeIngredientAmountCrud
 import cz.muni.fi.pv168.project.business.service.crud.UnitCrudService;
 import cz.muni.fi.pv168.project.business.service.export.ExportService;
 import cz.muni.fi.pv168.project.business.service.export.GenericExportService;
-import cz.muni.fi.pv168.project.business.service.export.GenericImportService;
 import cz.muni.fi.pv168.project.business.service.export.ImportService;
 import cz.muni.fi.pv168.project.business.service.export.JSONBatchExporter;
 import cz.muni.fi.pv168.project.business.service.export.JSONBatchImporter;
-import cz.muni.fi.pv168.project.business.service.validation.DepartmentValidator;
-import cz.muni.fi.pv168.project.business.service.validation.EmployeeValidator;
 import cz.muni.fi.pv168.project.business.service.validation.IngredientValidator;
 import cz.muni.fi.pv168.project.business.service.validation.RecipeCategoryValidator;
 import cz.muni.fi.pv168.project.business.service.validation.RecipeValidator;
 import cz.muni.fi.pv168.project.business.service.validation.UnitValidator;
-import cz.muni.fi.pv168.project.storage.sql.DepartmentSqlRepository;
-import cz.muni.fi.pv168.project.storage.sql.EmployeeSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.IngredientSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.RecipeCategorySqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.RecipeIngredientAmountSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.RecipeSqlRepository;
 import cz.muni.fi.pv168.project.storage.sql.TransactionalImportService;
 import cz.muni.fi.pv168.project.storage.sql.UnitSqlRepository;
-import cz.muni.fi.pv168.project.storage.sql.dao.DepartmentDao;
-import cz.muni.fi.pv168.project.storage.sql.dao.EmployeeDao;
 import cz.muni.fi.pv168.project.storage.sql.dao.IngredientDao;
 import cz.muni.fi.pv168.project.storage.sql.dao.RecipeCategoryDao;
 import cz.muni.fi.pv168.project.storage.sql.dao.RecipeDao;
@@ -42,8 +33,6 @@ import cz.muni.fi.pv168.project.storage.sql.db.TransactionConnectionSupplier;
 import cz.muni.fi.pv168.project.storage.sql.db.TransactionExecutor;
 import cz.muni.fi.pv168.project.storage.sql.db.TransactionExecutorImpl;
 import cz.muni.fi.pv168.project.storage.sql.db.TransactionManagerImpl;
-import cz.muni.fi.pv168.project.storage.sql.entity.mapper.DepartmentMapper;
-import cz.muni.fi.pv168.project.storage.sql.entity.mapper.EmployeeMapper;
 import cz.muni.fi.pv168.project.storage.sql.entity.mapper.IngredientMapper;
 import cz.muni.fi.pv168.project.storage.sql.entity.mapper.RecipeCategoryMapper;
 import cz.muni.fi.pv168.project.storage.sql.entity.mapper.RecipeIngredientAmountMapper;
@@ -57,9 +46,6 @@ import java.util.List;
  * Common dependency provider for both production and test environment.
  */
 public class CommonDependencyProvider implements DependencyProvider {
-
-    private final Repository<Department> departments;
-    private final Repository<Employee> employees;
     private final Repository<Recipe> recipes;
     private final Repository<Ingredient> ingredients;
     private final Repository<RecipeCategory> recipeCategories;
@@ -67,8 +53,6 @@ public class CommonDependencyProvider implements DependencyProvider {
     private final Repository<RecipeIngredientAmount> recipeIngredientAmounts;
     private final DatabaseManager databaseManager;
     private final TransactionExecutor transactionExecutor;
-    private final CrudService<Employee> employeeCrudService;
-    private final CrudService<Department> departmentCrudService;
     private final CrudService<Ingredient> ingredientCrudService;
     private final CrudService<Recipe> recipeCrudService;
     private final CrudService<Unit> unitCrudService;
@@ -76,7 +60,6 @@ public class CommonDependencyProvider implements DependencyProvider {
     private final CrudService<RecipeIngredientAmount> recipeIngredientAmountCrudService;
     private final ImportService importService;
     private final ExportService exportService;
-    private final EmployeeValidator employeeValidator;
     private final RecipeValidator recipeValidator;
     private final IngredientValidator ingredientValidator;
     private final UnitValidator unitValidator;
@@ -84,13 +67,11 @@ public class CommonDependencyProvider implements DependencyProvider {
 
     public CommonDependencyProvider(DatabaseManager databaseManager) {
 
-        employeeValidator = new EmployeeValidator();
         recipeValidator = new RecipeValidator();
         ingredientValidator = new IngredientValidator();
         unitValidator = new UnitValidator();
         recipeCategoryValidator = new RecipeCategoryValidator();
 
-        var departmentValidator = new DepartmentValidator();
         var recipeCategoryValidator = new RecipeCategoryValidator();
         var guidProvider = new UuidGuidProvider();
 
@@ -101,9 +82,6 @@ public class CommonDependencyProvider implements DependencyProvider {
 
         var recipeCategoryMapper = new RecipeCategoryMapper();
         var recipeCategoryDao = new RecipeCategoryDao(transactionConnectionSupplier);
-
-        var departmentMapper = new DepartmentMapper();
-        var departmentDao = new DepartmentDao(transactionConnectionSupplier);
 
         var unitDao = new UnitDao(transactionConnectionSupplier);
         var unitMapper = new UnitMapper(unitDao);
@@ -119,16 +97,6 @@ public class CommonDependencyProvider implements DependencyProvider {
         var recipeIngredientAmountMapper = new RecipeIngredientAmountMapper(ingredientDao, ingredientMapper, recipeDao, recipeMapper);
         recipeMapper.setRecipeIngredientAmountMapper(recipeIngredientAmountMapper);
 
-        var employeeMapper = new EmployeeMapper(departmentDao, departmentMapper);
-
-        this.departments = new DepartmentSqlRepository(
-                departmentDao,
-                departmentMapper
-        );
-        this.employees = new EmployeeSqlRepository(
-                new EmployeeDao(transactionConnectionSupplier),
-                employeeMapper
-        );
         this.recipeCategories = new RecipeCategorySqlRepository(
                 recipeCategoryDao,
                 recipeCategoryMapper
@@ -151,13 +119,11 @@ public class CommonDependencyProvider implements DependencyProvider {
         );
 
         recipeCategoryCrudService = new RecipeCategoryCrudService(recipeCategories, recipeCategoryValidator, guidProvider);
-        departmentCrudService = new DepartmentCrudService(departments, departmentValidator, guidProvider);
         unitCrudService = new UnitCrudService(units, unitValidator, guidProvider);
         ingredientCrudService = new IngredientCrudService(ingredients, ingredientValidator, guidProvider);
 
         recipeIngredientAmountCrudService = new RecipeIngredientAmountCrudService(recipeIngredientAmounts, guidProvider);
         recipeCrudService = new RecipeCrudService(recipes, recipeValidator, guidProvider, recipeIngredientAmountCrudService);
-        employeeCrudService = new EmployeeCrudService(employees, employeeValidator, guidProvider);
 
         initEntityDefaultValues();
 
@@ -181,16 +147,6 @@ public class CommonDependencyProvider implements DependencyProvider {
     @Override
     public DatabaseManager getDatabaseManager() {
         return databaseManager;
-    }
-
-    @Override
-    public Repository<Department> getDepartmentRepository() {
-        return departments;
-    }
-
-    @Override
-    public Repository<Employee> getEmployeeRepository() {
-        return employees;
     }
 
     @Override
@@ -224,16 +180,6 @@ public class CommonDependencyProvider implements DependencyProvider {
     }
 
     @Override
-    public CrudService<Employee> getEmployeeCrudService() {
-        return employeeCrudService;
-    }
-
-    @Override
-    public CrudService<Department> getDepartmentCrudService() {
-        return departmentCrudService;
-    }
-
-    @Override
     public ImportService getImportService() {
         return importService;
     }
@@ -241,11 +187,6 @@ public class CommonDependencyProvider implements DependencyProvider {
     @Override
     public ExportService getExportService() {
         return exportService;
-    }
-
-    @Override
-    public EmployeeValidator getEmployeeValidator() {
-        return employeeValidator;
     }
 
     @Override

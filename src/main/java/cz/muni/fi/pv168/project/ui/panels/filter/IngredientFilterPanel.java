@@ -2,13 +2,9 @@ package cz.muni.fi.pv168.project.ui.panels.filter;
 
 import cz.muni.fi.pv168.project.ui.filters.IngredientFilter;
 import cz.muni.fi.pv168.project.ui.filters.Range;
-import cz.muni.fi.pv168.project.ui.filters.RecipeFilter;
 import cz.muni.fi.pv168.project.ui.panels.IngredientTablePanel;
-import cz.muni.fi.pv168.project.ui.panels.RecipeTablePanel;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class IngredientFilterPanel extends JPanel {
     private final Range nutritionalRange;

@@ -1,8 +1,5 @@
 package cz.muni.fi.pv168.project.ui;
 
-import cz.muni.fi.pv168.project.business.model.Department;
-import cz.muni.fi.pv168.project.business.model.Employee;
-import cz.muni.fi.pv168.project.business.model.Gender;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
@@ -17,38 +14,24 @@ import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
 import cz.muni.fi.pv168.project.ui.action.NuclearQuitAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
-import cz.muni.fi.pv168.project.ui.dialog.EmployeeDialog;
 import cz.muni.fi.pv168.project.ui.dialog.IngredientDialog;
 import cz.muni.fi.pv168.project.ui.dialog.RecipeCategoryDialog;
 import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
 import cz.muni.fi.pv168.project.ui.dialog.UnitDialog;
-import cz.muni.fi.pv168.project.ui.filters.EmployeeTableFilter;
-import cz.muni.fi.pv168.project.ui.filters.components.FilterComboboxBuilder;
-import cz.muni.fi.pv168.project.ui.filters.components.FilterListModelBuilder;
-import cz.muni.fi.pv168.project.ui.filters.values.SpecialFilterDepartmentValues;
-import cz.muni.fi.pv168.project.ui.filters.values.SpecialFilterGenderValues;
-import cz.muni.fi.pv168.project.ui.model.DepartmentListModel;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.model.Column;
 import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
-import cz.muni.fi.pv168.project.ui.panels.EmployeeTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.IngredientTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.RecipeCategoryTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.RecipeTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.UnitTablePanel;
-import cz.muni.fi.pv168.project.ui.renderers.DepartmentRenderer;
-import cz.muni.fi.pv168.project.ui.renderers.GenderRenderer;
-import cz.muni.fi.pv168.project.ui.renderers.SpecialFilterDepartmentValuesRenderer;
-import cz.muni.fi.pv168.project.ui.renderers.SpecialFilterGenderValuesRenderer;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
-import cz.muni.fi.pv168.project.util.Either;
 import cz.muni.fi.pv168.project.wiring.DependencyProvider;
 
 import javax.swing.*;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.time.LocalDate;
 import java.util.List;
 
 public class MainWindow {
@@ -62,34 +45,27 @@ public class MainWindow {
     private final Action exportAction;
     private final Action importAction;
     private final AboutUsAction aboutUsAction;
-    private final EntityTableModel<Employee> employeeTableModel;
     private final EntityTableModel<Recipe> recipeTableModel;
     private final EntityTableModel<Ingredient> ingredientTableModel;
     private final EntityTableModel<Unit> unitTableModel;
     private final EntityTableModel<RecipeCategory> recipeCategoryTableModel;
-    private final DepartmentListModel departmentListModel;
     private final EntityTableModelProvider entityTableModelProvider;
 
     public MainWindow(DependencyProvider dependencyProvider) {
 
         frame = createFrame();
 
-        employeeTableModel = createEmployeeTableModel(dependencyProvider);
         recipeTableModel = createRecipeTableModel(dependencyProvider);
         ingredientTableModel = createIngredientTableModel(dependencyProvider);
         unitTableModel = createUnitTableModel(dependencyProvider);
         recipeCategoryTableModel = createRecipeCategoryTableModel(dependencyProvider);
-        // TODO delete departmentListModel later
-        departmentListModel = new DepartmentListModel(dependencyProvider.getDepartmentCrudService());
 
         entityTableModelProvider = new EntityTableModelProvider(
-                employeeTableModel,
                 recipeTableModel,
                 ingredientTableModel,
                 unitTableModel,
                 recipeCategoryTableModel,
-                dependencyProvider.getRecipeIngredientAmountCrudService(),
-                departmentListModel
+                dependencyProvider.getRecipeIngredientAmountCrudService()
         );
 
         // Only run this once to fill the database with test data
@@ -101,30 +77,26 @@ public class MainWindow {
             testDataGenerator.fillTables(entityTableModelProvider);
         }
 
-        Validator<Employee> employeeValidator = dependencyProvider.getEmployeeValidator();
         Validator<Recipe> recipeValidator = dependencyProvider.getRecipeValidator();
         Validator<Ingredient> ingredientValidator = dependencyProvider.getIngredientValidator();
         Validator<Unit> unitValidator = dependencyProvider.getUnitValidator();
         Validator<RecipeCategory> recipeCategoryValidator = dependencyProvider.getRecipeCategoryValidator();
 
-        var employeeTablePanel = new EmployeeTablePanel(employeeTableModel, employeeValidator, EmployeeDialog.class, this::changeActionsState);
         var recipeTablePanel = new RecipeTablePanel(recipeTableModel, recipeValidator, RecipeDialog.class, this::changeActionsState, entityTableModelProvider);
         var ingredientTablePanel = new IngredientTablePanel(ingredientTableModel, ingredientValidator, IngredientDialog.class, this::changeActionsState, entityTableModelProvider);
         var unitTablePanel = new UnitTablePanel(unitTableModel, unitValidator, UnitDialog.class, this::changeActionsState);
         var recipeCategoryTablePanel = new RecipeCategoryTablePanel(recipeCategoryTableModel, recipeCategoryValidator, RecipeCategoryDialog.class, this::changeActionsState);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
-        addAction = new AddAction<>(employeeTablePanel, entityTableModelProvider);
-        deleteAction = new DeleteAction(employeeTablePanel.getTable());
-        editAction = new EditAction<>(employeeTablePanel, entityTableModelProvider);
-        exportAction = new ExportAction(employeeTablePanel, dependencyProvider.getExportService());
+        addAction = new AddAction<>(recipeTablePanel, entityTableModelProvider);
+        deleteAction = new DeleteAction(recipeTablePanel.getTable());
+        editAction = new EditAction<>(recipeTablePanel, entityTableModelProvider);
+        exportAction = new ExportAction(recipeTablePanel, dependencyProvider.getExportService());
         importAction = new ImportAction(dependencyProvider.getImportService(), this::refresh, frame);
         aboutUsAction = new AboutUsAction(frame);
 
-        employeeTablePanel.setComponentPopupMenu(createEmployeeTablePopupMenu());
 
         var tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Employees", null, employeeTablePanel, "Employees");
         tabbedPane.addTab("Recipes", Icons.BOOK_ICON, recipeTablePanel, "Recipes");
         tabbedPane.addTab("Ingredients", Icons.INGREDIENTS_ICON, ingredientTablePanel, "Ingredients");
         tabbedPane.addTab("Units", Icons.WEIGHTS_ICON, unitTablePanel, "Units");
@@ -139,25 +111,18 @@ public class MainWindow {
         });
 
         // Set up sorting
-        var employeeRowSorter = initSorters(employeeTablePanel, recipeTablePanel, ingredientTablePanel, unitTablePanel, recipeCategoryTablePanel);
-
-        // Set up filtering
-        var employeeTableFilter = new EmployeeTableFilter(employeeRowSorter);
-        var genderFilter = createGenderFilter(employeeTableFilter);
-        var departmentFilter = new JScrollPane(createDepartmentFilter(employeeTableFilter, departmentListModel));
+        initSorters(recipeTablePanel, ingredientTablePanel, unitTablePanel, recipeCategoryTablePanel);
 
         frame.add(tabbedPane, BorderLayout.CENTER);
 
 
-        frame.add(createToolbar(genderFilter, departmentFilter), BorderLayout.BEFORE_FIRST_LINE);
+        frame.add(createToolbar(), BorderLayout.BEFORE_FIRST_LINE);
         frame.setMinimumSize(new Dimension(800, 400));
         frame.setJMenuBar(createMenuBar());
         changeActionsState(0);
     }
 
-    private TableRowSorter<EntityTableModel<Employee>> initSorters(EmployeeTablePanel employeeTablePanel, RecipeTablePanel recipeTablePanel, IngredientTablePanel ingredientTablePanel, UnitTablePanel unitTablePanel, RecipeCategoryTablePanel recipeCategoryTablePanel) {
-        var employeeRowSorter = new TableRowSorter<EntityTableModel<Employee>>(employeeTableModel);
-        employeeTablePanel.getTable().setRowSorter(employeeRowSorter);
+    private void initSorters(RecipeTablePanel recipeTablePanel, IngredientTablePanel ingredientTablePanel, UnitTablePanel unitTablePanel, RecipeCategoryTablePanel recipeCategoryTablePanel) {
         var recipeRowSorter = new TableRowSorter<EntityTableModel<Recipe>>(recipeTableModel);
         recipeTablePanel.getTable().setRowSorter(recipeRowSorter);
         var ingredientRowSorter = new TableRowSorter<EntityTableModel<Ingredient>>(ingredientTableModel);
@@ -166,25 +131,6 @@ public class MainWindow {
         unitTablePanel.getTable().setRowSorter(unitRowSorter);
         var recipeCategoryRowSorter = new TableRowSorter<EntityTableModel<RecipeCategory>>(recipeCategoryTableModel);
         recipeCategoryTablePanel.getTable().setRowSorter(recipeCategoryRowSorter);
-        return employeeRowSorter;
-    }
-
-    private JPanel createSidePanel() {
-
-        JPanel sidePanel = new JPanel();
-        sidePanel.setPreferredSize(new Dimension(175, frame.getHeight()));
-        return sidePanel;
-    }
-
-    private EntityTableModel<Employee> createEmployeeTableModel(DependencyProvider dependencyProvider) {
-        List<Column<Employee, ?>> columns = List.of(
-            Column.readonly("Gender", Gender.class, Employee::getGender),
-            Column.readonly("Last name", String.class, Employee::getLastName),
-            Column.readonly("First name", String.class, Employee::getFirstName),
-            Column.readonly("Birthdate", LocalDate.class, Employee::getBirthDate),
-            Column.readonly("Department", Department.class, Employee::getDepartment)
-    );
-        return new EntityTableModel<>(dependencyProvider.getEmployeeCrudService(), columns);
     }
 
     private EntityTableModel<Recipe> createRecipeTableModel(DependencyProvider dependencyProvider) {
@@ -229,33 +175,10 @@ public class MainWindow {
     }
 
     private void refresh() {
-        departmentListModel.refresh();
-        employeeTableModel.refresh();
         recipeTableModel.refresh();
         ingredientTableModel.refresh();
         unitTableModel.refresh();
         recipeCategoryTableModel.refresh();
-    }
-
-    private static JList<Either<SpecialFilterDepartmentValues, Department>> createDepartmentFilter(
-            EmployeeTableFilter employeeTableFilter, DepartmentListModel departmentListModel) {
-        return FilterListModelBuilder.create(SpecialFilterDepartmentValues.class, departmentListModel)
-                .setSelectedIndex(0)
-                .setVisibleRowsCount(3)
-                .setSpecialValuesRenderer(new SpecialFilterDepartmentValuesRenderer())
-                .setValuesRenderer(new DepartmentRenderer())
-                .setFilter(employeeTableFilter::filterDepartment)
-                .build();
-    }
-
-    private static JComboBox<Either<SpecialFilterGenderValues, Gender>> createGenderFilter(
-            EmployeeTableFilter employeeTableFilter) {
-        return FilterComboboxBuilder.create(SpecialFilterGenderValues.class, Gender.values())
-                .setSelectedItem(SpecialFilterGenderValues.BOTH)
-                .setSpecialValuesRenderer(new SpecialFilterGenderValuesRenderer())
-                .setValuesRenderer(new GenderRenderer())
-                .setFilter(employeeTableFilter::filterGender)
-                .build();
     }
 
     public void show() {
@@ -271,17 +194,9 @@ public class MainWindow {
         return frame;
     }
 
-    private JPopupMenu createEmployeeTablePopupMenu() {
-        var menu = new JPopupMenu();
-        menu.add(deleteAction);
-        menu.add(editAction);
-        menu.add(addAction);
-        return menu;
-    }
-
     private JMenuBar createMenuBar() {
         var menuBar = new JMenuBar();
-        var editMenu = new JMenu("Edit");
+        var editMenu = new JMenu("Menu");
         editMenu.setMnemonic('e');
         editMenu.add(addAction);
         editMenu.add(editAction);
@@ -295,7 +210,7 @@ public class MainWindow {
         return menuBar;
     }
 
-    private JToolBar createToolbar(Component... components) {
+    private JToolBar createToolbar() {
         var toolbar = new JToolBar();
         toolbar.add(quitAction);
         toolbar.addSeparator();
@@ -305,11 +220,6 @@ public class MainWindow {
         toolbar.addSeparator();
         toolbar.add(exportAction);
         toolbar.add(importAction);
-
-//        for (var component : components) {
-//            toolbar.add(component);
-//        }
-
         return toolbar;
     }
 

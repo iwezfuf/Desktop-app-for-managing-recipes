@@ -47,10 +47,6 @@ public class RecipeIngredientAmount extends Entity {
         return amount;
     }
 
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
-    }
-
     public void setAmount(int amount) {
         this.amount = amount;
     }

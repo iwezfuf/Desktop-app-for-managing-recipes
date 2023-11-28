@@ -42,7 +42,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
                         EntityTableModelProvider entityTableModelProvider,
                         Validator<Recipe> entityValidator) {
 
-        super(recipe, entityTableModelProvider, Objects.requireNonNull(entityValidator));
+        super(entityTableModelProvider, Objects.requireNonNull(entityValidator));
         this.recipe = recipe;
 
         initField();

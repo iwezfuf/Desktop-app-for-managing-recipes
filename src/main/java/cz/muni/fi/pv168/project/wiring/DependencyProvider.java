@@ -1,7 +1,5 @@
 package cz.muni.fi.pv168.project.wiring;
 
-import cz.muni.fi.pv168.project.business.model.Department;
-import cz.muni.fi.pv168.project.business.model.Employee;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
@@ -21,16 +19,12 @@ import cz.muni.fi.pv168.project.storage.sql.db.TransactionExecutor;
 public interface DependencyProvider {
 
     DatabaseManager getDatabaseManager();
-    Repository<Department> getDepartmentRepository();
-    Repository<Employee> getEmployeeRepository();
     Repository<Recipe> getRecipeRepository();
     Repository<RecipeCategory> getRecipeCategoryRepository();
     Repository<Ingredient> getRecipeIngredientRepository();
     Repository<RecipeIngredientAmount> getRecipeIngredientAmountRepository();
     Repository<Unit> getUnitRepository();
     TransactionExecutor getTransactionExecutor();
-    CrudService<Employee> getEmployeeCrudService();
-    CrudService<Department> getDepartmentCrudService();
     CrudService<Recipe> getRecipeCrudService();
     CrudService<RecipeCategory> getRecipeCategoryCrudService();
     CrudService<Ingredient> getIngredientCrudService();
@@ -38,7 +32,6 @@ public interface DependencyProvider {
     CrudService<Unit> getUnitCrudService();
     ImportService getImportService();
     ExportService getExportService();
-    Validator<Employee> getEmployeeValidator();
     Validator<Recipe> getRecipeValidator();
     Validator<Ingredient> getIngredientValidator();
     Validator<Unit> getUnitValidator();

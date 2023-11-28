@@ -18,10 +18,6 @@ public class IngredientFilter implements AbstractFilter {
         return nutritionValueRange.isValueInRange(ingredient.getNutritionalValue());
     }
 
-    public Range getNutritionValueRange() {
-        return nutritionValueRange;
-    }
-
     @Override
     public RowFilter<EntityTableModel<Ingredient>, Integer> getRowFilter() {
         return new RowFilter<EntityTableModel<Ingredient>, Integer>() {

@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.project.business.service.validation;
 
-import cz.muni.fi.pv168.project.business.model.Department;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.service.validation.common.StringLengthAndCharValidator;
 

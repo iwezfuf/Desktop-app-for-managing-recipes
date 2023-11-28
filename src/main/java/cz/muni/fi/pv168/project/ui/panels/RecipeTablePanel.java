@@ -29,10 +29,6 @@ public class RecipeTablePanel extends EntityTablePanelSidePanel<Recipe> {
         table.setDefaultRenderer(Object.class, new ColoredRowRenderer());
     }
 
-    public RecipeFilterPanel getRecipeFilterPanel() {
-        return recipeFilterPanel;
-    }
-
     private static class ColoredRowRenderer extends DefaultTableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {

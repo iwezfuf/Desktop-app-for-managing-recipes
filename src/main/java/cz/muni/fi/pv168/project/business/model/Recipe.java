@@ -79,33 +79,12 @@ public class Recipe extends Entity {
         return ingredients;
     }
 
-    public String getIngredientsString() {
-        StringBuilder result = new StringBuilder();
-        for (var ingredientAmount : ingredients) {
-            result.append(ingredientAmount.getIngredient().getName() + ": " + ingredientAmount.getAmount() + "\n");
-        }
-        return result.toString();
-    }
-
-    public RecipeIngredientAmount getIngredientAmount(Ingredient ingredient) {
-        for (var ingredientAmount : ingredients) {
-            if (ingredientAmount.getIngredient().equals(ingredient)) {
-                return ingredientAmount;
-            }
-        }
-        return null;
-    }
-
     public Set<Ingredient> getIngredientsSet() {
         HashSet<Ingredient> result = new HashSet<>();
         for (var ingredientAmount : ingredients) {
             result.add(ingredientAmount.getIngredient());
         }
         return result;
-    }
-
-    public void removeIngredient(Ingredient ingredient) {
-        ingredients.remove(ingredient);
     }
 
     public int getNutritionalValue() {

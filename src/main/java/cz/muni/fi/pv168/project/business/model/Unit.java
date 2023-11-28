@@ -69,10 +69,6 @@ public class Unit extends Entity {
         return getName();
     }
 
-    public String getFullName() {
-        return getName() + " (" + getAbbreviation() + ")";
-    }
-
     public boolean isBaseUnit() {
         return conversionUnit == null;
     }

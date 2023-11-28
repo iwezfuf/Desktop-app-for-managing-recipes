@@ -17,7 +17,7 @@ public class RecipeCategoryDialog extends EntityDialog<RecipeCategory> {
     public RecipeCategoryDialog(RecipeCategory recipeCategory,
                                 EntityTableModelProvider entityTableModelProvider,
                                 Validator<RecipeCategory> entityValidator) {
-        super(recipeCategory, entityTableModelProvider, Objects.requireNonNull(entityValidator));
+        super(entityTableModelProvider, Objects.requireNonNull(entityValidator));
         this.recipeCategory = recipeCategory;
         setValues();
         addFields();
