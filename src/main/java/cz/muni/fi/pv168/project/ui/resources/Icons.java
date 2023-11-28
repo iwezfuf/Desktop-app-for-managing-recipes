@@ -12,6 +12,7 @@ public final class Icons {
     public static final Icon NUCLEAR_QUIT_ICON = createIcon("Nuclear.png");
     public static final Icon DELETE_ICON = createIcon("xmark-solid.png");
     public static final Icon EDIT_ICON = createIcon("edit.png");
+    public static final Icon VIEW_ICON = createIcon("view.png");
 
     public static final Icon ADD_ICON = createIcon("plus-solid.png");
     public static final Icon QUIT_ICON = createIcon("power-off-solid.png");
