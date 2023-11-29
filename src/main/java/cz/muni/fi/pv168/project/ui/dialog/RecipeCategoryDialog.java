@@ -50,6 +50,7 @@ public class RecipeCategoryDialog extends EntityDialog<RecipeCategory> {
 
     @Override
     public void configureReadOnlyMode() {
-
+        nameTextField.setEditable(false);
+        colorChooser.setEnabled(false);
     }
 }

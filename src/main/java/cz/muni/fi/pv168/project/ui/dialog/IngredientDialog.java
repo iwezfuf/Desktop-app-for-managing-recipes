@@ -78,6 +78,9 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
 
     @Override
     public void configureReadOnlyMode() {
-
+        nameTextField.setEditable(false);
+        nutritionalValueTextField.setEditable(false);
+        unitComboBox.setEnabled(false);
     }
+
 }

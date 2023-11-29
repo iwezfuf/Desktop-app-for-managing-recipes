@@ -92,6 +92,10 @@ public class UnitDialog extends EntityDialog<Unit> {
 
     @Override
     public void configureReadOnlyMode() {
-
+        nameTextField.setEditable(false);
+        abbreviationTextField.setEditable(false);
+        unitComboBox.setEnabled(false);
+        ratioTextField.setEditable(false);
     }
+
 }
