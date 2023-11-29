@@ -2,9 +2,8 @@ package cz.muni.fi.pv168.project.ui;
 
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
 
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import java.awt.EventQueue;
+import javax.swing.*;
+import java.awt.*;
 
 public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler {
 

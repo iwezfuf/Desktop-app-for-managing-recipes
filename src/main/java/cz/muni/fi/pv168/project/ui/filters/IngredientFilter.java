@@ -1,14 +1,14 @@
 package cz.muni.fi.pv168.project.ui.filters;
 
 
-import javax.swing.*;
-
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 
+import javax.swing.*;
+
 public class IngredientFilter implements AbstractFilter {
 
-    private Range nutritionValueRange;
+    private final Range nutritionValueRange;
 
     public IngredientFilter(Range nutritionValueRange) {
         this.nutritionValueRange = nutritionValueRange;

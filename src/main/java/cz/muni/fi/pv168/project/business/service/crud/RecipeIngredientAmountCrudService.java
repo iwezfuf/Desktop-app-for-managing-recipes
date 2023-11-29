@@ -5,7 +5,6 @@ import cz.muni.fi.pv168.project.business.model.GuidProvider;
 import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.repository.Repository;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
-import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.storage.sql.dao.InvalidDataDeletionException;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public final class RecipeIngredientAmountCrudService implements CrudService<Reci
     private final GuidProvider guidProvider;
 
     public RecipeIngredientAmountCrudService(Repository<RecipeIngredientAmount> RecipeIngredientAmountRepository,
-                                 GuidProvider guidProvider) {
+                                             GuidProvider guidProvider) {
         this.recipeRecipeIngredientAmountAmountRepository = RecipeIngredientAmountRepository;
         this.guidProvider = guidProvider;
     }

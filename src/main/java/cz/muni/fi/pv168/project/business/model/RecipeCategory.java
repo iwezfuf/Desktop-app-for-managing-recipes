@@ -1,8 +1,6 @@
 package cz.muni.fi.pv168.project.business.model;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents a recipe category.

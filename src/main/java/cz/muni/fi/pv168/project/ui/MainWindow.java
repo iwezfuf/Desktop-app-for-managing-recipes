@@ -7,21 +7,20 @@ import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.data.TestDataGenerator;
 import cz.muni.fi.pv168.project.ui.action.AboutUsAction;
+import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
+import cz.muni.fi.pv168.project.ui.action.EditAction;
 import cz.muni.fi.pv168.project.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.ui.action.ImportAction;
-import cz.muni.fi.pv168.project.ui.action.AddAction;
-import cz.muni.fi.pv168.project.ui.action.EditAction;
-import cz.muni.fi.pv168.project.ui.action.ViewAction;
 import cz.muni.fi.pv168.project.ui.action.NuclearQuitAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
+import cz.muni.fi.pv168.project.ui.action.ViewAction;
 import cz.muni.fi.pv168.project.ui.dialog.IngredientDialog;
 import cz.muni.fi.pv168.project.ui.dialog.RecipeCategoryDialog;
 import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
 import cz.muni.fi.pv168.project.ui.dialog.UnitDialog;
-import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.model.Column;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
+import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.IngredientTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.RecipeCategoryTablePanel;
@@ -29,6 +28,7 @@ import cz.muni.fi.pv168.project.ui.panels.RecipeTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.UnitTablePanel;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 import cz.muni.fi.pv168.project.wiring.DependencyProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 
 import javax.swing.*;
 import javax.swing.table.TableRowSorter;
@@ -73,9 +73,9 @@ public class MainWindow {
 
         // Only run this once to fill the database with test data
         if (recipeTableModel.getRowCount() == 0
-            && ingredientTableModel.getRowCount() == 0
-            && unitTableModel.getRowCount() == 3 // number of base units
-            && recipeCategoryTableModel.getRowCount() == 1) { // no category
+                && ingredientTableModel.getRowCount() == 0
+                && unitTableModel.getRowCount() == 3 // number of base units
+                && recipeCategoryTableModel.getRowCount() == 1) { // no category
             TestDataGenerator testDataGenerator = new TestDataGenerator();
             testDataGenerator.fillTables(entityTableModelProviderWithCrud);
         }
@@ -165,7 +165,7 @@ public class MainWindow {
                 Column.readonly("Name", String.class, Ingredient::getName),
                 Column.readonly("Nutritional Value (kcal)", int.class, Ingredient::getNutritionalValue),
                 Column.readonly("Unit", Unit.class, Ingredient::getUnit),
-                Column.readonly("Recipes Count",  String.class, ingredient -> ingredient.getRecipeCountPercentage(recipeTableModel.getEntities()))
+                Column.readonly("Recipes Count", String.class, ingredient -> ingredient.getRecipeCountPercentage(recipeTableModel.getEntities()))
         );
         return new EntityTableModel<>(dependencyProvider.getIngredientCrudService(), columns);
     }

@@ -1,14 +1,11 @@
 package cz.muni.fi.pv168.project.business.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 public class Unit extends Entity {
     private String name;
     private Unit conversionUnit;
     private float conversionRatio;
     private String abbreviation;
+
     public String getAbbreviation() {
         return abbreviation;
     }

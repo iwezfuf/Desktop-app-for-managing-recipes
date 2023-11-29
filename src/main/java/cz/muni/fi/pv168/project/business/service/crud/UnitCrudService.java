@@ -3,13 +3,11 @@ package cz.muni.fi.pv168.project.business.service.crud;
 
 import cz.muni.fi.pv168.project.business.model.GuidProvider;
 import cz.muni.fi.pv168.project.business.model.Unit;
-import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.repository.Repository;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.storage.sql.dao.InvalidDataDeletionException;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,7 +21,7 @@ public final class UnitCrudService implements CrudService<Unit> {
     private final GuidProvider guidProvider;
 
     public UnitCrudService(Repository<Unit> UnitRepository, Validator<Unit> UnitValidator,
-                                 GuidProvider guidProvider) {
+                           GuidProvider guidProvider) {
         this.unitRepository = UnitRepository;
         this.unitValidator = UnitValidator;
         this.guidProvider = guidProvider;

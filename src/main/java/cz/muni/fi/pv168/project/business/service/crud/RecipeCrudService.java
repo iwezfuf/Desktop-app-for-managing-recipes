@@ -67,7 +67,7 @@ public class RecipeCrudService implements CrudService<Recipe> {
     }
 
     public void updateIngredientAmounts(Recipe entity) {
-        for (RecipeIngredientAmount recipeIngredientAmount:entity.getIngredients()) {
+        for (RecipeIngredientAmount recipeIngredientAmount : entity.getIngredients()) {
             if (recipeIngredientAmount.getGuid() != null) {
                 recipeIngredientAmountCrudService.update(recipeIngredientAmount);
             } else {
@@ -78,7 +78,7 @@ public class RecipeCrudService implements CrudService<Recipe> {
 
     @Override
     public boolean deleteByGuid(String guid) {
-        for (RecipeIngredientAmount recipeIngredientAmount:recipeRepository.findByGuid(guid).get().getIngredients()) {
+        for (RecipeIngredientAmount recipeIngredientAmount : recipeRepository.findByGuid(guid).get().getIngredients()) {
             recipeIngredientAmountCrudService.deleteByGuid(recipeIngredientAmount.getGuid());
         }
         try {
@@ -91,7 +91,7 @@ public class RecipeCrudService implements CrudService<Recipe> {
 
     @Override
     public void deleteAll() {
-        for (Recipe recipe:recipeRepository.findAll()) {
+        for (Recipe recipe : recipeRepository.findAll()) {
             deleteByGuid(recipe.getGuid());
         }
     }

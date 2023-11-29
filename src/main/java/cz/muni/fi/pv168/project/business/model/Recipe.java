@@ -125,18 +125,17 @@ public class Recipe extends Entity {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Recipe{")
-                .append("name='").append(name).append('\'')
-                .append(", description='").append(description).append('\'')
-                .append(", preparationTime=").append(preparationTime)
-                .append(", numOfServings=").append(numOfServings)
-                .append(", instructions='").append(instructions).append('\'')
-                .append(", category=").append(category)
-                .append(", ingredients=").append(ingredients.size())
-                .append(", guid='").append(guid).append('\'')
-                .append('}');
-        return builder.toString();
+        String builder = "Recipe{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", preparationTime=" + preparationTime +
+                ", numOfServings=" + numOfServings +
+                ", instructions='" + instructions + '\'' +
+                ", category=" + category +
+                ", ingredients=" + ingredients.size() +
+                ", guid='" + guid + '\'' +
+                '}';
+        return builder;
     }
 
 }

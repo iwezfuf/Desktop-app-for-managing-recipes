@@ -1,12 +1,11 @@
 package cz.muni.fi.pv168.project.business.model;
 
 import java.util.Collection;
-import java.util.List;
 
 public class Ingredient extends Entity {
-        private String name;
-        private int nutritionalValue;
-        private Unit unit;
+    private String name;
+    private int nutritionalValue;
+    private Unit unit;
 
     public Ingredient(String guid, String name, int nutritionalValue, Unit unit) {
         super(guid);

@@ -35,7 +35,7 @@ public final class TestDataGenerator {
         // Find base units
         Unit gram = null;
         Unit piece = null;
-        Unit liter= null;
+        Unit liter = null;
         for (Unit unit : models.getUnitTableModel().getEntities()) {
             if (unit.getName().equals("gram")) {
                 gram = unit;
@@ -174,7 +174,6 @@ public final class TestDataGenerator {
         ingredientsChickenTaco.add(new RecipeIngredientAmount(chickenTaco, avocado, 1));
 
         recipesTable.addRow(chickenTaco);
-
 
 
         ArrayList<RecipeIngredientAmount> ingredientsOatMeal = new ArrayList<>();

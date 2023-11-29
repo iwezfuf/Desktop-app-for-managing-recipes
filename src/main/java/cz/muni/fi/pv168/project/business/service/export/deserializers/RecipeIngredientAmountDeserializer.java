@@ -13,8 +13,9 @@ import java.io.IOException;
 public class RecipeIngredientAmountDeserializer extends JsonDeserializer<RecipeIngredientAmount> {
     public RecipeIngredientAmountDeserializer() {
     }
+
     @Override
-    public RecipeIngredientAmount deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public RecipeIngredientAmount deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         IngredientDeserializer ingredientDeserializer = new IngredientDeserializer();
         String guid = node.get("guid").asText();

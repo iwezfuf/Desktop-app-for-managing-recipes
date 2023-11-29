@@ -14,10 +14,10 @@ import javax.swing.event.TableModelListener;
 import java.awt.*;
 import java.util.function.Consumer;
 
-public abstract class EntityTablePanelSidePanel<T extends Entity> extends EntityTablePanel<T>{
+public abstract class EntityTablePanelSidePanel<T extends Entity> extends EntityTablePanel<T> {
 
     private JScrollPane sideScrollPane;
-    private EntityTableModelProviderWithCrud etmp;
+    private final EntityTableModelProviderWithCrud etmp;
     private JLabel jLabel;
 
     public EntityTablePanelSidePanel(EntityTableModel<T> entityTableModel, Class<T> type, Validator<T> entityValidator, Class<? extends EntityDialog<T>> entityDialog, Consumer<Integer> onSelectionChange, EntityTableModelProviderWithCrud etmp) {

@@ -10,7 +10,8 @@ public abstract class Entity {
         this.guid = guid;
     }
 
-    protected Entity() { }
+    protected Entity() {
+    }
 
     /**
      * Returns globally unique identifier of the given entity.
@@ -19,16 +20,14 @@ public abstract class Entity {
         return guid;
     }
 
-    public void setGuid(String guid)
-    {
+    public void setGuid(String guid) {
         this.guid = guid;
     }
 
     public abstract String getName();
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Entity entity = (Entity) o;
@@ -36,8 +35,7 @@ public abstract class Entity {
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(guid);
     }
 }

@@ -55,10 +55,12 @@ public abstract class EntityDialog<E> {
         }
         return Optional.empty();
     }
+
     public Optional<E> showForView(JComponent parentComponent, String title) {
         Object[] options = {"OK"};
         return showDialog(parentComponent, title, options, JOptionPane.DEFAULT_OPTION);
     }
+
     public Optional<E> show(JComponent parentComponent, String title) {
         Object[] options = {"OK", "Cancel"};
         return showDialog(parentComponent, title, options, JOptionPane.OK_CANCEL_OPTION);

@@ -25,7 +25,7 @@ public class CustomLabel extends JLabel {
 
     private String labelText;
     private int fontSize;
-    private Fonts fontName;
+    private final Fonts fontName;
     private int fontFlag;
     private int maxLength;
     private Font font;
@@ -100,10 +100,10 @@ public class CustomLabel extends JLabel {
     public void setLabel(String labelText) {
         if (labelText.length() >= getMaxLength()) {
             this.labelText = labelText.substring(0, getMaxLength() - 3) + "...";
-        }
-        else if (labelText.length() < getMaxLength()) {
+        } else if (labelText.length() < getMaxLength()) {
             int numberOfSpaces = getMaxLength() - labelText.length();
-            this.labelText = labelText + " ".repeat(numberOfSpaces);        }
+            this.labelText = labelText + " ".repeat(numberOfSpaces);
+        }
     }
 
     public static int getTextSizeForCustomLabel(String string) {

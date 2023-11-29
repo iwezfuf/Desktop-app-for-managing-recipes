@@ -30,6 +30,7 @@ public interface Repository<T extends Entity> {
 
     /**
      * Delete entity with given {@code guid}.
+     *
      * @throws InvalidDataDeletionException if the deletion cannot be executed
      */
     void deleteByGuid(String guid) throws InvalidDataDeletionException;

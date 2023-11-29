@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.project.ui.action;
 
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
-import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
 import javax.swing.*;

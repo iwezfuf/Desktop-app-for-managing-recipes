@@ -1,16 +1,16 @@
 package cz.muni.fi.pv168.project.ui.filters;
 
-import javax.swing.*;
-import java.util.Set;
-
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 
+import javax.swing.*;
+import java.util.Set;
+
 /**
  * The RecipeFilter class represents a filter for recipes.
- *
+ * <p>
  * This class provides a mechanism to filter recipes in a table, allowing users to specify criteria for ingredients,
  * recipe categories, nutritional value ranges, and preparation time ranges.
  *
@@ -18,18 +18,18 @@ import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
  */
 public class RecipeFilter implements AbstractFilter {
 
-    private Set<Ingredient> ingredientsInFilter;
-    private Set<RecipeCategory> recipeCategoriesInFilter;
-    private Range nutritionValueRange;
-    private Range preperationTimeRange;
+    private final Set<Ingredient> ingredientsInFilter;
+    private final Set<RecipeCategory> recipeCategoriesInFilter;
+    private final Range nutritionValueRange;
+    private final Range preperationTimeRange;
 
     /**
      * Creates new RecipeFilter.
      *
-     * @param ingredientsInFilter a list of ingredients to filter recipes by
+     * @param ingredientsInFilter      a list of ingredients to filter recipes by
      * @param recipeCategoriesInFilter a list of recipe categories to filter recipes by
-     * @param nutritionValueRange range of nutritional values to filter recipes by
-     * @param preperationTimeRange range of preparation times to filter recipes by
+     * @param nutritionValueRange      range of nutritional values to filter recipes by
+     * @param preperationTimeRange     range of preparation times to filter recipes by
      */
     public RecipeFilter(Set<Ingredient> ingredientsInFilter, Set<RecipeCategory> recipeCategoriesInFilter, Range nutritionValueRange, Range preperationTimeRange) {
         this.ingredientsInFilter = ingredientsInFilter;
@@ -49,7 +49,7 @@ public class RecipeFilter implements AbstractFilter {
         boolean containsAllCategories = evaluateRecipeCategoriesFilter(recipe);
         boolean isInTimeRange = preperationTimeRange.isValueInRange(recipe.getPreparationTime());
         boolean isInNutritionalValueRange = nutritionValueRange.isValueInRange(recipe.getNutritionalValue());
-        return  containsAllIngredients && containsAllCategories
+        return containsAllIngredients && containsAllCategories
                 && isInTimeRange && isInNutritionalValueRange;
 
     }

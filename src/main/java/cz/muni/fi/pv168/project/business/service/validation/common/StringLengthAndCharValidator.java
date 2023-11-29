@@ -5,7 +5,7 @@ import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 
 import java.util.Set;
 
-public final class StringLengthAndCharValidator extends PropertyValidator<String>  {
+public final class StringLengthAndCharValidator extends PropertyValidator<String> {
     private final int min;
     private final int max;
     private final Set<Character> forbiddenChars = Set.of('<', '>', ';', '\'', '\"', '\\', '/', '&', '#', '@', '{', '}', '[', ']', '(', ')', '^', '$', '%', '*', '!');

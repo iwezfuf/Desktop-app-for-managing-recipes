@@ -7,15 +7,15 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Unit;
-import cz.muni.fi.pv168.project.business.service.export.serializers.IngredientSerializer;
 
 import java.io.IOException;
 
 public class IngredientDeserializer extends JsonDeserializer<Ingredient> {
     public IngredientDeserializer() {
     }
+
     @Override
-    public Ingredient deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public Ingredient deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         String guid = node.get("guid").asText();
         String name = node.get("name").asText();

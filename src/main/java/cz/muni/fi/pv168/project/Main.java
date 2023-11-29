@@ -7,10 +7,8 @@ import cz.muni.fi.pv168.project.ui.action.NuclearQuitAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.wiring.ProductionDependencyProvider;
 
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import java.awt.EventQueue;
+import javax.swing.*;
+import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,7 +31,7 @@ public class Main {
 
     private static void initFlatLightLafLookAndFeel() {
         try {
-            UIManager.setLookAndFeel( new FlatLightLaf() );
+            UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "FlatLightLaf layout initialization failed", ex);
         }

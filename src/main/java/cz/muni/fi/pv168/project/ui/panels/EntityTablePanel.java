@@ -29,8 +29,8 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
     private final Class<? extends EntityDialog<T>> entityDialog;
 
     private boolean activeFilter;
-    private boolean filterable;
-    private TableRowSorter<EntityTableModel<T>> rowSorter;
+    private final boolean filterable;
+    private final TableRowSorter<EntityTableModel<T>> rowSorter;
 
     /**
      * Creates an EntityTablePanel containing the table.
@@ -88,7 +88,7 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
      */
     public void cancelFilter() {
 
-        if(!filterable) {
+        if (!filterable) {
             return;
         }
 

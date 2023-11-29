@@ -2,8 +2,8 @@ package cz.muni.fi.pv168.project.util;
 
 import cz.muni.fi.pv168.project.business.service.export.format.Format;
 
-import java.io.File;
 import javax.swing.filechooser.FileFilter;
+import java.io.File;
 import java.util.Collection;
 import java.util.stream.Collectors;
 

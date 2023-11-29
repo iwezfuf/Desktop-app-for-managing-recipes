@@ -8,5 +8,7 @@ import cz.muni.fi.pv168.project.business.model.Unit;
 
 import java.util.Collection;
 
-public record Batch(Collection<Recipe> recipes, Collection<Ingredient> ingredients, Collection<Unit> units, Collection<RecipeCategory> recipeCategories, Collection<RecipeIngredientAmount> recipeIngredientAmounts) {
+public record Batch(Collection<Recipe> recipes, Collection<Ingredient> ingredients, Collection<Unit> units,
+                    Collection<RecipeCategory> recipeCategories,
+                    Collection<RecipeIngredientAmount> recipeIngredientAmounts) {
 }

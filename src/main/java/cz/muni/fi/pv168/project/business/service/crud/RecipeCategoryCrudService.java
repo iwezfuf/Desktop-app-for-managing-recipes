@@ -8,7 +8,6 @@ import cz.muni.fi.pv168.project.business.service.validation.RecipeCategoryValida
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.storage.sql.dao.InvalidDataDeletionException;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.Objects;
 

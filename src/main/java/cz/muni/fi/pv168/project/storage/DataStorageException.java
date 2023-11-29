@@ -12,7 +12,7 @@ public class DataStorageException extends RuntimeException {
     }
 
     public DataStorageException(String message, Throwable cause) {
-        super("Storage error: " +  message, cause);
+        super("Storage error: " + message, cause);
     }
 }
 

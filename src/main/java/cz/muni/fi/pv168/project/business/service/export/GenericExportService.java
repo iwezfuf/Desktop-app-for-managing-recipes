@@ -6,7 +6,6 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.crud.CrudService;
-import cz.muni.fi.pv168.project.business.service.crud.UnitCrudService;
 import cz.muni.fi.pv168.project.business.service.export.batch.Batch;
 import cz.muni.fi.pv168.project.business.service.export.batch.BatchExporter;
 import cz.muni.fi.pv168.project.business.service.export.batch.BatchOperationException;

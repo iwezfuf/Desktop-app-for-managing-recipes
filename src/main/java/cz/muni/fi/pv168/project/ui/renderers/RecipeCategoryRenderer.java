@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.project.ui.renderers;
 
-import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 
 import javax.swing.*;

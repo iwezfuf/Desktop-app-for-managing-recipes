@@ -2,7 +2,7 @@ package cz.muni.fi.pv168.project.business.model;
 
 public class RecipeIngredientAmount extends Entity {
 
-    private Ingredient ingredient;
+    private final Ingredient ingredient;
     private int amount;
     private Recipe recipe;
 

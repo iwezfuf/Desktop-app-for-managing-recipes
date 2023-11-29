@@ -4,8 +4,8 @@ import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 import cz.muni.fi.pv168.project.ui.model.FormattedInput;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 
 import javax.swing.*;
 import java.util.Objects;

@@ -14,7 +14,7 @@ public class UnitDeserializer extends JsonDeserializer<Unit> {
     }
 
     @Override
-    public Unit deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public Unit deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         String guid = node.get("guid").asText();
         String name = node.get("name").asText();
