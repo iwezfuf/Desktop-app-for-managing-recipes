@@ -47,4 +47,9 @@ public class RecipeCategoryDialog extends EntityDialog<RecipeCategory> {
 
         return recipeCategory;
     }
+
+    @Override
+    public void configureReadOnlyMode() {
+
+    }
 }

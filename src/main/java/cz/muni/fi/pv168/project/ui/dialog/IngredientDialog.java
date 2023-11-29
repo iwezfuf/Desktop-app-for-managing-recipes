@@ -75,4 +75,9 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
 
         return ingredient;
     }
+
+    @Override
+    public void configureReadOnlyMode() {
+
+    }
 }

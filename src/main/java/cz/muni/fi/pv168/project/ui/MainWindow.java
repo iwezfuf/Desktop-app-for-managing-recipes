@@ -12,6 +12,7 @@ import cz.muni.fi.pv168.project.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.ui.action.ImportAction;
 import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
+import cz.muni.fi.pv168.project.ui.action.ViewAction;
 import cz.muni.fi.pv168.project.ui.action.NuclearQuitAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.dialog.IngredientDialog;
@@ -43,6 +44,7 @@ public class MainWindow {
     private final AddAction addAction;
     private final DeleteAction deleteAction;
     private final EditAction editAction;
+    private final ViewAction viewAction;
     private final Action exportAction;
     private final Action importAction;
     private final AboutUsAction aboutUsAction;
@@ -92,6 +94,7 @@ public class MainWindow {
         addAction = new AddAction<>(recipeTablePanel, entityTableModelProvider);
         deleteAction = new DeleteAction(recipeTablePanel.getTable());
         editAction = new EditAction<>(recipeTablePanel, entityTableModelProvider);
+        viewAction = new ViewAction<>(recipeTablePanel, entityTableModelProvider);
         exportAction = new ExportAction(recipeTablePanel, dependencyProvider.getExportService());
         importAction = new ImportAction(dependencyProvider.getImportService(), this::refresh, frame);
         aboutUsAction = new AboutUsAction(frame);
@@ -108,6 +111,7 @@ public class MainWindow {
             addAction.setCurrentTablePanel(selectedTablePanel);
             deleteAction.setCurrentTable(selectedTablePanel.getTable());
             editAction.setCurrentTablePanel(selectedTablePanel);
+            viewAction.setCurrentTablePanel(selectedTablePanel);
             refresh();
         });
 
@@ -211,6 +215,7 @@ public class MainWindow {
         editMenu.setMnemonic('e');
         editMenu.add(addAction);
         editMenu.add(editAction);
+        editMenu.add(viewAction);
         editMenu.add(deleteAction);
         editMenu.addSeparator();
         editMenu.add(quitAction);
@@ -227,6 +232,7 @@ public class MainWindow {
         toolbar.addSeparator();
         toolbar.add(addAction);
         toolbar.add(editAction);
+        toolbar.add(viewAction);
         toolbar.add(deleteAction);
         toolbar.addSeparator();
         toolbar.add(exportAction);
@@ -237,5 +243,6 @@ public class MainWindow {
     private void changeActionsState(int selectedItemsCount) {
         editAction.setEnabled(selectedItemsCount == 1);
         deleteAction.setEnabled(selectedItemsCount >= 1);
+        viewAction.setEnabled(selectedItemsCount == 1);
     }
 }

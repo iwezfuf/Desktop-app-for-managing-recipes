@@ -39,23 +39,28 @@ public abstract class EntityDialog<E> {
 
     abstract E getEntity();
 
-    public Optional<E> show(JComponent parentComponent, String title) {
+    public abstract void configureReadOnlyMode();
 
-        int result = JOptionPane.showOptionDialog(parentComponent, panel, title,
-                OK_CANCEL_OPTION, PLAIN_MESSAGE, null, null, null);
+    private Optional<E> showDialog(JComponent parentComponent, String title, Object[] options, int optionType) {
+        int result = JOptionPane.showOptionDialog(
+                parentComponent, panel, title, optionType, PLAIN_MESSAGE, null, options, options[0]);
 
-        if (result == OK_OPTION) {
-
+        if (result == JOptionPane.OK_OPTION) {
             var entity = getEntity();
-
-            if (entity != null) { // if the entity is null, it signals that user has set wrong data in the dialog
+            if (entity != null) {
                 return Optional.of(entity);
-            } else {
-                return Optional.empty();
             }
-        } else {
-            return Optional.empty();
         }
-
+        return Optional.empty();
     }
+    public Optional<E> showForView(JComponent parentComponent, String title) {
+        Object[] options = {"OK"};
+        return showDialog(parentComponent, title, options, JOptionPane.DEFAULT_OPTION);
+    }
+    public Optional<E> show(JComponent parentComponent, String title) {
+        Object[] options = {"OK", "Cancel"};
+        return showDialog(parentComponent, title, options, JOptionPane.OK_CANCEL_OPTION);
+    }
+
+
 }

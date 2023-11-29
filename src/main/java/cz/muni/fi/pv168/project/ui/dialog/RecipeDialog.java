@@ -77,6 +77,20 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         });
     }
 
+    @Override
+    public void configureReadOnlyMode() {
+        recipeNameTextField.setEditable(false);
+        briefDescriptionTextArea.setEditable(false);
+        numberOfServingsSpinner.setEnabled(false);
+        preparationTimeHoursTextField.setEditable(false);
+        preparationTimeMinutesTextField.setEditable(false);
+        recipeCategoryComboBox.setEnabled(false);
+        ingredientComboBox.setEnabled(false);
+        ingredientsSpinner.setEnabled(false);
+        addIngredientButton.setEnabled(false);
+        instructionsTextArea.setEditable(false);
+    }
+
     private void updateRecipeIngredientAmounts(Ingredient ingredient, int amount) {
         for (RecipeIngredientAmount recipeIngredientAmount : currentIngredients) {
             if (recipeIngredientAmount.getIngredient().getName().equals(ingredient.getName())) {
