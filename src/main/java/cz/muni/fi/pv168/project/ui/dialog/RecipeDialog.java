@@ -37,6 +37,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     private final JTextArea instructionsTextArea = new JTextArea();
     private final JPanel centerPanel = new JPanel(new GridBagLayout());
     private final JPanel ingredientsPanel = new JPanel(new GridBagLayout());
+    private final JLabel totalJLabel = new JLabel();
 
     public RecipeDialog(Recipe recipe,
                         EntityTableModelProviderWithCrud entityTableModelProviderWithCrud,
@@ -73,6 +74,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
             int amount = (int) ingredientsSpinner.getValue();
             updateRecipeIngredientAmounts(selectedIngredient, amount);
             addToIngredientsPanel(selectedIngredient, amount);
+            int totalCalories = calculateTotalCalories();
+            totalJLabel.setText(String.valueOf(totalCalories));
         });
     }
 
@@ -177,6 +180,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         ingredientsPanel.add(panel, gbc);
         ingredientsPanel.revalidate();
         ingredientsPanel.repaint();
+        int totalCalories = calculateTotalCalories();
+        totalJLabel.setText(String.valueOf(totalCalories));
     }
 
     private JButton getRemoveIngredientButton(Ingredient ingredient, JPanel panel) {
@@ -194,6 +199,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
             ingredientsPanel.remove(panel);
             ingredientsPanel.revalidate();
             ingredientsPanel.repaint();
+            int totalCalories = calculateTotalCalories();
+            totalJLabel.setText(String.valueOf(totalCalories));
         });
         return removeButton;
     }
@@ -209,6 +216,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
                         amountLabel.setText(String.valueOf(Integer.parseInt(amountLabel.getText()) + amount));
                         ingredientsPanel.revalidate();
                         ingredientsPanel.repaint();
+                        int totalCalories = calculateTotalCalories();
+                        totalJLabel.setText(String.valueOf(totalCalories));
                         return true;
                     }
                 }
@@ -241,6 +250,19 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         var scrollPane = new JScrollPane(ingredientsPanel);
         scrollPane.setMinimumSize(new Dimension(0, 420));
         addToCenterPanel("Used ingredients: ", scrollPane, 6);
+        int totalCalories = calculateTotalCalories();
+        totalJLabel.setText(String.valueOf(totalCalories));
+        addToCenterPanel("Total Nutritional Value (kcal):", totalJLabel, 7);
+
+    }
+
+    private int calculateTotalCalories() {
+        int totalCalories = 0;
+        for (RecipeIngredientAmount recipeIngredientAmount : currentIngredients) {
+            int caloriesPerUnit = recipeIngredientAmount.getIngredient().getNutritionalValue();
+            totalCalories += caloriesPerUnit * recipeIngredientAmount.getAmount();
+        }
+        return totalCalories;
     }
 
     private JPanel createPreparationTimePanel() {
