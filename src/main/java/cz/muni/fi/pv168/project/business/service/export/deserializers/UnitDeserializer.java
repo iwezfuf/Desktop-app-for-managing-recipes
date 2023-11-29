@@ -20,8 +20,7 @@ public class UnitDeserializer extends JsonDeserializer<Unit> {
         String name = node.get("name").asText();
         float conversionRatio = node.get("conversionRatio").floatValue();
         String abbreviation = node.get("abbreviation").asText();
-        Unit conversionUnit = null;
-//        Unit conversionUnit = node.get("conversionUnit").asText().equals("null") ? null : deserialize(jsonParser, deserializationContext);
+        Unit conversionUnit = node.get("conversionUnit").isNull() ? null : new UnitDeserializer().deserialize(node.get("conversionUnit").traverse(jsonParser.getCodec()), deserializationContext);
         return new Unit(guid, name, conversionUnit, conversionRatio, abbreviation);
     }
 }
