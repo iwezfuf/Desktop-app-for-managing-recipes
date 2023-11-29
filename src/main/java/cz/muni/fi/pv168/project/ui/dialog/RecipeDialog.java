@@ -78,20 +78,6 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         });
     }
 
-    @Override
-    public void configureReadOnlyMode() {
-        recipeNameTextField.setEditable(false);
-        briefDescriptionTextArea.setEditable(false);
-        numberOfServingsSpinner.setEnabled(false);
-        preparationTimeHoursTextField.setEditable(false);
-        preparationTimeMinutesTextField.setEditable(false);
-        recipeCategoryComboBox.setEnabled(false);
-        ingredientComboBox.setEnabled(false);
-        ingredientsSpinner.setEnabled(false);
-        addIngredientButton.setEnabled(false);
-        instructionsTextArea.setEditable(false);
-    }
-
     private void updateRecipeIngredientAmounts(Ingredient ingredient, int amount) {
         for (RecipeIngredientAmount recipeIngredientAmount : currentIngredients) {
             if (recipeIngredientAmount.getIngredient().getName().equals(ingredient.getName())) {
@@ -290,5 +276,34 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         }
 
         return recipe;
+    }
+
+    public void addViewFields() {
+
+        add("Recipe name:", new JLabel(recipe.getName()));
+
+        add("Brief description:", new JLabel("<html>" + recipe.getDescription().replaceAll("\n", "<br>") + "</html>"));
+        add("Number of servings:", new JLabel(String.valueOf(recipe.getNumOfServings())));
+        add("Preparation time:", new JLabel(recipe.getPreparationTime() / 60 + " Hours " + recipe.getPreparationTime() % 60 + " Minutes"));
+        add("Recipe category:", new JLabel(recipe.getCategory() != null ? recipe.getCategory().getName() : "None"));
+        add("Instructions:", new JLabel("<html>" + recipe.getInstructions().replaceAll("\n", "<br>") + "</html>"));
+
+
+        add("Used ingredients:", createIngredientsPanel());
+    }
+
+    private JPanel createIngredientsPanel() {
+        JPanel ingredientsPanel = new JPanel();
+        ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
+        for (RecipeIngredientAmount ingredientAmount : recipe.getIngredients()) {
+            ingredientsPanel.add(new JLabel(ingredientAmount.getIngredient().getName() + ": " + ingredientAmount.getAmount()));
+        }
+        return ingredientsPanel;
+    }
+
+    @Override
+    public void configureReadOnlyMode() {
+        getPanel().removeAll();
+        addViewFields();
     }
 }
