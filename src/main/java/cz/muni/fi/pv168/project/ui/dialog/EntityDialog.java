@@ -37,6 +37,10 @@ public abstract class EntityDialog<E> {
         panel.add(new JScrollPane(component), "wmin 250lp, grow");
     }
 
+    public JPanel getPanel() {
+        return panel;
+    }
+
     abstract E getEntity();
 
     public abstract void configureReadOnlyMode();

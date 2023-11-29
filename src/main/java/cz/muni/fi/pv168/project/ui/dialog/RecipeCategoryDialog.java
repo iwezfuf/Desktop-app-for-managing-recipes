@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Objects;
 
 public class RecipeCategoryDialog extends EntityDialog<RecipeCategory> {
@@ -48,9 +49,20 @@ public class RecipeCategoryDialog extends EntityDialog<RecipeCategory> {
         return recipeCategory;
     }
 
+    public void addViewFields() {
+        JLabel categoryNameLabel = new JLabel(recipeCategory.getName());
+        add("Category name:", categoryNameLabel);
+
+        JLabel colorLabel = new JLabel();
+        colorLabel.setOpaque(true);
+        colorLabel.setBackground(recipeCategory.getColor());
+        colorLabel.setPreferredSize(new Dimension(25, 25));
+        addAsScrollable("Category color:", colorLabel);
+    }
+
     @Override
     public void configureReadOnlyMode() {
-        nameTextField.setEditable(false);
-        colorChooser.setEnabled(false);
+        getPanel().removeAll();
+        addViewFields();
     }
 }
