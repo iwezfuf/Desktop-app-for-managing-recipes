@@ -90,12 +90,24 @@ public class UnitDialog extends EntityDialog<Unit> {
         return unit;
     }
 
+    public void addViewFields() {
+        JLabel unitNameLabel = new JLabel(unit.getName());
+        add("Unit name:", unitNameLabel);
+
+        JLabel abbreviationLabel = new JLabel(unit.getAbbreviation());
+        add("Abbreviation:", abbreviationLabel);
+
+        JLabel conversionUnitLabel = new JLabel(unit.getConversionUnit() != null ? unit.getConversionUnit().getName() : "None");
+        add("Conversion unit:", conversionUnitLabel);
+
+        JLabel conversionRatioLabel = new JLabel(String.valueOf(unit.getConversionRatio()));
+        add("Conversion ratio:", conversionRatioLabel);
+    }
+
     @Override
     public void configureReadOnlyMode() {
-        nameTextField.setEditable(false);
-        abbreviationTextField.setEditable(false);
-        unitComboBox.setEnabled(false);
-        ratioTextField.setEditable(false);
+        getPanel().removeAll();
+        addViewFields();
     }
 
 }
