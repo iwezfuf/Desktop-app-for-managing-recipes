@@ -48,7 +48,7 @@ public class JSONBatchImporter implements BatchImporter {
             String jsonString = new String(Files.readAllBytes(Paths.get(filePath)));
             batch = objectMapper.readValue(jsonString, Batch.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new DataManipulationException(e.getMessage());
         }
         return batch;
     }
