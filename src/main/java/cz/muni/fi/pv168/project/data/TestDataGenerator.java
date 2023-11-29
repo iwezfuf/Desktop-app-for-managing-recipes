@@ -6,14 +6,13 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public final class TestDataGenerator {
-    public void fillTables(EntityTableModelProvider models) {
+    public void fillTables(EntityTableModelProviderWithCrud models) {
         EntityTableModel<Recipe> recipesTable = models.getRecipeTableModel();
         EntityTableModel<Ingredient> ingredientsTable = models.getIngredientTableModel();
         EntityTableModel<Unit> unitsTable = models.getUnitTableModel();
@@ -50,7 +49,7 @@ public final class TestDataGenerator {
         }
 
         Unit kilogram = new Unit("kilogram", gram, 1000, "kg");
-        Unit milliliter = new Unit("milliliter", null, 1, "ml");
+        Unit milliliter = new Unit("milliliter", liter, 0.001f, "ml");
         Unit deciliter = new Unit("deciliter", milliliter, 100, "dl");
         Unit dozen = new Unit("dozen", piece, 12, "pcs");
         Unit teaspoon = new Unit("teaspoon", milliliter, 5, "tsp");

@@ -5,7 +5,7 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.ui.filters.Range;
 import cz.muni.fi.pv168.project.ui.filters.RecipeFilter;
 import cz.muni.fi.pv168.project.ui.panels.RecipeTablePanel;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
@@ -24,7 +24,7 @@ import java.util.Set;
  */
 public class RecipeFilterPanel extends JPanel {
 
-    private EntityTableModelProvider etmp;
+    private EntityTableModelProviderWithCrud etmp;
     private Set<Ingredient> ingredientsSet;
     private FilterPanel<Ingredient> ingredientsFilterPanel;
     private Set<RecipeCategory> recipeCategoriesSet;

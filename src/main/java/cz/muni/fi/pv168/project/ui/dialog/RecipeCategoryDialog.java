@@ -3,7 +3,7 @@ package cz.muni.fi.pv168.project.ui.dialog;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 
 import javax.swing.*;
 import java.util.Objects;
@@ -15,9 +15,9 @@ public class RecipeCategoryDialog extends EntityDialog<RecipeCategory> {
     private final RecipeCategory recipeCategory;
 
     public RecipeCategoryDialog(RecipeCategory recipeCategory,
-                                EntityTableModelProvider entityTableModelProvider,
+                                EntityTableModelProviderWithCrud entityTableModelProviderWithCrud,
                                 Validator<RecipeCategory> entityValidator) {
-        super(entityTableModelProvider, Objects.requireNonNull(entityValidator));
+        super(entityTableModelProviderWithCrud, Objects.requireNonNull(entityValidator));
         this.recipeCategory = recipeCategory;
         setValues();
         addFields();

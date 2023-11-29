@@ -51,8 +51,11 @@ public final class UnitCrudService implements CrudService<Unit> {
 
     @Override
     public ValidationResult update(Unit entity) {
+        String unitName = entity.getName();
+        if (Objects.equals(unitName, "gram") || Objects.equals(unitName, "liter") || Objects.equals(unitName, "piece")) {
+            return ValidationResult.failed("Cannot edit base units");
+        }
         unitRepository.update(entity);
-
         return ValidationResult.success();
     }
 

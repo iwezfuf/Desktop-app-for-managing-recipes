@@ -21,7 +21,7 @@ import cz.muni.fi.pv168.project.ui.dialog.RecipeDialog;
 import cz.muni.fi.pv168.project.ui.dialog.UnitDialog;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.model.Column;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.IngredientTablePanel;
 import cz.muni.fi.pv168.project.ui.panels.RecipeCategoryTablePanel;
@@ -52,7 +52,7 @@ public class MainWindow {
     private final EntityTableModel<Ingredient> ingredientTableModel;
     private final EntityTableModel<Unit> unitTableModel;
     private final EntityTableModel<RecipeCategory> recipeCategoryTableModel;
-    private final EntityTableModelProvider entityTableModelProvider;
+    private final EntityTableModelProviderWithCrud entityTableModelProviderWithCrud;
 
     public MainWindow(DependencyProvider dependencyProvider) {
 
@@ -63,7 +63,7 @@ public class MainWindow {
         unitTableModel = createUnitTableModel(dependencyProvider);
         recipeCategoryTableModel = createRecipeCategoryTableModel(dependencyProvider);
 
-        entityTableModelProvider = new EntityTableModelProvider(
+        entityTableModelProviderWithCrud = new EntityTableModelProviderWithCrud(
                 recipeTableModel,
                 ingredientTableModel,
                 unitTableModel,
@@ -77,7 +77,7 @@ public class MainWindow {
             && unitTableModel.getRowCount() == 3 // number of base units
             && recipeCategoryTableModel.getRowCount() == 1) { // no category
             TestDataGenerator testDataGenerator = new TestDataGenerator();
-            testDataGenerator.fillTables(entityTableModelProvider);
+            testDataGenerator.fillTables(entityTableModelProviderWithCrud);
         }
 
         Validator<Recipe> recipeValidator = dependencyProvider.getRecipeValidator();
@@ -85,16 +85,16 @@ public class MainWindow {
         Validator<Unit> unitValidator = dependencyProvider.getUnitValidator();
         Validator<RecipeCategory> recipeCategoryValidator = dependencyProvider.getRecipeCategoryValidator();
 
-        var recipeTablePanel = new RecipeTablePanel(recipeTableModel, recipeValidator, RecipeDialog.class, this::changeActionsState, entityTableModelProvider);
-        var ingredientTablePanel = new IngredientTablePanel(ingredientTableModel, ingredientValidator, IngredientDialog.class, this::changeActionsState, entityTableModelProvider);
+        var recipeTablePanel = new RecipeTablePanel(recipeTableModel, recipeValidator, RecipeDialog.class, this::changeActionsState, entityTableModelProviderWithCrud);
+        var ingredientTablePanel = new IngredientTablePanel(ingredientTableModel, ingredientValidator, IngredientDialog.class, this::changeActionsState, entityTableModelProviderWithCrud);
         var unitTablePanel = new UnitTablePanel(unitTableModel, unitValidator, UnitDialog.class, this::changeActionsState);
         var recipeCategoryTablePanel = new RecipeCategoryTablePanel(recipeCategoryTableModel, recipeCategoryValidator, RecipeCategoryDialog.class, this::changeActionsState);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
-        addAction = new AddAction<>(recipeTablePanel, entityTableModelProvider);
+        addAction = new AddAction<>(recipeTablePanel, entityTableModelProviderWithCrud);
         deleteAction = new DeleteAction(recipeTablePanel.getTable());
-        editAction = new EditAction<>(recipeTablePanel, entityTableModelProvider);
-        viewAction = new ViewAction<>(recipeTablePanel, entityTableModelProvider);
+        editAction = new EditAction<>(recipeTablePanel, entityTableModelProviderWithCrud);
+        viewAction = new ViewAction<>(recipeTablePanel, entityTableModelProviderWithCrud);
         exportAction = new ExportAction(recipeTablePanel, dependencyProvider.getExportService());
         importAction = new ImportAction(dependencyProvider.getImportService(), this::refresh, frame);
         aboutUsAction = new AboutUsAction(frame);
@@ -241,6 +241,13 @@ public class MainWindow {
     }
 
     private void changeActionsState(int selectedItemsCount) {
+        // one base unit / category was chosen
+        if (selectedItemsCount == -1) {
+            editAction.setEnabled(false);
+            deleteAction.setEnabled(false);
+            return;
+        }
+
         editAction.setEnabled(selectedItemsCount == 1);
         deleteAction.setEnabled(selectedItemsCount >= 1);
         viewAction.setEnabled(selectedItemsCount == 1);

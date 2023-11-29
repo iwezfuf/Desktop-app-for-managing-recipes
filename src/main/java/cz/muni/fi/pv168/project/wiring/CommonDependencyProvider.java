@@ -11,8 +11,8 @@ import cz.muni.fi.pv168.project.business.service.crud.UnitCrudService;
 import cz.muni.fi.pv168.project.business.service.export.ExportService;
 import cz.muni.fi.pv168.project.business.service.export.GenericExportService;
 import cz.muni.fi.pv168.project.business.service.export.ImportService;
-import cz.muni.fi.pv168.project.business.service.export.JSONBatchExporter;
-import cz.muni.fi.pv168.project.business.service.export.JSONBatchImporter;
+import cz.muni.fi.pv168.project.business.service.export.JsonBatchExporter;
+import cz.muni.fi.pv168.project.business.service.export.JsonBatchImporter;
 import cz.muni.fi.pv168.project.business.service.validation.IngredientValidator;
 import cz.muni.fi.pv168.project.business.service.validation.RecipeCategoryValidator;
 import cz.muni.fi.pv168.project.business.service.validation.RecipeValidator;
@@ -127,8 +127,8 @@ public class CommonDependencyProvider implements DependencyProvider {
 
         initEntityDefaultValues();
 
-        exportService = new GenericExportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, List.of(new JSONBatchExporter()));
-        importService = new TransactionalImportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, List.of(new JSONBatchImporter()), transactionExecutor);
+        exportService = new GenericExportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, List.of(new JsonBatchExporter()));
+        importService = new TransactionalImportService(ingredientCrudService, recipeCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, List.of(new JsonBatchImporter()), transactionExecutor);
     }
 
     private void initEntityDefaultValues() {
