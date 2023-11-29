@@ -55,7 +55,7 @@ public class Ingredient extends Entity {
 
     @Override
     public String toString() {
-        return this.name + " [" + this.unit.getAbbreviation() + "]";
+        return this.name + " [" + this.unit.getAbbreviation() + " - " + this.nutritionalValue + " kcal]";
     }
 
     public int getRecipesCount(Collection<Recipe> allRecipes) {
