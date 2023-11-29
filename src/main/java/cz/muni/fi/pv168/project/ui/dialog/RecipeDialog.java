@@ -245,7 +245,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         add("", centerPanel);
 
         addToCenterPanel("Recipe name:", recipeNameTextField, 1);
-        addToCenterPanel("Brief description:", briefDescriptionTextArea, 1);
+        addToCenterPanel("Brief description:", new JScrollPane(briefDescriptionTextArea), 3);
         addToCenterPanel("Number of servings:", numberOfServingsSpinner, 1);
         addToCenterPanel("Preparation time:", createPreparationTimePanel(), 1);
         addToCenterPanel("Recipe category:", recipeCategoryComboBox, 1);
