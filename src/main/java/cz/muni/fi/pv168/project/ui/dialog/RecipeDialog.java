@@ -174,21 +174,15 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.weightx = 2;
+        gbc.insets = new Insets(0, 10, 0, 10);
         panel.add(new JLabel(ingredient.toString()), gbc);
 
-        gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridy = 0;
-        gbc.gridx = 1;
-        gbc.weightx = 1;
         panel.add(new JLabel(String.valueOf(amount)));
 
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridy = 0;
-        gbc.gridx = 2;
-        gbc.weightx = 1;
-        panel.add(removeButton);
+        gbc.insets = new Insets(0, 10, 0, 5);
+        panel.add(removeButton, gbc);
 
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
