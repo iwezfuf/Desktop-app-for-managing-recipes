@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import java.util.function.Consumer;
 
 public class RecipeCategoryTablePanel extends EntityTablePanel<RecipeCategory> {
@@ -18,5 +19,27 @@ public class RecipeCategoryTablePanel extends EntityTablePanel<RecipeCategory> {
         var table = new JTable(entityTableModel);
         table.getSelectionModel().addListSelectionListener(this::rowSelectionChanged);
         return table;
+    }
+
+    protected void rowSelectionChanged(ListSelectionEvent listSelectionEvent) {
+        var selectionModel = (ListSelectionModel) listSelectionEvent.getSource();
+        var count = selectionModel.getSelectedItemsCount();
+
+        if (count == 1) {
+            for (int i : selectionModel.getSelectedIndices()) {
+                int modelRow = getTable().convertRowIndexToModel(i);
+                var categoryName = this.getEntityTableModel().getEntity(modelRow).getName();
+                if (categoryName.equals("No category")) {
+                    if (onSelectionChange != null) {
+                        onSelectionChange.accept(-1);
+                    }
+                    return;
+                }
+            }
+        }
+
+        if (onSelectionChange != null) {
+            onSelectionChange.accept(count);
+        }
     }
 }

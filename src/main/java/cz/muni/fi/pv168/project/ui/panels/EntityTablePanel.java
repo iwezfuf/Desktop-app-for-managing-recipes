@@ -8,7 +8,7 @@ import cz.muni.fi.pv168.project.ui.filters.AbstractFilter;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
 import cz.muni.fi.pv168.project.ui.renderers.ColorRenderer;
 import cz.muni.fi.pv168.project.ui.renderers.RecipeCategoryRenderer;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 public abstract class EntityTablePanel<T extends Entity> extends JPanel {
     private final Class<T> type;
     private final JTable table;
-    private final Consumer<Integer> onSelectionChange;
+    protected final Consumer<Integer> onSelectionChange;
     private final EntityTableModel<T> entityTableModel;
     private final Validator<T> entityValidator;
     private final Class<? extends EntityDialog<T>> entityDialog;
@@ -118,9 +118,9 @@ public abstract class EntityTablePanel<T extends Entity> extends JPanel {
         return entityTableModel;
     }
 
-    public EntityDialog<T> createDialog(T instance, EntityTableModelProvider entityTableModelProvider) {
+    public EntityDialog<T> createDialog(T instance, EntityTableModelProviderWithCrud entityTableModelProviderWithCrud) {
         try {
-            return entityDialog.getConstructor(type, EntityTableModelProvider.class, Validator.class).newInstance(instance, entityTableModelProvider, entityValidator);
+            return entityDialog.getConstructor(type, EntityTableModelProviderWithCrud.class, Validator.class).newInstance(instance, entityTableModelProviderWithCrud, entityValidator);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

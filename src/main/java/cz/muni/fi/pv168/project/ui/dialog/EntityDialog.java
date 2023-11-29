@@ -1,26 +1,24 @@
 package cz.muni.fi.pv168.project.ui.dialog;
 
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.util.Objects;
 import java.util.Optional;
 
-import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
-import static javax.swing.JOptionPane.OK_OPTION;
 import static javax.swing.JOptionPane.PLAIN_MESSAGE;
 
 public abstract class EntityDialog<E> {
 
     private final JPanel panel = new JPanel();
     protected final Validator<E> entityValidator;
-    protected final EntityTableModelProvider entityTableModelProvider;
+    protected final EntityTableModelProviderWithCrud entityTableModelProviderWithCrud;
 
-    EntityDialog(EntityTableModelProvider entityTableModelProvider,
+    EntityDialog(EntityTableModelProviderWithCrud entityTableModelProviderWithCrud,
                  Validator<E> entityValidator) {
-        this.entityTableModelProvider = Objects.requireNonNull(entityTableModelProvider);
+        this.entityTableModelProviderWithCrud = Objects.requireNonNull(entityTableModelProviderWithCrud);
         this.entityValidator = Objects.requireNonNull(entityValidator);
         panel.setLayout(new MigLayout("wrap 2"));
     }

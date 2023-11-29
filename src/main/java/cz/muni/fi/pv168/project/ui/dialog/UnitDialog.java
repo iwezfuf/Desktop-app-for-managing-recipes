@@ -3,7 +3,7 @@ package cz.muni.fi.pv168.project.ui.dialog;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 import cz.muni.fi.pv168.project.ui.model.FormattedInput;
 
 import javax.swing.*;
@@ -17,9 +17,9 @@ public class UnitDialog extends EntityDialog<Unit> {
     private final Unit unit;
 
     public UnitDialog(Unit unit,
-                      EntityTableModelProvider entityTableModelProvider,
+                      EntityTableModelProviderWithCrud entityTableModelProviderWithCrud,
                       Validator<Unit> entityValidator) {
-        super(entityTableModelProvider, Objects.requireNonNull(entityValidator));
+        super(entityTableModelProviderWithCrud, Objects.requireNonNull(entityValidator));
         this.unit = unit;
 
         unitComboBox.addActionListener(e ->
@@ -32,18 +32,17 @@ public class UnitDialog extends EntityDialog<Unit> {
 
 
     private void setValues() {
-        for (Unit unit : entityTableModelProvider.getUnitTableModel().getEntities()) {
+        for (Unit unit : entityTableModelProviderWithCrud.getUnitTableModel().getEntities()) {
             unitComboBox.addItem(unit);
         }
-
-        Unit baseUnit = new Unit("Base unit", null, -1, "");
-        unitComboBox.addItem(baseUnit);
 
         nameTextField.setText(unit.getName());
         abbreviationTextField.setText(unit.getAbbreviation());
         if (!unit.isBaseUnit()) {
             unitComboBox.setSelectedItem(unit.getConversionUnit());
         } else {
+            Unit baseUnit = new Unit("Base unit", null, -1, "");
+            unitComboBox.addItem(baseUnit);
             unitComboBox.setSelectedItem(baseUnit);
         }
         ratioTextField.setText(unit.getConversionRatio() + "");

@@ -4,7 +4,7 @@ import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 
 import javax.swing.*;
 import javax.swing.event.RowSorterEvent;
@@ -17,10 +17,10 @@ import java.util.function.Consumer;
 public abstract class EntityTablePanelSidePanel<T extends Entity> extends EntityTablePanel<T>{
 
     private JScrollPane sideScrollPane;
-    private EntityTableModelProvider etmp;
+    private EntityTableModelProviderWithCrud etmp;
     private JLabel jLabel;
 
-    public EntityTablePanelSidePanel(EntityTableModel<T> entityTableModel, Class<T> type, Validator<T> entityValidator, Class<? extends EntityDialog<T>> entityDialog, Consumer<Integer> onSelectionChange, EntityTableModelProvider etmp) {
+    public EntityTablePanelSidePanel(EntityTableModel<T> entityTableModel, Class<T> type, Validator<T> entityValidator, Class<? extends EntityDialog<T>> entityDialog, Consumer<Integer> onSelectionChange, EntityTableModelProviderWithCrud etmp) {
         super(entityTableModel, type, entityValidator, entityDialog, onSelectionChange);
 
         this.etmp = etmp;
@@ -58,7 +58,7 @@ public abstract class EntityTablePanelSidePanel<T extends Entity> extends Entity
         jLabel.setText("Count: " + getRowSorter().getViewRowCount() + "/" + getEntityTableModel().getRowCount());
     }
 
-    public EntityTableModelProvider getEtmp() {
+    public EntityTableModelProviderWithCrud getEtmp() {
         return etmp;
     }
 

@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.project.business.service.export;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
@@ -19,9 +18,8 @@ import cz.muni.fi.pv168.project.business.service.export.serializers.UnitSerializ
 
 import java.io.*;
 import java.util.List;
-import java.util.Map;
 
-public class JSONBatchExporter implements BatchExporter {
+public class JsonBatchExporter implements BatchExporter {
     Format format = new Format("json", List.of("json", "JSON"));
 
     @Override

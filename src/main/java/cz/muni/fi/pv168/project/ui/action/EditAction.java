@@ -3,7 +3,7 @@ package cz.muni.fi.pv168.project.ui.action;
 import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
@@ -16,14 +16,14 @@ import java.awt.event.KeyEvent;
 public final class EditAction<T extends Entity> extends AbstractAction {
 
     private EntityTablePanel<T> entityTablePanel;
-    private final EntityTableModelProvider entityTableModelProvider;
+    private final EntityTableModelProviderWithCrud entityTableModelProviderWithCrud;
 
     public EditAction(
             EntityTablePanel<T> entityTablePanel,
-            EntityTableModelProvider entityTableModelProvider) {
+            EntityTableModelProviderWithCrud entityTableModelProviderWithCrud) {
         super("Edit", Icons.EDIT_ICON);
         this.entityTablePanel = entityTablePanel;
-        this.entityTableModelProvider = entityTableModelProvider;
+        this.entityTableModelProviderWithCrud = entityTableModelProviderWithCrud;
         putValue(SHORT_DESCRIPTION, "Edits selected entity");
         putValue(MNEMONIC_KEY, KeyEvent.VK_E);
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl E"));
@@ -42,7 +42,7 @@ public final class EditAction<T extends Entity> extends AbstractAction {
         var entityTableModel = (EntityTableModel<T>) entityTable.getModel();
         int modelRow = entityTable.convertRowIndexToModel(selectedRows[0]);
         var entity = entityTableModel.getEntity(modelRow);
-        EntityDialog<T> dialog = entityTablePanel.createDialog(entity, entityTableModelProvider);
+        EntityDialog<T> dialog = entityTablePanel.createDialog(entity, entityTableModelProviderWithCrud);
         dialog.show(entityTable, "Edit Entity")
                 .ifPresent(entityTableModel::updateRow);
     }

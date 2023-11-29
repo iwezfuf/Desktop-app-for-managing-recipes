@@ -16,12 +16,19 @@ public class IngredientFilterPanel extends JPanel {
     private JButton resetFilterButton;
 
     public IngredientFilterPanel(IngredientTablePanel ingredientTablePanel) {
-        BoxLayout bl = new BoxLayout(this, BoxLayout.Y_AXIS);
-        this.setLayout(bl);
+        //BoxLayout bl = new BoxLayout(this, BoxLayout.Y_AXIS);
+        //this.setLayout(bl);
+        this.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weighty = 1;
+        gbc.anchor = GridBagConstraints.PAGE_START;
 
         nutritionalRange = new Range(0, 1000000000);
-        nutritionalValuePanel = new RangePanel(nutritionalRange, "Filter ingredients by their nutritional value", "kcal");
-        this.add(nutritionalValuePanel);
+        nutritionalValuePanel = new RangePanel(nutritionalRange, "Nutritional value range:", "kcal");
+        this.add(nutritionalValuePanel, gbc);
 
         JPanel filterBtnPanel = new JPanel();
         BoxLayout bl2 = new BoxLayout(filterBtnPanel, BoxLayout.X_AXIS);
@@ -47,9 +54,18 @@ public class IngredientFilterPanel extends JPanel {
             ingredientTablePanel.getTable().repaint();
         });
         filterBtnPanel.add(resetFilterButton);
-        this.add(filterBtnPanel);
 
-        this.add(Box.createRigidArea(new Dimension(0, 40)));
+        gbc = new GridBagConstraints();
+        Insets spacing = new Insets(5, 5, 5, 5);
+        gbc.insets = spacing;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        this.add(filterBtnPanel, gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        this.add(Box.createRigidArea(new Dimension(0, 40)), gbc);
     }
 
     public void clearDialog() {

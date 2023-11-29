@@ -2,7 +2,7 @@ package cz.muni.fi.pv168.project.ui.action;
 
 import cz.muni.fi.pv168.project.business.model.Entity;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 import cz.muni.fi.pv168.project.ui.panels.EntityTablePanel;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
@@ -14,14 +14,14 @@ import java.util.Optional;
 public final class AddAction<T extends Entity> extends AbstractAction {
 
     private EntityTablePanel<T> entityTablePanel;
-    private final EntityTableModelProvider entityTableModelProvider;
+    private final EntityTableModelProviderWithCrud entityTableModelProviderWithCrud;
 
     public AddAction(
             EntityTablePanel<T> entityTablePanel,
-            EntityTableModelProvider entityTableModelProvider) {
+            EntityTableModelProviderWithCrud entityTableModelProviderWithCrud) {
         super("Add", Icons.ADD_ICON);
         this.entityTablePanel = entityTablePanel;
-        this.entityTableModelProvider = entityTableModelProvider;
+        this.entityTableModelProviderWithCrud = entityTableModelProviderWithCrud;
         putValue(SHORT_DESCRIPTION, "Adds new entity");
         putValue(MNEMONIC_KEY, KeyEvent.VK_A);
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl N"));
@@ -36,7 +36,7 @@ public final class AddAction<T extends Entity> extends AbstractAction {
 
     private void openDialog(T entity) {
 
-        EntityDialog<T> dialog = entityTablePanel.createDialog(entity, entityTableModelProvider);
+        EntityDialog<T> dialog = entityTablePanel.createDialog(entity, entityTableModelProviderWithCrud);
         Optional<T> result = dialog.show(entityTablePanel.getTable(), "Add Entity");
 
         if (result.isPresent()) {
@@ -55,7 +55,7 @@ public final class AddAction<T extends Entity> extends AbstractAction {
         if (entityTableModel.nameExist(entity.getName())) {
             int option = showDuplicateConfirmationDialog();
             if (option == JOptionPane.NO_OPTION) {
-                EntityDialog<T> dialog = entityTablePanel.createDialog(entity, entityTableModelProvider);
+                EntityDialog<T> dialog = entityTablePanel.createDialog(entity, entityTableModelProviderWithCrud);
                 dialog.show(entityTablePanel.getTable(), "Add Entity")
                         .ifPresent(this::addEntryToTable);
                 return;

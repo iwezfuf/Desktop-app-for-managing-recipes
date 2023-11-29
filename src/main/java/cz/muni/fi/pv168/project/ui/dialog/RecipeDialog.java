@@ -6,7 +6,7 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 import cz.muni.fi.pv168.project.ui.model.FormattedInput;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 
@@ -39,10 +39,10 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     private final JPanel ingredientsPanel = new JPanel(new GridBagLayout());
 
     public RecipeDialog(Recipe recipe,
-                        EntityTableModelProvider entityTableModelProvider,
+                        EntityTableModelProviderWithCrud entityTableModelProviderWithCrud,
                         Validator<Recipe> entityValidator) {
 
-        super(entityTableModelProvider, Objects.requireNonNull(entityValidator));
+        super(entityTableModelProviderWithCrud, Objects.requireNonNull(entityValidator));
         this.recipe = recipe;
 
         initField();
@@ -90,11 +90,11 @@ public class RecipeDialog extends EntityDialog<Recipe> {
 
     private void fillComboBoxes() {
 
-        for (RecipeCategory category : entityTableModelProvider.getRecipeCategoryTableModel().getEntities()) {
+        for (RecipeCategory category : entityTableModelProviderWithCrud.getRecipeCategoryTableModel().getEntities()) {
             recipeCategoryComboBox.addItem(category);
         }
 
-        for (Ingredient ingredient : entityTableModelProvider.getIngredientTableModel().getEntities()) {
+        for (Ingredient ingredient : entityTableModelProviderWithCrud.getIngredientTableModel().getEntities()) {
             ingredientComboBox.addItem(ingredient);
         }
     }
@@ -188,7 +188,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
                 if (recipeIngredientAmount.getIngredient().getName().equals(ingredient.getName())) {
                     currentIngredients.remove(recipeIngredientAmount);
                     if (recipeIngredientAmount.getGuid() != null) {
-                        entityTableModelProvider.getIngredientAmountCrudService().deleteByGuid(recipeIngredientAmount.getGuid());
+                        entityTableModelProviderWithCrud.getIngredientAmountCrudService().deleteByGuid(recipeIngredientAmount.getGuid());
                     }
                     break;
                 }

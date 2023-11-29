@@ -4,7 +4,7 @@ import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
-import cz.muni.fi.pv168.project.wiring.EntityTableModelProvider;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 import cz.muni.fi.pv168.project.ui.model.FormattedInput;
 
 import javax.swing.*;
@@ -21,10 +21,10 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
     private final JComboBox<Unit> unitComboBox = new JComboBox<>();
     private final JTextField nutritionalValueTextField = FormattedInput.createIntTextField(0, 9999);
 
-    public IngredientDialog(Ingredient ingredient, EntityTableModelProvider entityTableModelProvider,
+    public IngredientDialog(Ingredient ingredient, EntityTableModelProviderWithCrud entityTableModelProviderWithCrud,
                             Validator<Ingredient> entityValidator) {
 
-        super(entityTableModelProvider, Objects.requireNonNull(entityValidator));
+        super(entityTableModelProviderWithCrud, Objects.requireNonNull(entityValidator));
 
         this.ingredient = ingredient;
         initField();
@@ -45,7 +45,7 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
         nameTextField.setText(ingredient.getName());
         nutritionalValueTextField.setText(ingredient.getNutritionalValue() + "");
 
-        for (Unit unit : entityTableModelProvider.getUnitTableModel().getEntities()) {
+        for (Unit unit : entityTableModelProviderWithCrud.getUnitTableModel().getEntities()) {
             unitComboBox.addItem(unit);
         }
 
