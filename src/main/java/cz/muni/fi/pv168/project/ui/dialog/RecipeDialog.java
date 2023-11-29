@@ -53,10 +53,8 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     }
 
     private void initField() {
-
         final int width = 75;
 
-        //numberOfServingsSpinner.setEditor(new JSpinner.DefaultEditor(numberOfServingsSpinner));
         numberOfServingsSpinner.setEditor(new JSpinner.NumberEditor(numberOfServingsSpinner));
         recipeNameTextField.setColumns(width);
         briefDescriptionTextArea.setRows(5);
