@@ -76,11 +76,21 @@ public class IngredientDialog extends EntityDialog<Ingredient> {
         return ingredient;
     }
 
+    public void addViewFields() {
+        JLabel ingredientNameLabel = new JLabel(ingredient.getName());
+        add("Ingredient name:", ingredientNameLabel);
+
+        JLabel nutritionalValueLabel = new JLabel(String.valueOf(ingredient.getNutritionalValue()));
+        add("Nutritional value: [kcal]", nutritionalValueLabel);
+
+        JLabel unitLabel = new JLabel(ingredient.getUnit() != null ? ingredient.getUnit().getName() : "None");
+        add("Unit:", unitLabel);
+    }
+
     @Override
     public void configureReadOnlyMode() {
-        nameTextField.setEditable(false);
-        nutritionalValueTextField.setEditable(false);
-        unitComboBox.setEnabled(false);
+        getPanel().removeAll();
+        addViewFields();
     }
 
 }
