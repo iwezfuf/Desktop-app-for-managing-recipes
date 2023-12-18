@@ -44,7 +44,7 @@ public class Recipe extends Entity {
         this.name = "";
         this.description = "";
         this.preparationTime = 0;
-        this.numOfServings = 0;
+        this.numOfServings = 1;
         this.instructions = "";
         this.category = new RecipeCategory();
         this.ingredients = new ArrayList<>();

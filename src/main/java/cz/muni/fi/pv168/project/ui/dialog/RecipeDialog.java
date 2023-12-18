@@ -25,7 +25,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
 
     private final JTextField recipeNameTextField = new JTextField();
     private final JTextArea briefDescriptionTextArea = new JTextArea();
-    private final SpinnerModel portionsModel = new SpinnerNumberModel(2, 0, 100, 1);
+    private final SpinnerModel portionsModel = new SpinnerNumberModel(2, 1, 100, 1);
     private final JSpinner numberOfServingsSpinner = new JSpinner(portionsModel);
     private final JTextField preparationTimeHoursTextField = FormattedInput.createIntTextField(0, 999);
     private final JTextField preparationTimeMinutesTextField = FormattedInput.createIntTextField(0, 59);
