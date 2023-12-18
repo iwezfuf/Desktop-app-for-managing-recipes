@@ -316,7 +316,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         JPanel ingredientsPanel = new JPanel();
         ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
         for (RecipeIngredientAmount ingredientAmount : recipe.getIngredients()) {
-            ingredientsPanel.add(new JLabel(ingredientAmount.getIngredient().getName() + ": " + ingredientAmount.getAmount()));
+            ingredientsPanel.add(new JLabel(ingredientAmount.getIngredient().getName() + ": " + ingredientAmount.getAmount() + " [" + ingredientAmount.getIngredient().getUnit().getAbbreviation() + "]"));
         }
         return ingredientsPanel;
     }
