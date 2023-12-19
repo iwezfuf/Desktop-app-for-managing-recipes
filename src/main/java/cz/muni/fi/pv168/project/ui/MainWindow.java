@@ -35,6 +35,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class MainWindow {
 
@@ -220,8 +221,12 @@ public class MainWindow {
         editMenu.addSeparator();
         editMenu.add(quitAction);
         menuBar.add(editMenu);
-        editMenu.add(nuclearQuit);
-        editMenu.addSeparator();
+
+        if(Objects.equals(System.getProperty("isDeveloperVersion"), "true")) {
+            editMenu.add(nuclearQuit);
+            editMenu.addSeparator();
+        }
+
         editMenu.add(aboutUsAction);
         return menuBar;
     }
