@@ -16,6 +16,17 @@ public final class QuitAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.exit(0);
+
+        int option = JOptionPane.showConfirmDialog(
+                null,
+                "Are you sure you want to quit?",
+                "Quit Confirmation",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (option == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }
 }
