@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.project.business.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,7 +16,7 @@ public class Recipe extends Entity {
     private int numOfServings;
     private String instructions;
     private RecipeCategory category;
-    private ArrayList<RecipeIngredientAmount> ingredients;
+    private List<RecipeIngredientAmount> ingredients;
 
     public Recipe(String guid, String name, String description, int preparationTime, int numOfServings,
                   String instructions, RecipeCategory category, ArrayList<RecipeIngredientAmount> ingredients) {
@@ -75,7 +76,7 @@ public class Recipe extends Entity {
         this.category = category;
     }
 
-    public ArrayList<RecipeIngredientAmount> getIngredients() {
+    public List<RecipeIngredientAmount> getIngredients() {
         return ingredients;
     }
 
@@ -95,7 +96,7 @@ public class Recipe extends Entity {
         return result;
     }
 
-    public void setIngredients(ArrayList<RecipeIngredientAmount> ingredients) {
+    public void setIngredients(List<RecipeIngredientAmount> ingredients) {
         this.ingredients = ingredients;
     }
 

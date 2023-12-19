@@ -50,7 +50,7 @@ public class RecipeCrudService implements CrudService<Recipe> {
             throw new EntityAlreadyExistsException("Recipe with given guid already exists: " + newEntity.getGuid());
         }
 
-        ArrayList<RecipeIngredientAmount> storedRecipeIngredientAmounts = newEntity.getIngredients();
+        List<RecipeIngredientAmount> storedRecipeIngredientAmounts = newEntity.getIngredients();
         newEntity.setIngredients(storedRecipeIngredientAmounts);
 
         if (validationResult.isValid()) {
