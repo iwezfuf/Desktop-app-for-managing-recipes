@@ -31,7 +31,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     private final JTextField preparationTimeMinutesTextField = FormattedInput.createIntTextField(0, 59);
     private final JComboBox<RecipeCategory> recipeCategoryComboBox = new JComboBox<>();
     private final JComboBox<Ingredient> ingredientComboBox = new JComboBox<>();
-    private final SpinnerModel ingredientsModel = new SpinnerNumberModel(1, 0, 999, 1);
+    private final SpinnerModel ingredientsModel = new SpinnerNumberModel(1, 1, 999, 1);
     private final JSpinner ingredientsSpinner = new JSpinner(ingredientsModel);
     private final JButton addIngredientButton = new JButton(Icons.ADD_ICON);
     private final JTextArea instructionsTextArea = new JTextArea();
