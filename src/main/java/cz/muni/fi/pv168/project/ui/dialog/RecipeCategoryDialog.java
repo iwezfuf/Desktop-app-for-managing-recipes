@@ -42,7 +42,7 @@ public class RecipeCategoryDialog extends EntityDialog<RecipeCategory> {
 
         ValidationResult result = entityValidator.validate(recipeCategory);
         if (!result.isValid()) {
-            new JOptionPane().showMessageDialog(null, "Invalid entered data: " + result.getValidationErrors() + ".", "Error", JOptionPane.ERROR_MESSAGE);
+            new InvalidDataDialog(result.getValidationErrors());
             return null;
         }
 
