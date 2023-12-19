@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.business.service.crud;
 
 import cz.muni.fi.pv168.project.business.model.GuidProvider;
+import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeIngredientAmount;
 import cz.muni.fi.pv168.project.business.repository.Repository;
@@ -32,6 +33,10 @@ public class RecipeCrudService implements CrudService<Recipe> {
     @Override
     public List<Recipe> findAll() {
         return recipeRepository.findAll();
+    }
+
+    public int getTotalNumberOfRecipes() {
+        return recipeRepository.findAll().size();
     }
 
     @Override
@@ -94,5 +99,26 @@ public class RecipeCrudService implements CrudService<Recipe> {
         for (Recipe recipe : recipeRepository.findAll()) {
             deleteByGuid(recipe.getGuid());
         }
+    }
+
+    /**
+     * Retrieves the total number of recipes, where the ingredient is used.
+     *
+     * @param ingredient usage of this ingredient
+     * @return total number of recipes, where the ingredient is used.
+     */
+    public int getNumberOfRecipesWithIngredient(Ingredient ingredient) {
+
+        int count = 0;
+
+        for (Recipe recipe : findAll()) {
+            for (RecipeIngredientAmount ingredientAmount : recipe.getIngredients()) {
+                if (ingredientAmount.getIngredient().equals(ingredient)) {
+                    count++;
+                    break;
+                }
+            }
+        }
+        return count;
     }
 }
