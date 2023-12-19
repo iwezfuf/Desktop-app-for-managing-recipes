@@ -2,7 +2,7 @@ package cz.muni.fi.pv168.project.business.error;
 
 import java.io.Serial;
 
-public class RuntimeApplicationException extends RuntimeException implements ApplicationException {
+public class RuntimeApplicationException extends RuntimeException {
 
     @Serial
     private static final long serialVersionUID = 0L;
