@@ -26,7 +26,7 @@ public class IngredientFilterPanel extends JPanel {
         gbc.weighty = 1;
         gbc.anchor = GridBagConstraints.PAGE_START;
 
-        nutritionalRange = new Range(0, 1000000000);
+        nutritionalRange = new Range(Integer.MIN_VALUE, Integer.MAX_VALUE);
         nutritionalValuePanel = new RangePanel(nutritionalRange, "Nutritional value range:", "kcal");
         this.add(nutritionalValuePanel, gbc);
 
@@ -35,6 +35,20 @@ public class IngredientFilterPanel extends JPanel {
         filterBtnPanel.setLayout(bl2);
         this.filterButton = new JButton("Apply filters");
         filterButton.addActionListener(e -> {
+            if (!nutritionalValuePanel.isReadyToFilter()) {
+                JOptionPane.showOptionDialog(
+                        null,
+                        "Cannot filter with invalid filter values.",
+                        "Filtering error",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.ERROR_MESSAGE,
+                        null,
+                        null,
+                        null
+                );
+                return;
+            }
+
             ingredientTablePanel.applyFilter(new IngredientFilter(nutritionalRange));
             ingredientTablePanel.getTable().revalidate();
             ingredientTablePanel.getTable().repaint();
@@ -69,7 +83,8 @@ public class IngredientFilterPanel extends JPanel {
     }
 
     public void clearDialog() {
-        this.nutritionalRange = new Range(0, 1000000000);
+        this.nutritionalRange.setMin(Integer.MIN_VALUE);
+        this.nutritionalRange.setMax(Integer.MAX_VALUE);
         nutritionalValuePanel.clearPanel();
     }
 }

@@ -86,11 +86,11 @@ public class RecipeFilterPanel extends JPanel {
         });
         this.add(recipeCategoriesFilterPanel);
 
-        this.nutritionalRange = new Range(0, 1000000000);
+        this.nutritionalRange = new Range(0, Integer.MAX_VALUE);
         this.nutritionalValueRangePanel = new RangePanel(nutritionalRange, "Nutritional value:", "kcal");
         this.add(nutritionalValueRangePanel);
 
-        this.prepTimeRange = new Range(0, 1000000000);
+        this.prepTimeRange = new Range(0, Integer.MAX_VALUE);
         this.prepTimeRangePanel = new RangePanel(prepTimeRange, "Preparation time:", "min.");
         this.add(prepTimeRangePanel);
 
@@ -99,6 +99,20 @@ public class RecipeFilterPanel extends JPanel {
         filterBtnPanel.setLayout(bl2);
         this.filterButton = new JButton("Apply filters");
         filterButton.addActionListener(e -> {
+            if (!nutritionalValueRangePanel.isReadyToFilter() || !prepTimeRangePanel.isReadyToFilter()) {
+                JOptionPane.showOptionDialog(
+                        null,
+                        "Cannot filter with invalid filter values.",
+                        "Filtering error",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.ERROR_MESSAGE,
+                        null,
+                        null,
+                        null
+                );
+                return;
+            }
+
             recipeTablePanel.applyFilter(new RecipeFilter(ingredientsSet, recipeCategoriesSet, nutritionalRange, prepTimeRange));
             recipeTablePanel.refresh();
             recipeTablePanel.revalidate();
@@ -129,8 +143,10 @@ public class RecipeFilterPanel extends JPanel {
     private void clearDialog() {
         ingredientsSet.clear();
         recipeCategoriesSet.clear();
-        this.nutritionalRange = new Range(0, 1000000000);
-        this.prepTimeRange = new Range(0, 1000000000);
+        this.nutritionalRange.setMin(Integer.MIN_VALUE);
+        this.nutritionalRange.setMax(Integer.MAX_VALUE);
+        this.prepTimeRange.setMin(Integer.MIN_VALUE);
+        this.prepTimeRange.setMax(Integer.MAX_VALUE);
         this.ingredientsFilterPanel.clearPanel();
         this.recipeCategoriesFilterPanel.clearPanel();
         this.nutritionalValueRangePanel.clearPanel();
