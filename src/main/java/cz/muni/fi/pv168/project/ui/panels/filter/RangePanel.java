@@ -18,12 +18,21 @@ public class RangePanel extends JPanel {
 
     private final JTextField minRangeField = new JTextField();
     private final JTextField maxRangeField = new JTextField();
+    private boolean readyToFilter;
 
+    public boolean isReadyToFilter() {
+        return readyToFilter;
+    }
+
+    public void setReadyToFilter(boolean readyToFilter) {
+        this.readyToFilter = readyToFilter;
+    }
 
     public RangePanel(Range range, String msg, String units) {
         this.range = range;
         this.msg = msg;
         this.units = units;
+        this.readyToFilter = true;
 
         init();
     }
@@ -38,53 +47,8 @@ public class RangePanel extends JPanel {
         limitComponentToOneRow(minRangeField);
         limitComponentToOneRow(maxRangeField);
 
-        minRangeField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                changedUpdate(e);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                changedUpdate(e);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                int value;
-                try {
-                    value = Integer.parseInt(minRangeField.getText());
-                } catch (NumberFormatException exception) {
-                    return;
-                }
-
-                range.setMin(value);
-            }
-        });
-
-        maxRangeField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                changedUpdate(e);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                changedUpdate(e);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                int value;
-                try {
-                    value = Integer.parseInt(maxRangeField.getText());
-                } catch (NumberFormatException exception) {
-                    return;
-                }
-
-                range.setMax(value);
-            }
-        });
+        minRangeField.getDocument().addDocumentListener(new RangeListener(this, minRangeField, range::setMin, Integer.MIN_VALUE));
+        maxRangeField.getDocument().addDocumentListener(new RangeListener(this, maxRangeField, range::setMax, Integer.MAX_VALUE));
 
         Insets spacing = new Insets(5, 5, 5, 5);
         GridBagConstraints gbc = new GridBagConstraints();
