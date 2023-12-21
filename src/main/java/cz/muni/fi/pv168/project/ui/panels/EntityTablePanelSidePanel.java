@@ -15,15 +15,12 @@ import java.awt.*;
 import java.util.function.Consumer;
 
 public abstract class EntityTablePanelSidePanel<T extends Entity> extends EntityTablePanel<T> {
-
     private JScrollPane sideScrollPane;
-    private final EntityTableModelProviderWithCrud etmp;
     private JLabel jLabel;
 
     public EntityTablePanelSidePanel(EntityTableModel<T> entityTableModel, Class<T> type, Validator<T> entityValidator, Class<? extends EntityDialog<T>> entityDialog, Consumer<Integer> onSelectionChange, EntityTableModelProviderWithCrud etmp) {
-        super(entityTableModel, type, entityValidator, entityDialog, onSelectionChange);
+        super(entityTableModel, type, entityValidator, entityDialog, onSelectionChange, etmp);
 
-        this.etmp = etmp;
         getEntityTableModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -59,7 +56,7 @@ public abstract class EntityTablePanelSidePanel<T extends Entity> extends Entity
     }
 
     public EntityTableModelProviderWithCrud getEtmp() {
-        return etmp;
+        return provider;
     }
 
     public JScrollPane getSideScrollPane() {

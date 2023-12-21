@@ -4,14 +4,15 @@ import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.util.function.Consumer;
 
 public class UnitTablePanel extends EntityTablePanel<Unit> {
-    public UnitTablePanel(EntityTableModel<Unit> entityTableModel, Validator<Unit> unitValidator, Class<? extends EntityDialog<Unit>> unitDialog, Consumer<Integer> onSelectionChange) {
-        super(entityTableModel, Unit.class, unitValidator, unitDialog, onSelectionChange);
+    public UnitTablePanel(EntityTableModel<Unit> entityTableModel, Validator<Unit> unitValidator, Class<? extends EntityDialog<Unit>> unitDialog, Consumer<Integer> onSelectionChange, EntityTableModelProviderWithCrud provider) {
+        super(entityTableModel, Unit.class, unitValidator, unitDialog, onSelectionChange, provider);
     }
 
     @Override
@@ -29,8 +30,8 @@ public class UnitTablePanel extends EntityTablePanel<Unit> {
         if (count == 1) {
             for (int i : selectionModel.getSelectedIndices()) {
                 int modelRow = getTable().convertRowIndexToModel(i);
-                var unitName = this.getEntityTableModel().getEntity(modelRow).getName();
-                if (unitName.equals("gram") || unitName.equals("liter") || unitName.equals("piece")) {
+                var unit = this.getEntityTableModel().getEntity(modelRow);
+                if (unit.isBaseUnit()) {
                     if (onSelectionChange != null) {
                         onSelectionChange.accept(-1);
                     }
