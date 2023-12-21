@@ -17,10 +17,36 @@ public class RecipeCategoryRenderer extends JLabel implements TableCellRenderer 
             JTable table, Object recCategory,
             boolean isSelected, boolean hasFocus,
             int row, int column) {
-        RecipeCategory recipeCategory = (RecipeCategory) recCategory;
-        this.setText(recipeCategory.getName());
-        this.setBackground(recipeCategory.getColor());
 
-        return this;
+        if (recCategory instanceof RecipeCategory) {
+            RecipeCategory recipeCategory = (RecipeCategory) recCategory;
+
+            JPanel panel = new JPanel();
+            panel.setOpaque(true);
+            panel.setLayout(new BorderLayout());
+
+            JLabel colorLabel = new JLabel("   ");
+            colorLabel.setOpaque(true);
+            colorLabel.setBackground(recipeCategory.getColor());
+
+            JLabel textLabel = new JLabel("  " + recipeCategory.getName());
+
+            panel.add(colorLabel, BorderLayout.WEST);
+            panel.add(textLabel, BorderLayout.CENTER);
+
+            if (isSelected) {
+                panel.setBackground(table.getSelectionBackground());
+                colorLabel.setBackground(table.getSelectionBackground());
+                textLabel.setForeground(table.getSelectionForeground());
+            } else {
+                panel.setBackground(table.getBackground());
+                colorLabel.setBackground(recipeCategory.getColor());
+                textLabel.setForeground(table.getForeground());
+            }
+
+            return panel;
+        }
+
+        return new JLabel(recCategory.toString());
     }
 }

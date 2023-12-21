@@ -39,11 +39,8 @@ public class UnitDialog extends EntityDialog<Unit> {
         abbreviationTextField.setText(unit.getAbbreviation());
         if (!unit.isBaseUnit()) {
             unitComboBox.setSelectedItem(unit.getConversionUnit());
-        } else {
-            Unit baseUnit = new Unit("Base unit", null, -1, "");
-            unitComboBox.addItem(baseUnit);
-            unitComboBox.setSelectedItem(baseUnit);
         }
+
         ratioTextField.setText(unit.getConversionRatio() + "");
     }
 

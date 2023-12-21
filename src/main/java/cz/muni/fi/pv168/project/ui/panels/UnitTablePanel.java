@@ -29,8 +29,8 @@ public class UnitTablePanel extends EntityTablePanel<Unit> {
         if (count == 1) {
             for (int i : selectionModel.getSelectedIndices()) {
                 int modelRow = getTable().convertRowIndexToModel(i);
-                var unitName = this.getEntityTableModel().getEntity(modelRow).getName();
-                if (unitName.equals("gram") || unitName.equals("liter") || unitName.equals("piece")) {
+                var unit = this.getEntityTableModel().getEntity(modelRow);
+                if (unit.isBaseUnit()) {
                     if (onSelectionChange != null) {
                         onSelectionChange.accept(-1);
                     }
