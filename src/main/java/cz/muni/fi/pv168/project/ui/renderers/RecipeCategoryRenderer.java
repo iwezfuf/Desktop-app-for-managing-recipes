@@ -18,9 +18,19 @@ public class RecipeCategoryRenderer extends JLabel implements TableCellRenderer 
             boolean isSelected, boolean hasFocus,
             int row, int column) {
         RecipeCategory recipeCategory = (RecipeCategory) recCategory;
-        this.setText(recipeCategory.getName());
-        this.setBackground(recipeCategory.getColor());
+        this.setText("<html><font color='"
+                + "#" + Integer.toHexString(recipeCategory.getColor().getRGB()).substring(2)
+                +  "'>■</font> "
+                + recipeCategory.getName() + "</html>");
+        this.setBackground(table.getBackground());
 
+        if (isSelected) {
+            this.setBackground(table.getSelectionBackground());
+            this.setText("<html><font color='"
+                + "#" + Integer.toHexString(recipeCategory.getColor().getRGB()).substring(2)
+                +  "'>■</font> "
+                + "<font color=white>" + recipeCategory.getName() + "</font></html>");
+        }
         return this;
     }
 }
