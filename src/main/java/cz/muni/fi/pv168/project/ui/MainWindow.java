@@ -90,8 +90,8 @@ public class MainWindow {
 
         var recipeTablePanel = new RecipeTablePanel(recipeTableModel, recipeValidator, RecipeDialog.class, this::changeActionsState, entityTableModelProviderWithCrud);
         var ingredientTablePanel = new IngredientTablePanel(ingredientTableModel, ingredientValidator, IngredientDialog.class, this::changeActionsState, entityTableModelProviderWithCrud);
-        var unitTablePanel = new UnitTablePanel(unitTableModel, unitValidator, UnitDialog.class, this::changeActionsState);
-        var recipeCategoryTablePanel = new RecipeCategoryTablePanel(recipeCategoryTableModel, recipeCategoryValidator, RecipeCategoryDialog.class, this::changeActionsState);
+        var unitTablePanel = new UnitTablePanel(unitTableModel, unitValidator, UnitDialog.class, this::changeActionsState, entityTableModelProviderWithCrud);
+        var recipeCategoryTablePanel = new RecipeCategoryTablePanel(recipeCategoryTableModel, recipeCategoryValidator, RecipeCategoryDialog.class, this::changeActionsState, entityTableModelProviderWithCrud);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
         quitAction = new QuitAction(frame);

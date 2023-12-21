@@ -4,14 +4,15 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.ui.dialog.EntityDialog;
 import cz.muni.fi.pv168.project.ui.model.EntityTableModel;
+import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.util.function.Consumer;
 
 public class RecipeCategoryTablePanel extends EntityTablePanel<RecipeCategory> {
-    public RecipeCategoryTablePanel(EntityTableModel<RecipeCategory> entityTableModel, Validator<RecipeCategory> recipeCategoryValidator, Class<? extends EntityDialog<RecipeCategory>> recipeCategoryDialog, Consumer<Integer> onSelectionChange) {
-        super(entityTableModel, RecipeCategory.class, recipeCategoryValidator, recipeCategoryDialog, onSelectionChange);
+    public RecipeCategoryTablePanel(EntityTableModel<RecipeCategory> entityTableModel, Validator<RecipeCategory> recipeCategoryValidator, Class<? extends EntityDialog<RecipeCategory>> recipeCategoryDialog, Consumer<Integer> onSelectionChange, EntityTableModelProviderWithCrud provider) {
+        super(entityTableModel, RecipeCategory.class, recipeCategoryValidator, recipeCategoryDialog, onSelectionChange, provider);
     }
 
     @Override
