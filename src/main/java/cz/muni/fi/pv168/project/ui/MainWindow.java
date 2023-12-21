@@ -4,6 +4,8 @@ import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.Unit;
+import cz.muni.fi.pv168.project.business.service.crud.IngredientCrudService;
+import cz.muni.fi.pv168.project.business.service.crud.RecipeCrudService;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.data.TestDataGenerator;
 import cz.muni.fi.pv168.project.ui.action.AboutUsAction;
@@ -35,11 +37,12 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class MainWindow {
 
     private final JFrame frame;
-    private final Action quitAction = new QuitAction();
+    private final Action quitAction;
     private final Action nuclearQuit;
     private final AddAction addAction;
     private final DeleteAction deleteAction;
@@ -91,6 +94,7 @@ public class MainWindow {
         var recipeCategoryTablePanel = new RecipeCategoryTablePanel(recipeCategoryTableModel, recipeCategoryValidator, RecipeCategoryDialog.class, this::changeActionsState);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
+        quitAction = new QuitAction(frame);
         addAction = new AddAction<>(recipeTablePanel, entityTableModelProviderWithCrud);
         deleteAction = new DeleteAction(recipeTablePanel.getTable());
         editAction = new EditAction<>(recipeTablePanel, entityTableModelProviderWithCrud);
@@ -161,12 +165,18 @@ public class MainWindow {
 
 
     private EntityTableModel<Ingredient> createIngredientTableModel(DependencyProvider dependencyProvider) {
+
         List<Column<Ingredient, ?>> columns = List.of(
                 Column.readonly("Name", String.class, Ingredient::getName),
                 Column.readonly("Nutritional Value (kcal)", int.class, Ingredient::getNutritionalValue),
                 Column.readonly("Unit", Unit.class, Ingredient::getUnit),
-                Column.readonly("Recipes Count", String.class, ingredient -> ingredient.getRecipeCountPercentage(recipeTableModel.getEntities()))
+                Column.readonly("Recipes Count", String.class,
+                        ingredient -> String.format(
+                                "Used in %d (%d%%) recipes",
+                                ((RecipeCrudService) dependencyProvider.getRecipeCrudService()).getNumberOfRecipesWithIngredient(ingredient),
+                                Math.round((double) ((RecipeCrudService) dependencyProvider.getRecipeCrudService()).getNumberOfRecipesWithIngredient(ingredient) / ((RecipeCrudService) dependencyProvider.getRecipeCrudService()).getTotalNumberOfRecipes() * 100)))
         );
+
         return new EntityTableModel<>(dependencyProvider.getIngredientCrudService(), columns);
     }
 
@@ -220,8 +230,12 @@ public class MainWindow {
         editMenu.addSeparator();
         editMenu.add(quitAction);
         menuBar.add(editMenu);
-        editMenu.add(nuclearQuit);
-        editMenu.addSeparator();
+
+        if(Objects.equals(System.getProperty("isDeveloperVersion"), "true")) {
+            editMenu.add(nuclearQuit);
+            editMenu.addSeparator();
+        }
+
         editMenu.add(aboutUsAction);
         return menuBar;
     }

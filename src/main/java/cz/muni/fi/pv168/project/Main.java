@@ -15,6 +15,9 @@ import java.util.logging.Logger;
 public class Main {
 
     public static void main(String[] args) {
+
+        System.setProperty("isDeveloperVersion", "false"); // TODO: set up this thing somehow from Maven
+
         var errorHandler = new ApplicationErrorHandler();
         Thread.setDefaultUncaughtExceptionHandler(errorHandler);
 
@@ -27,6 +30,8 @@ public class Main {
                 showInitializationFailedDialog(ex);
             }
         });
+
+
     }
 
     private static void initFlatLightLafLookAndFeel() {
@@ -42,7 +47,7 @@ public class Main {
         EventQueue.invokeLater(() -> {
             ex.printStackTrace();
             Object[] options = {
-                    new JButton(new QuitAction()),
+                    new JButton(new QuitAction(null)),
                     new JButton(new NuclearQuitAction())
             };
             JOptionPane.showOptionDialog(

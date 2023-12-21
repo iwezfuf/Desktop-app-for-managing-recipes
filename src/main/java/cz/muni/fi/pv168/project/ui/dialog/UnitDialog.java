@@ -81,7 +81,7 @@ public class UnitDialog extends EntityDialog<Unit> {
 
         ValidationResult result = entityValidator.validate(unit);
         if (!result.isValid()) {
-            new JOptionPane().showMessageDialog(null, "Invalid entered data: " + result.getValidationErrors() + ".", "Error", JOptionPane.ERROR_MESSAGE);
+            new InvalidDataDialog(result.getValidationErrors());
             return null;
         }
 

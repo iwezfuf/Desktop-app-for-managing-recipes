@@ -31,7 +31,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
     private final JTextField preparationTimeMinutesTextField = FormattedInput.createIntTextField(0, 59);
     private final JComboBox<RecipeCategory> recipeCategoryComboBox = new JComboBox<>();
     private final JComboBox<Ingredient> ingredientComboBox = new JComboBox<>();
-    private final SpinnerModel ingredientsModel = new SpinnerNumberModel(1, 0, 999, 1);
+    private final SpinnerModel ingredientsModel = new SpinnerNumberModel(1, 1, 999, 1);
     private final JSpinner ingredientsSpinner = new JSpinner(ingredientsModel);
     private final JButton addIngredientButton = new JButton(Icons.ADD_ICON);
     private final JTextArea instructionsTextArea = new JTextArea();
@@ -291,7 +291,7 @@ public class RecipeDialog extends EntityDialog<Recipe> {
 
         ValidationResult result = entityValidator.validate(recipe);
         if (!result.isValid()) {
-            new JOptionPane().showMessageDialog(null, "Invalid entered data: " + result.getValidationErrors() + ".", "Error", JOptionPane.ERROR_MESSAGE);
+            new InvalidDataDialog(result.getValidationErrors());
             return null;
         }
 
@@ -307,8 +307,6 @@ public class RecipeDialog extends EntityDialog<Recipe> {
         add("Preparation time:", new JLabel(recipe.getPreparationTime() / 60 + " Hours " + recipe.getPreparationTime() % 60 + " Minutes"));
         add("Recipe category:", new JLabel(recipe.getCategory() != null ? recipe.getCategory().getName() : "None"));
         add("Instructions:", new JLabel("<html>" + recipe.getInstructions().replaceAll("\n", "<br>") + "</html>"));
-
-
         add("Used ingredients:", createIngredientsPanel());
     }
 
