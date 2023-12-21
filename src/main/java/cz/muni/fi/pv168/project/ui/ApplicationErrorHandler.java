@@ -37,7 +37,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
         }
 
         return new Object[]{
-                new JButton(new QuitAction())
+                new JButton(new QuitAction(null))
         };
     }
 }

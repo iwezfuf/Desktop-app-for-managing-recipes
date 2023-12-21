@@ -42,7 +42,7 @@ import java.util.Objects;
 public class MainWindow {
 
     private final JFrame frame;
-    private final Action quitAction = new QuitAction();
+    private final Action quitAction;
     private final Action nuclearQuit;
     private final AddAction addAction;
     private final DeleteAction deleteAction;
@@ -94,6 +94,7 @@ public class MainWindow {
         var recipeCategoryTablePanel = new RecipeCategoryTablePanel(recipeCategoryTableModel, recipeCategoryValidator, RecipeCategoryDialog.class, this::changeActionsState);
 
         nuclearQuit = new NuclearQuitAction(dependencyProvider.getDatabaseManager());
+        quitAction = new QuitAction(frame);
         addAction = new AddAction<>(recipeTablePanel, entityTableModelProviderWithCrud);
         deleteAction = new DeleteAction(recipeTablePanel.getTable());
         editAction = new EditAction<>(recipeTablePanel, entityTableModelProviderWithCrud);

@@ -8,10 +8,13 @@ import java.awt.event.KeyEvent;
 
 public final class QuitAction extends AbstractAction {
 
-    public QuitAction() {
+    private JFrame frame;
+
+    public QuitAction(JFrame frame) {
         super("Quit", Icons.QUIT_ICON);
         putValue(SHORT_DESCRIPTION, "Terminates the application");
         putValue(MNEMONIC_KEY, KeyEvent.VK_Q);
+        this.frame = frame;
     }
 
     @Override
@@ -26,7 +29,11 @@ public final class QuitAction extends AbstractAction {
         );
 
         if (option == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            if (frame != null) {
+                frame.dispose();
+            } else {
+                System.exit(1);
+            }
         }
     }
 }

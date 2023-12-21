@@ -47,7 +47,7 @@ public class Main {
         EventQueue.invokeLater(() -> {
             ex.printStackTrace();
             Object[] options = {
-                    new JButton(new QuitAction()),
+                    new JButton(new QuitAction(null)),
                     new JButton(new NuclearQuitAction())
             };
             JOptionPane.showOptionDialog(
