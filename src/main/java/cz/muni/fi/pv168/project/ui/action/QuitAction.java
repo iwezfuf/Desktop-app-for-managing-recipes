@@ -32,7 +32,7 @@ public final class QuitAction extends AbstractAction {
             if (frame != null) {
                 frame.dispose();
             } else {
-                System.exit(1);
+                System.exit(0);
             }
         }
     }
