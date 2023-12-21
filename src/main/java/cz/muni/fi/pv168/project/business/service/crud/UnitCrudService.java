@@ -49,8 +49,7 @@ public final class UnitCrudService implements CrudService<Unit> {
 
     @Override
     public ValidationResult update(Unit entity) {
-        String unitName = entity.getName();
-        if (Objects.equals(unitName, "gram") || Objects.equals(unitName, "liter") || Objects.equals(unitName, "piece")) {
+        if (entity.isBaseUnit()) {
             return ValidationResult.failed("Cannot edit base units");
         }
         unitRepository.update(entity);
@@ -59,8 +58,8 @@ public final class UnitCrudService implements CrudService<Unit> {
 
     @Override
     public boolean deleteByGuid(String guid) {
-        String unitName = unitRepository.findByGuid(guid).get().getName();
-        if (Objects.equals(unitName, "gram") || Objects.equals(unitName, "liter") || Objects.equals(unitName, "piece")) {
+        Unit unit = unitRepository.findByGuid(guid).get();
+        if (unit.isBaseUnit()) {
             return false;
         }
 
