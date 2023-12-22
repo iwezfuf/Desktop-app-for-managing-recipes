@@ -4,7 +4,6 @@ import cz.muni.fi.pv168.project.business.model.Ingredient;
 import cz.muni.fi.pv168.project.business.model.Recipe;
 import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.Unit;
-import cz.muni.fi.pv168.project.business.service.crud.IngredientCrudService;
 import cz.muni.fi.pv168.project.business.service.crud.RecipeCrudService;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.data.TestDataGenerator;
@@ -33,8 +32,11 @@ import cz.muni.fi.pv168.project.wiring.DependencyProvider;
 import cz.muni.fi.pv168.project.wiring.EntityTableModelProviderWithCrud;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -146,10 +148,22 @@ public class MainWindow {
         recipeRowSorter.sort();
         ingredientRowSorter.setSortKeys(Collections.singletonList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
         ingredientRowSorter.sort();
-        unitRowSorter.setSortKeys(Collections.singletonList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
-        unitRowSorter.sort();
         recipeCategoryRowSorter.setSortKeys(Collections.singletonList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
         recipeCategoryRowSorter.sort();
+
+        // Always sort by base unit first
+        int baseUnitIndex = 4;
+        unitTablePanel.getTable().getTableHeader().addMouseListener(new MouseInputAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int columnIndex = unitTablePanel.getTable().columnAtPoint(e.getPoint());
+
+                List<RowSorter.SortKey> sortKeys = new ArrayList<>(Collections.singletonList(new RowSorter.SortKey(baseUnitIndex, SortOrder.DESCENDING)));
+                sortKeys.add(new RowSorter.SortKey(columnIndex, SortOrder.ASCENDING));
+
+                unitRowSorter.setSortKeys(sortKeys);
+            }
+        });
     }
 
     private EntityTableModel<Recipe> createRecipeTableModel(DependencyProvider dependencyProvider) {
@@ -185,7 +199,8 @@ public class MainWindow {
                 Column.readonly("Name", String.class, Unit::getName),
                 Column.readonly("Abbreviation", String.class, Unit::getAbbreviation),
                 Column.readonly("Conversion Unit", Unit.class, Unit::getConversionUnit),
-                Column.readonly("Conversion Ratio", float.class, Unit::getConversionRatio)
+                Column.readonly("Conversion Ratio", float.class, Unit::getConversionRatio),
+                Column.readonly("Base Unit", boolean.class, Unit::isBaseUnit)
         );
         return new EntityTableModel<>(dependencyProvider.getUnitCrudService(), columns);
     }
