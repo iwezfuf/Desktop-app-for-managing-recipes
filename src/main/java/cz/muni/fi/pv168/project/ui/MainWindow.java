@@ -169,9 +169,9 @@ public class MainWindow {
     private EntityTableModel<Recipe> createRecipeTableModel(DependencyProvider dependencyProvider) {
         List<Column<Recipe, ?>> columns = List.of(
                 Column.readonly("Name", String.class, Recipe::getName),
-                Column.readonly("Number of servings", int.class, Recipe::getNumOfServings),
-                Column.readonly("Preparation Time (min)", int.class, Recipe::getPreparationTime),
-                Column.readonly("Nutritional Value (kcal)", int.class, Recipe::getNutritionalValue),
+                Column.readonly("Number of servings", Integer.class, Recipe::getNumOfServings),
+                Column.readonly("Preparation Time (min)", Integer.class, Recipe::getPreparationTime),
+                Column.readonly("Nutritional Value (kcal)", Integer.class, Recipe::getNutritionalValue),
                 Column.readonly("Category", RecipeCategory.class, Recipe::getCategory)
         );
         return new EntityTableModel<>(dependencyProvider.getRecipeCrudService(), columns);
@@ -182,7 +182,7 @@ public class MainWindow {
 
         List<Column<Ingredient, ?>> columns = List.of(
                 Column.readonly("Name", String.class, Ingredient::getName),
-                Column.readonly("Nutritional Value (kcal)", int.class, Ingredient::getNutritionalValue),
+                Column.readonly("Nutritional Value (kcal)", Integer.class, Ingredient::getNutritionalValue),
                 Column.readonly("Unit", Unit.class, Ingredient::getUnit),
                 Column.readonly("Recipes Count", String.class,
                         ingredient -> String.format(
@@ -199,7 +199,7 @@ public class MainWindow {
                 Column.readonly("Name", String.class, Unit::getName),
                 Column.readonly("Abbreviation", String.class, Unit::getAbbreviation),
                 Column.readonly("Conversion Unit", Unit.class, Unit::getConversionUnit),
-                Column.readonly("Conversion Ratio", float.class, Unit::getConversionRatio),
+                Column.readonly("Conversion Ratio", Float.class, Unit::getConversionRatio),
                 Column.readonly("Base Unit", boolean.class, Unit::isBaseUnit)
         );
         return new EntityTableModel<>(dependencyProvider.getUnitCrudService(), columns);
