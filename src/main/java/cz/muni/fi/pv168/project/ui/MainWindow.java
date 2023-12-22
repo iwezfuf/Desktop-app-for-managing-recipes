@@ -7,6 +7,8 @@ import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.crud.RecipeCrudService;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
 import cz.muni.fi.pv168.project.data.TestDataGenerator;
+import cz.muni.fi.pv168.project.ui.SortComparators.FloatComparator;
+import cz.muni.fi.pv168.project.ui.SortComparators.IntComparator;
 import cz.muni.fi.pv168.project.ui.action.AboutUsAction;
 import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
@@ -136,9 +138,14 @@ public class MainWindow {
     private void initSorters(RecipeTablePanel recipeTablePanel, IngredientTablePanel ingredientTablePanel, UnitTablePanel unitTablePanel, RecipeCategoryTablePanel recipeCategoryTablePanel) {
         var recipeRowSorter = new TableRowSorter<EntityTableModel<Recipe>>(recipeTableModel);
         recipeTablePanel.getTable().setRowSorter(recipeRowSorter);
+        recipeRowSorter.setComparator(1, new IntComparator());
+        recipeRowSorter.setComparator(2, new IntComparator());
+        recipeRowSorter.setComparator(3, new IntComparator());
         var ingredientRowSorter = new TableRowSorter<EntityTableModel<Ingredient>>(ingredientTableModel);
+        ingredientRowSorter.setComparator(1, new IntComparator());
         ingredientTablePanel.getTable().setRowSorter(ingredientRowSorter);
         var unitRowSorter = new TableRowSorter<EntityTableModel<Unit>>(unitTableModel);
+        unitRowSorter.setComparator(3, new FloatComparator());
         unitTablePanel.getTable().setRowSorter(unitRowSorter);
         var recipeCategoryRowSorter = new TableRowSorter<EntityTableModel<RecipeCategory>>(recipeCategoryTableModel);
         recipeCategoryTablePanel.getTable().setRowSorter(recipeCategoryRowSorter);
@@ -148,6 +155,9 @@ public class MainWindow {
         recipeRowSorter.sort();
         ingredientRowSorter.setSortKeys(Collections.singletonList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
         ingredientRowSorter.sort();
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>(Collections.singletonList(new RowSorter.SortKey(4, SortOrder.DESCENDING)));
+        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+        unitRowSorter.setSortKeys(sortKeys);
         recipeCategoryRowSorter.setSortKeys(Collections.singletonList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
         recipeCategoryRowSorter.sort();
 
