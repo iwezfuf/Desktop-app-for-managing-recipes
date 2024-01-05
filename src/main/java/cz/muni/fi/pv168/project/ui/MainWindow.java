@@ -200,7 +200,7 @@ public class MainWindow {
                 Column.readonly("Abbreviation", String.class, Unit::getAbbreviation),
                 Column.readonly("Conversion Unit", Unit.class, Unit::getConversionUnit),
                 Column.readonly("Conversion Ratio", Float.class, Unit::getConversionRatio),
-                Column.readonly("Base Unit", boolean.class, Unit::isBaseUnit)
+                Column.readonly("Base Unit", Boolean.class, Unit::isBaseUnit)
         );
         return new EntityTableModel<>(dependencyProvider.getUnitCrudService(), columns);
     }
