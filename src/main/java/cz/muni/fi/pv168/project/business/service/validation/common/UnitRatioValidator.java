@@ -2,9 +2,9 @@ package cz.muni.fi.pv168.project.business.service.validation.common;
 
 import cz.muni.fi.pv168.project.business.service.validation.ValidationResult;
 
-public final class FloatUnitValidator extends PropertyValidator<Float> {
+public final class UnitRatioValidator extends PropertyValidator<Float> {
 
-    public FloatUnitValidator(String name) {
+    public UnitRatioValidator(String name) {
         super(name);
     }
 

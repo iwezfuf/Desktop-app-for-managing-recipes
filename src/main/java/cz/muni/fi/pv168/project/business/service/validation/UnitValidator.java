@@ -1,7 +1,7 @@
 package cz.muni.fi.pv168.project.business.service.validation;
 
 import cz.muni.fi.pv168.project.business.model.Unit;
-import cz.muni.fi.pv168.project.business.service.validation.common.FloatUnitValidator;
+import cz.muni.fi.pv168.project.business.service.validation.common.UnitRatioValidator;
 import cz.muni.fi.pv168.project.business.service.validation.common.StringLengthAndCharValidator;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class UnitValidator implements Validator<Unit> {
         var validators = List.of(
                 extracting(Unit::getName, new StringLengthAndCharValidator(1, 50, "Name")),
                 extracting(Unit::getAbbreviation, new StringLengthAndCharValidator(1, 10, "Abbreviation")),
-                extracting(Unit::getConversionRatio, new FloatUnitValidator("ConversionRatio"))
+                extracting(Unit::getConversionRatio, new UnitRatioValidator("ConversionRatio"))
         );
 
         return Validator.compose(validators).validate(model);
