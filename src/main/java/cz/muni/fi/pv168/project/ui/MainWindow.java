@@ -6,7 +6,6 @@ import cz.muni.fi.pv168.project.business.model.RecipeCategory;
 import cz.muni.fi.pv168.project.business.model.Unit;
 import cz.muni.fi.pv168.project.business.service.crud.RecipeCrudService;
 import cz.muni.fi.pv168.project.business.service.validation.Validator;
-import cz.muni.fi.pv168.project.data.TestDataGenerator;
 import cz.muni.fi.pv168.project.ui.action.AboutUsAction;
 import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
@@ -75,15 +74,6 @@ public class MainWindow {
                 recipeCategoryTableModel,
                 dependencyProvider.getRecipeIngredientAmountCrudService()
         );
-
-        // Only run this once to fill the database with test data
-        if (recipeTableModel.getRowCount() == 0
-                && ingredientTableModel.getRowCount() == 0
-                && unitTableModel.getRowCount() == 3 // number of base units
-                && recipeCategoryTableModel.getRowCount() == 1) { // no category
-            TestDataGenerator testDataGenerator = new TestDataGenerator();
-            testDataGenerator.fillTables(entityTableModelProviderWithCrud);
-        }
 
         Validator<Recipe> recipeValidator = dependencyProvider.getRecipeValidator();
         Validator<Ingredient> ingredientValidator = dependencyProvider.getIngredientValidator();
