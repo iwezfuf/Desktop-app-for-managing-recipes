@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.ui.model;
+package cz.muni.fi.pv168.project.ui.utils;
 
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
