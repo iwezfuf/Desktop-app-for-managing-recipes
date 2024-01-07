@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.ui.action;
 
+import cz.muni.fi.pv168.project.business.service.export.AsyncImportService;
 import cz.muni.fi.pv168.project.business.service.export.DataManipulationException;
 import cz.muni.fi.pv168.project.business.service.export.ImportService;
 import cz.muni.fi.pv168.project.ui.dialog.ImportDialog;
@@ -32,16 +33,12 @@ public final class ImportAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         ImportDialog dialog = new ImportDialog(null, (filepath, importStrategy) -> {
-            try {
-                importService.importData(filepath, importStrategy);
-            } catch (DataManipulationException ex) {
-                JOptionPane.showMessageDialog(frame, "An error occurred while importing from file", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            refreshCallback.run();
-            JOptionPane.showMessageDialog(frame, "Import was done");
+            AsyncImportService asyncImportService = new AsyncImportService(importService, filepath, importStrategy, refreshCallback);
+            asyncImportService.execute();
         });
+
         dialog.setVisible(true);
     }
 }

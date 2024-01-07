@@ -49,6 +49,7 @@ public class TransactionalImportService implements ImportService {
         if (importStrategy == null) {
             throw new NullPointerException("Import strategy has not been set.");
         }
+
         transactionExecutor.executeInTransaction(() -> importStrategy.executeImport(recipeCrudService, ingredientCrudService, unitCrudService, recipeCategoryCrudService, recipeIngredientAmountCrudService, getImporter(filePath), filePath));
     }
 
