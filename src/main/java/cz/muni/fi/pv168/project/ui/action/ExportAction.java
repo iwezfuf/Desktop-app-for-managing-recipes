@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.ui.action;
 
+import cz.muni.fi.pv168.project.business.service.export.AsyncGenericExportService;
 import cz.muni.fi.pv168.project.business.service.export.ExportService;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 import cz.muni.fi.pv168.project.util.Filter;
@@ -34,6 +35,7 @@ public final class ExportAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         var fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         exportService.getFormats().forEach(f -> fileChooser.addChoosableFileFilter(new Filter(f)));
@@ -46,9 +48,8 @@ public final class ExportAction extends AbstractAction {
                 exportFile = ((Filter) filter).decorate(exportFile);
             }
 
-            exportService.exportData(exportFile);
-
-            JOptionPane.showMessageDialog(parent, "Export has successfully finished.");
+            AsyncGenericExportService asyncGenericExportService = new AsyncGenericExportService(exportService, exportFile);
+            asyncGenericExportService.execute();
         }
     }
 }
