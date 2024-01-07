@@ -7,12 +7,12 @@ import javax.swing.*;
  *
  * @author Marek Eibel
  */
-public class AsyncGenericExportService extends SwingWorker<Void, Void> {
+public class AsyncExportService extends SwingWorker<Void, Void> {
 
     private final ExportService exportService;
     private final String filePath;
 
-    public AsyncGenericExportService(ExportService exportService, String filePath) {
+    public AsyncExportService(ExportService exportService, String filePath) {
         this.exportService = exportService;
         this.filePath = filePath;
     }

@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.ui.action;
 
-import cz.muni.fi.pv168.project.business.service.export.AsyncGenericExportService;
+import cz.muni.fi.pv168.project.business.service.export.AsyncExportService;
 import cz.muni.fi.pv168.project.business.service.export.ExportService;
 import cz.muni.fi.pv168.project.ui.resources.Icons;
 import cz.muni.fi.pv168.project.util.Filter;
@@ -48,7 +48,7 @@ public final class ExportAction extends AbstractAction {
                 exportFile = ((Filter) filter).decorate(exportFile);
             }
 
-            AsyncGenericExportService asyncGenericExportService = new AsyncGenericExportService(exportService, exportFile);
+            AsyncExportService asyncGenericExportService = new AsyncExportService(exportService, exportFile);
             asyncGenericExportService.execute();
         }
     }
